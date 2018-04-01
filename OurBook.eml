@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/out/test/OurBook"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="Tomcat 8.5.24" scope="PROVIDED"/>
+	<levels>
+		<level name="Tomcat 8.5.24" value="application_server_libraries"/>
+	</levels>
+</component>
