@@ -1,8 +1,9 @@
-OurBook ——创作社区
+OurBook —— Writing Community
 
-JSP & Servlet 项目
+JSP & Servlet Project
 
-前端框架：Materialize
+Front-end framework: Materialize 1.0.0 beta
 
-服务器：Tomcat 8.5.29
+Server: Tomcat 8.5.29
 
+DataBase: mysql-connector-java-5.1.46-bin.jar
