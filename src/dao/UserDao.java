@@ -3,7 +3,18 @@ package dao;
 import model.User;
 
 public interface UserDao {
-    void addUser();
+    /**
+     * 添加用户
+     *
+     * @param name
+     * @param password
+     */
+    void add(String name, String password);
 
-    User findUser();
+    /**
+     * 查找用户
+     *
+     * @param
+     */
+    User find();
 }
