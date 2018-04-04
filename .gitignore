@@ -1,6 +1,6 @@
 
 /apache-tomcat-8.5.29/
 /out/
-.idea/workspace.xml
+/.idea/workspace.xml
 *.class
 .DS_Store
