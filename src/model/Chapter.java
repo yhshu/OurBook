@@ -1,6 +1,8 @@
 package model;
 
-public class Chapter {
+import java.io.Serializable;
+
+public class Chapter implements Serializable {
     private String ID;
     private String name;
     private String bookID;
