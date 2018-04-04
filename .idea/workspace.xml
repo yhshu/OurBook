@@ -7,9 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9b9631a-bdc0-4ba4-b5ad-35b3c62aa905" name="Default" comment="Merge branch 'master' of https://github.com/lzw429/OurBook&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;src/dao/BookDao.java&#10;#&#9;src/model/Book.java">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OurBook/dao/BookDao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OurBook/model/Book.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dao/BookDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/BookDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Book.java" afterDir="false" />
     </list>
@@ -41,14 +38,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Book.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Book.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/Book.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+            <state relative-caret-position="805">
+              <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
               <folding>
                 <element signature="e#275#276#0" expanded="true" />
                 <element signature="e#302#303#0" expanded="true" />
+                <element signature="e#342#343#0" expanded="true" />
                 <element signature="e#374#375#0" expanded="true" />
                 <element signature="e#403#404#0" expanded="true" />
                 <element signature="e#428#429#0" expanded="true" />
@@ -56,6 +54,8 @@
                 <element signature="e#492#493#0" expanded="true" />
                 <element signature="e#534#535#0" expanded="true" />
                 <element signature="e#572#573#0" expanded="true" />
+                <element signature="e#621#622#0" expanded="true" />
+                <element signature="e#675#676#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,11 +105,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookDao.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BookDao.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/dao/BookDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="819">
-              <caret line="38" column="48" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
+            <state relative-caret-position="495">
+              <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -178,9 +178,9 @@
         <option value="$PROJECT_DIR$/src/dao/impl/UserDaoImpl.java" />
         <option value="$PROJECT_DIR$/src/model/User.java" />
         <option value="$PROJECT_DIR$/src/model/Chapter.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/model/Book.java" />
         <option value="$PROJECT_DIR$/src/dao/BookDao.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -519,15 +519,16 @@
       <workItem from="1522767016590" duration="468000" />
       <workItem from="1522840269954" duration="1330000" />
       <workItem from="1522846732885" duration="166000" />
-      <workItem from="1522847261594" duration="4401000" />
+      <workItem from="1522847261594" duration="4649000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18664000" />
+    <option name="totallyTimeSpent" value="18912000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="23" width="1440" height="813" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50069445" side_tool="true" weight="0.28907332" />
@@ -938,20 +939,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dao/BookDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="819">
-          <caret line="38" column="48" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/Book.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+        <state relative-caret-position="805">
+          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
           <folding>
             <element signature="e#275#276#0" expanded="true" />
             <element signature="e#302#303#0" expanded="true" />
+            <element signature="e#342#343#0" expanded="true" />
             <element signature="e#374#375#0" expanded="true" />
             <element signature="e#403#404#0" expanded="true" />
             <element signature="e#428#429#0" expanded="true" />
@@ -959,7 +954,16 @@
             <element signature="e#492#493#0" expanded="true" />
             <element signature="e#534#535#0" expanded="true" />
             <element signature="e#572#573#0" expanded="true" />
+            <element signature="e#621#622#0" expanded="true" />
+            <element signature="e#675#676#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dao/BookDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
         </state>
       </provider>
     </entry>

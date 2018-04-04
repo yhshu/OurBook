@@ -4,7 +4,6 @@ import model.Book;
 
 public interface BookDao {
     /**
-<<<<<<< HEAD
      * 根据编码查找书
      * @param ID 编码
      * @return 符合编码的书
@@ -23,18 +22,4 @@ public interface BookDao {
      * @param book 书
      */
     void add(Book book);
-=======
-     * 添加书籍
-     *
-     * @param book
-     */
-    void add(Book book);
-
-    /**
-     * 查找书籍
-     *
-     * @param
-     */
-    Book find();
->>>>>>> 27da401c0f9d061f2ae7ea33d7676356580fa2ce
 }

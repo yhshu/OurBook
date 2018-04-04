@@ -8,7 +8,6 @@ public class Book implements Serializable {
     private String ID;
     private String editorInChiefID;
 
-<<<<<<< HEAD
     public Book() {
     }
 
@@ -34,8 +33,5 @@ public class Book implements Serializable {
 
     public void setEditorInChiefID(String editorInChiefID) {
         this.editorInChiefID = editorInChiefID;
-=======
-    Book(String name, String description, String editorInChiefID) {
->>>>>>> 27da401c0f9d061f2ae7ea33d7676356580fa2ce
     }
 }
