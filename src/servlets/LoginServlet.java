@@ -1,8 +1,8 @@
 package servlets;
 // 项目引入lib servlet-api.jar
 
-import java.servlet.ServletException;
-import java.servlet.http.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 
