@@ -7,6 +7,6 @@ public class UserDaoImpl {
     }
 
     User findUser() {
-
+        return null;
     }
 }
