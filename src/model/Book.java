@@ -8,5 +8,6 @@ public class Book implements Serializable {
     private String ID;
     private String editorInChiefID;
 
-
+    Book(String name, String description, String editorInChiefID) {
+    }
 }

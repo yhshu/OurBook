@@ -9,4 +9,11 @@ public interface BookDao {
      * @param book
      */
     void add(Book book);
+
+    /**
+     * 查找书籍
+     *
+     * @param
+     */
+    Book find();
 }
