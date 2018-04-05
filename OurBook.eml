@@ -6,7 +6,7 @@
 	<lib name="Tomcat 8.5.24" scope="PROVIDED"/>
 	<levels>
 		<level name="Tomcat 8.5.24" value="application_server_libraries"/>
-		<level name="servlet-api" value="project"/>
 		<level name="mysql-connector-java-5.1.46-bin" value="project"/>
+		<level name="servlet-api" value="project"/>
 	</levels>
 </component>

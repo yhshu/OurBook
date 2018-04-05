@@ -6,7 +6,7 @@ public class Book implements Serializable {
     private String name;
     private String description;
     private String ID;
-    private String editorInChiefID;
+    private String chiefEditorID;
 
     public Book() {
     }
@@ -19,6 +19,14 @@ public class Book implements Serializable {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getID() {
         return ID;
     }
@@ -27,11 +35,11 @@ public class Book implements Serializable {
         this.ID = ID;
     }
 
-    public String getEditorInChiefID() {
-        return editorInChiefID;
+    public String getChiefEditorID() {
+        return chiefEditorID;
     }
 
-    public void setEditorInChiefID(String editorInChiefID) {
-        this.editorInChiefID = editorInChiefID;
+    public void setChiefEditorID(String chiefEditorID) {
+        this.chiefEditorID = chiefEditorID;
     }
 }
