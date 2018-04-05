@@ -9,7 +9,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/RegisterServlet")
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends BaseServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -17,6 +17,7 @@ public class RegisterServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
+        super.doPost(request, response);
         String nickname = request.getParameter("nickname");
         String password = request.getParameter("password");
         UserService userService = new UserServiceImpl();

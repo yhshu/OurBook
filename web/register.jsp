@@ -32,16 +32,18 @@
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
     </div>
     <div class="col s5">
-        <div class="input-field col s12">
-            <input id="nickname" type="email" class="validate">
-            <label for="nickname">用户名</label>
-        </div>
-        <div class="input-field col s12">
-            <input id="password" type="password" class="validate">
-            <label for="password">密码</label>
-        </div>
-        <br><br><br><br><br><br><br><br>
-        <button class="blue btn">加入 OurBook</button>
+        <form action="${pageContext.request.contextPath}/RegisterServlet" method="post">
+            <div class="input-field col s12">
+                <input id="nickname" type="email" class="validate">
+                <label for="nickname">用户名</label>
+            </div>
+            <div class="input-field col s12">
+                <input id="password" type="password" class="validate">
+                <label for="password">密码</label>
+            </div>
+            <br><br><br><br><br><br><br><br>
+            <input type="submit" class="blue btn" value="加入 OurBook"/>
+        </form>
     </div>
 </div>
 

@@ -21,22 +21,23 @@
         <div class="card-content black-text">
             <p class="card-title">登录到 OurBook</p>
             <br>
-
-            <div class="row">
-                <div class="input-field s12">
-                    <input id="id" type="text" class="validate">
-                    <label for="id">帐号</label>
+            <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
+                <div class="row">
+                    <div class="input-field s12">
+                        <input id="nickname" type="text" class="validate">
+                        <label for="nickname">帐号</label>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-field s12">
-                    <input id="password" type="password" class="validate">
-                    <label for="password">密码</label>
+                <div class="row">
+                    <div class="input-field s12">
+                        <input id="password" type="password" class="validate">
+                        <label for="password">密码</label>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <a class="black-text">新用户？</a><a href="">注册</a>
-            <a href="" class="waves-effect waves-light btn blue right">登录</a>
+                <br>
+                <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
+                <input type="submit" class="waves-effect waves-light btn blue right" value="登录"/>
+            </form>
         </div>
     </div>
 </div>
