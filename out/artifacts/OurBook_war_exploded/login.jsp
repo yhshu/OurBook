@@ -33,7 +33,7 @@
                 </div>
             </div>
             <br>
-            <a class="black-text">新用户？</a><a href="register.html">注册</a>
+            <a class="black-text">新用户？</a><a href="">注册</a>
             <a href="" class="waves-effect waves-light btn blue right">登录</a>
         </div>
     </div>

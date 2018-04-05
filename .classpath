@@ -3,8 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Tomcat 8.5.24"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/servlet-api"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/mysql-connector-java-5.1.46-bin"/>
-	<classpathentry kind="lib" path="D:/apache-tomcat-7.0.82/lib/servlet-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/servlet-api"/>
 	<classpathentry kind="output" path="out/production/OurBook"/>
 </classpath>

@@ -1,12 +1,16 @@
 package dao.impl;
 
+import dao.UserDao;
 import model.User;
 
-public class UserDaoImpl {
-    void add() {
+public class UserDaoImpl implements UserDao {
+    @Override
+    public void add(String name, String password) {
+
     }
 
-    User find() {
+    @Override
+    public User find(String ID) {
         return null;
     }
 }
