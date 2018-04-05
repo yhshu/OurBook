@@ -26,6 +26,9 @@ public class BookDaoImpl implements BookDao {
                     book.setName(rs.getString("name"));
                     book.setDescription(rs.getString("description"));
                     book.setChiefEditorID(rs.getString("chiefEditorID"));
+                    rs.close();
+                    stm.close();
+                    conn.close();
                     return book;
                 } else return null;
             } catch (Exception e1) {
