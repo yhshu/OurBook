@@ -12,6 +12,7 @@
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/materialize.js"></script>
+    <title>用户注册 - OurBook</title>
 </head>
 
 <body>
