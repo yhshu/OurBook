@@ -4,3 +4,7 @@
 /.idea/workspace.xml
 *.class
 .DS_Store
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/0a0cc050-312d-4c1a-8877-99688ce52494.xml
+.idea/sqldialects.xml
