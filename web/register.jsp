@@ -33,8 +33,8 @@
     </div>
     <div class="col s5">
         <div class="input-field col s12">
-            <input id="username" type="email" class="validate">
-            <label for="username">用户名</label>
+            <input id="nickname" type="email" class="validate">
+            <label for="nickname">用户名</label>
         </div>
         <div class="input-field col s12">
             <input id="password" type="password" class="validate">

@@ -6,10 +6,9 @@ public interface UserDao {
     /**
      * 添加用户
      *
-     * @param name     用户昵称
-     * @param password 用户密码
+     * @param user 新注册用户
      */
-    void add(String name, String password);
+    void add(User user);
 
     /**
      * 查找用户

@@ -12,12 +12,14 @@ public class Book implements Serializable {
     }
 
     public Book(String name, String description, String chiefEditorID) {
+        // 插入数据库前构造
         this.name = name;
         this.description = description;
         this.chiefEditorID = chiefEditorID;
     }
 
     public Book(String name, String description, String ID, String chiefEditorID) {
+        // 查找数据库后构造
         this.name = name;
         this.description = description;
         this.ID = ID;

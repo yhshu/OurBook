@@ -37,17 +37,18 @@
 </nav>
 <div class="container" style="margin-top: 20px">
     <div class="col s5">
-        <form action="${pageContext.request.contextPath}/servlets/addBookServlet" method="post">
+        <form action="${pageContext.request.contextPath}/AddBookServlet" method="post">
             <div class="input-field col s12">
-                <input id="bookname" type="email" class="validate">
+                <input id="bookname" type="text" class="validate"/>
                 <label for="bookname">书名</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="bookDescription" class="materialize-textarea"></textarea>
+                <input id="bookDescription" type="text" class="materialize-textarea"/>
                 <label for="bookDescription">简介（可选）</label>
             </div>
-            <button class="blue btn">创建</button>
+            <input type="submit" class="blue btn" value="创建"/>
         </form>
+
     </div>
 </div>
 </body>

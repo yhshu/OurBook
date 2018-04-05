@@ -1,21 +1,30 @@
 package servlets;
 
+import service.UserService;
+import service.impl.UserServiceImpl;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-/**
- * 注册界面的 Servlet
- * 当用户访问 RegisterServlet 时，跳转到 register.jsp 页面
- */
+@WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/register.jsp").forward(request, response);
+        doPost(request, response);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        String nickname = request.getParameter("nickname");
+        String password = request.getParameter("password");
+        UserService userService = new UserServiceImpl();
+        try {
+
+        } catch (Exception e) {
+            request.setAttribute("message", "注册失败");
+        }
+        // TODO 注册完成后，请求重定向，跳转到登录界面
     }
 }

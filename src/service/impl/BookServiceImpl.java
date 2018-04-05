@@ -10,11 +10,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void add(String name, String description, String chiefEditorID) {
-        if (name == null) {
+        if (name == null || name.length() == 0) {
             System.out.println("书名为空");
             return;
         }
-        Book book = new Book(name, description, chiefEditorID);
-        bookDao.add(book);
+        bookDao.add(new Book(name, description, chiefEditorID));
     }
 }
