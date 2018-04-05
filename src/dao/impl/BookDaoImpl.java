@@ -4,6 +4,7 @@ import Util.DBUtil;
 import dao.BookDao;
 import model.Book;
 
+import javax.servlet.RequestDispatcher;
 import java.sql.*;
 
 public class BookDaoImpl implements BookDao {
@@ -21,6 +22,22 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void add(Book book) {
-        conn = DBUtil.connectDB("book");
+        try {
+            conn = DBUtil.connectDB("book"); // 连接数据库
+            PreparedStatement stm = null;
+            stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
+            stm.setString(1, book.getName());
+            stm.setString(2, book.getDescription());
+            stm.setString(3, book.getChiefEditorID());
+            try {
+                stm.executeUpdate();
+                System.out.println("插入信息成功");
+            } catch (Exception e1) {
+                System.out.println("插入信息成功");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
