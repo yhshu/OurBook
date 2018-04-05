@@ -11,10 +11,11 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/register.jsp").forward(request, response);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

@@ -12,10 +12,11 @@ import java.io.IOException;
 public class addBookServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/newbook.jsp").forward(request, response);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

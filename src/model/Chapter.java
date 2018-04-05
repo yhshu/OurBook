@@ -3,9 +3,9 @@ package model;
 import java.io.Serializable;
 
 public class Chapter implements Serializable {
-    private String ID;
+    private String ID; // 章节编号
     private String name;
-    private String bookID;
+    private String bookID; // 所属书目的编号
     private String content;
 
     public Chapter() {

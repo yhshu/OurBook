@@ -80,9 +80,9 @@ public class BookDaoImpl implements BookDao {
             } catch (Exception e1) {
                 System.out.println("插入信息失败");
             }
+            conn.close(); // 关闭数据库连接
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
