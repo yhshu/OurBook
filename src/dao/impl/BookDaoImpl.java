@@ -11,7 +11,7 @@ public class BookDaoImpl implements BookDao {
     private Connection conn = null;
 
     @Override
-    public Book findbyID(String ID) {
+    public Book findByID(String ID) {
         return null;
     }
 
