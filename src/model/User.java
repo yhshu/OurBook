@@ -4,20 +4,35 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     String ID;
-    String username;
+    String nickname;
     String password;
 
-    User(String username, String password) {
-        this.username = username;
+
+    public User(String username, String password) {
+        this.nickname = username;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public User(String ID, String nickname, String password) {
+        this.ID = ID;
+        this.nickname = nickname;
+        this.password = password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getPassword() {

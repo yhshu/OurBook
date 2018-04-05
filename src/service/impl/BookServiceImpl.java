@@ -14,7 +14,6 @@ public class BookServiceImpl implements BookService {
             System.out.println("书名为空");
             return;
         }
-        Book book = new Book(name, description, chiefEditorID);
-        bookDao.add(book);
+        bookDao.add(new Book(name, description, chiefEditorID));
     }
 }

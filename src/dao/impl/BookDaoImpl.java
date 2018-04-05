@@ -15,9 +15,8 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findByID(String ID) {
         try {
-            conn = DBUtil.connectDB("book"); // 连接数据库
-            PreparedStatement stm;
-            stm = conn.prepareStatement("SELECT * FROM book WHERE ID = ?");
+            conn = DBUtil.connectDB("Book"); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE ID = ?");
             stm.setString(1, ID);
             try {
                 ResultSet rs = stm.executeQuery();
@@ -27,10 +26,13 @@ public class BookDaoImpl implements BookDao {
                     book.setName(rs.getString("name"));
                     book.setDescription(rs.getString("description"));
                     book.setChiefEditorID(rs.getString("chiefEditorID"));
+                    rs.close();
+                    stm.close();
+                    conn.close(); // 关闭数据库连接
                     return book;
                 } else return null;
             } catch (Exception e1) {
-                System.out.println("获取信息失败");
+                System.out.println("获取书目失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,9 +43,8 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book[] findByName(String name) {
         try {
-            conn = DBUtil.connectDB("book"); // 连接数据库
-            PreparedStatement stm;
-            stm = conn.prepareStatement("SELECT * FROM book WHERE name = ?");
+            conn = DBUtil.connectDB("Book"); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE name = ?");
             stm.setString(1, name);
             try {
                 ResultSet rs = stm.executeQuery();
@@ -58,7 +59,7 @@ public class BookDaoImpl implements BookDao {
                 conn.close(); // 关闭数据库连接
                 return books.toArray(new Book[0]);
             } catch (Exception e1) {
-                System.out.println("获取信息失败");
+                System.out.println("获取书目失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,17 +70,16 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void add(Book book) {
         try {
-            conn = DBUtil.connectDB("book"); // 连接数据库
-            PreparedStatement stm = null;
-            stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
+            conn = DBUtil.connectDB("Book"); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setString(3, book.getChiefEditorID());
             try {
                 stm.executeUpdate();
-                System.out.println("插入信息成功");
+                System.out.println("添加书目成功");
             } catch (Exception e1) {
-                System.out.println("插入信息失败");
+                System.out.println("添加书目失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接

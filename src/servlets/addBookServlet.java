@@ -8,11 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-
-/**
- * 添加书目的 Servlet
- * 当用户访问 AddBookServlet 时，跳转到 newbook.jsp 页面
- */
 @WebServlet("/AddBookServlet")
 public class AddBookServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
