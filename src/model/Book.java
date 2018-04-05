@@ -27,6 +27,14 @@ public class Book implements Serializable {
         this.ID = ID;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getEditorInChiefID() {
         return editorInChiefID;
     }
