@@ -4,8 +4,9 @@ import Util.DBUtil;
 import dao.BookDao;
 import model.Book;
 
-import javax.servlet.RequestDispatcher;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class BookDaoImpl implements BookDao {
@@ -52,6 +53,9 @@ public class BookDaoImpl implements BookDao {
                             rs.getString("description"), rs.getString("chiefEditorID"));
                     books.add(book);
                 }
+                rs.close();
+                stm.close();
+                conn.close(); // 关闭数据库连接
                 return books.toArray(new Book[0]);
             } catch (Exception e1) {
                 System.out.println("获取信息失败");
@@ -77,6 +81,7 @@ public class BookDaoImpl implements BookDao {
             } catch (Exception e1) {
                 System.out.println("插入信息失败");
             }
+            stm.close();
             conn.close(); // 关闭数据库连接
         } catch (Exception e) {
             e.printStackTrace();
