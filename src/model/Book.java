@@ -8,9 +8,19 @@ public class Book implements Serializable {
     private String ID;
     private String chiefEditorID;
 
+    public Book() {
+    }
+
     public Book(String name, String description, String chiefEditorID) {
         this.name = name;
         this.description = description;
+        this.chiefEditorID = chiefEditorID;
+    }
+
+    public Book(String name, String description, String ID, String chiefEditorID) {
+        this.name = name;
+        this.description = description;
+        this.ID = ID;
         this.chiefEditorID = chiefEditorID;
     }
 

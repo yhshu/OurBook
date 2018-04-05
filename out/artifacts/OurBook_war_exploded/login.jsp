@@ -12,6 +12,7 @@
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/materialize.js"></script>
+    <title>用户登录 - OurBook</title>
 </head>
 
 <body class="grey lighten-4">
@@ -20,6 +21,7 @@
         <div class="card-content black-text">
             <p class="card-title">登录到 OurBook</p>
             <br>
+
             <div class="row">
                 <div class="input-field s12">
                     <input id="id" type="text" class="validate">
