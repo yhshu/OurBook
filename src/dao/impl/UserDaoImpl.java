@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void add(User user) {
         try {
-            conn = DBUtil.connectDB("User"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO User(nickname,password) VALUES (?,?)");
             stm.setString(1, user.getNickname());
             stm.setString(2, user.getPassword());
@@ -35,13 +35,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User find(String nickname) {
         try {
-            conn = DBUtil.connectDB("User"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM User WHERE nickname = ?");
             stm.setString(1, nickname);
             try {
                 ResultSet rs = stm.executeQuery();
                 if (rs.next()) {
-                    User user = new User(rs.getString("ID"), rs.getString("nickname"), rs.getString("password"),rs.getString("personalDes"));
+                    User user = new User(rs.getString("ID"), rs.getString("nickname"), rs.getString("password"), rs.getString("personalDes"));
                     rs.close();
                     stm.close();
                     conn.close(); // 关闭数据库连接
@@ -56,15 +56,15 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    public User[] findFriend(String ID){
-        try{
-            conn = DBUtil.connectDB( "Friends"); // 连接数据库
+    public User[] findFriend(String ID) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Friend WHERE ID = ?");
-            stm.setString(1,ID);
-            try{
+            stm.setString(1, ID);
+            try {
                 ResultSet rs = stm.executeQuery();
                 ArrayList<User> users = new ArrayList<>();
-                while(rs.next()){
+                while (rs.next()) {
                     User user = new User(rs.getString("nickname"));
                     users.add(user);
                 }
@@ -72,10 +72,10 @@ public class UserDaoImpl implements UserDao {
                 stm.close();
                 conn.close();
                 return users.toArray(new User[users.size()]);
-            }catch(Exception el){
+            } catch (Exception el) {
                 System.out.println("获取好友列表失败");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new User[0];

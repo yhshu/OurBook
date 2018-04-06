@@ -5,16 +5,14 @@ import java.sql.DriverManager;
 
 public class DBUtil {
     /**
-     * 连接指定数据库
-     *
-     * @param DBName 数据库名称
+     * 连接数据库
      */
-    public static Connection connectDB(String DBName) {
+    public static Connection connectDB() {
         Connection conn = null;
         String classForName = "com.mysql.jdbc.Driver";
-        String ServandDB = "jdbc:mysql://127.0.0.1:3306/" + DBName;
+        String ServandDB = "jdbc:mysql://127.0.0.1:3306/OurBook";
         String DBUser = "root";
-        String DBPWD = "";
+        String DBPWD = "root";
 
         try {
             Class.forName(classForName).newInstance();

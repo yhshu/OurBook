@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     public void login(String nickname, String password) {
         User user = userDao.find(nickname);
         if (user != null) { // 查找
-            Cookie cookie = new Cookie("nickname", "");
+            Cookie cookie = new Cookie("nickname", nickname);
             cookie.setMaxAge(7 * 24 * 60 * 60);
         }
     }
