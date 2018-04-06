@@ -7,9 +7,6 @@ public class User implements Serializable {
     String nickname;
     String password;
     String personalDes; //个人简介
-    public User(String username){
-        this.nickname = username;
-    }
 
     public User(String username, String password) {
         this.nickname = username;
