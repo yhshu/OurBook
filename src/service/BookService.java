@@ -8,5 +8,5 @@ public interface BookService {
      * @param description   书的简介（可选）
      * @param chiefEditorID 主编用户编号
      */
-    void add(String name, String description, String chiefEditorID);
+    void add(String name, String description, int chiefEditorID);
 }

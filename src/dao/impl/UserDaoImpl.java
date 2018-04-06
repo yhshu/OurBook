@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO User(nickname,password) VALUES (?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(nickname,password) VALUES (?,?)");
             stm.setString(1, user.getNickname());
             stm.setString(2, user.getPassword());
             try {
@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
             try {
                 ResultSet rs = stm.executeQuery();
                 if (rs.next()) {
-                    User user = new User(rs.getString("ID"), rs.getString("nickname"), rs.getString("password"), rs.getString("personalDes"));
+                    User user = new User(rs.getInt("ID"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"));
                     rs.close();
                     stm.close();
                     conn.close(); // 关闭数据库连接
@@ -56,28 +56,27 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    public User[] findFriend(String ID) {
+    public String[] findFollowing(String ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Friend WHERE ID = ?");
             stm.setString(1, ID);
             try {
                 ResultSet rs = stm.executeQuery();
-                ArrayList<User> users = new ArrayList<>();
+                ArrayList<String> users = new ArrayList<>();
                 while (rs.next()) {
-                    User user = new User(rs.getString("nickname"));
-                    users.add(user);
+                    users.add(rs.getString("nickname"));
                 }
                 rs.close();
                 stm.close();
                 conn.close();
-                return users.toArray(new User[users.size()]);
+                return users.toArray(new String[0]);
             } catch (Exception el) {
-                System.out.println("获取好友列表失败");
+                System.out.println("获取关注列表失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new User[0];
+        return null;
     }
 }

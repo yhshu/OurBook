@@ -3,31 +3,28 @@ package model;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    String ID;
+    int ID;
     String nickname;
     String password;
-    String personalDes; //个人简介
-    public User(String username){
-        this.nickname = username;
-    }
+    String description; // 个人简介
 
-    public User(String username, String password) {
-        this.nickname = username;
+    public User(String nickname, String password) {
+        this.nickname = nickname;
         this.password = password;
     }
 
-    public User(String ID, String nickname, String password,String personalDes) {
+    public User(int ID, String nickname, String password, String description) {
         this.ID = ID;
         this.nickname = nickname;
         this.password = password;
-        this.personalDes = personalDes;
+        this.description = description;
     }
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -47,7 +44,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getPersonalDes() { return personalDes; }
+    public String getDescription() {
+        return description;
+    }
 
-    public void setPersonalDes(String personalDes) { this.personalDes = personalDes; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -23,7 +23,7 @@ public interface UserDao {
      * 查找某用户的关注列表
      *
      * @param ID 用户编号
-     * @return 关注列表
+     * @return 用户正关注的其他用户的用户名
      */
-    User[] findFriend(String ID);
+    String[] findFollowing(String ID);
 }

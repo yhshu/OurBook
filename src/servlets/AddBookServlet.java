@@ -21,7 +21,7 @@ public class AddBookServlet extends BaseServlet {
         super.doPost(request, response);
         String bookname = request.getParameter("bookName");
         String bookDescription = request.getParameter("bookDescription");
-        String chiefEditorID = ""; // TODO 获取当前用户的ID
+        int chiefEditorID = 0; // TODO 获取当前用户的ID
         BookService bookService = new BookServiceImpl();
         try {
             bookService.add(bookname, bookDescription, chiefEditorID);

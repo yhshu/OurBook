@@ -22,10 +22,10 @@ public class BookDaoImpl implements BookDao {
                 ResultSet rs = stm.executeQuery();
                 if (rs.next()) {
                     Book book = new Book();
-                    book.setID(rs.getString("ID"));
+                    book.setID(rs.getInt("ID"));
                     book.setName(rs.getString("name"));
                     book.setDescription(rs.getString("description"));
-                    book.setChiefEditorID(rs.getString("chiefEditorID"));
+                    book.setChiefEditorID(rs.getInt("chiefEditorID"));
                     rs.close();
                     stm.close();
                     conn.close();
@@ -50,8 +50,7 @@ public class BookDaoImpl implements BookDao {
                 ResultSet rs = stm.executeQuery();
                 ArrayList<Book> books = new ArrayList<>();
                 while (rs.next()) {
-                    Book book = new Book(rs.getString("ID"), rs.getString("name"),
-                            rs.getString("description"), rs.getString("chiefEditorID"));
+                    Book book = new Book(rs.getString("name"), rs.getString("description"), rs.getInt("ID"), rs.getInt("chiefEditorID"));
                     books.add(book);
                 }
                 rs.close();
@@ -74,7 +73,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
-            stm.setString(3, book.getChiefEditorID());
+            stm.setInt(3, book.getChiefEditorID());
             try {
                 stm.executeUpdate();
                 System.out.println("添加书目成功");
@@ -97,8 +96,7 @@ public class BookDaoImpl implements BookDao {
                 ResultSet rs = stm.executeQuery();
                 ArrayList<Book> books = new ArrayList<>();
                 while (rs.next()) {
-                    Book book = new Book(rs.getString("ID"), rs.getString("name"),
-                            rs.getString("description"), rs.getString("chiefEditorID"));
+                    Book book = new Book(rs.getString("name"), rs.getString("description"), rs.getInt("ID"), rs.getInt("chiefEditorID"));
                     books.add(book);
                 }
                 rs.close();

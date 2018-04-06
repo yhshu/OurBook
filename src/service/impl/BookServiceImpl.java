@@ -9,7 +9,7 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
 
     @Override
-    public void add(String name, String description, String chiefEditorID) {
+    public void add(String name, String description, int chiefEditorID) {
         if (name == null || name.length() == 0) {
             System.out.println("书名为空");
             return;

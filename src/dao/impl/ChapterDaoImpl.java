@@ -14,7 +14,7 @@ public class ChapterDaoImpl implements ChapterDao {
     @Override
     public void add(Chapter chapter) {
         try {
-            conn = DBUtil.connectDB("Chapter"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Chapter (name,bookID,content) VALUES (?,?,?)");
             stm.setString(1, chapter.getName());
             stm.setString(2, chapter.getBookID());
