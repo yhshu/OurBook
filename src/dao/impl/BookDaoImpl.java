@@ -87,4 +87,29 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
     }
+
+    public Book[] findByUserID(String chiefEditorID){
+        try {
+            conn = DBUtil.connectDB("Book"); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE chiefEditorID = ?");
+            stm.setString(1, chiefEditorID);
+            try {
+                ResultSet rs = stm.executeQuery();
+                ArrayList<Book> books = new ArrayList<>();
+                while (rs.next()) {
+                    Book book = new Book(rs.getString("ID"), rs.getString("name"),
+                            rs.getString("description"), rs.getString("chiefEditorID"));
+                    books.add(book);
+                }
+                rs.close();
+                stm.close();
+                conn.close(); // 关闭数据库连接
+                return books.toArray(new Book[0]);
+            } catch (Exception e1) {
+                System.out.println("获取书目失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Book[0];
 }
