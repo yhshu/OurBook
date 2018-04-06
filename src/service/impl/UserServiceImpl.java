@@ -17,8 +17,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void login(String nickname, String password) {
-        Cookie cookie = new Cookie("nickname", "");
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-
+        User user = userDao.find(nickname);
+        if (user != null) { // 查找
+            Cookie cookie = new Cookie("nickname", "");
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+        }
     }
 }

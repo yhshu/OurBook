@@ -13,7 +13,7 @@ public interface UserDao {
     /**
      * 查找用户
      *
-     * @param ID 用户ID
+     * @param nickname 用户名
      */
-    User find(String ID);
+    User find(String nickname);
 }
