@@ -17,9 +17,9 @@ public class DBUtil {
         try {
             Class.forName(classForName).newInstance();
             conn = DriverManager.getConnection(ServandDB, DBUser, DBPWD);
-            System.out.println("数据库加载成功");
+            System.out.println("DBUtil: 数据库连接成功");
         } catch (Exception e) {
-            System.out.println("数据库加载失败");
+            System.out.println("DBUtil: 数据库连接失败");
         }
         return conn;
     }

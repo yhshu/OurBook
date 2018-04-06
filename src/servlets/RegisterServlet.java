@@ -25,10 +25,10 @@ public class RegisterServlet extends BaseServlet {
         UserService userService = new UserServiceImpl();
         try {
             userService.register(nickname, password);
+            // 注册成功后，请求重定向，跳转到登录界面
+            response.sendRedirect("/login.jsp");
         } catch (Exception e) {
             request.setAttribute("message", "注册失败");
         }
-        // 注册完成后，请求重定向，跳转到登录界面
-        response.sendRedirect("/login.jsp");
     }
 }

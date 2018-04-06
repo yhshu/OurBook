@@ -19,10 +19,14 @@ public class BaseServlet extends HttpServlet {
             if (cookie.getName().equals("nickname")) {
                 if (session.getAttribute("nickname") != null) {
                     // TODO 登录成功，跳转到主页
-                    break;
+                    response.sendRedirect("/homepage.jsp");
+                    System.out.println("BaseServlet: 自动登录成功，跳转到个人主页");
                 } else {
                     // TODO 跳转登录界面
+                    response.sendRedirect("/login.jsp");
+                    System.out.println("BaseServlet: 自动登录失败，跳转到登录页");
                 }
+                break;
             }
         }
     }

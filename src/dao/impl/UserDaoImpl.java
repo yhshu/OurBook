@@ -16,14 +16,14 @@ public class UserDaoImpl implements UserDao {
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(nickname,password) VALUES (?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO User(ID,nickname,password) VALUES (0,?,?)");
             stm.setString(1, user.getNickname());
             stm.setString(2, user.getPassword());
             try {
                 stm.executeUpdate();
-                System.out.println("注册成功");
+                System.out.println("UserDao: 注册成功");
             } catch (Exception e1) {
-                System.out.println("注册失败");
+                System.out.println("UserDao: 注册失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接
@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
                     return user;
                 } else return null;
             } catch (Exception e1) {
-                System.out.println("获取用户失败");
+                System.out.println("UserDao: 获取用户失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
                 conn.close();
                 return users.toArray(new String[0]);
             } catch (Exception el) {
-                System.out.println("获取关注列表失败");
+                System.out.println("UserDao: 获取关注列表失败");
             }
         } catch (Exception e) {
             e.printStackTrace();

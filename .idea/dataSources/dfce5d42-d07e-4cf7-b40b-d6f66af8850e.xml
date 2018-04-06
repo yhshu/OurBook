@@ -4029,24 +4029,29 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="916" parent="294" name="user_ID_uindex">
+    <column id="916" parent="294" name="description">
+      <Position>4</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="917" parent="294" name="user_ID_uindex">
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="917" parent="294" name="user_nickname_uindex">
+    <index id="918" parent="294" name="user_nickname_uindex">
       <ColNames>nickname</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="918" parent="294" name="PRIMARY">
+    <key id="919" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="919" parent="294" name="user_ID_uindex">
+    <key id="920" parent="294" name="user_ID_uindex">
       <ColNames>ID</ColNames>
       <UnderlyingIndexName>user_ID_uindex</UnderlyingIndexName>
     </key>
-    <key id="920" parent="294" name="user_nickname_uindex">
+    <key id="921" parent="294" name="user_nickname_uindex">
       <ColNames>nickname</ColNames>
       <UnderlyingIndexName>user_nickname_uindex</UnderlyingIndexName>
     </key>

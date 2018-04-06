@@ -32,7 +32,7 @@ public class BookDaoImpl implements BookDao {
                     return book;
                 } else return null;
             } catch (Exception e1) {
-                System.out.println("获取书目失败");
+                System.out.println("BookDao: 获取书目失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +58,7 @@ public class BookDaoImpl implements BookDao {
                 conn.close(); // 关闭数据库连接
                 return books.toArray(new Book[0]);
             } catch (Exception e1) {
-                System.out.println("获取书目失败");
+                System.out.println("BookDao: 获取书目失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,9 +76,9 @@ public class BookDaoImpl implements BookDao {
             stm.setInt(3, book.getChiefEditorID());
             try {
                 stm.executeUpdate();
-                System.out.println("添加书目成功");
+                System.out.println("BookDao: 添加书目成功");
             } catch (Exception e1) {
-                System.out.println("添加书目失败");
+                System.out.println("BookDao: 添加书目失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接
@@ -104,7 +104,7 @@ public class BookDaoImpl implements BookDao {
                 conn.close(); // 关闭数据库连接
                 return books.toArray(new Book[0]);
             } catch (Exception e1) {
-                System.out.println("获取书目失败");
+                System.out.println("BookDao: 获取书目失败");
             }
         } catch (Exception e) {
             e.printStackTrace();

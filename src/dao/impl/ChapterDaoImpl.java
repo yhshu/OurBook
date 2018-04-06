@@ -21,9 +21,9 @@ public class ChapterDaoImpl implements ChapterDao {
             stm.setString(3, chapter.getContent());
             try {
                 stm.executeUpdate();
-                System.out.println("添加章节成功");
+                System.out.println("ChapterDao: 添加章节成功");
             } catch (Exception e1) {
-                System.out.println("添加章节失败");
+                System.out.println("ChapterDao: 添加章节失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接
