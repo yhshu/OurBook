@@ -28,6 +28,7 @@ public class RegisterServlet extends BaseServlet {
         } catch (Exception e) {
             request.setAttribute("message", "注册失败");
         }
-        // TODO 注册完成后，请求重定向，跳转到登录界面
+        // 注册完成后，请求重定向，跳转到登录界面
+        response.sendRedirect("/login.jsp");
     }
 }

@@ -15,7 +15,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findByID(String ID) {
         try {
-            conn = DBUtil.connectDB("Book"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE ID = ?");
             stm.setString(1, ID);
             try {
@@ -43,7 +43,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book[] findByName(String name) {
         try {
-            conn = DBUtil.connectDB("Book"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE name = ?");
             stm.setString(1, name);
             try {
@@ -70,7 +70,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void add(Book book) {
         try {
-            conn = DBUtil.connectDB("Book"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
@@ -88,9 +88,9 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
-    public Book[] findByUserID(String chiefEditorID){
+    public Book[] findByUserID(String chiefEditorID) {
         try {
-            conn = DBUtil.connectDB("Book"); // 连接数据库
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE chiefEditorID = ?");
             stm.setString(1, chiefEditorID);
             try {
@@ -112,4 +112,5 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return new Book[0];
+    }
 }
