@@ -12,16 +12,18 @@ public class BaseServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(nickname)) {
+            if (cookie.getName().equals("nickname")) {
                 if (session.getAttribute("nickname") != null) {
-                    // TODO 登陆成功，跳转到主页
+                    // TODO 登录成功，跳转到主页
                     break;
+                } else {
+                    // TODO 跳转登录界面
                 }
             }
         }
-        HttpSession session = request.getSession();
-        session.setAttribute();
     }
 }

@@ -24,13 +24,13 @@
             <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
                 <div class="row">
                     <div class="input-field s12">
-                        <input id="nickname" type="text" class="validate">
+                        <input id="nickname" name="nickname" type="text" class="validate">
                         <label for="nickname">帐号</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field s12">
-                        <input id="password" type="password" class="validate">
+                        <input id="password" name="password" type="password" class="validate">
                         <label for="password">密码</label>
                     </div>
                 </div>

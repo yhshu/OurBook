@@ -5,7 +5,8 @@ import service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/RegisterServlet")
@@ -20,9 +21,10 @@ public class RegisterServlet extends BaseServlet {
         super.doPost(request, response);
         String nickname = request.getParameter("nickname");
         String password = request.getParameter("password");
+        System.out.println("【用户注册】用户名：" + nickname + "，密码：" + password);
         UserService userService = new UserServiceImpl();
         try {
-
+            userService.register(nickname, password);
         } catch (Exception e) {
             request.setAttribute("message", "注册失败");
         }

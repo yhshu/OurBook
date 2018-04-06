@@ -34,16 +34,28 @@
     <div class="col s5">
         <form action="${pageContext.request.contextPath}/RegisterServlet" method="post">
             <div class="input-field col s12">
-                <input id="nickname" type="email" class="validate">
+                <input id="nickname" name="nickname" type="text" class="validate">
                 <label for="nickname">用户名</label>
             </div>
             <div class="input-field col s12">
-                <input id="password" type="password" class="validate">
+                <input id="password" name="password" type="password" class="validate">
                 <label for="password">密码</label>
             </div>
+            <div class="input-field col s12">
+                <input id="password_confirm" type="password" class="validate">
+                <label for="password_confirm">确认密码</label>
+            </div>
             <br><br><br><br><br><br><br><br>
-            <input type="submit" class="blue btn" value="加入 OurBook"/>
+            <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
         </form>
+        <script> // 确认两次密码是否一致
+        $(document).ready()
+        {
+            if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
+
+            }
+        }
+        </script>
     </div>
 </div>
 
@@ -51,15 +63,14 @@
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
-                    content.</p>
+                <h5 class="white-text">联系我们</h5>
+                <p class="grey-text text-lighten-4">OurBook.com</p>
             </div>
         </div>
     </div>
     <div class="footer-copyright">
         <div class="container">
-            Copyright © 2018 LeetCode
+            Copyright © 2018 OurBook
         </div>
     </div>
 </footer>
