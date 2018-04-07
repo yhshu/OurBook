@@ -65,6 +65,20 @@ public class ChapterDaoImpl implements ChapterDao {
     }
 
     @Override
+    public Chapter[] findByKeywords(String[] keywords) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Chapter WHERE "
+                    + DBUtil.keywordsMatchCondition(keywords));
+            Chapter[] chapters = getChapters(stm);
+            if (chapters != null) return chapters;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Chapter[0];
+    }
+
+    @Override
     public Chapter[] findByBookID(int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
@@ -86,6 +100,36 @@ public class ChapterDaoImpl implements ChapterDao {
                     conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sectionNumber = ?");
             stm.setInt(1, bookID);
             stm.setInt(2, sectionNumber);
+            Chapter[] chapters = getChapters(stm);
+            if (chapters != null) return chapters;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Chapter[0];
+    }
+
+    @Override
+    public Chapter[] findPrev(int chapterID) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm =
+                    conn.prepareStatement("SELECT * FROM ChapterRel WHERE nextID = ?");
+            stm.setInt(1, chapterID);
+            Chapter[] chapters = getChapters(stm);
+            if (chapters != null) return chapters;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Chapter[0];
+    }
+
+    @Override
+    public Chapter[] findNext(int chapterID) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm =
+                    conn.prepareStatement("SELECT * FROM ChapterRel WHERE prevID = ?");
+            stm.setInt(1, chapterID);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
         } catch (Exception e) {

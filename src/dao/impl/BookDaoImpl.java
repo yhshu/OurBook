@@ -41,6 +41,20 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public Book[] findByKeywords(String[] keywords) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE "
+                    + DBUtil.keywordsMatchCondition(keywords));
+            Book[] chapters = getBooks(stm);
+            if (chapters != null) return chapters;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Book[0];
+    }
+
+    @Override
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
