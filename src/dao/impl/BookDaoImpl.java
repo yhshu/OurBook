@@ -18,22 +18,8 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE ID = ?");
             stm.setString(1, ID);
-            try {
-                ResultSet rs = stm.executeQuery();
-                if (rs.next()) {
-                    Book book = new Book();
-                    book.setID(rs.getInt("ID"));
-                    book.setName(rs.getString("name"));
-                    book.setDescription(rs.getString("description"));
-                    book.setChiefEditorID(rs.getInt("chiefEditorID"));
-                    rs.close();
-                    stm.close();
-                    conn.close();
-                    return book;
-                } else return null;
-            } catch (Exception e1) {
-                System.out.println("BookDao: 获取书目失败");
-            }
+            Book[] books = getBooks(stm);
+            if (books != null) return books[0];
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,20 +32,8 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE name = ?");
             stm.setString(1, name);
-            try {
-                ResultSet rs = stm.executeQuery();
-                ArrayList<Book> books = new ArrayList<>();
-                while (rs.next()) {
-                    Book book = new Book(rs.getString("name"), rs.getString("description"), rs.getInt("ID"), rs.getInt("chiefEditorID"));
-                    books.add(book);
-                }
-                rs.close();
-                stm.close();
-                conn.close(); // 关闭数据库连接
-                return books.toArray(new Book[0]);
-            } catch (Exception e1) {
-                System.out.println("BookDao: 获取书目失败");
-            }
+            Book[] books = getBooks(stm);
+            if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,23 +66,36 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE chiefEditorID = ?");
             stm.setString(1, chiefEditorID);
-            try {
-                ResultSet rs = stm.executeQuery();
-                ArrayList<Book> books = new ArrayList<>();
-                while (rs.next()) {
-                    Book book = new Book(rs.getString("name"), rs.getString("description"), rs.getInt("ID"), rs.getInt("chiefEditorID"));
-                    books.add(book);
-                }
-                rs.close();
-                stm.close();
-                conn.close(); // 关闭数据库连接
-                return books.toArray(new Book[0]);
-            } catch (Exception e1) {
-                System.out.println("BookDao: 获取书目失败");
-            }
+            Book[] books = getBooks(stm);
+            if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return new Book[0];
+    }
+
+    /**
+     * 返回符合语句的多个书籍
+     *
+     * @param stm SQL语句
+     * @return 符合语句的多个书籍
+     */
+    private Book[] getBooks(PreparedStatement stm) {
+        try {
+            ResultSet rs = stm.executeQuery();
+            ArrayList<Book> books = new ArrayList<>();
+            while (rs.next()) {
+                Book book = new Book(rs.getInt("ID"), rs.getString("name"),
+                        rs.getString("description"), rs.getInt("chiefEditorID"));
+                books.add(book);
+            }
+            rs.close();
+            stm.close();
+            conn.close(); // 关闭数据库连接
+            return books.toArray(new Book[0]);
+        } catch (Exception e) {
+            System.out.println("BookDao: 获取书目失败");
+        }
+        return null;
     }
 }

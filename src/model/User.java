@@ -3,10 +3,10 @@ package model;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    int ID;
-    String nickname;
-    String password;
-    String description; // 个人简介
+    private int ID;
+    private String nickname;
+    private String password;
+    private String description; // 个人简介
 
     public User(String nickname, String password) {
         this.nickname = nickname;

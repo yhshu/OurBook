@@ -17,6 +17,6 @@ public class TestBookDaoImpl {
     }
 
     public static void main(String[] args) {
-        find("Book1");
+        find("Book4");
     }
 }

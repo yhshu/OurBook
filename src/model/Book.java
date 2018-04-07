@@ -3,9 +3,9 @@ package model;
 import java.io.Serializable;
 
 public class Book implements Serializable {
+    private int ID;
     private String name;
     private String description;
-    private int ID;
     private int chiefEditorID;
 
     public Book() {
@@ -18,7 +18,7 @@ public class Book implements Serializable {
         this.chiefEditorID = chiefEditorID;
     }
 
-    public Book(String name, String description, int ID, int chiefEditorID) {
+    public Book(int ID, String name, String description, int chiefEditorID) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;

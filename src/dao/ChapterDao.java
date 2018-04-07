@@ -16,5 +16,5 @@ public interface ChapterDao {
      *
      * @param ID 章节ID
      */
-    Chapter find(String ID);
+    Chapter findByID(String ID);
 }

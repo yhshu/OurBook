@@ -3,19 +3,28 @@ package model;
 import java.io.Serializable;
 
 public class Chapter implements Serializable {
-    private String ID; // 章节编号
+    private int ID; // 章节编号
     private String name;
-    private String bookID; // 所属书目的编号
+    private int bookID; // 所属书目的编号
+    private String description;
     private String content;
 
     public Chapter() {
     }
 
-    public String getID() {
+    public Chapter(int ID, String name, int bookID, String description, String content) {
+        this.ID = ID;
+        this.name = name;
+        this.bookID = bookID;
+        this.description = description;
+        this.content = content;
+    }
+
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -27,12 +36,20 @@ public class Chapter implements Serializable {
         this.name = name;
     }
 
-    public String getBookID() {
+    public int getBookID() {
         return bookID;
     }
 
-    public void setBookID(String bookID) {
+    public void setBookID(int bookID) {
         this.bookID = bookID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getContent() {
