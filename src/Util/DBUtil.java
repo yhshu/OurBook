@@ -10,7 +10,7 @@ public class DBUtil {
     public static Connection connectDB() {
         Connection conn = null;
         String classForName = "com.mysql.jdbc.Driver";
-        String ServandDB = "jdbc:mysql://127.0.0.1:3306/OurBook";
+        String ServandDB = "jdbc:mysql://104.207.135.139:3306/ourbook";
         String DBUser = "root";
         String DBPWD = "root";
 

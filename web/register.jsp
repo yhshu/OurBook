@@ -14,7 +14,21 @@
     <script type="text/javascript" src="js/materialize.js"></script>
     <title>用户注册 - OurBook</title>
 </head>
+<%
+    request.setCharacterEncoding("UTF-8");
 
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("nickname")) {
+            if (session.getAttribute("nickname") != null) {
+                // TODO 登录成功，跳转到主页
+                response.sendRedirect("/homepage.jsp");
+                System.out.println("BaseServlet: 自动登录成功，跳转到个人主页");
+            }
+            break;
+        }
+    }
+%>
 <body>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">

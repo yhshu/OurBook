@@ -10,6 +10,11 @@ import java.sql.PreparedStatement;
 public class ActivityDaompl implements ActivityDao {
     private Connection conn = null;
 
+    @Override
+    public Movement[] findByName(String name) {
+        return new Movement[0];
+    }
+
     public void add(Movement movement){
         try{
             conn = DBUtil.connectDB();
@@ -29,12 +34,4 @@ public class ActivityDaompl implements ActivityDao {
             e.printStackTrace();
         }
     }
-
-    public movement[] findByName(String name) {
-        try {
-            conn = DBUtil.connectDB(); //连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM movement");
-        }
-    }
-
 }

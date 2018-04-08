@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO User(ID,nickname,password) VALUES (0,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(ID,nickname,password) VALUES (0,?,?)");
             stm.setString(1, user.getNickname());
             stm.setString(2, user.getPassword());
             try {
@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     public User find(String nickname) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM User WHERE nickname = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE nickname = ?");
             stm.setString(1, nickname);
             try {
                 ResultSet rs = stm.executeQuery();

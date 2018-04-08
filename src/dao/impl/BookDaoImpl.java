@@ -16,7 +16,7 @@ public class BookDaoImpl implements BookDao {
     public Book findByID(String ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE ID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE ID = ?");
             stm.setString(1, ID);
             Book[] books = getBooks(stm);
             if (books != null) return books[0];
@@ -30,7 +30,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByName(String name) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE name = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
             if (books != null) return books;
@@ -44,7 +44,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE "
                     + DBUtil.keywordsMatchCondition(keywords));
             Book[] chapters = getBooks(stm);
             if (chapters != null) return chapters;
@@ -58,7 +58,7 @@ public class BookDaoImpl implements BookDao {
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO book (name,description,chiefEditorID) VALUES (?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setInt(3, book.getChiefEditorID());
@@ -78,10 +78,11 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE chiefEditorID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE chiefEditorID = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
-            if (books != null) return books;
+            if (books != null)
+                return books;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,8 +100,7 @@ public class BookDaoImpl implements BookDao {
             ResultSet rs = stm.executeQuery();
             ArrayList<Book> books = new ArrayList<>();
             while (rs.next()) {
-                Book book = new Book(rs.getInt("ID"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("chiefEditorID"));
+                Book book = new Book(rs.getInt("ID"), rs.getString("name"), rs.getString("description"), rs.getInt("chiefEditorID"));
                 books.add(book);
             }
             rs.close();
