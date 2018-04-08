@@ -9,7 +9,7 @@ public class TestBookDaoImpl {
     private static BookDao bdi = new BookDaoImpl();
 
     public static Book[] find(String name) {
-        Book[] books = bdi.findByName(name);
+        Book[] books = bdi.findByName("1");
         for (Book book : books) {
             System.out.println(book.getID());
         }
