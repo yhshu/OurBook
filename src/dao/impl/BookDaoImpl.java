@@ -16,7 +16,7 @@ public class BookDaoImpl implements BookDao {
     public Book findByID(String ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE ID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE ID = ?");
             stm.setString(1, ID);
             Book[] books = getBooks(stm);
             if (books != null) return books[0];
@@ -30,7 +30,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByName(String name) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE name = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
             if (books != null) return books;
@@ -79,10 +79,11 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE chiefEditorID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE chiefEditorID = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
-            if (books != null) return books;
+            if (books != null)
+                return books;
         } catch (Exception e) {
             e.printStackTrace();
         }

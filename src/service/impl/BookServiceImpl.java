@@ -15,7 +15,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void add(String name, String description, int chiefEditorID, String keywords) {
         if (name == null || name.length() == 0) {
-            System.out.println("书名为空");
+            System.out.println("BookService: 书名为空");
             return;
         }
         bookDao.add(new Book(name, description, chiefEditorID, keywords));

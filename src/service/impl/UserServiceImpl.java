@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     public void login(String nickname, String password) {
         User user = userDao.find(nickname);
         if (user != null && user.getPassword().equals(password)) { // 用户名与密码匹配
-            System.out.println("【用户登录】用户名与密码匹配");
+            System.out.println("UserService: 【用户登录】用户名与密码匹配");
         } else { // 用户名或密码错误
-            System.out.println("【用户登录】用户名或密码错误");
+            System.out.println("UserService: 【用户登录】用户名或密码错误");
         }
     }
 }

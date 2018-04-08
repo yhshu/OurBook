@@ -2,7 +2,7 @@ package dao.impl;
 
 import Util.DBUtil;
 import dao.ActivityDao;
-import model.Movement;
+import model.Activity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +10,17 @@ import java.sql.PreparedStatement;
 public class ActivityDaompl implements ActivityDao {
     private Connection conn = null;
 
-    public void add(Movement movement){
-        try{
+    @Override
+    public Activity[] findByName(String name) {
+        return new Activity[0];
+    }
+
+    public void add(Activity activity) {
+
+        try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO movement(name,thumb,comment) VALUES (?,?,?)");
-            stm.setString(1,movement.getNickname());
-            stm.setString(2,movement.getComment());
-            stm.setInt(3,movement.getThumb());
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO movement(nickname,thumb,comment) VALUES (?,?,?)");
+            stm.setString(1, activity.getNickname());
             try {
                 stm.executeUpdate();
                 System.out.println("ActivityDao: 添加动态成功");
@@ -29,12 +33,4 @@ public class ActivityDaompl implements ActivityDao {
             e.printStackTrace();
         }
     }
-
-    public movement[] findByName(String name) {
-        try {
-            conn = DBUtil.connectDB(); //连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM movement");
-        }
-    }
-
 }

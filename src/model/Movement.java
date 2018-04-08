@@ -5,18 +5,18 @@ public class Movement {
     String comment; // 评论
     int thumb;     //点赞数？？存疑
 
-    public Movement(String n,String c,int t){
+    public Movement(String n, String c, int t) {
         this.nickname = n;
         this.comment = c;
         this.thumb = t;
     }
 
     public String getNickname() {
-        return name;
+        return nickname;
     }
 
     public void setNickname(String name) {
-        this.name = name;
+        this.nickname = name;
     }
 
     public String getComment() {
