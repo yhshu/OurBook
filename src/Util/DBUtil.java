@@ -24,10 +24,10 @@ public class DBUtil {
         return conn;
     }
 
-    public static String keywordsMatchCondition(String[] keywords) {
+    public static String keywordsMatchCondition(String field, String[] keywords) {
         StringBuilder stringBuilder = new StringBuilder("(");
         for (String keyword : keywords) {
-            stringBuilder.append("keywords LIKE '%").append(keyword).append("%' and ");
+            stringBuilder.append(field).append(" LIKE '%").append(keyword).append("%' and ");
         }
         stringBuilder.append("1)");
         return stringBuilder.toString();

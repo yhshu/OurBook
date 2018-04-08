@@ -7,23 +7,26 @@ public class Book implements Serializable {
     private String name;
     private String description;
     private int chiefEditorID;
+    private String keywords;
 
     public Book() {
     }
 
-    public Book(String name, String description, int chiefEditorID) {
+    public Book(String name, String description, int chiefEditorID, String keywords) {
         // 插入数据库前构造
         this.name = name;
         this.description = description;
         this.chiefEditorID = chiefEditorID;
+        this.keywords = keywords;
     }
 
-    public Book(int ID, String name, String description, int chiefEditorID) {
+    public Book(int ID, String name, String description, int chiefEditorID, String keywords) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;
         this.ID = ID;
         this.chiefEditorID = chiefEditorID;
+        this.keywords = keywords;
     }
 
     public String getName() {
@@ -56,5 +59,13 @@ public class Book implements Serializable {
 
     public void setChiefEditorID(int chiefEditorID) {
         this.chiefEditorID = chiefEditorID;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 }

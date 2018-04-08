@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 
 public class Chapter implements Serializable {
-    private int ID; // 章节编号
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
     private int sectionNumber; // 章节序号
@@ -20,24 +19,6 @@ public class Chapter implements Serializable {
         this.sectionNumber = sectionNumber;
         this.description = description;
         this.content = content;
-    }
-
-    public Chapter(int ID, String name, int bookID, int sectionNumber, String description, String content) {
-        // 插入数据库后构造
-        this.ID = ID;
-        this.name = name;
-        this.bookID = bookID;
-        this.sectionNumber = sectionNumber;
-        this.description = description;
-        this.content = content;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public String getName() {

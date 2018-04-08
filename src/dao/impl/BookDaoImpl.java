@@ -45,7 +45,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE "
-                    + DBUtil.keywordsMatchCondition(keywords));
+                    + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] chapters = getBooks(stm);
             if (chapters != null) return chapters;
         } catch (Exception e) {
@@ -58,10 +58,11 @@ public class BookDaoImpl implements BookDao {
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID) VALUES (?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID,keywords) VALUES (?,?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setInt(3, book.getChiefEditorID());
+            stm.setString(4,book.getKeywords());
             try {
                 stm.executeUpdate();
                 System.out.println("BookDao: 添加书目成功");
@@ -100,7 +101,8 @@ public class BookDaoImpl implements BookDao {
             ArrayList<Book> books = new ArrayList<>();
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("chiefEditorID"));
+                        rs.getString("description"), rs.getInt("chiefEditorID"),
+                        rs.getString("keywords"));
                 books.add(book);
             }
             rs.close();
