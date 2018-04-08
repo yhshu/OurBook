@@ -1,6 +1,6 @@
 package dao;
 
-import model.Movement;
+import model.Activity;
 
 public interface ActivityDao {
     /**
@@ -8,9 +8,9 @@ public interface ActivityDao {
      *@param  name 用户名
      *@return 该用户的动态
      */
-    Movement[]  findByName(String name);
+    Activity[]  findByName(String name);
     /**
      * 添加动态
      */
-    void add (Movement movement);
+    void add (Activity activity);
 }
