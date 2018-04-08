@@ -13,12 +13,17 @@ public class BookServiceImpl implements BookService {
     private ChapterDao chapterDao = new ChapterDaoImpl();
 
     @Override
-    public void add(String name, String description, int chiefEditorID) {
+    public void add(String name, String description, int chiefEditorID, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return;
         }
-        bookDao.add(new Book(name, description, chiefEditorID));
+        bookDao.add(new Book(name, description, chiefEditorID, keywords));
+    }
+
+    @Override
+    public Book[] findByKeywords(String keywords) {
+        return bookDao.findByKeywords(keywords.split(" "));
     }
 
     @Override
@@ -27,17 +32,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Chapter[] findChapterByName(String name) {
-        return chapterDao.findByName(name);
+    public Chapter[] findChapterByKeywords(String keywords) {
+        return chapterDao.findByKeywords(keywords.split(" "));
     }
 
     @Override
-    public Chapter[] findPrev(int chapterID) {
-        return chapterDao.findPrev(chapterID);
+    public Chapter findPrev(Chapter chapter) {
+        return chapterDao.findPrev(chapter.getBookID(), chapter.getSectionNumber());
     }
 
     @Override
-    public Chapter[] findNext(int chapterID) {
-        return chapterDao.findNext(chapterID);
+    public Chapter findNext(Chapter chapter) {
+        return chapterDao.findNext(chapter.getBookID(), chapter.getSectionNumber());
     }
 }

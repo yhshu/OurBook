@@ -22,16 +22,8 @@ public interface ChapterDao {
     /**
      * 根据名称查找章节
      *
-     * @param name 章节名称
+     * @param keywords 章节关键字
      * @return 匹配的所有章节
-     */
-    Chapter[] findByName(String name);
-
-    /**
-     * 根据关键字查找章节
-     *
-     * @param keywords 关键字
-     * @return 匹配的章节
      */
     Chapter[] findByKeywords(String[] keywords);
 
@@ -46,7 +38,7 @@ public interface ChapterDao {
     /**
      * 根据书籍ID和章节序号查找所有匹配的章节
      *
-     * @param bookID 书籍ID
+     * @param bookID        书籍ID
      * @param sectionNumber 章节序号
      * @return 所有匹配的章节
      */
@@ -55,15 +47,18 @@ public interface ChapterDao {
     /**
      * 查找当前章节的前一章节
      *
-     * @param chapterID 当前章节的ID
+     * @param bookID        书籍ID
+     * @param sectionNumber 章节序号
      * @return 当前章节的前一章节
      */
-    Chapter[] findPrev(int chapterID);
+    Chapter findPrev(int bookID, int sectionNumber);
 
     /**
      * 查找当前章节的后一章节
-     * @param chapterID 当前章节的ID
+     *
+     * @param bookID        书籍ID
+     * @param sectionNumber 章节序号
      * @return 当前章节的后一章节
      */
-    Chapter[] findNext(int chapterID);
+    Chapter findNext(int bookID, int sectionNumber);
 }

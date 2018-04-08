@@ -1,5 +1,6 @@
 package service;
 
+import model.Book;
 import model.Chapter;
 
 public interface BookService {
@@ -9,8 +10,17 @@ public interface BookService {
      * @param name          书名
      * @param description   书的简介（可选）
      * @param chiefEditorID 主编用户编号
+     * @param keywords      书的关键字
      */
-    void add(String name, String description, int chiefEditorID);
+    void add(String name, String description, int chiefEditorID,String keywords);
+
+    /**
+     * 根据关键字查找书籍
+     *
+     * @param keywords 书籍关键字
+     * @return
+     */
+    Book[] findByKeywords(String keywords);
 
     /**
      * 查找书籍中的全部章节
@@ -26,20 +36,20 @@ public interface BookService {
      * @param name 章节名
      * @return 名称符合的章节
      */
-    Chapter[] findChapterByName(String name);
+    Chapter[] findChapterByKeywords(String name);
 
     /**
      * 查找当前章节的前一章节
      *
-     * @param chapterID 当前章节的ID
+     * @param chapter 当前章节
      * @return 当前章节的前一章节
      */
-    Chapter[] findPrev(int chapterID);
+    Chapter findPrev(Chapter chapter);
 
     /**
      * 查找当前章节的后一章节
-     * @param chapterID 当前章节的ID
+     * @param chapter 当前章节
      * @return 当前章节的后一章节
      */
-    Chapter[] findNext(int chapterID);
+    Chapter findNext(Chapter chapter);
 }
