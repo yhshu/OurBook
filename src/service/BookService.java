@@ -15,6 +15,14 @@ public interface BookService {
     void add(String name, String description, String chiefEditorName,String keywords);
 
     /**
+     * 根据ID查找书籍
+     *
+     * @param ID 书籍ID
+     * @return 书籍
+     */
+    Book find(int ID);
+
+    /**
      * 根据关键字查找书籍
      *
      * @param keywords 书籍关键字
