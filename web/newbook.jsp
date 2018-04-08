@@ -39,8 +39,11 @@
     <div class="col s5">
         <form action="${pageContext.request.contextPath}/AddBookServlet" method="post">
             <div class="input-field col s12">
+
+                    <i class="material-icons">book</i>
+
                 <input id="bookname" type="text" class="validate"/>
-                <label for="bookname">书名</label>
+                    <label for="bookname">书名</label>
             </div>
             <div class="input-field col s12">
                 <input id="bookDescription" type="text" class="materialize-textarea"/>
@@ -48,7 +51,6 @@
             </div>
             <input type="submit" class="blue btn" value="创建"/>
         </form>
-
     </div>
 </div>
 </body>
