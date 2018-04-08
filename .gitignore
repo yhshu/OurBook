@@ -1,7 +1,7 @@
 
 /apache-tomcat-8.5.29/
 /out/
-/.idea/workspace.xml
+/.idea/
 *.class
 .DS_Store
 .idea/dataSources.local.xml
