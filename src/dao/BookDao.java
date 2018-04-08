@@ -9,7 +9,7 @@ public interface BookDao {
      * @param ID 编码
      * @return 符合编码的书
      */
-    Book findByID(String ID);
+    Book findByID(int ID);
 
     /**
      * 根据书名查找书

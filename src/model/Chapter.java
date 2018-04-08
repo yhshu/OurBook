@@ -8,17 +8,19 @@ public class Chapter implements Serializable {
     private int sectionNumber; // 章节序号
     private String description;
     private String content; // 章节内容地址
+    private String keywords;
 
     public Chapter() {
     }
 
-    public Chapter(String name, int bookID, int sectionNumber, String description, String content) {
+    public Chapter(String name, int bookID, int sectionNumber, String description, String content, String keywords) {
         // 插入数据库前构造
         this.name = name;
         this.bookID = bookID;
         this.sectionNumber = sectionNumber;
         this.description = description;
         this.content = content;
+        this.keywords = keywords;
     }
 
     public String getName() {
@@ -59,5 +61,13 @@ public class Chapter implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 }

@@ -13,11 +13,11 @@ public class BookDaoImpl implements BookDao {
     private Connection conn = null;
 
     @Override
-    public Book findByID(String ID) {
+    public Book findByID(int ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE ID = ?");
-            stm.setString(1, ID);
+            stm.setInt(1, ID);
             Book[] books = getBooks(stm);
             if (books != null) return books[0];
         } catch (Exception e) {
@@ -58,10 +58,10 @@ public class BookDaoImpl implements BookDao {
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorID,keywords) VALUES (?,?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorName,keywords) VALUES (?,?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
-            stm.setInt(3, book.getChiefEditorID());
+            stm.setString(3, book.getChiefEditorName());
             stm.setString(4,book.getKeywords());
             try {
                 stm.executeUpdate();
@@ -102,7 +102,7 @@ public class BookDaoImpl implements BookDao {
             ArrayList<Book> books = new ArrayList<>();
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("chiefEditorID"),
+                        rs.getString("description"), rs.getString("chiefEditorName"),
                         rs.getString("keywords"));
                 books.add(book);
             }
