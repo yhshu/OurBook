@@ -62,7 +62,7 @@ public class BookDaoImpl implements BookDao {
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setString(3, book.getChiefEditorName());
-            stm.setString(4,book.getKeywords());
+            stm.setString(4, book.getKeywords());
             try {
                 stm.executeUpdate();
                 System.out.println("BookDao: 添加书目成功");

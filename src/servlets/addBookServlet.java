@@ -22,10 +22,10 @@ public class AddBookServlet extends BaseServlet {
         String bookName = request.getParameter("bookName");
         String bookDescription = request.getParameter("bookDescription");
         String keywords = request.getParameter("keywords");
-        String chiefEditorName = null; // TODO 获取当前用户的昵称
+        String chiefEditorName = null; // TODO 获取当前用户的用户名
         BookService bookService = new BookServiceImpl();
         try {
-            bookService.add(bookName, bookDescription, chiefEditorName,keywords);
+            bookService.add(bookName, bookDescription, chiefEditorName, keywords);
         } catch (Exception e) {
             request.setAttribute("message", "创建失败");
         }
