@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ChooseBookServlet extends BaseServlet{
+public class ChooseBookServlet extends BaseServlet {
 
     @Override
     public void doGet(HttpServletRequest request,
@@ -22,12 +22,13 @@ public class ChooseBookServlet extends BaseServlet{
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
-        try{
+        try {
             Book book = bookService.find(Integer.parseInt(request.getParameter("id")));
-            request.setAttribute("chapters",bookService.getChapters(book.getID()));
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(""); // TODO dispatch request to jsp
-            requestDispatcher.forward(request,response);
-        }catch (Exception e){
+            request.setAttribute("chapters", bookService.getChapters(book.getID()));
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
+            // TODO dispatch request to jsp
+            requestDispatcher.forward(request, response);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

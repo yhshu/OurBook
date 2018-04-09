@@ -9,10 +9,11 @@ public interface BookService {
      *
      * @param name            书名
      * @param description     书的简介（可选）
-     * @param chiefEditorName 主编用户名
+     * @param chiefEditorName 主编的用户名
      * @param keywords        书的关键字
+     * @return 添加成功 true，添加失败 false
      */
-    void add(String name, String description, String chiefEditorName, String keywords);
+    boolean add(String name, String description, String chiefEditorName, String keywords);
 
     /**
      * 根据ID查找书籍
@@ -26,7 +27,7 @@ public interface BookService {
      * 根据关键字查找书籍
      *
      * @param keywords 书籍关键字
-     * @return
+     * @return 含有关键字的所有书籍
      */
     Book[] findByKeywords(String keywords);
 

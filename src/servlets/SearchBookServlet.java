@@ -23,12 +23,13 @@ public class SearchBookServlet extends BaseServlet {
                        HttpServletResponse response) throws ServletException, IOException {
         String keywords = request.getParameter("keywords");
         BookService bookService = new BookServiceImpl();
-        try{
-            request.setAttribute("books",bookService.findByKeywords(keywords));
-            request.setAttribute("chapters",bookService.findChapterByKeywords(keywords));
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(""); // TODO dispatch request to jsp
-            requestDispatcher.forward(request,response);
-        }catch (Exception e){
+        try {
+            request.setAttribute("books", bookService.findByKeywords(keywords));
+            request.setAttribute("chapters", bookService.findChapterByKeywords(keywords));
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
+            // TODO dispatch request to jsp
+            requestDispatcher.forward(request, response);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

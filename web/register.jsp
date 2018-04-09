@@ -10,11 +10,11 @@
 
     Cookie[] cookies = request.getCookies();
     for (Cookie cookie : cookies) {
-        if (cookie.getName().equals("nickname")) {
-            if (session.getAttribute("nickname") != null) {
+        if (cookie.getName().equals("username")) {
+            if (session.getAttribute("username") != null) {
                 // TODO 登录成功，跳转到主页
                 response.sendRedirect("/homepage.jsp");
-                System.out.println("BaseServlet: 自动登录成功，跳转到个人主页");
+                System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
             }
             break;
         }
@@ -39,8 +39,12 @@
     <div class="col s5">
         <form action="${pageContext.request.contextPath}/RegisterServlet" method="post">
             <div class="input-field col s12">
+                <input id="username" name="username" type="text" class="validate">
+                <label for="username">用户名</label>
+            </div>
+            <div class="input-field col s12">
                 <input id="nickname" name="nickname" type="text" class="validate">
-                <label for="nickname">用户名</label>
+                <label for="nickname">昵称</label>
             </div>
             <div class="input-field col s12">
                 <input id="password" name="password" type="password" class="validate">
@@ -57,7 +61,6 @@
         $(document).ready()
         {
             if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
-
             }
         }
         </script>

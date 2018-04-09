@@ -13,17 +13,23 @@ import service.BookService;
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
-    private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public void add(String name, String description, String chiefEditorName, String keywords) {
+    public boolean add(String name, String description, String chiefEditorName, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
-            return;
+            return false;
         }
-        if (!keywords.contains(chiefEditorName)) keywords += " " + chiefEditorName;
-        if (!keywords.contains(name)) keywords += " " + name;
-        bookDao.add(new Book(name, description, chiefEditorName, keywords));
+        if (!keywords.contains(chiefEditorName)) keywords += " " + chiefEditorName; // 添加主编用户名
+        if (!keywords.contains(name)) keywords += " " + name; // 添加书名
+        try {
+            bookDao.add(new Book(name, description, chiefEditorName, keywords));
+            System.out.println("BookService: 添加书目成功");
+            return true;
+        } catch (Exception e) {
+            System.out.println("BookService: 添加书目失败");
+        }
+        return false;
     }
 
     @Override
