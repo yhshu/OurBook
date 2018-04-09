@@ -15,8 +15,8 @@
             <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
                 <div class="row">
                     <div class="input-field s12">
-                        <input id="nickname" name="nickname" type="text" class="validate">
-                        <label for="nickname">帐号</label>
+                        <input id="username" name="username" type="text" class="validate">
+                        <label for="username">帐号</label>
                     </div>
                 </div>
                 <div class="row">

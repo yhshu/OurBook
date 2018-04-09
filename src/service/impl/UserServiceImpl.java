@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService {
         }
         // 用户名或密码错误
         System.out.println("UserService: 【用户登录】用户名或密码错误");
+        System.out.println("login as " + username + " " + password);
+        System.out.println("Database:" + user.getUsername() + " " + user.getPassword());
         return false;
     }
 }
