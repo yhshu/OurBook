@@ -61,6 +61,7 @@
         $(document).ready()
         {
             if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
+
             }
         }
         </script>
