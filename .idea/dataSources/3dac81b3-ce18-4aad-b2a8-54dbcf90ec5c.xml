@@ -3196,7 +3196,7 @@
       <DataType>varchar(40)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="732" parent="244" name="chiefeditor">
+    <column id="732" parent="244" name="chiefEditor">
       <Position>5</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
@@ -3206,7 +3206,7 @@
       <Unique>1</Unique>
     </index>
     <index id="734" parent="244" name="book_user_username_fk">
-      <ColNames>chiefeditor</ColNames>
+      <ColNames>chiefEditor</ColNames>
     </index>
     <key id="735" parent="244" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
@@ -3217,83 +3217,119 @@
       <ColNames>ID</ColNames>
       <UnderlyingIndexName>book_ID_uindex</UnderlyingIndexName>
     </key>
-    <column id="737" parent="245" name="bookID">
+    <foreign-key id="737" parent="244" name="book_user_username_fk">
+      <ColNames>chiefEditor</ColNames>
+      <RefSchemaName>ourbook</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>username</RefColNames>
+    </foreign-key>
+    <column id="738" parent="245" name="bookID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="738" parent="245" name="sequence">
+    <column id="739" parent="245" name="sequence">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="739" parent="245" name="PRIMARY">
+    <column id="740" parent="245" name="name">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="741" parent="245" name="content">
+      <Position>4</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="742" parent="245" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>bookID
 sequence</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="740" parent="245" name="chapter_book_ID_fk">
+    <foreign-key id="743" parent="245" name="chapter_book_ID_fk">
       <ColNames>bookID</ColNames>
       <RefSchemaName>ourbook</RefSchemaName>
       <RefTableName>book</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="741" parent="246" name="follower">
+    <column id="744" parent="246" name="follower">
       <Position>1</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
-      <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="742" parent="246" name="followee">
+    <column id="745" parent="246" name="followee">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
-      <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="743" parent="246" name="follow_user_username_fk">
+    <index id="746" parent="246" name="follow_follower_index">
       <ColNames>follower</ColNames>
     </index>
-    <index id="744" parent="246" name="follow_user_username_fk2">
+    <index id="747" parent="246" name="follow_user_username_fk_2">
       <ColNames>followee</ColNames>
     </index>
-    <column id="745" parent="247" name="username">
+    <key id="748" parent="246" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>follower
+followee</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="749" parent="246" name="follow_user_username_fk">
+      <ColNames>follower</ColNames>
+      <RefSchemaName>ourbook</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>username</RefColNames>
+    </foreign-key>
+    <foreign-key id="750" parent="246" name="follow_user_username_fk_2">
+      <ColNames>followee</ColNames>
+      <RefSchemaName>ourbook</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>username</RefColNames>
+    </foreign-key>
+    <column id="751" parent="247" name="username">
       <Position>1</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="746" parent="247" name="nickname">
+    <column id="752" parent="247" name="nickname">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="747" parent="247" name="password">
+    <column id="753" parent="247" name="password">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="748" parent="247" name="description">
+    <column id="754" parent="247" name="description">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="749" parent="247" name="user_username_uindex">
+    <index id="755" parent="247" name="user_username_uindex">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="750" parent="247" name="PRIMARY">
+    <index id="756" parent="247" name="user_nickname_index">
+      <ColNames>nickname</ColNames>
+    </index>
+    <key id="757" parent="247" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>username</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="751" parent="247" name="user_username_uindex">
+    <key id="758" parent="247" name="user_username_uindex">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>user_username_uindex</UnderlyingIndexName>
     </key>
