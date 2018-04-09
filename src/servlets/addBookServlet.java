@@ -19,13 +19,13 @@ public class AddBookServlet extends BaseServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         super.doPost(request, response);
-        String bookname = request.getParameter("bookName");
+        String bookName = request.getParameter("bookName");
         String bookDescription = request.getParameter("bookDescription");
         String keywords = request.getParameter("keywords");
-        int chiefEditorID = 0; // TODO 获取当前用户的ID
+        String chiefEditorName = null; // TODO 获取当前用户的昵称
         BookService bookService = new BookServiceImpl();
         try {
-            bookService.add(bookname, bookDescription, chiefEditorID, keywords);
+            bookService.add(bookName, bookDescription, chiefEditorName,keywords);
         } catch (Exception e) {
             request.setAttribute("message", "创建失败");
         }

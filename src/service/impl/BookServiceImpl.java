@@ -27,6 +27,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book find(int ID) {
+        return bookDao.findByID(ID);
+    }
+
+    @Override
     public Book[] findByKeywords(String keywords) {
         return bookDao.findByKeywords(keywords.split(" "));
     }
