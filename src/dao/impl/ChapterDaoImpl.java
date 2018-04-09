@@ -17,12 +17,12 @@ public class ChapterDaoImpl implements ChapterDao {
     public void add(Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm =
-                    conn.prepareStatement("INSERT INTO Chapter (name,bookID,description,content) VALUES (?,?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,keywords) VALUES (?,?,?,?,?)");
             stm.setString(1, chapter.getName());
             stm.setInt(2, chapter.getBookID());
-            stm.setString(3, chapter.getDescription());
-            stm.setString(3, chapter.getContent());
+            stm.setInt(3, chapter.getSequence());
+            stm.setString(4, chapter.getContent());
+            stm.setString(5, chapter.getKeywords());
             try {
                 stm.executeUpdate();
                 System.out.println("ChapterDao: 添加章节成功");
@@ -37,15 +37,17 @@ public class ChapterDaoImpl implements ChapterDao {
     }
 
     @Override
-    public Chapter findByID(int ID) {
+    public Chapter findByPri(int bookID, int sequence) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Chapter WHERE ID = ?");
-            stm.setInt(1, ID);
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ? AND sequence = ?");
+            stm.setInt(1, bookID);
+            stm.setInt(2, sequence);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters[0];
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ChapterDao: 获取章节失败");
         }
         return null;
     }
@@ -54,8 +56,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Chapter WHERE "
-                    + DBUtil.keywordsMatchCondition("keywords", keywords));
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE " + DBUtil.keywordsMatchCondition("keywords", keywords));
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
         } catch (Exception e) {
@@ -68,7 +69,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByBookID(int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ?");
             stm.setInt(1, bookID);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
@@ -76,54 +77,6 @@ public class ChapterDaoImpl implements ChapterDao {
             e.printStackTrace();
         }
         return new Chapter[0];
-    }
-
-    @Override
-    public Chapter[] find(int bookID, int sectionNumber) {
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm =
-                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sectionNumber = ?");
-            stm.setInt(1, bookID);
-            stm.setInt(2, sectionNumber);
-            Chapter[] chapters = getChapters(stm);
-            if (chapters != null) return chapters;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Chapter[0];
-    }
-
-    @Override
-    public Chapter findPrev(int bookID, int sequenceNumber) {
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm =
-                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sequence = ?");
-            stm.setInt(1, bookID);
-            stm.setInt(2, sequenceNumber - 1);
-            Chapter[] chapters = getChapters(stm);
-            if (chapters != null) return chapters[0];
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public Chapter findNext(int bookID, int sequenceNumber) {
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm =
-                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sequence = ?");
-            stm.setInt(1, bookID);
-            stm.setInt(2, sequenceNumber + 1);
-            Chapter[] chapters = getChapters(stm);
-            if (chapters != null) return chapters[0];
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private Chapter[] getChapters(PreparedStatement stm) {

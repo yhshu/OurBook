@@ -12,15 +12,16 @@ public interface ChapterDao {
     void add(Chapter chapter);
 
     /**
-     * 根据编码查找章节
+     * 根据主键查找章节
      *
-     * @param ID 章节ID
-     * @return 匹配的所有章节
+     * @param bookID   书籍ID
+     * @param sequence 章节在书中的0序号
+     * @return 匹配的章节
      */
-    Chapter findByID(int ID);
+    Chapter findByPri(int bookID, int sequence);
 
     /**
-     * 根据名称查找章节
+     * 根据关键字查找章节
      *
      * @param keywords 章节关键字
      * @return 匹配的所有章节
@@ -34,31 +35,4 @@ public interface ChapterDao {
      * @return 书中的所有章节
      */
     Chapter[] findByBookID(int bookID);
-
-    /**
-     * 根据书籍ID和章节序号查找所有匹配的章节
-     *
-     * @param bookID        书籍ID
-     * @param sectionNumber 章节序号
-     * @return 所有匹配的章节
-     */
-    Chapter[] find(int bookID, int sectionNumber);
-
-    /**
-     * 查找当前章节的前一章节
-     *
-     * @param bookID        书籍ID
-     * @param sectionNumber 章节序号
-     * @return 当前章节的前一章节
-     */
-    Chapter findPrev(int bookID, int sectionNumber);
-
-    /**
-     * 查找当前章节的后一章节
-     *
-     * @param bookID        书籍ID
-     * @param sectionNumber 章节序号
-     * @return 当前章节的后一章节
-     */
-    Chapter findNext(int bookID, int sectionNumber);
 }

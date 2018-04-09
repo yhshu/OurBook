@@ -9,24 +9,25 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public boolean register(String nickname, String password) {
-        User user = userDao.find(nickname);
+    public boolean register(String userName, String nickname, String password) {
+        User user = userDao.find(userName);
         if (user != null) { // 用户名已被注册
             return false;
         } else
-            userDao.add(new User(nickname, password));
+            userDao.add(new User(userName, nickname, password));
         return true;
     }
 
     @Override
-    public boolean login(String nickname, String password) {
-        User user = userDao.find(nickname);
-        if (user != null && user.getPassword().equals(password)) { // 用户名与密码匹配
+    public boolean login(String username, String password) {
+        User user = userDao.find(username);
+        if (user != null && user.getPassword().equals(password)) {
+            // 用户名与密码匹配
             System.out.println("UserService: 【用户登录】用户名与密码匹配");
             return true;
-        } else { // 用户名或密码错误
-            System.out.println("UserService: 【用户登录】用户名或密码错误");
         }
+        // 用户名或密码错误
+        System.out.println("UserService: 【用户登录】用户名或密码错误");
         return false;
     }
 }

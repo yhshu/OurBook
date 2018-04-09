@@ -45,9 +45,11 @@
                 <label for="bookname">书名</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="bookDescription" type="text" class="materialize-textarea"
-                          );"></textarea>
+                <textarea id="bookDescription" type="text" class="materialize-textarea"></textarea>
                 <label for="bookDescription">简介（可选）</label>
+            </div>
+            <div class="input-field col s12">
+                <input class="custom-class">
             </div>
             <input type="submit" class="blue btn" value="确认"/>
         </form>

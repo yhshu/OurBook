@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addChapter(String name, int bookID, int sectionNumber, String description, String content, String keywords) {
+    public void addChapter(String name, int bookID, int sequence, String description, String content, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return;
@@ -47,10 +47,13 @@ public class BookServiceImpl implements BookService {
             return;
         }
         Book book = bookDao.findByID(bookID);
-        if (!keywords.contains(book.getName())) keywords += " " + book.getName();
-        if (!keywords.contains(book.getChiefEditorName())) keywords += " " + book.getChiefEditorName();
-        if (!keywords.contains(name)) keywords += " " + name;
-        chapterDao.add(new Chapter(name, bookID, sectionNumber, description, content, keywords));
+        if (!keywords.contains(book.getName()))
+            keywords += " " + book.getName();
+        if (!keywords.contains(book.getChiefEditorName()))
+            keywords += " " + book.getChiefEditorName();
+        if (!keywords.contains(name))
+            keywords += " " + name;
+        chapterDao.add(new Chapter(name, bookID, sequence, content, keywords));
     }
 
     @Override
@@ -61,15 +64,5 @@ public class BookServiceImpl implements BookService {
     @Override
     public Chapter[] findChapterByKeywords(String keywords) {
         return chapterDao.findByKeywords(keywords.split(" "));
-    }
-
-    @Override
-    public Chapter findPrev(Chapter chapter) {
-        return chapterDao.findPrev(chapter.getBookID(), chapter.getSectionNumber());
-    }
-
-    @Override
-    public Chapter findNext(Chapter chapter) {
-        return chapterDao.findNext(chapter.getBookID(), chapter.getSectionNumber());
     }
 }

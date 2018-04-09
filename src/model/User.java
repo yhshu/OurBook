@@ -3,16 +3,30 @@ package model;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String username;
-    private String nickname;
+    private String username; // 用户名
+    private String nickname; // 昵称
     private String password;
     private String description; // 个人简介
+
+    public User(String username, String nickname, String password) {
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+    }
 
     public User(String username, String nickname, String password, String description) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.description = description;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNickname() {

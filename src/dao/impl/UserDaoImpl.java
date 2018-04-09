@@ -16,9 +16,10 @@ public class UserDaoImpl implements UserDao {
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(ID,nickname,password) VALUES (0,?,?)");
-            stm.setString(1, user.getNickname());
-            stm.setString(2, user.getPassword());
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(username,nickname,password) VALUES (?,?,?)");
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getNickname());
+            stm.setString(3, user.getPassword());
             try {
                 stm.executeUpdate();
                 System.out.println("UserDao: 注册成功");
@@ -41,8 +42,7 @@ public class UserDaoImpl implements UserDao {
             try {
                 ResultSet rs = stm.executeQuery();
                 if (rs.next()) {
-                    User user = new User(rs.getString("username"), rs.getString("nickname"),
-                            rs.getString("password"), rs.getString("description"));
+                    User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"));
                     rs.close();
                     stm.close();
                     conn.close(); // 关闭数据库连接
@@ -57,16 +57,16 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    public String[] findFollowing(String ID) {
+    public String[] findFollowing(String follower) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Friend WHERE ID = ?");
-            stm.setString(1, ID);
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");
+            stm.setString(1, follower);
             try {
                 ResultSet rs = stm.executeQuery();
                 ArrayList<String> users = new ArrayList<>();
                 while (rs.next()) {
-                    users.add(rs.getString("nickname"));
+                    users.add(rs.getString("username"));
                 }
                 rs.close();
                 stm.close();

@@ -19,12 +19,13 @@ public class RegisterServlet extends BaseServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         super.doPost(request, response);
+        String username = request.getParameter("username");
         String nickname = request.getParameter("nickname");
         String password = request.getParameter("password");
-        System.out.println("【用户注册】用户名：" + nickname + "，密码：" + password);
+        System.out.println("【用户注册】用户名：" + username + "，昵称：" + nickname + "，密码：" + password);
         UserService userService = new UserServiceImpl();
         try {
-            userService.register(nickname, password);
+            userService.register(username, nickname, password);
             // 注册成功后，请求重定向，跳转到登录界面
             response.sendRedirect("/login.jsp");
         } catch (Exception e) {

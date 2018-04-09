@@ -5,20 +5,15 @@ import java.io.Serializable;
 public class Chapter implements Serializable {
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
-    private int sectionNumber; // 章节序号
-    private String description;
+    private int sequence; // 章节序号
     private String content; // 章节内容地址
     private String keywords;
 
-    public Chapter() {
-    }
-
-    public Chapter(String name, int bookID, int sectionNumber, String description, String content, String keywords) {
+    public Chapter(String name, int bookID, int sequence, String content, String keywords) {
         // 插入数据库前构造
         this.name = name;
         this.bookID = bookID;
-        this.sectionNumber = sectionNumber;
-        this.description = description;
+        this.sequence = sequence;
         this.content = content;
         this.keywords = keywords;
     }
@@ -39,20 +34,12 @@ public class Chapter implements Serializable {
         this.bookID = bookID;
     }
 
-    public int getSectionNumber() {
-        return sectionNumber;
+    public int getSequence() {
+        return sequence;
     }
 
-    public void setSectionNumber(int sectionNumber) {
-        this.sectionNumber = sectionNumber;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
     }
 
     public String getContent() {
