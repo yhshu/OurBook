@@ -16,7 +16,7 @@ public class BookServiceImpl implements BookService {
     private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public void add(String name, String description, int chiefEditorName, String keywords) {
+    public void add(String name, String description, String chiefEditorName, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return;

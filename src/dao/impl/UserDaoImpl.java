@@ -33,15 +33,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User find(String nickname) {
+    public User find(String username) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE nickname = ?");
-            stm.setString(1, nickname);
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
+            stm.setString(1, username);
             try {
                 ResultSet rs = stm.executeQuery();
                 if (rs.next()) {
-                    User user = new User(rs.getInt("ID"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"));
+                    User user = new User(rs.getString("username"), rs.getString("nickname"),
+                            rs.getString("password"), rs.getString("description"));
                     rs.close();
                     stm.close();
                     conn.close(); // 关闭数据库连接

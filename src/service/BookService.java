@@ -11,7 +11,7 @@ public interface BookService {
      * @param chiefEditorName 主编用户名
      * @param keywords        书的关键字
      */
-    void add(String name, String description, int chiefEditorName, String keywords);
+    void add(String name, String description, String chiefEditorName, String keywords);
 
     /**
      * 根据ID查找书籍

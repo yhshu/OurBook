@@ -13,17 +13,17 @@ public interface UserDao {
     /**
      * 查找用户
      *
-     * @param nickname 用户名
+     * @param username 用户名
      * @return 用户名对应的用户
      */
-    User find(String nickname);
+    User find(String username);
 
 
     /**
      * 查找某用户的关注列表
      *
-     * @param ID 用户编号
+     * @param username 用户编号
      * @return 用户正关注的其他用户的用户名
      */
-    String[] findFollowing(String ID);
+    String[] findFollowing(String username);
 }
