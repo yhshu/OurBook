@@ -7,8 +7,9 @@ public interface UserService {
      *
      * @param nickname 用户名
      * @param password 密码
+     * @return 若用户名存在将注册失败 false
      */
-    public void register(String nickname, String password);
+    boolean register(String nickname, String password);
 
     /**
      * 用户登录
@@ -16,6 +17,7 @@ public interface UserService {
      *
      * @param nickname 用户名
      * @param password 密码
+     * @return 登录成功 true，用户名或密码错误 false
      */
-    public void login(String nickname, String password);
+    boolean login(String nickname, String password);
 }

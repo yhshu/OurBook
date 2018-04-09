@@ -21,7 +21,7 @@
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="#!" class="blue-text">我的主页</a></li>
     <li class="divider"></li>
-    <li><a href="#!" class="blue-text">注销</a></li>
+    <li><a href="#!" class="blue-text">退出</a></li>
 </ul>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
@@ -38,18 +38,18 @@
 <div class="container" style="margin-top: 20px">
     <div class="col s5">
         <form action="${pageContext.request.contextPath}/AddBookServlet" method="post">
+            <h4><i class="material-icons">book</i>
+                创建一本书</h4>
             <div class="input-field col s12">
-
-                    <i class="material-icons">book</i>
-
                 <input id="bookname" type="text" class="validate"/>
-                    <label for="bookname">书名</label>
+                <label for="bookname">书名</label>
             </div>
             <div class="input-field col s12">
-                <input id="bookDescription" type="text" class="materialize-textarea"/>
+                <textarea id="bookDescription" type="text" class="materialize-textarea"
+                          );"></textarea>
                 <label for="bookDescription">简介（可选）</label>
             </div>
-            <input type="submit" class="blue btn" value="创建"/>
+            <input type="submit" class="blue btn" value="确认"/>
         </form>
     </div>
 </div>

@@ -99,7 +99,7 @@ public class ChapterDaoImpl implements ChapterDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm =
-                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sequenceNumber = ?");
+                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sequence = ?");
             stm.setInt(1, bookID);
             stm.setInt(2, sequenceNumber - 1);
             Chapter[] chapters = getChapters(stm);
@@ -115,7 +115,7 @@ public class ChapterDaoImpl implements ChapterDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm =
-                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sequenceNumber = ?");
+                    conn.prepareStatement("SELECT * FROM Chapter WHERE bookID = ? AND sequence = ?");
             stm.setInt(1, bookID);
             stm.setInt(2, sequenceNumber + 1);
             Chapter[] chapters = getChapters(stm);

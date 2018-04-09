@@ -6,13 +6,12 @@ import model.Chapter;
 public interface BookService {
     /**
      * 添加书籍
-     *
-     * @param name            书名
+     *  @param name            书名
      * @param description     书的简介（可选）
      * @param chiefEditorName 主编用户名
      * @param keywords        书的关键字
      */
-    void add(String name, String description, String chiefEditorName,String keywords);
+    void add(String name, String description, int chiefEditorName, String keywords);
 
     /**
      * 根据关键字查找书籍

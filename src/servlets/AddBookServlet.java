@@ -25,7 +25,7 @@ public class AddBookServlet extends BaseServlet {
         int chiefEditorID = 0; // TODO 获取当前用户的ID
         BookService bookService = new BookServiceImpl();
         try {
-            bookService.add(bookname, bookDescription, chiefEditorID,keywords);
+            bookService.add(bookname, bookDescription, chiefEditorID, keywords);
         } catch (Exception e) {
             request.setAttribute("message", "创建失败");
         }
