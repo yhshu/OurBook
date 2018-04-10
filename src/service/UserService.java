@@ -21,4 +21,12 @@ public interface UserService {
      * @return 登录成功 true，用户名或密码错误 false
      */
     boolean login(String username, String password);
+
+    /**
+     * 登录后，通过用户名获取昵称
+     *
+     * @param username 用户名
+     * @return 用户昵称
+     */
+    String getNickname(String username);
 }

@@ -25,7 +25,6 @@
     <div class="nav-wrapper blue">
         <a href="#" class="brand-logo">Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="">注册</a></li>
             <li><a href="login.jsp">登录</a></li>
         </ul>
     </div>
@@ -61,7 +60,7 @@
         $(document).ready()
         {
             if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
-
+                // TODO 确认两次密码是否一致
             }
         }
         </script>

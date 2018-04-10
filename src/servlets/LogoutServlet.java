@@ -17,18 +17,16 @@ public class LogoutServlet extends BaseServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        // 删除cookie 以关闭自动登录
+        // 删除所有 cookie，关闭自动登录
         Cookie[] cookies = request.getCookies();
         HttpSession session = request.getSession();
         session.removeAttribute("username");
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("username")) {
-                cookie.setMaxAge(0); // 立即删除 cookie
-                response.addCookie(cookie);
-                response.sendRedirect("/login.jsp");
-                System.out.println("LogoutServlet: 退出成功，跳转到登录页");
-                break;
-            }
+            cookie.setMaxAge(0); // 立即删除 cookie
+            response.addCookie(cookie);
+            System.out.println("LogoutServlet: 退出成功，跳转到登录页");
         }
+        response.sendRedirect("/login.jsp");
     }
 }
+

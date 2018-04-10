@@ -26,4 +26,12 @@ public interface UserDao {
      * @return 用户正关注的其他用户的用户名
      */
     String[] findFollowing(String username);
+
+    /**
+     * 登录后，通过用户名获取昵称
+     *
+     * @param username 用户名
+     * @return 用户昵称
+     */
+    String getNickname(String username);
 }

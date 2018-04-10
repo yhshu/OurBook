@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
         System.out.println("Database:" + user.getUsername() + " " + user.getPassword());
         return false;
     }
+
+    @Override
+    public String getNickname(String username) {
+        return userDao.getNickname(username);
+    }
 }

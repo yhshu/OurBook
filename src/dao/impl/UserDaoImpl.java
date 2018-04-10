@@ -80,4 +80,28 @@ public class UserDaoImpl implements UserDao {
         }
         return null;
     }
+
+    @Override
+    public String getNickname(String username) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT nickname FROM user WHERE username = ?");
+            stm.setString(1, username);
+            try {
+                ResultSet rs = stm.executeQuery();
+                String nickname = null;
+                while (rs.next())
+                    nickname = rs.getString("nickname");
+                rs.close();
+                stm.close();
+                conn.close();
+                return nickname;
+            } catch (Exception el) {
+                System.out.println("UserDao: 通过用户名获取昵称失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

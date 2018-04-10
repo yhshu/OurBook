@@ -27,20 +27,25 @@ public class LoginServlet extends BaseServlet {
         UserService userService = new UserServiceImpl();
         // TODO 完善登录逻辑
         userService.login(username, password);
-        Cookie cookie_username = new Cookie("username", username);
-        cookie_username.setMaxAge(7 * 24 * 60 * 60);
-        cookie_username.setPath("/");
-        response.addCookie(cookie_username);
+        final int maxAge = 7 * 24 * 60 * 60;
+        Cookie c_username = new Cookie("username", username);
+        c_username.setMaxAge(maxAge);
+        c_username.setPath("/");
+        response.addCookie(c_username);
+        Cookie c_nickname = new Cookie("nickname", userService.getNickname(username));
+        c_nickname.setMaxAge(maxAge);
+        c_nickname.setPath("/");
+        response.addCookie(c_nickname);
         // 首次登录成功后，将用户名保存到 session 中
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
         final int maxInactiveInterval = 7 * 24 * 60 * 60;
         session.setMaxInactiveInterval(maxInactiveInterval);
         // 将 JSESSIONID 持久化
-        Cookie cookie_JSESSIONID = new Cookie("JSESSIONID", session.getId());
-        cookie_JSESSIONID.setMaxAge(maxInactiveInterval);
-        cookie_JSESSIONID.setPath("/");
-        response.addCookie(cookie_JSESSIONID);
+        Cookie c_JSESSIONID = new Cookie("JSESSIONID", session.getId());
+        c_JSESSIONID.setMaxAge(maxInactiveInterval);
+        c_JSESSIONID.setPath("/");
+        response.addCookie(c_JSESSIONID);
         // 登录成功后，跳转到个人主页
         response.sendRedirect("/homepage.jsp");
     }
