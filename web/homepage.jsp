@@ -6,7 +6,7 @@
 </head>
 
 <body>
-
+<%@ include file="nav.jsp" %>
 <div class="row"> <!--个人信息-->
 </div>
 

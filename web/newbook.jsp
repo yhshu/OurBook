@@ -13,8 +13,8 @@
         <form action="${pageContext.request.contextPath}/AddBookServlet" method="post">
             <h4><i class="material-icons">book</i>创建一本书</h4>
             <div class="input-field col s12">
-                <input id="bookname" name="bookname" type="text" class="validate" data-length="40"/>
-                <label for="bookname">书名</label>
+                <input id="bookName" name="bookName" type="text" class="validate" data-length="40"/>
+                <label for="bookName">书名</label>
             </div>
             <div class="input-field col s12">
                 <textarea id="bookDescription" name="bookDescription" type="text" class="materialize-textarea"

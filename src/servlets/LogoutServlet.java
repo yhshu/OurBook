@@ -26,6 +26,7 @@ public class LogoutServlet extends BaseServlet {
             response.addCookie(cookie);
             System.out.println("LogoutServlet: 退出成功，跳转到登录页");
         }
+        response.flushBuffer();
         response.sendRedirect("/login.jsp");
     }
 }

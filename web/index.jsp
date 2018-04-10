@@ -5,6 +5,6 @@
     <title>$Title$</title>
 </head>
 <body>
-$END$
+index.jsp
 </body>
 </html>

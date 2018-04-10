@@ -24,12 +24,15 @@
     // 通过cookie 修改id 为 username_display 和 nickname_display 的元素
     $(document).ready()
     {
-        document.getElementById("username_display").innerText = getCookie('nickname') + " (" + getCookie('username') + ")";
+        var nickname = getCookie('nickname');
+        var username = getCookie('username');
+        if (nickname !== "" && username !== "")
+            document.getElementById("username_display").innerText = nickname + " (" + username + ")";
     }
 </script>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
-        <a href="#!" class="brand-logo">Logo</a>
+        <a href="#!" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         <ul class="right hide-on-med-and-down">
             <li><a href="">Components</a></li>
             <!-- 右上角下拉列表 -->

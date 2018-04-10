@@ -9,3 +9,7 @@
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/materialize.js"></script>
+
+<%
+    // TODO 若本地存在cookie，实现自动登录
+%>

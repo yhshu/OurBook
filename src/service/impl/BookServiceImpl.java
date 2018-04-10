@@ -15,7 +15,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean add(String name, String description, String chiefEditorName, String keywords) {
         if (name == null || name.length() == 0) {
-            System.out.println("BookService: 书名为空");
+            System.out.println("BookService: 书名为空，添加失败");
             return false;
         }
         if (!keywords.contains(chiefEditorName)) keywords += " " + chiefEditorName; // 添加主编用户名

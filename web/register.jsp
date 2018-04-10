@@ -60,7 +60,7 @@
         $(document).ready()
         {
             if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
-                // TODO 确认两次密码是否一致
+                // TODO 确认两次密码一致的逻辑
             }
         }
         </script>
