@@ -18,10 +18,6 @@
                           data-length="100"></textarea>
             <label for="chapterContent">内容</label>
         </div>
-        <div class="input-field col s12">
-            <input id="keywords" name="keywords" type="text" class="validate" data-length="40">
-            <label for="keywords">关键词</label>
-        </div>
         <input type="submit" class="blue btn" value="确认"/>
     </form>
 </div>

@@ -17,6 +17,6 @@
     <div class="col"> <!--关注列表-->
     </div>
 </div>
-
+<a id="newbook" class="btn blue" href="/newbook.jsp">创作新书</a>
 </body>
 </html>
