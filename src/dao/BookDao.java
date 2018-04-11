@@ -30,10 +30,10 @@ public interface BookDao {
     /**
      * 根据作者ID查找书
      *
-     * @param chiefEditorID 作者ID
+     * @param chiefEditor 作者用户名
      * @return 符合作者ID的全部书
      */
-    Book[] findByUserID(String chiefEditorID);
+    Book[] findByUserID(String chiefEditor);
 
     /**
      * 添加书目

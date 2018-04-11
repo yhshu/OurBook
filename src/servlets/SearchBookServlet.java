@@ -23,6 +23,7 @@ public class SearchBookServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
+        super.doPost(request, response);
         String keywords = request.getParameter("keywords");
         String searchType = request.getParameter("search_type");
         if (searchType == null) searchType = "book";

@@ -19,15 +19,17 @@ public class AddBookServlet extends BaseServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
+        super.doPost(request, response);
         BookService bookService = new BookServiceImpl();
         HttpSession session = request.getSession();
         String bookName = request.getParameter("bookName");
         String bookDescription = request.getParameter("bookDescription");
-        // String chiefEditorName = (String) session.getAttribute("username"); // TODO test
+        //  String chiefEditor = (String) session.getAttribute("username"); // TODO test
         String keywords = request.getParameter("keywords");
         try {
             bookService.add(bookName, bookDescription, "1", keywords);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("AddBookServlet: 添加书目失败");
         }
         // TODO 添加完成后，请求重定向，查看本书

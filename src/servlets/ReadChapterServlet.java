@@ -20,6 +20,7 @@ public class ReadChapterServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
+        super.doPost(request, response);
         BookService bookService = new BookServiceImpl();
         try {
             Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("bookID")),

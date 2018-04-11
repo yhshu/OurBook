@@ -23,6 +23,7 @@ public class ChooseBookServlet extends BaseServlet {
                        HttpServletResponse response) throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
         try {
+            super.doPost(request, response);
             Book book = bookService.find(Integer.parseInt(request.getParameter("id")));
             request.setAttribute("chapters", bookService.getChapters(book.getID()));
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("");

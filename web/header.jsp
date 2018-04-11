@@ -12,5 +12,7 @@
 <script type="text/javascript" src="js/myJS.js"></script>
 
 <%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
     // TODO 若本地存在cookie，实现自动登录
 %>

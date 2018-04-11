@@ -13,15 +13,15 @@ public class BookServiceImpl implements BookService {
     private ChapterDao chapterDao = new ChapterDaoImpl();
 
     @Override
-    public boolean add(String name, String description, String chiefEditorName, String keywords) {
+    public boolean add(String name, String description, String chiefEditor, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空，添加失败");
             return false;
         }
-        if (!keywords.contains(chiefEditorName)) keywords += " " + chiefEditorName; // 添加主编用户名
+        if (!keywords.contains(chiefEditor)) keywords += " " + chiefEditor; // 添加主编用户名
         if (!keywords.contains(name)) keywords += " " + name; // 添加书名
         try {
-            bookDao.add(new Book(name, description, chiefEditorName, keywords));
+            bookDao.add(new Book(name, description, chiefEditor, keywords));
             System.out.println("BookService: 添加书目成功");
             return true;
         } catch (Exception e) {
@@ -58,8 +58,8 @@ public class BookServiceImpl implements BookService {
         Book book = bookDao.findByID(bookID);
         if (!keywords.contains(book.getName()))
             keywords += " " + book.getName();
-        if (!keywords.contains(book.getChiefEditorName()))
-            keywords += " " + book.getChiefEditorName();
+        if (!keywords.contains(book.getChiefEditor()))
+            keywords += " " + book.getChiefEditor();
         if (!keywords.contains(name))
             keywords += " " + name;
         chapterDao.add(new Chapter(name, bookID, sequence, content, keywords));

@@ -6,8 +6,6 @@
     <title>用户注册 - OurBook</title>
 </head>
 <%
-    request.setCharacterEncoding("UTF-8");
-
     Cookie[] cookies = request.getCookies();
     for (Cookie cookie : cookies) {
         if (cookie.getName().equals("username")) {
