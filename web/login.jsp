@@ -27,7 +27,7 @@
                 </div>
                 <br>
                 <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
-                <input type="submit" class="waves-effect waves-light btn blue right" value="登录"/>
+                <input type="submit" class="white-text waves-effect waves-light btn blue right " value="登录"/>
             </form>
         </div>
     </div>
