@@ -8,27 +8,15 @@
     <li><a href="/LogoutServlet" class="blue-text">退出</a></li>
 </ul>
 <script>
-    function getCookie(c_name) {
-        if (document.cookie.length > 0) {
-            c_start = document.cookie.indexOf(c_name + "=")
-            if (c_start != -1) {
-                c_start = c_start + c_name.length + 1
-                c_end = document.cookie.indexOf(";", c_start)
-                if (c_end == -1) c_end = document.cookie.length
-                return unescape(document.cookie.substring(c_start, c_end))
-            }
-        }
-        return ""
-    }
-
-    // 通过cookie 修改id 为 username_display 和 nickname_display 的元素
+    // 通过 cookie 修改下拉列表中的 username_display
     $(document).ready(function () {
         var nickname = getCookie('nickname');
         var username = getCookie('username');
         if (nickname !== "" && username !== "")
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
+        // 搜索框点叉，清除框中内容
         var search = document.getElementById('search');
-        $('#search-delete').on('click',function () {
+        $('#search-delete').on('click', function () {
             $('#search').val('');
         })
     });
@@ -41,7 +29,7 @@
         <div class="nav-wrapper col s6" style="padding: 5px">
             <form action="search.jsp">
                 <div class="input-field blue lighten-1">
-                    <input id="search" type="search" required>
+                    <input id="search" type="search" placeholder="搜索" required>
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                     <i class="material-icons" id="search-delete">close</i>
                 </div>
