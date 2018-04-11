@@ -17,7 +17,7 @@
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
 
         // 搜索框点叉，清除框中内容
-        var search_type = <%request.getParameter("searchType");%>;
+        var search_type = <%=request.getParameter("searchType")%>;
         $('#search-delete').on('click', function () {
             $('#search').val('');
         });
@@ -29,7 +29,9 @@
         $(document).on('click', function () {
             $('#nav_search_type').hide();
         });
-        alert(search_type);
+        if(search_type===null||search_type==='book'){
+            $('#search_book').addClass('')
+        }
     });
 </script>
 
@@ -61,8 +63,8 @@
     <script>$(".dropdown-trigger").dropdown();</script>
     <div class="blue" id="nav_search_type">
         <ul class="hide-on-med-and-down" style="position: relative;height: 64px;width: 182px;margin: auto">
-            <li class="active" id="search_book"><a href="">书籍</a></li>
-            <li> id="search_chapter"<a href="">章节</a></li>
+            <li id="search_book"><a href="">书籍</a></li>
+            <li id="search_chapter"><a href="">章节</a></li>
             <li id="search_user"><a href="">用户</a></li>
         </ul>
     </div>
