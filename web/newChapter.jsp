@@ -9,6 +9,7 @@
 <div class="container">
     <form action="${pageContext.request.contextPath}/AddBookServlet" method="post">
         <input id="chapterName" name="chapterName">
+        <label for="chapterName">标题</label>
         <input type="submit" class="blue btn" value="确认"/>
     </form>
 </div>
