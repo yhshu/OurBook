@@ -24,11 +24,11 @@ public class SearchBookServlet extends BaseServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         String keywords = request.getParameter("keywords");
-        String type = request.getParameter("type");
-        if (type == null) type = "book";
+        String searchType = request.getParameter("search_type");
+        if (searchType == null) searchType = "book";
         BookService bookService = new BookServiceImpl();
         try {
-            switch (type) {
+            switch (searchType) {
                 case "book":
                     request.setAttribute("books", bookService.findByKeywords(keywords));
                     break;

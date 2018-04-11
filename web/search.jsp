@@ -15,14 +15,14 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <%
-    String type = request.getParameter("type");
-    if (type == null || type.equals("book")) {
+    String searchType = request.getParameter("search_type");
+    if (searchType == null || searchType.equals("book")) {
         for (Book book : (Book[]) request.getAttribute("books")) {%>
 <div><%=book.getName()%>
 </div>
 <%
     }
-} else if (type == "chapter") {
+} else if (searchType.equals("chapter")) {
     for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
 %>
 // TODO: add chapter info
