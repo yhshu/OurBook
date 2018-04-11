@@ -23,7 +23,7 @@
 <body>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
-        <a href="#" class="brand-logo">Logo</a>
+        <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="login.jsp">登录</a></li>
         </ul>
