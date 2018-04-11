@@ -15,14 +15,23 @@
         if (nickname !== "" && username !== "")
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
         // 搜索框点叉，清除框中内容
-        var search = document.getElementById('search');
+        var search_type = <%request.getParameter("searchType");%>;
         $('#search-delete').on('click', function () {
             $('#search').val('');
-        })
+        });
+        $('#nav_search_type').hide();
+        $('#search').on('click', function (event) {
+            $('#nav_search_type').show();
+            event.stopPropagation();
+        });
+        $(document).on('click', function () {
+            $('#nav_search_type').hide();
+        });
+        alert(search_type);
     });
 </script>
 <nav> <!-- 顶部栏 -->
-    <div class="nav-wrapper blue row">
+    <div class="nav-wrapper blue row" style="margin: 0">
         <div class="col s3">
             <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
@@ -45,4 +54,11 @@
         </div>
     </div>
     <script>$(".dropdown-trigger").dropdown();</script>
+    <div class="blue" id="nav_search_type">
+        <ul class="hide-on-med-and-down" style="position: relative;height: 64px;width: 182px;margin: auto">
+            <li class="active" id="search_book"><a href="">书籍</a></li>
+            <li> id="search_chapter"<a href="">章节</a></li>
+            <li id="search_user"><a href="">用户</a></li>
+        </ul>
+    </div>
 </nav>
