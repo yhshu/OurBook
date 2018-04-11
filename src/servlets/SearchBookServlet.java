@@ -6,10 +6,12 @@ import service.impl.BookServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/SearchBookServlet")
 public class SearchBookServlet extends BaseServlet {
 
     @Override
@@ -27,15 +29,14 @@ public class SearchBookServlet extends BaseServlet {
         BookService bookService = new BookServiceImpl();
         try {
             switch (type) {
+                case "book":
+                    request.setAttribute("books", bookService.findByKeywords(keywords));
+                    break;
                 case "chapter":
                     request.setAttribute("chapters", bookService.findChapterByKeywords(keywords));
                     break;
-                default:
-                    request.setAttribute("books", bookService.findByKeywords(keywords));
-                    break;
             }
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
-            // TODO dispatch request to jsp
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("search.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

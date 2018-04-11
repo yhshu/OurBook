@@ -15,18 +15,18 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <%
-    switch (request.getParameter("type")) {
-        case "book":
-            for (Book book : (Book[]) request.getAttribute("books")) {
+    String type = request.getParameter("type");
+    if (type == null || type.equals("book")) {
+        for (Book book : (Book[]) request.getAttribute("books")) {%>
+<div><%=book.getName()%>
+</div>
+<%
+    }
+} else if (type == "chapter") {
+    for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
 %>
-<div>a</div>
+// TODO: add chapter info
 <% }
-    break;
-    case "chapter":
-        for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {%>
-<div></div>
-<% }
-    break;
 }%>
 </body>
 </html>

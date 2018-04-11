@@ -28,7 +28,7 @@
         if (nickname !== "" && username !== "")
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
         var search = document.getElementById('search');
-        $('#search-delete').on('click',function () {
+        $('#search-delete').on('click', function () {
             $('#search').val('');
         })
     });
@@ -39,9 +39,9 @@
             <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
         <div class="nav-wrapper col s6" style="padding: 5px">
-            <form action="search.jsp">
+            <form action="SearchBookServlet">
                 <div class="input-field blue lighten-1">
-                    <input id="search" type="search" required>
+                    <input id="search" type="search" name="keywords" required>
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                     <i class="material-icons" id="search-delete">close</i>
                 </div>

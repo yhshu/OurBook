@@ -46,8 +46,8 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords));
-            Book[] chapters = getBooks(stm);
-            if (chapters != null) return chapters;
+            Book[] books = getBooks(stm);
+            if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,7 +102,7 @@ public class BookDaoImpl implements BookDao {
             ArrayList<Book> books = new ArrayList<>();
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
-                        rs.getString("description"), rs.getString("chiefEditorName"),
+                        rs.getString("description"), rs.getString("chiefEditor"),
                         rs.getString("keywords"));
                 books.add(book);
             }
