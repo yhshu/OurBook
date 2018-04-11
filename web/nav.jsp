@@ -31,14 +31,27 @@
     }
 </script>
 <nav> <!-- 顶部栏 -->
-    <div class="nav-wrapper blue">
-        <a href="#!" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="">Components</a></li>
-            <!-- 右上角下拉列表 -->
-            <li><a class="dropdown-trigger" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a>
-            </li>
-        </ul>
+    <div class="nav-wrapper blue row">
+        <div class="col s4">
+            <a href="#!" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+        </div>
+        <div class="nav-wrapper col s4" style="padding: 5px">
+            <form>
+                <div class="input-field blue lighten-1">
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
+        </div>
+        <div class="col s4">
+            <ul class="right hide-on-med-and-down">
+                <li><a href="">Components</a></li>
+                <!-- 右上角下拉列表 -->
+                <li><a class="dropdown-trigger" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a>
+                </li>
+            </ul>
+        </div>
     </div>
     <script>$(".dropdown-trigger").dropdown();</script>
 </nav>
