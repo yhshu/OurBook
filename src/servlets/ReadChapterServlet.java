@@ -1,6 +1,6 @@
 package servlets;
 
-import model.Book;
+import model.Chapter;
 import service.BookService;
 import service.impl.BookServiceImpl;
 
@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class SearchBookServlet extends BaseServlet {
-
+public class ReadChapterServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -21,19 +20,11 @@ public class SearchBookServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        String keywords = request.getParameter("keywords");
-        String type = request.getParameter("type");
-        if (type == null) type = "book";
         BookService bookService = new BookServiceImpl();
         try {
-            switch (type) {
-                case "chapter":
-                    request.setAttribute("chapters", bookService.findChapterByKeywords(keywords));
-                    break;
-                default:
-                    request.setAttribute("books", bookService.findByKeywords(keywords));
-                    break;
-            }
+            Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("bookID")),
+                    Integer.parseInt(request.getParameter("sequence")));
+            request.setAttribute("chapter", chapter);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
             // TODO dispatch request to jsp
             requestDispatcher.forward(request, response);

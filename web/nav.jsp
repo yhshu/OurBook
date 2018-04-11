@@ -22,29 +22,32 @@
     }
 
     // 通过cookie 修改id 为 username_display 和 nickname_display 的元素
-    $(document).ready()
-    {
+    $(document).ready(function () {
         var nickname = getCookie('nickname');
         var username = getCookie('username');
         if (nickname !== "" && username !== "")
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
-    }
+        var search = document.getElementById('search');
+        $('#search-delete').on('click',function () {
+            $('#search').val('');
+        })
+    });
 </script>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue row">
-        <div class="col s4">
-            <a href="#!" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+        <div class="col s3">
+            <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
-        <div class="nav-wrapper col s4" style="padding: 5px">
-            <form>
+        <div class="nav-wrapper col s6" style="padding: 5px">
+            <form action="search.jsp">
                 <div class="input-field blue lighten-1">
                     <input id="search" type="search" required>
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                    <i class="material-icons" id="search-delete">close</i>
                 </div>
             </form>
         </div>
-        <div class="col s4">
+        <div class="col s3">
             <ul class="right hide-on-med-and-down">
                 <li><a href="">Components</a></li>
                 <!-- 右上角下拉列表 -->

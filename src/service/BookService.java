@@ -32,6 +32,15 @@ public interface BookService {
     Book[] findByKeywords(String keywords);
 
     /**
+     * 查找章节
+     *
+     * @param bookID 书籍序号
+     * @param sequence 章节号
+     * @return 章节
+     */
+    Chapter findChapter(int bookID,int sequence);
+
+    /**
      * @param name          章节名
      * @param bookID        书名
      * @param sectionNumber 章节序号

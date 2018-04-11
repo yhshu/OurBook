@@ -41,6 +41,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Chapter findChapter(int bookID, int sequence) {
+        return chapterDao.findByPri(bookID, sequence);
+    }
+
+    @Override
     public void addChapter(String name, int bookID, int sequence, String description, String content, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
