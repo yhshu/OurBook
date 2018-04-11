@@ -83,3 +83,11 @@ textarea.materialize-textarea:focus:not([readonly]) {
     -webkit-box-shadow: 0 1px 0 0 #29b6f6;
     box-shadow: 0 1px 0 0 #29b6f6;
 }
+
+.material-icons {
+    display: inline-block;
+    font-size: inherit;
+    line-height: inherit;
+    vertical-align: middle;
+    transform: translateY(-.1em);
+}

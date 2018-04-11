@@ -29,8 +29,10 @@
         <div class="nav-wrapper col s6" style="padding: 5px">
             <form action="SearchBookServlet">
                 <div class="input-field blue lighten-1">
-                    <input id="search" type="search" name="keywords" placeholder="搜索" required>
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <input id="search" type="search" name="keywords" placeholder="搜索"
+                           required>
+                    <label class="label-icon" for="search"><i class="material-icons"
+                                                              style="vertical-align:bottom">search</i></label>
                     <i class="material-icons" id="search-delete">close</i>
                 </div>
             </form>
