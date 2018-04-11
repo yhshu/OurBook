@@ -30,7 +30,11 @@
             $('#nav_search_type').hide();
         });
         if(search_type===null||search_type==='book'){
-            $('#search_book').addClass('')
+            $('#search_book').addClass('active');
+        } else if(search_type==='chapter'){
+            $('#search_chapter').addClass('active');
+        } else if(search_type==='user'){
+            $('#search_user').addClass('active');
         }
     });
 </script>
