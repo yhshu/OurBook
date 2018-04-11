@@ -7,13 +7,15 @@
     <li class="divider"></li>
     <li><a href="/LogoutServlet" class="blue-text">退出</a></li>
 </ul>
+
 <script>
-    // 通过 cookie 修改下拉列表中的 username_display
     $(document).ready(function () {
+        // 通过 cookie 修改下拉列表中的 username_display
         var nickname = getCookie('nickname');
         var username = getCookie('username');
         if (nickname !== "" && username !== "")
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
+
         // 搜索框点叉，清除框中内容
         var search_type = <%request.getParameter("searchType");%>;
         $('#search-delete').on('click', function () {
@@ -30,6 +32,7 @@
         alert(search_type);
     });
 </script>
+
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue row" style="margin: 0">
         <div class="col s3">
