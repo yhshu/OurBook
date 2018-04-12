@@ -13,10 +13,10 @@ public interface BookService {
      * @param keywords    书的关键字
      * @return 添加成功 true，添加失败 false
      */
-    boolean add(String name, String description, String chiefEditor, String keywords);
+    boolean addBook(String name, String description, String chiefEditor, String keywords);
 
     /**
-     * 根据ID查找书籍
+     * 根据书籍ID查找书籍
      *
      * @param ID 书籍ID
      * @return 书籍
@@ -41,15 +41,6 @@ public interface BookService {
     Chapter findChapter(int bookID, int sequence);
 
     /**
-     * @param name          章节名
-     * @param bookID        书名
-     * @param sectionNumber 章节序号
-     * @param description   简介
-     * @param content       章节内容URL
-     */
-    void addChapter(String name, int bookID, int sectionNumber, String description, String content);
-
-    /**
      * 查找书籍中的全部章节
      *
      * @param bookID 书籍编号
@@ -64,4 +55,15 @@ public interface BookService {
      * @return 章节
      */
     Chapter[] findChapterByKeywords(String keywords);
+
+    /**
+     * 添加章节
+     *
+     * @param name     章节名
+     * @param bookID   书的编号
+     * @param sequence 章节序号
+     * @param content  章节内容，将以文件形式存储于 web/resources/book
+     * @return 添加成功 true，添加失败 false
+     */
+    boolean addChapter(String name, int bookID, int sequence, String content);
 }

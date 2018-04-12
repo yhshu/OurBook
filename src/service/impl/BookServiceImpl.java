@@ -8,12 +8,14 @@ import model.Book;
 import model.Chapter;
 import service.BookService;
 
+import java.io.*;
+
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
 
     @Override
-    public boolean add(String name, String description, String chiefEditor, String keywords) {
+    public boolean addBook(String name, String description, String chiefEditor, String keywords) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空，添加失败");
             return false;
@@ -46,16 +48,32 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addChapter(String name, int bookID, int sequence, String description, String content) {
+    public boolean addChapter(String name, int bookID, int sequence, String content) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
-            return;
+            return false;
         }
         if (content == null || content.length() == 0) {
             System.out.println("BookService: 内容URL为空");
-            return;
+            return false;
         }
-        chapterDao.add(new Chapter(name, bookID, sequence, content));
+        // TODO 将章节内容存放在文件中，并将文件路径插入数据库
+        try {
+            File file = new File("web/resources/book"); // TODO
+            PrintStream printStream = new PrintStream(new FileOutputStream(file));
+            printStream.println(content);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            chapterDao.add(new Chapter(name, bookID, sequence, content));
+            return true;
+        } catch (Exception e) {
+            System.out.println("BookService: 添加章节失败");
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

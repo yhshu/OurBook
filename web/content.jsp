@@ -7,7 +7,7 @@
 <%BookService bookService = new BookServiceImpl();%>
 <% Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")),
         Integer.parseInt(request.getParameter("sequence")));%>
-<html lang="zh-cmn-Hans" style="height: 100%">
+<html lang="zh-cmn-Hans" style="height: 100%;">
 <head>
     <%@ include file="header.jsp" %>
 </head>

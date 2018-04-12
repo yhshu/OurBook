@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@ include file="header.jsp" %>
@@ -15,11 +15,16 @@
         </div>
         <div class="input-field col s12">
                 <textarea id="chapterContent" name="chapterContent" type="text" class="materialize-textarea"
-                          data-length="100"></textarea>
+                          data-length="5000"></textarea>
             <label for="chapterContent">内容</label>
         </div>
         <input type="submit" class="blue btn" value="确认"/>
     </form>
+    <script>
+        $(document).ready(function () {
+            $('#chapterContent').characterCounter();
+        });
+    </script>
 </div>
 </body>
 </html>

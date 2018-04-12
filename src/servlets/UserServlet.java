@@ -62,20 +62,4 @@ public class UserServlet extends BaseServlet {
         // 登录成功后，跳转到个人主页
         response.sendRedirect("/homepage.jsp");
     }
-
-    public void logout(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // TODO 重写servlet后，退出登录尚未测试
-        // 删除所有 cookie，关闭自动登录
-        Cookie[] cookies = request.getCookies();
-        HttpSession session = request.getSession();
-        session.removeAttribute("username");
-        for (Cookie cookie : cookies) {
-            cookie.setMaxAge(0); // 立即删除 cookie
-            response.addCookie(cookie);
-            System.out.println("UserServlet: 退出成功，跳转到登录页");
-        }
-        response.flushBuffer();
-        response.sendRedirect("/login.jsp");
-    }
 }

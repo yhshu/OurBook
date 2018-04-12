@@ -28,13 +28,13 @@ public class BookServlet extends BaseServlet {
         //  String chiefEditor = (String) session.getAttribute("username"); // TODO test
         String keywords = request.getParameter("keywords");
         try {
-            bookService.add(bookName, bookDescription, "1", keywords);
+            bookService.addBook(bookName, bookDescription, "1", keywords);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
         }
         // TODO 添加完成后，请求重定向，查看本书
-        response.sendRedirect("/homepage.jsp");
+        response.sendRedirect("/book.jsp");
     }
 
     public void search(HttpServletRequest request, HttpServletResponse response)

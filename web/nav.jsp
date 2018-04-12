@@ -48,9 +48,11 @@
 
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue row" style="margin: 0">
+        <!-- Logo -->
         <div class="col s3">
             <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
+        <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">
             <form id="search_form" action="BookServlet" method="post">
                 <div class="input-field blue lighten-1">
