@@ -1,10 +1,13 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Book" %>
 <%@ page import="service.BookService" %>
 <%@ page import="service.impl.BookServiceImpl" %>
 <%@ page import="model.Chapter" %>
-<%BookService bookService = new BookServiceImpl();%>
-<%Book book = bookService.find(Integer.parseInt(request.getParameter("id")));%>
-<%Chapter[] chapters = bookService.getChapters(book.getID());%>
+<%
+    BookService bookService = new BookServiceImpl();
+    Book book = bookService.find(Integer.parseInt(request.getParameter("id")));
+    Chapter[] chapters = bookService.getChapters(book.getID());
+%>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -20,9 +23,11 @@
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
-<%for (Chapter chapter : chapters) {%>
-<div><a><%=chapter.getName()%>
-</a></div>
-<%}%>
+<div class="container row" style="margin-top: 100px">
+    <%for (Chapter chapter : chapters) {%>
+    <div><a href="<%=chapter.getContent()%>"><%=chapter.getName()%>
+    </a></div>
+    <%}%>
+</div>
 </body>
 </html>

@@ -27,29 +27,22 @@
             $('#search').val('');
         });
         if (search_value === undefined) $('#nav_search_type').hide();
-        else $('#search').on('click', function (event) {
-            $('#nav_search_type').show();
-            event.stopPropagation();
-        });
-        $('#nav_search_type').on('click',function (event) {
-            event.stopPropagation();
-        });
-        $(document).on('click', function () {
-            $('#nav_search_type').hide();
-        });
         if (search_type === null || search_type === 'book') {
+            $('#search_type').val('book');
             $('#search_book_button').addClass('active');
-        } else if (search_type === 'chapter') {
-            $('#search_chapter_button').addClass('active');
+        } else if (search_type === 'article') {
+            $('#search_type').val('article');
+            $('#search_article_button').addClass('active');
         } else if (search_type === 'user') {
+            $('#search_type').val('user');
             $('#search_user_button').addClass('active');
         }
         $('#search_book').attr('href',
-            "${pageContext.request.contextPath}/SearchBookServlet?search_type=book&keywords=" + search_value);
-        $('#search_chapter').attr('href',
-            "${pageContext.request.contextPath}/SearchBookServlet?search_type=chapter&keywords=" + search_value);
+            "${pageContext.request.contextPath}/search.jsp?search_type=book&keywords=" + search_value);
+        $('#search_article').attr('href',
+            "${pageContext.request.contextPath}/search.jsp?search_type=article&keywords=" + search_value);
         $('#search_user').attr('href',
-            "${pageContext.request.contextPath}/SearchBookServlet?search_type=user&keywords=" + search_value);
+            "${pageContext.request.contextPath}/search.jsp?search_type=user&keywords=" + search_value);
     });
 </script>
 
@@ -59,7 +52,7 @@
             <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
         <div class="nav-wrapper col s6" style="padding: 5px">
-            <form id="search_form" action="SearchBookServlet">
+            <form id="search_form" action="BookServlet" method="post">
                 <div class="input-field blue lighten-1">
                     <input id="search" type="search" name="keywords" placeholder="搜索"
                            required>
@@ -67,6 +60,7 @@
                                                               style="vertical-align:bottom">search</i></label>
                     <i class="material-icons" id="search-delete">close</i>
                 </div>
+                <input type="hidden" name="method" value="search"/>
                 <input type="hidden" id="search_type" name="search_type" value="book">
             </form>
         </div>
@@ -84,7 +78,7 @@
     <div class="blue" id="nav_search_type">
         <ul class="hide-on-med-and-down" style="position: relative;height: 64px;width: 182px;margin: auto">
             <li id="search_book_button"><a id="search_book">书籍</a></li>
-            <li id="search_chapter_button"><a id="search_chapter">章节</a></li>
+            <li id="search_article_button"><a id="search_article">文章</a></li>
             <li id="search_user_button"><a id="search_user">用户</a></li>
         </ul>
     </div>

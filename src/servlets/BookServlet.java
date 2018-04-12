@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 @WebServlet("/BookServlet")
 public class BookServlet extends BaseServlet {
@@ -38,24 +39,9 @@ public class BookServlet extends BaseServlet {
 
     public void search(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String keywords = request.getParameter("keywords");
+        String keywords = URLEncoder.encode(request.getParameter("keywords"));
         String searchType = request.getParameter("search_type");
-        if (searchType == null) searchType = "book";
-        BookService bookService = new BookServiceImpl();
-        try {
-            switch (searchType) {
-                case "book":
-                    request.setAttribute("books", bookService.findByKeywords(keywords));
-                    break;
-                case "chapter":
-                    request.setAttribute("chapters", bookService.findChapterByKeywords(keywords));
-                    break;
-            }
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("search.jsp");
-            requestDispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("/search.jsp?search_type=" + searchType + "&keywords=" + keywords);
     }
 
     public void choose(HttpServletRequest request, HttpServletResponse response)

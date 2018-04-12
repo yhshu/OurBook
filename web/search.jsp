@@ -1,6 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
-<%String searchType = request.getParameter("search_type");%>
+<%@ page import="model.Article" %>
+<%@ page import="service.BookService" %>
+<%@ page import="service.impl.BookServiceImpl" %>
+<%
+    BookService bookService = new BookServiceImpl();
+    String keywords = request.getParameter("keywords");
+    String searchType = request.getParameter("search_type");
+%>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -16,20 +24,18 @@
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
-<%
-    if (searchType == null || searchType.equals("book")) {
-        for (Book book : (Book[]) request.getAttribute("books")) {
-%>
-<div><a href="${pageContext.request.contextPath}/ChooseBookServlet?id=<%=book.getID()%>"><%=book.getName()%>
-</a>
+<div class="container row" style="margin-top: 100px">
+    <%
+        if (searchType == null || searchType.equals("book")) {
+            for (Book book : bookService.findByKeywords(keywords)) {
+    %>
+    <div><a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"><%=book.getName()%>
+    </a>
+    </div>
+    <%
+            }
+        }%>
+    <div style="height: 10000px; width: 100px"></div>
 </div>
-<%
-    }
-} else if (searchType.equals("chapter")) {
-    for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
-%>
-// TODO: add chapter info
-<% }
-}%>
 </body>
 </html>
