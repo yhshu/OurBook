@@ -6,10 +6,12 @@ import service.impl.BookServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/ChooseBookServlet")
 public class ChooseBookServlet extends BaseServlet {
 
     @Override
@@ -21,14 +23,9 @@ public class ChooseBookServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        BookService bookService = new BookServiceImpl();
         try {
             super.doPost(request, response);
-            Book book = bookService.find(Integer.parseInt(request.getParameter("id")));
-            request.setAttribute("chapters", bookService.getChapters(book.getID()));
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
-            // TODO dispatch request to jsp
-            requestDispatcher.forward(request, response);
+            response.sendRedirect("/book.jsp?id=" + request.getParameter("id"));
         } catch (Exception e) {
             e.printStackTrace();
         }
