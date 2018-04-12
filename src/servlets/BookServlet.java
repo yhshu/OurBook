@@ -32,13 +32,14 @@ public class BookServlet extends BaseServlet {
         String keywords = request.getParameter("keywords");
         String cover = request.getParameter("cover");
         try {
-            bookService.addBook(bookName, bookDescription, "1", keywords,cover);
+            bookService.addBook(bookName, bookDescription, "1", keywords, ""); // TODO cover 的逻辑
+            System.out.println("BookServlet: 添加书目成功");
+            // 添加成功后，请求重定向，查看本书
+            response.sendRedirect("/book.jsp?id=" + bookDao.maxID());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
         }
-        // TODO 添加完成后，请求重定向，查看本书
-        response.sendRedirect("/book.jsp?id=" + bookDao.maxID());
     }
 
     public void search(HttpServletRequest request, HttpServletResponse response)
