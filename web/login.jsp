@@ -5,7 +5,18 @@
     <%@ include file="header.jsp" %>
     <title>用户登录 - OurBook</title>
 </head>
-
+<%
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("username")) {
+            if (session.getAttribute("username") != null) {
+                response.sendRedirect("/homepage.jsp");
+                System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
+            }
+            break;
+        }
+    }
+%>
 <body class="grey lighten-4">
 <div class="row">
     <div class="card white" style="margin: 30px 31.5%; padding-bottom: 152px; padding-left: 16px;padding-right: 16px;">

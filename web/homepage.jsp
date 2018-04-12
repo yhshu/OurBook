@@ -7,16 +7,30 @@
 
 <body>
 <%@ include file="nav.jsp" %>
-<div class="row"> <!--个人信息-->
-</div>
-
-<div class="row">
-    <div class="col"> <!--文章、书目或动态-->
+<div class="container">
+    <div class="row"> <!--个人信息-->
+        <h4 id="homepage_username"></h4>
+        <h6 id="homepage_userDescription"></h6>
     </div>
 
-    <div class="col"> <!--关注列表-->
+    <div class="row">
+        <div class="col"> <!--文章、书目或动态-->
+        </div>
+
+        <div class="col"> <!--关注列表-->
+        </div>
     </div>
+    <a id="newbook" class="btn blue" href="/newbook.jsp">创作新书</a>
 </div>
-<a id="newbook" class="btn blue" href="/newbook.jsp">创作新书</a>
+
+<script>
+    $(document).ready(function () {
+        // 通过 cookie 修改 username_display
+        var nickname = getCookie('nickname');
+        var username = getCookie('username');
+        if (nickname !== "" && username !== "")
+            document.getElementById("homepage_username").innerText = nickname + " (" + username + ")";
+    });
+</script>
 </body>
 </html>

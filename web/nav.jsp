@@ -29,11 +29,11 @@
         $(document).on('click', function () {
             $('#nav_search_type').hide();
         });
-        if(search_type===null||search_type==='book'){
+        if (search_type === null || search_type === 'book') {
             $('#search_book').addClass('active');
-        } else if(search_type==='chapter'){
+        } else if (search_type === 'chapter') {
             $('#search_chapter').addClass('active');
-        } else if(search_type==='user'){
+        } else if (search_type === 'user') {
             $('#search_user').addClass('active');
         }
     });
@@ -59,7 +59,8 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="">Components</a></li>
                 <!-- 右上角下拉列表 -->
-                <li><a class="dropdown-trigger" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a>
+                <li><a class="dropdown-trigger" data-target="dropdown1">我<i
+                        class="material-icons right">arrow_drop_down</i></a>
                 </li>
             </ul>
         </div>
