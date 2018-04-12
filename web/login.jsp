@@ -23,7 +23,8 @@
         <div class="card-content black-text">
             <p class="card-title">登录到 OurBook</p>
             <br>
-            <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
+            <form action="${pageContext.request.contextPath}/UserServlet" method="post">
+                <input type="hidden" name="method" value="login"/>
                 <div class="row">
                     <div class="input-field s12">
                         <input id="username" name="username" type="text" class="validate">
