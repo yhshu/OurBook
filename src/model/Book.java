@@ -8,25 +8,28 @@ public class Book implements Serializable {
     private String description;
     private String chiefEditor;
     private String keywords;
+    private String cover;
 
     public Book() {
     }
 
-    public Book(String name, String description, String chiefEditor, String keywords) {
+    public Book(String name, String description, String chiefEditor, String keywords, String cover) {
         // 插入数据库前构造
         this.name = name;
         this.description = description;
         this.chiefEditor = chiefEditor;
         this.keywords = keywords;
+        this.cover = cover;
     }
 
-    public Book(int ID, String name, String description, String chiefEditor, String keywords) {
+    public Book(int ID, String name, String description, String chiefEditor, String keywords ,String cover) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;
         this.ID = ID;
         this.chiefEditor = chiefEditor;
         this.keywords = keywords;
+        this.cover = cover;
     }
 
     public String getName() {
@@ -67,5 +70,13 @@ public class Book implements Serializable {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 }

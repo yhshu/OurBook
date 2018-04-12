@@ -51,6 +51,7 @@ public class UserServlet extends BaseServlet {
         response.addCookie(c_nickname);
         // 首次登录成功后，将用户名保存到 session 中
         HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(2147483647);
         session.setAttribute("username", username);
         final int maxInactiveInterval = 7 * 24 * 60 * 60;
         session.setMaxInactiveInterval(maxInactiveInterval);

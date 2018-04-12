@@ -13,7 +13,7 @@ public interface BookService {
      * @param keywords    书的关键字
      * @return 添加成功 true，添加失败 false
      */
-    boolean addBook(String name, String description, String chiefEditor, String keywords);
+    boolean addBook(String name, String description, String chiefEditor, String keywords, String cover);
 
     /**
      * 根据书籍ID查找书籍

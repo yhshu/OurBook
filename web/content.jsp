@@ -4,15 +4,16 @@
 <%@ page import="service.impl.BookServiceImpl" %>
 <%@ page import="java.io.FileReader" %>
 <%@ page import="java.io.BufferedReader" %>
-<%BookService bookService = new BookServiceImpl();%>
-<% Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")),
-        Integer.parseInt(request.getParameter("sequence")));%>
-<html lang="zh-cmn-Hans" style="height: 100%;">
+<%
+    BookService bookService = new BookServiceImpl();
+    Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")),
+            Integer.parseInt(request.getParameter("sequence")));
+%>
 <head>
     <%@ include file="header.jsp" %>
 </head>
-
 <body style="height: 100%">
+<jsp:include page="nav.jsp"/>
 <div class="row" style="height: 100%">
     <div class="col s3 grey lighten-5" style="height: 100%">
         <ul>
