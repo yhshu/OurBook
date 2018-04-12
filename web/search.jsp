@@ -1,5 +1,7 @@
 <%@ page import="model.Book" %>
-<%@ page import="model.Chapter" %><%--
+<%@ page import="model.Chapter" %>
+<%String searchType = request.getParameter("search_type");%>
+<%--
   Created by IntelliJ IDEA.
   User: Radiance
   Date: 4/11/18
@@ -15,10 +17,11 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <%
-    String searchType = request.getParameter("search_type");
     if (searchType == null || searchType.equals("book")) {
-        for (Book book : (Book[]) request.getAttribute("books")) {%>
-<div><%=book.getName()%>
+        for (Book book : (Book[]) request.getAttribute("books")) {
+%>
+<div><a href="${pageContext.request.contextPath}/ChooseBookServlet?id=<%=book.getID()%>"><%=book.getName()%>
+</a>
 </div>
 <%
     }

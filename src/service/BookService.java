@@ -46,9 +46,8 @@ public interface BookService {
      * @param sectionNumber 章节序号
      * @param description   简介
      * @param content       章节内容URL
-     * @param keywords      章节关键词
      */
-    void addChapter(String name, int bookID, int sectionNumber, String description, String content, String keywords);
+    void addChapter(String name, int bookID, int sectionNumber, String description, String content);
 
     /**
      * 查找书籍中的全部章节

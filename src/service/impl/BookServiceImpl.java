@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addChapter(String name, int bookID, int sequence, String description, String content, String keywords) {
+    public void addChapter(String name, int bookID, int sequence, String description, String content) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return;
@@ -55,14 +55,7 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容URL为空");
             return;
         }
-        Book book = bookDao.findByID(bookID);
-        if (!keywords.contains(book.getName()))
-            keywords += " " + book.getName();
-        if (!keywords.contains(book.getChiefEditor()))
-            keywords += " " + book.getChiefEditor();
-        if (!keywords.contains(name))
-            keywords += " " + name;
-        chapterDao.add(new Chapter(name, bookID, sequence, content, keywords));
+        chapterDao.add(new Chapter(name, bookID, sequence, content));
     }
 
     @Override
