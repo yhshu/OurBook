@@ -25,8 +25,10 @@
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 100px">
     <%for (Chapter chapter : chapters) {%>
-    <div><a href="<%=chapter.getContent()%>"><%=chapter.getName()%>
-    </a></div>
+    <div>
+        <a href="${pageContext.request.contextPath}/content.jsp?book=
+<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"><%=chapter.getName()%>
+        </a></div>
     <%}%>
 </div>
 </body>
