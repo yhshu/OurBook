@@ -81,11 +81,13 @@ public class BookDaoImpl implements BookDao {
     public int maxID() {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT MAX(id) AS max_id FROM book");
+            PreparedStatement stm = conn.prepareStatement("SELECT MAX(ID) AS max_id FROM book");
             ResultSet rs;
             try {
                 rs = stm.executeQuery();
-                int ret = rs.getInt("max_id");
+                int ret = -1;
+                while (rs.next())
+                    ret = rs.getInt("max_id");
                 rs.close();
                 stm.close();
                 conn.close(); // 关闭数据库连接
@@ -98,7 +100,7 @@ public class BookDaoImpl implements BookDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return -1;
+        return -1; // TODO bug
     }
 
     public Book[] findByUserID(String chiefEditorID) {

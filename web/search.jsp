@@ -31,6 +31,7 @@
         %>
         <div><a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"
                 class="collection-item black-text"><%=book.getName()%>
+            <!-- TODO 加上 创作者 和 书籍描述-->
         </a>
         </div>
         <%
