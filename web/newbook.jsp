@@ -12,6 +12,7 @@
     <div class="col s5">
         <form action="${pageContext.request.contextPath}/BookServlet" method="post">
             <input type="hidden" name="method" value="add"/>
+            <input type="hidden" name="editor" value="<%=session.getAttribute("username")%>">
             <h4><i class="material-icons">book</i>创建一本书</h4>
             <div class="input-field col s12">
                 <input id="bookName" name="bookName" type="text" class="validate" data-length="40"/>

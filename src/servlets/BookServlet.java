@@ -25,14 +25,12 @@ public class BookServlet extends BaseServlet {
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
-        HttpSession session = request.getSession();
         String bookName = request.getParameter("bookName");
         String bookDescription = request.getParameter("bookDescription");
-        // String chiefEditor = (String) session.getAttribute("username"); // TODO test
+        String editor = request.getParameter("editor");
         String keywords = request.getParameter("keywords");
-        String cover = request.getParameter("cover");
         try {
-            bookService.addBook(bookName, bookDescription, "1", keywords,cover);
+            bookService.addBook(bookName, bookDescription, editor, keywords,null);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
