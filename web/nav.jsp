@@ -74,8 +74,8 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="">Components</a></li>
                 <!-- 右上角下拉列表 -->
-                <li><a class="dropdown-trigger" data-target="dropdown1">Dropdown<i class="material-icons right">
-                    arrow_drop_down</i></a>
+                <li><a class="dropdown-trigger" data-target="dropdown1">我<i
+                        class="material-icons right">arrow_drop_down</i></a>
                 </li>
             </ul>
         </div>
