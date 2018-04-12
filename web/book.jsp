@@ -15,21 +15,28 @@
   Time: 9:56 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
     <title><%=book.getName()%> - OurBook</title>
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
-<div class="container row" style="margin-top: 100px">
-    <%for (Chapter chapter : chapters) {%>
-    <div>
-        <a href="${pageContext.request.contextPath}/content.jsp?book=
-<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"><%=chapter.getName()%>
-        </a></div>
-    <%}%>
+<div class="container row" style="margin-top: 50px">
+    <h4 style="display: inline; margin-right: 10px;"><%=book.getName()%>
+    </h4>
+    <h6 style="display: inline; margin-right: 30px;">由 <%=book.getChiefEditor()%> 创建</h6>
+    <a href="newChapter.jsp" class="btn blue" style="display: inline;margin-right: 10px">添加章节</a>
+    <a href="" class="btn orange" style="display: inline">删除本书</a>
+    <div class="collection">
+        <%for (Chapter chapter : chapters) {%>
+        <div>
+            <a href="${pageContext.request.contextPath}/content.jsp?book=
+<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
+            </a></div>
+        <%}%>
+    </div>
 </div>
 </body>
 </html>

@@ -2,7 +2,9 @@ package servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
@@ -14,7 +16,7 @@ public class BaseServlet extends HttpServlet {
 
         // 1. 获得方法名称
         String methodName = request.getParameter("method");
-        Method method = null;
+        Method method;
 
         // 2. 通过方法名和方法所需要的参数获得Method对象
         try {

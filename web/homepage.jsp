@@ -15,12 +15,17 @@
 
     <div class="row">
         <div class="col"> <!--文章、书目或动态-->
+            <h5 style="display: inline; margin-right: 30px;">我写的书</h5>
+            <a id="newbook" class="btn blue" href="/newbook.jsp" style="display: inline;">创作新书</a>
+            <div> <!-- 我写的书 目录-->
+
+            </div>
         </div>
 
         <div class="col"> <!--关注列表-->
         </div>
     </div>
-    <a id="newbook" class="btn blue" href="/newbook.jsp">创作新书</a>
+
 </div>
 
 <script>

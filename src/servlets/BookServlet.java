@@ -1,5 +1,7 @@
 package servlets;
 
+import dao.BookDao;
+import dao.impl.BookDaoImpl;
 import model.Book;
 import service.BookService;
 import service.impl.BookServiceImpl;
@@ -22,20 +24,21 @@ public class BookServlet extends BaseServlet {
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
+        BookDao bookDao = new BookDaoImpl();
         HttpSession session = request.getSession();
         String bookName = request.getParameter("bookName");
         String bookDescription = request.getParameter("bookDescription");
-        //  String chiefEditor = (String) session.getAttribute("username"); // TODO test
+        // String chiefEditor = (String) session.getAttribute("username"); // TODO test
         String keywords = request.getParameter("keywords");
         String cover = request.getParameter("cover");
         try {
-            bookService.add(bookName, bookDescription, "1", keywords, cover);
+            bookService.addBook(bookName, bookDescription, "1", keywords,cover);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
         }
         // TODO 添加完成后，请求重定向，查看本书
-        response.sendRedirect("/homepage.jsp");
+        response.sendRedirect("/book.jsp?id=" + bookDao.maxID());
     }
 
     public void search(HttpServletRequest request, HttpServletResponse response)

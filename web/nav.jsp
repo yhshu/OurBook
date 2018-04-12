@@ -11,8 +11,8 @@
 <script>
     $(document).ready(function () {
         // 通过 cookie 修改下拉列表中的 username_display
-        var nickname = getCookie('nickname');
         var username = getCookie('username');
+        var nickname = getCookie('nickname');
         if (nickname !== "" && username !== "")
             document.getElementById("username_display").innerText = nickname + " (" + username + ")";
 
@@ -48,16 +48,17 @@
 
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue row" style="margin: 0">
+        <!-- Logo -->
         <div class="col s3">
             <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
+        <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">
             <form id="search_form" action="BookServlet" method="post">
                 <div class="input-field blue lighten-1">
                     <input id="search" type="search" name="keywords" placeholder="搜索"
                            required>
-                    <label class="label-icon" for="search"><i class="material-icons"
-                                                              style="vertical-align:bottom">search</i></label>
+                    <label class="label-icon" for="search"><i class="material-icons" style="vertical-align:bottom">search</i></label>
                     <i class="material-icons" id="search-delete">close</i>
                 </div>
                 <input type="hidden" name="method" value="search"/>

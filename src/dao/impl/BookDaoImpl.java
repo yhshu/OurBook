@@ -78,6 +78,30 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
+    @Override
+    public int maxID() {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT MAX(id) AS max_id FROM book");
+            ResultSet rs;
+            try {
+                rs = stm.executeQuery();
+                int ret = rs.getInt("max_id");
+                rs.close();
+                stm.close();
+                conn.close(); // 关闭数据库连接
+                System.out.println("BookDao: 查询最大ID成功");
+                return ret;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                System.out.println("BookDao: 查询最大ID失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
