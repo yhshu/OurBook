@@ -24,8 +24,9 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 50px">
-    <h4 style="display: inline; margin-right: 30px;"><%=book.getName()%>
+    <h4 style="display: inline; margin-right: 10px;"><%=book.getName()%>
     </h4>
+    <h6 style="display: inline; margin-right: 30px;">由 <%=book.getChiefEditor()%> 创建</h6>
     <a href="newChapter.jsp" class="btn blue" style="display: inline;margin-right: 10px">添加章节</a>
     <a href="" class="btn orange" style="display: inline">删除本书</a>
     <div class="collection">

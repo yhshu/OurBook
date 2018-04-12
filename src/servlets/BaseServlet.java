@@ -16,7 +16,7 @@ public class BaseServlet extends HttpServlet {
 
         // 1. 获得方法名称
         String methodName = request.getParameter("method");
-        Method method = null;
+        Method method;
 
         // 2. 通过方法名和方法所需要的参数获得Method对象
         try {
