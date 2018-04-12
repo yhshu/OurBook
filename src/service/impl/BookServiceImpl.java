@@ -13,7 +13,7 @@ public class BookServiceImpl implements BookService {
     private ChapterDao chapterDao = new ChapterDaoImpl();
 
     @Override
-    public boolean add(String name, String description, String chiefEditor, String keywords) {
+    public boolean add(String name, String description, String chiefEditor, String keywords, String cover) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空，添加失败");
             return false;
@@ -21,7 +21,7 @@ public class BookServiceImpl implements BookService {
         if (!keywords.contains(chiefEditor)) keywords += " " + chiefEditor; // 添加主编用户名
         if (!keywords.contains(name)) keywords += " " + name; // 添加书名
         try {
-            bookDao.add(new Book(name, description, chiefEditor, keywords));
+            bookDao.add(new Book(name, description, chiefEditor, keywords, cover));
             System.out.println("BookService: 添加书目成功");
             return true;
         } catch (Exception e) {

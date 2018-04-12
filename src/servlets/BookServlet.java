@@ -27,8 +27,9 @@ public class BookServlet extends BaseServlet {
         String bookDescription = request.getParameter("bookDescription");
         //  String chiefEditor = (String) session.getAttribute("username"); // TODO test
         String keywords = request.getParameter("keywords");
+        String cover = request.getParameter("cover");
         try {
-            bookService.add(bookName, bookDescription, "1", keywords);
+            bookService.add(bookName, bookDescription, "1", keywords, cover);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
