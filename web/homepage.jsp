@@ -9,9 +9,27 @@
 <%@ include file="nav.jsp" %>
 <div class="container">
     <div class="row"> <!--个人信息-->
-        <h4 id="homepage_username"></h4>
-        <h6 id="homepage_userDescription"></h6>
-        <!--TODO 修改个人信息 模态框-->
+        <h4 id="homepage_username"></h4><!--用户的用户名与昵称-->
+        <h6 id="homepage_userDescription"></h6><!--用户的一句话描述-->
+        <a class="modal-trigger" data-target="personalInfo" style="display: inline;"><i
+                class="material-icons">settings</i></a>
+        <!--TODO 修改个人信息 模态框 的后端逻辑-->
+        <div id="personalInfo" class="modal">
+            <div class="modal-content">
+                <h4>修改个人信息</h4>
+                <label for="new_nickname">昵称</label>
+                <input type="text" name="new_nickname" id="new_nickname"/>
+                <label for="new_description">一句话简介</label>
+                <input type="text" name="new_description" id="new_description"/>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action modal-close waves-effect waves-green btn-flat">取消
+                </button>
+                <button class="modal-action modal-close waves-effect waves-green btn-flat" id="submit_personal_info">
+                    提交
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -34,6 +52,11 @@
         var username = getCookie('username');
         if (nickname !== "" && username !== "")
             document.getElementById("homepage_username").innerText = nickname + " (" + username + ")";
+
+        // 模态框
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
     });
 </script>
 </body>

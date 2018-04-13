@@ -101,7 +101,7 @@ public class BookDaoImpl implements BookDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return -1; // TODO bug
+        return -1;
     }
 
     public Book[] findByUserID(String chiefEditorID) {

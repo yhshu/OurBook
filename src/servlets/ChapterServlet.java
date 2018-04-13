@@ -35,7 +35,7 @@ public class ChapterServlet extends BaseServlet {
             System.out.println("ChapterServlet: 添加章节失败");
         }
         // TODO 添加完成后，请求重定向，查看本章节
-        response.sendRedirect("/book.jsp");
+        response.sendRedirect("/content.jsp");
     }
 
     public void read(HttpServletRequest request, HttpServletResponse response)
