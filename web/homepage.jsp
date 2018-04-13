@@ -11,17 +11,18 @@
     <div class="row"> <!--个人信息-->
         <h4 id="homepage_username"></h4>
         <h6 id="homepage_userDescription"></h6>
+        <!--TODO 修改个人信息 模态框-->
     </div>
 
     <div class="row">
-        <div class="col"> <!--文章、书目或动态-->
-            <h5 style="display: inline; margin-right: 30px;">我写的书</h5>
-            <a id="newbook" class="btn blue" href="/newbook.jsp" style="display: inline;">创作新书</a>
+        <div class="col s6"> <!--文章、书目或动态-->
+            <h5 style=" margin-right: 30px;">我写的书</h5>
             <div> <!-- 我写的书 目录-->
             </div>
         </div>
 
-        <div class="col"> <!--关注列表-->
+        <div class="col s2"> <!--关注列表-->
+            <h5>关注列表</h5>
         </div>
     </div>
 </div>

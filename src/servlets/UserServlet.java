@@ -38,29 +38,30 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserService userService = new UserServiceImpl();
-        // TODO 完善登录逻辑
-        userService.login(username, password);
-        final int maxAge = 7 * 24 * 60 * 60;
-        Cookie c_username = new Cookie("username", username);
-        c_username.setMaxAge(maxAge);
-        c_username.setPath("/");
-        response.addCookie(c_username);
-        Cookie c_nickname = new Cookie("nickname", userService.getNickname(username));
-        c_nickname.setMaxAge(maxAge);
-        c_nickname.setPath("/");
-        response.addCookie(c_nickname);
-        // 首次登录成功后，将用户名保存到 session 中
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(2147483647);
-        session.setAttribute("username", username);
-        final int maxInactiveInterval = 7 * 24 * 60 * 60;
-        session.setMaxInactiveInterval(maxInactiveInterval);
-        // 将 JSESSIONID 持久化
-        Cookie c_JSESSIONID = new Cookie("JSESSIONID", session.getId());
-        c_JSESSIONID.setMaxAge(maxInactiveInterval);
-        c_JSESSIONID.setPath("/");
-        response.addCookie(c_JSESSIONID);
-        // 登录成功后，跳转到个人主页
-        response.sendRedirect("/homepage.jsp");
+        if (userService.login(username, password)) { // 用户名密码匹配
+            final int maxAge = 7 * 24 * 60 * 60;
+            Cookie c_username = new Cookie("username", username);
+            c_username.setMaxAge(maxAge);
+            c_username.setPath("/");
+            response.addCookie(c_username);
+            Cookie c_nickname = new Cookie("nickname", userService.getNickname(username));
+            c_nickname.setMaxAge(maxAge);
+            c_nickname.setPath("/");
+            response.addCookie(c_nickname);
+            // 首次登录成功后，将用户名保存到 session 中
+            HttpSession session = request.getSession();
+            final int maxInactiveInterval = 7 * 24 * 60 * 60;
+            session.setMaxInactiveInterval(maxInactiveInterval);
+            session.setAttribute("username", username);
+            // 将 JSESSIONID 持久化
+            Cookie c_JSESSIONID = new Cookie("JSESSIONID", session.getId());
+            c_JSESSIONID.setMaxAge(maxInactiveInterval);
+            c_JSESSIONID.setPath("/");
+            response.addCookie(c_JSESSIONID);
+            // 登录成功后，跳转到个人主页
+            response.sendRedirect("/homepage.jsp");
+        } else { // 用户名或密码错误
+            // TODO 用户名密码验证失败的反馈
+        }
     }
 }

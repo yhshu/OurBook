@@ -5,10 +5,10 @@
   Time: 1:25
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>私信界面</title>
+    <title>私信 - OurBook</title>
 </head>
 <body>
 
