@@ -80,9 +80,4 @@ public class BookServiceImpl implements BookService {
     public Chapter[] getChapters(int bookID) {
         return chapterDao.findByBookID(bookID);
     }
-
-    @Override
-    public Chapter[] findChapterByKeywords(String keywords) {
-        return chapterDao.findByKeywords(keywords.split(" "));
-    }
 }

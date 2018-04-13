@@ -49,14 +49,6 @@ public interface BookService {
     Chapter[] getChapters(int bookID);
 
     /**
-     * 根据章节名查找章节
-     *
-     * @param keywords 关键字
-     * @return 章节
-     */
-    Chapter[] findChapterByKeywords(String keywords);
-
-    /**
      * 添加章节
      *
      * @param name     章节名

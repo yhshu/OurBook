@@ -1,14 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.Chapter" %>
-<%@ page import="service.BookService" %>
-<%@ page import="service.impl.BookServiceImpl" %>
-<%@ page import="java.io.FileReader" %>
 <%@ page import="java.io.BufferedReader" %>
-<%
-    BookService bookService = new BookServiceImpl();
-    Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")),
-            Integer.parseInt(request.getParameter("sequence")));
-%>
 <head>
     <%@ include file="header.jsp" %>
 </head>
@@ -29,12 +20,11 @@
         </ul>
     </div>
     <div class="col s9" style="height: 100%;">
-        <h4 style="padding: 5px 20px;"><%=chapter.getName()%>
+        <h4 style="padding: 5px 20px;"><%=request.getAttribute("name")%>
         </h4>
         <%
             try {
-                BufferedReader br = new BufferedReader(new FileReader(
-                        request.getServletContext().getRealPath(chapter.getContent())));
+                BufferedReader br = (BufferedReader)request.getAttribute("reader");
                 String line;
                 while ((line = br.readLine()) != null) {%>
         <p style="padding: 0 10px;"><%=line%>
@@ -49,4 +39,3 @@
 </div>
 
 </body>
-</html>

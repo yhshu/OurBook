@@ -22,7 +22,7 @@
             queryDict[item.split("=")[0]] = item.split("=")[1]
         });
         var search_value = queryDict['keywords'];
-        var search_type = queryDict['search_type'];
+        var search_type = queryDict['type'];
         $('#search-delete').on('click', function () {
             $('#search').val('');
         });
@@ -38,11 +38,11 @@
             $('#search_user_button').addClass('active');
         }
         $('#search_book').attr('href',
-            "${pageContext.request.contextPath}/search.jsp?search_type=book&keywords=" + search_value);
+            "${pageContext.request.contextPath}/search?type=book&keywords=" + search_value);
         $('#search_article').attr('href',
-            "${pageContext.request.contextPath}/search.jsp?search_type=article&keywords=" + search_value);
+            "${pageContext.request.contextPath}/search?type=article&keywords=" + search_value);
         $('#search_user').attr('href',
-            "${pageContext.request.contextPath}/search.jsp?search_type=user&keywords=" + search_value);
+            "${pageContext.request.contextPath}/search?type=user&keywords=" + search_value);
     });
 </script>
 
@@ -54,15 +54,14 @@
         </div>
         <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">
-            <form id="search_form" action="BookServlet" method="post">
+            <form id="search_form" action="search">
                 <div class="input-field blue lighten-1">
                     <input id="search" type="search" name="keywords" placeholder="搜索"
                            required>
                     <label class="label-icon" for="search"><i class="material-icons" style="vertical-align:bottom">search</i></label>
                     <i class="material-icons" id="search-delete">close</i>
                 </div>
-                <input type="hidden" name="method" value="search"/>
-                <input type="hidden" id="search_type" name="search_type" value="book">
+                <input type="hidden" id="search_type" name="type" value="book">
             </form>
         </div>
         <div class="col s3">

@@ -1,15 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Book" %>
-<%@ page import="service.BookService" %>
-<%@ page import="service.impl.BookServiceImpl" %>
-<%@ page import="service.impl.UserServiceImpl" %>
-<%@ page import="service.UserService" %>
-<%
-    BookService bookService = new BookServiceImpl();
-    UserService userService = new UserServiceImpl();
-    String keywords = request.getParameter("keywords");
-    String searchType = request.getParameter("search_type");
-%>
+<%@ page import="model.User" %>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -20,14 +11,17 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <title><%=keywords%> - 搜索结果 - OurBook</title>
+    <title><%=request.getAttribute("keywords")%> - 搜索结果 - OurBook</title>
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 100px">
     <%
-        if (searchType == null || searchType.equals("book")) {
-            for (Book book : bookService.findByKeywords(keywords)) {
+        String type = (String) request.getAttribute("type");
+        User[] editors = (User[]) request.getAttribute("editors");
+        if (type == null || type.equals("book")) {
+            int i = 0;
+            for (Book book : (Book[]) request.getAttribute("books")) {
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
@@ -47,7 +41,7 @@
                     <%=book.getName()%>
                 </a>
             </h5>
-            <p style="color: gray;margin: 0 0 0 25px"><%=userService.getNickname(book.getChiefEditor())%>
+            <p style="color: gray;margin: 0 0 0 25px"><%=editors[i].getNickname()%>
             </p>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
             <p style="margin: 25px 0 0 25px">
@@ -56,6 +50,7 @@
         </div>
     </div>
     <%
+                i++;
             }
         }%>
 </div>

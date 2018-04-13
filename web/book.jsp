@@ -58,7 +58,7 @@
     <div class="collection">
         <%for (Chapter chapter : chapters) {%>
         <div>
-            <a href="${pageContext.request.contextPath}/content.jsp?book=
+            <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
             </a></div>
         <%}%>

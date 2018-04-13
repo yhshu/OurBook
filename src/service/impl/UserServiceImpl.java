@@ -9,6 +9,11 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao = new UserDaoImpl();
 
     @Override
+    public User find(String username) {
+        return userDao.find(username);
+    }
+
+    @Override
     public boolean register(String userName, String nickname, String password) {
         User user = userDao.find(userName);
         if (user != null) { // 用户名已被注册
