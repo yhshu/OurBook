@@ -24,13 +24,37 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 50px">
-    <h4 style="display: inline; margin-right: 10px;"><%=book.getName()%>
-    </h4>
-    <!--跳转到otherpage.jsp界面--,传递book.getChiefEditor()，一本书的作者>
-    <h6 style="display: inline; margin-right: 30px;">由 <%=book.getChiefEditor()%> 创建</h6>
-    <!-- -->
+
+    <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
+
+        <div style="width: 210px;height: 257px;background-color: #0D47A1">
+            <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
+                <%=book.getName()%>
+            </h4>
+        </div>
+
+        <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
+            <h5 style="margin: 25px 0 0 25px">
+                <a style="color: black" href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                    <%=book.getName()%>
+                </a>
+            </h5>
+            <p style="color: gray;margin: 0 0 0 25px"><%=book.getChiefEditor()%>
+            </p>
+            <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
+            <p style="margin: 25px 0 0 25px">
+                <%=book.getDescription()%>
+            </p>
+        </div>
+    </div>
+
+    <!-- TODO 点击本书作者用户名跳转到其主页-->
+
+    <h6 style="display: inline; margin-right: 30px;">章节目录</h6>
     <a href="newChapter.jsp" class="btn blue" style="display: inline;margin-right: 10px">添加章节</a>
     <a href="" class="btn orange" style="display: inline">删除本书</a>
+
     <div class="collection">
         <%for (Chapter chapter : chapters) {%>
         <div>
