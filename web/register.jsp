@@ -2,8 +2,27 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
+    <script language="javascript">
+        function check() {
+            var p1 = document.getElementById('password').value;
+            var p2 = document.getElementById('password_confirm').value;
+
+            if(p1=="" || p2 == "") {
+                alert("密码输入为空！");
+                return false;
+            }
+            if(p1 !== p2) {
+                alert("两次输入不一致！");
+                return false;
+            }else{
+                alert("两次输入一致！");
+                return true;
+            }
+        }
+    </script>
     <%@ include file="header.jsp" %>
     <title>用户注册 - OurBook</title>
+
 </head>
 <%
     Cookie[] cookies = request.getCookies();
@@ -33,8 +52,9 @@
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
     </div>
     <div class="col s5">
-        <form action="${pageContext.request.contextPath}/UserServlet" method="post">
+        <form action="${pageContext.request.contextPath}/UserServlet" method="post" onsubmit="return check()">
             <input type="hidden" name="method" value="register"/>
+
             <div class="input-field col s12">
                 <input id="username" name="username" type="text" class="validate">
                 <label for="username">用户名</label>
@@ -52,28 +72,13 @@
                 <label for="password_confirm">确认密码</label>
             </div>
             <br><br><br><br><br><br><br><br>
-            <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
-        }
-        function the_same_password() {
-            var p1 = document.getElementById("password").valueOf();
+            <input type="submit" class="blue btn" id="submit"   value="加入 OurBook"/>
         </form>
-            <script> // 确认两次密码是否一致
-            $(document).ready()
-            {
-                if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
-                    // TODO 确认两次密码一致的逻辑
-                }
-            var p2 = document.getElementById("password_confirm").valueOf();
-            alert(p1);
-            alert(p2);
-            if(p1 == ''||p2 ==''){
-                alert("please fill in the whole information");
-                return false;
-            }else if(p1 !== p2){
+        // 确认两次密码是否一致
+        <script >
+        $(document).ready()
+        {
 
-                alert("两次密码输入不一致")：
-                return false;
-            }
         }
         </script>
     </div>
