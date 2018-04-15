@@ -36,7 +36,7 @@
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
     </div>
     <div class="col s5">
-        <form action="${pageContext.request.contextPath}/RegisterServlet" method="post">
+        <form action="${pageContext.request.contextPath}/RegisterServlet" method="post" onsubmit="return the_same_password()">
             <div class="input-field col s12">
                 <input id="username" name="username" type="text" class="validate">
                 <label for="username">用户名</label>
@@ -55,12 +55,26 @@
             </div>
             <br><br><br><br><br><br><br><br>
             <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
+        }
+        function the_same_password() {
+            var p1 = document.getElementById("password").valueOf();
         </form>
-        <script> // 确认两次密码是否一致
-        $(document).ready()
-        {
-            if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
-                // TODO 确认两次密码一致的逻辑
+            <script> // 确认两次密码是否一致
+            $(document).ready()
+            {
+                if (document.getElementById('password_confirm') !== '' && document.getElementById('password') !== document.getElementById('password_confirm')) {
+                    // TODO 确认两次密码一致的逻辑
+                }
+            var p2 = document.getElementById("password_confirm").valueOf();
+            alert(p1);
+            alert(p2);
+            if(p1 == ''||p2 ==''){
+                alert("please fill in the whole information");
+                return false;
+            }else if(p1 !== p2){
+
+                alert("两次密码输入不一致")：
+                return false;
             }
         }
         </script>
