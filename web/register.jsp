@@ -33,12 +33,8 @@
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
     </div>
     <div class="col s5">
-<<<<<<< HEAD
-        <form action="${pageContext.request.contextPath}/RegisterServlet" method="post" onsubmit="return the_same_password()">
-=======
         <form action="${pageContext.request.contextPath}/UserServlet" method="post">
             <input type="hidden" name="method" value="register"/>
->>>>>>> c630f12127c1d30c948eb18170fe150effd31123
             <div class="input-field col s12">
                 <input id="username" name="username" type="text" class="validate">
                 <label for="username">用户名</label>
