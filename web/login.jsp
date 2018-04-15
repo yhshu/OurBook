@@ -5,14 +5,26 @@
     <%@ include file="header.jsp" %>
     <title>用户登录 - OurBook</title>
 </head>
-
+<%
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("username")) {
+            if (session.getAttribute("username") != null) {
+                response.sendRedirect("/homepage.jsp");
+                System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
+            }
+            break;
+        }
+    }
+%>
 <body class="grey lighten-4">
 <div class="row">
     <div class="card white" style="margin: 30px 31.5%; padding-bottom: 152px; padding-left: 16px;padding-right: 16px;">
         <div class="card-content black-text">
             <p class="card-title">登录到 OurBook</p>
             <br>
-            <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
+            <form action="${pageContext.request.contextPath}/UserServlet" method="post">
+                <input type="hidden" name="method" value="login"/>
                 <div class="row">
                     <div class="input-field s12">
                         <input id="username" name="username" type="text" class="validate">
@@ -27,7 +39,7 @@
                 </div>
                 <br>
                 <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
-                <input type="submit" class="waves-effect waves-light btn blue right" value="登录"/>
+                <input type="submit" id="submit" class="waves-effect waves-light btn blue right " value="登录"/>
             </form>
         </div>
     </div>

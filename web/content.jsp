@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans" style="height: 100%">
+<%@ page import="java.io.BufferedReader" %>
 <head>
     <%@ include file="header.jsp" %>
 </head>
-
 <body style="height: 100%">
+<jsp:include page="nav.jsp"/>
 <div class="row" style="height: 100%">
     <div class="col s3 grey lighten-5" style="height: 100%">
         <ul>
@@ -21,10 +20,22 @@
         </ul>
     </div>
     <div class="col s9" style="height: 100%;">
-        <h4 style="padding: 5px 10px;">head</h4>
-        <p style="padding: 5px 10px;">正文</p>
+        <h4 style="padding: 5px 20px;"><%=request.getAttribute("name")%>
+        </h4>
+        <%
+            try {
+                BufferedReader br = (BufferedReader)request.getAttribute("reader");
+                String line;
+                while ((line = br.readLine()) != null) {%>
+        <p style="padding: 0 10px;"><%=line%>
+        </p>
+        <%
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        %>
     </div>
 </div>
 
 </body>
-</html>

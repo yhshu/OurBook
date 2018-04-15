@@ -17,12 +17,11 @@ public class ChapterDaoImpl implements ChapterDao {
     public void add(Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,keywords) VALUES (?,?,?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content) VALUES (?,?,?,?)");
             stm.setString(1, chapter.getName());
             stm.setInt(2, chapter.getBookID());
             stm.setInt(3, chapter.getSequence());
             stm.setString(4, chapter.getContent());
-            stm.setString(5, chapter.getKeywords());
             try {
                 stm.executeUpdate();
                 System.out.println("ChapterDao: 添加章节成功");
@@ -85,8 +84,8 @@ public class ChapterDaoImpl implements ChapterDao {
             ArrayList<Chapter> chapters = new ArrayList<>();
             while (rs.next()) {
                 Chapter chapter = new Chapter(rs.getString("name"),
-                        rs.getInt("bookID"), rs.getInt("sectionNumber"),
-                        rs.getString("description"), rs.getString("content"));
+                        rs.getInt("bookID"), rs.getInt("sequence"),
+                        rs.getString("content"));
                 chapters.add(chapter);
             }
             rs.close();

@@ -6,13 +6,10 @@
     <title>用户注册 - OurBook</title>
 </head>
 <%
-    request.setCharacterEncoding("UTF-8");
-
     Cookie[] cookies = request.getCookies();
     for (Cookie cookie : cookies) {
         if (cookie.getName().equals("username")) {
             if (session.getAttribute("username") != null) {
-                // TODO 登录成功，跳转到主页
                 response.sendRedirect("/homepage.jsp");
                 System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
             }
@@ -23,7 +20,7 @@
 <body>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
-        <a href="#" class="brand-logo">Logo</a>
+        <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="login.jsp">登录</a></li>
         </ul>
@@ -36,7 +33,12 @@
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
     </div>
     <div class="col s5">
+<<<<<<< HEAD
         <form action="${pageContext.request.contextPath}/RegisterServlet" method="post" onsubmit="return the_same_password()">
+=======
+        <form action="${pageContext.request.contextPath}/UserServlet" method="post">
+            <input type="hidden" name="method" value="register"/>
+>>>>>>> c630f12127c1d30c948eb18170fe150effd31123
             <div class="input-field col s12">
                 <input id="username" name="username" type="text" class="validate">
                 <label for="username">用户名</label>

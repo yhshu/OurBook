@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <meta charset="UTF-8">
 <!-- 文档 http://www.materialscss.com -->
 <link rel="stylesheet" href="css/materialize.css">
@@ -12,5 +12,7 @@
 <script type="text/javascript" src="js/myJS.js"></script>
 
 <%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
     // TODO 若本地存在cookie，实现自动登录
 %>

@@ -46,8 +46,8 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords));
-            Book[] chapters = getBooks(stm);
-            if (chapters != null) return chapters;
+            Book[] books = getBooks(stm);
+            if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,15 +58,17 @@ public class BookDaoImpl implements BookDao {
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO Book (name,description,chiefEditorName,keywords) VALUES (?,?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO book (ID,name,description,chiefEditor,keywords,cover) VALUES (0,?,?,?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
-            stm.setString(3, book.getChiefEditorName());
+            stm.setString(3, book.getChiefEditor());
             stm.setString(4, book.getKeywords());
+            stm.setString(5, book.getCover());
             try {
                 stm.executeUpdate();
                 System.out.println("BookDao: 添加书目成功");
             } catch (Exception e1) {
+                e1.printStackTrace();
                 System.out.println("BookDao: 添加书目失败");
             }
             stm.close();
@@ -74,6 +76,32 @@ public class BookDaoImpl implements BookDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int maxID() {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT MAX(ID) AS max_id FROM book");
+            ResultSet rs;
+            try {
+                rs = stm.executeQuery();
+                int ret = -1;
+                while (rs.next())
+                    ret = rs.getInt("max_id");
+                rs.close();
+                stm.close();
+                conn.close(); // 关闭数据库连接
+                System.out.println("BookDao: 查询最大ID成功");
+                return ret;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                System.out.println("BookDao: 查询最大ID失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public Book[] findByUserID(String chiefEditorID) {
@@ -102,8 +130,8 @@ public class BookDaoImpl implements BookDao {
             ArrayList<Book> books = new ArrayList<>();
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
-                        rs.getString("description"), rs.getString("chiefEditorName"),
-                        rs.getString("keywords"));
+                        rs.getString("description"), rs.getString("chiefEditor"),
+                        rs.getString("keywords"), rs.getString("cover"));
                 books.add(book);
             }
             rs.close();

@@ -30,4 +30,3 @@ public class LogoutServlet extends BaseServlet {
         response.sendRedirect("/login.jsp");
     }
 }
-

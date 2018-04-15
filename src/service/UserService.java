@@ -1,6 +1,17 @@
 package service;
 
+import model.User;
+
 public interface UserService {
+
+    /**
+     * 查找用户
+     *
+     * @param username 用户名
+     * @return 用户
+     */
+    User find(String username);
+
     /**
      * 用户注册
      * 用户信息插入数据库，注册成功后跳转到登录页

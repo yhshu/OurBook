@@ -6,27 +6,30 @@ public class Book implements Serializable {
     private int ID;
     private String name;
     private String description;
-    private String chiefEditorName;
+    private String chiefEditor;
     private String keywords;
+    private String cover;
 
     public Book() {
     }
 
-    public Book(String name, String description, String chiefEditorName, String keywords) {
+    public Book(String name, String description, String chiefEditor, String keywords, String cover) {
         // 插入数据库前构造
         this.name = name;
         this.description = description;
-        this.chiefEditorName = chiefEditorName;
+        this.chiefEditor = chiefEditor;
         this.keywords = keywords;
+        this.cover = cover;
     }
 
-    public Book(int ID, String name, String description, String chiefEditorName, String keywords) {
+    public Book(int ID, String name, String description, String chiefEditor, String keywords ,String cover) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;
         this.ID = ID;
-        this.chiefEditorName = chiefEditorName;
+        this.chiefEditor = chiefEditor;
         this.keywords = keywords;
+        this.cover = cover;
     }
 
     public String getName() {
@@ -53,12 +56,12 @@ public class Book implements Serializable {
         this.ID = ID;
     }
 
-    public String getChiefEditorName() {
-        return chiefEditorName;
+    public String getChiefEditor() {
+        return chiefEditor;
     }
 
-    public void setChiefEditorName(String chiefEditorName) {
-        this.chiefEditorName = chiefEditorName;
+    public void setChiefEditor(String chiefEditor) {
+        this.chiefEditor = chiefEditor;
     }
 
     public String getKeywords() {
@@ -67,5 +70,13 @@ public class Book implements Serializable {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 }
