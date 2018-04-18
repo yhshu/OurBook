@@ -22,14 +22,13 @@ public class ReadServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
-        Chapter chapter = bookService.findChapter(Integer.parseInt(req.getParameter("book")),
-                Integer.parseInt(req.getParameter("sequence")));
-        req.setAttribute("name", chapter.getName());
-        req.setAttribute("reader", new BufferedReader(new FileReader(
-                req.getServletContext().getRealPath(chapter.getContent()))));
-        RequestDispatcher dispatcher = req.getRequestDispatcher("content.jsp");
-        dispatcher.forward(req, resp);
+        Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")), Integer.parseInt(request.getParameter("sequence")));
+        request.setAttribute("name", chapter.getName());
+        request.setAttribute("reader", new BufferedReader(new FileReader(
+                request.getServletContext().getRealPath(chapter.getContent()))));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("content.jsp");
+        dispatcher.forward(request, response);
     }
 }
