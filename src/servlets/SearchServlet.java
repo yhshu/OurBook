@@ -21,24 +21,25 @@ import java.io.IOException;
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        String keywords = req.getParameter("keywords");
-        String type = req.getParameter("type");
+        String keywords = request.getParameter("keywords");
+        String type = request.getParameter("type");
         Book[] books = bookService.findByKeywords(keywords);
         User[] editors = new User[books.length];
         for (int i = 0; i < books.length; i++) editors[i] = userService.find(books[i].getChiefEditor());
-        req.setAttribute("keywords", keywords);
-        req.setAttribute("type", type);
-        req.setAttribute("books", books);
-        req.setAttribute("editors", editors);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("search.jsp");
-        dispatcher.forward(req, resp);
+        request.setAttribute("keywords", keywords);
+        request.setAttribute("type", type);
+        request.setAttribute("books", books);
+        request.setAttribute("editors", editors);
+        // nav.jsp 请求 SearchServlet，本Servlet 处理后通过 search.jsp 渲染
+        RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+        dispatcher.forward(request, response);
     }
 }

@@ -25,7 +25,7 @@ public class ChapterServlet extends BaseServlet {
         HttpSession session = request.getSession();
         String chapterName = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
-        // TODO 获取 bookID 和章节序号
+        // TODO 由 book.jsp 获取 bookID 和章节序号
         int bookID = 0;
         int sequence = 0;
         try {
