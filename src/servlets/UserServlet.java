@@ -59,7 +59,7 @@ public class UserServlet extends BaseServlet {
             c_JSESSIONID.setPath("/");
             response.addCookie(c_JSESSIONID);
             // 登录成功后，跳转到个人主页
-            response.sendRedirect("/homepage.jsp");
+            response.sendRedirect("/home");
         } else { // 用户名或密码错误
             // TODO 用户名密码验证失败的反馈
         }

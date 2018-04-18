@@ -1,3 +1,4 @@
+<%@ page import="model.Book" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -36,6 +37,44 @@
         <div class="col s6"> <!--文章、书目或动态-->
             <h5 style=" margin-right: 30px;">我写的书</h5>
             <div> <!-- 我写的书 目录-->
+                <%
+                    for (Book book : (Book[]) request.getAttribute("books")) {
+                %>
+                <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;width: 800px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
+                    <%if (book.getCover() == null || book.getCover().equals("")) {%>
+                    <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"
+                       style="border-radius: 2px 0 0 2px">
+                        <div style="width: 210px;height: 257px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
+                            <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
+                                <%=book.getName()%>
+                            </h4>
+                        </div>
+                    </a>
+                    <%} else {%>
+                    <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                        <img style="width: 210px;height: 257px;border-radius: 2px 0 0 2px"
+                             src="<%=book.getCover()%>">
+                    </a>
+                    <%}%>
+                    <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
+                        <h5 style="margin: 25px 0 0 25px">
+                            <a style="color: black"
+                               href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                                <%=book.getName()%>
+                            </a>
+                        </h5>
+                        <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
+                        <p style="margin: 25px 0 0 25px">
+                            <%=book.getDescription()%>
+                        </p>
+                    </div>
+                    <a class="btn-large btn-floating halfway-fab waves-effect waves-light red"
+                       style="position: relative;margin-bottom: -100px;left:772px;bottom:176px">
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <%}%>
             </div>
         </div>
 

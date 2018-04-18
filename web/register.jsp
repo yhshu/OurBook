@@ -17,7 +17,7 @@
     for (Cookie cookie : cookies) {
         if (cookie.getName().equals("username")) {
             if (session.getAttribute("username") != null) {
-                response.sendRedirect("/homepage.jsp");
+                response.sendRedirect("/home");
                 System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
             }
             break;
@@ -27,7 +27,7 @@
 <body>
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
-        <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+        <a href="home" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="login.jsp">登录</a></li>
         </ul>

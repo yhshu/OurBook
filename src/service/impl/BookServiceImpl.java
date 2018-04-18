@@ -43,6 +43,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book[] findByEditor(String username) {
+        return bookDao.findByUserID(username);
+    }
+
+    @Override
     public Chapter findChapter(int bookID, int sequence) {
         return chapterDao.findByPri(bookID, sequence);
     }

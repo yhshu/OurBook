@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/search")
-public class SearchServlet extends HttpServlet {
+@WebServlet("/home")
+public class HomepageServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -24,19 +25,18 @@ public class SearchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        String keywords = req.getParameter("keywords");
-        String type = req.getParameter("type");
-        Book[] books = bookService.findByKeywords(keywords);
-        User[] editors = new User[books.length];
-        if(keywords==null) resp.sendRedirect("index.jsp");
-        for (int i = 0; i < books.length; i++) editors[i] = userService.find(books[i].getChiefEditor());
-        req.setAttribute("keywords", keywords);
-        req.setAttribute("type", type);
-        req.setAttribute("books", books);
-        req.setAttribute("editors", editors);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("search.jsp");
-        dispatcher.forward(req, resp);
+        if (username == null || username.equals(req.getAttribute("username"))) {
+            Book[] books = bookService.findByEditor(username);
+            String[] followers = userService.getFollowers(username);
+            String[] followees = userService.getFollowees(username);
+            req.setAttribute("books", books);
+            req.setAttribute("followers",followers);
+            req.setAttribute("followees",followees);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("homepage.jsp");
+            requestDispatcher.forward(req, resp);
+        }
     }
 }

@@ -32,6 +32,13 @@ public interface BookService {
     Book[] findByKeywords(String keywords);
 
     /**
+     * 根据作者查找书籍
+     * @param username 作者用户名
+     * @return 作者的全部书籍
+     */
+    Book[] findByEditor(String username);
+
+    /**
      * 查找章节
      *
      * @param bookID   书籍序号
