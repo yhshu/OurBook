@@ -21,19 +21,28 @@
         User[] editors = (User[]) request.getAttribute("editors");
         if (type == null || type.equals("book")) {
             int i = 0;
-            for (Book book : (Book[]) request.getAttribute("books")) {
+            Book[] books = (Book[]) request.getAttribute("books");
+            if (books.length == 0) {%>
+    <h4 class="grey-text" style="text-align: center;margin-top:250px">未找到含有关键字的书籍</h4>
+    <%
+        }
+        for (Book book : books) {
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;width: 800px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
-        <div style="width: 210px;height: 257px;background-color: #0D47A1">
-            <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                <%=book.getName()%>
-            </h4>
-        </div>
+        <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+            <div style="width: 210px;height: 257px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
+                <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
+                    <%=book.getName()%>
+                </h4>
+            </div>
+        </a>
         <%} else {%>
-        <img style="width: 210px;height: 257px"
-             src="<%=book.getCover()%>">
+        <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+            <img style="width: 210px;height: 257px;border-radius: 2px 0 0 2px"
+                 src="<%=book.getCover()%>">
+        </a>
         <%}%>
         <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
             <h5 style="margin: 25px 0 0 25px">
