@@ -47,12 +47,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String[] getFollowers(String username) {
-        return followDao.findFollowers(username);
+    public User[] getFollowers(String username) {
+        String[] usernames = followDao.findFollowers(username);
+        User[] followers = new User[usernames.length];
+        for (int i = 0; i < followers.length; i++)
+            followers[i] = userDao.find(usernames[i]);
+        return followers;
     }
 
     @Override
-    public String[] getFollowees(String username) {
-        return followDao.findFollowees(username);
+    public User[] getFollowees(String username) {
+        String[] usernames = followDao.findFollowers(username);
+        User[] followees = new User[usernames.length];
+        for (int i = 0; i < followees.length; i++)
+            followees[i] = userDao.find(usernames[i]);
+        return followees;
     }
 }

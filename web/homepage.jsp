@@ -1,8 +1,13 @@
 <%@ page import="model.Book" %>
+<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@ include file="header.jsp" %>
+    <%
+        Book[] books = (Book[]) request.getAttribute("books");
+        User[] followees = (User[]) request.getAttribute("followees");
+    %>
     <title>个人主页 - OurBook</title>
 </head>
 
@@ -38,14 +43,13 @@
             <h5 style=" margin-right: 30px; text-align: center">我写的书</h5>
             <div> <!-- 我写的书 目录-->
                 <%
-                    Book[] books = (Book[]) request.getAttribute("books");
                     if (books.length == 0) {%>
-                <h4 class="grey-text" style="text-align: center; margin-top: 100px"> 你还没有写书哦 </h4>
+                <h4 class="grey-text" style="text-align: center; margin-top: 100px"> 你还没有写书 </h4>
                 <%
                     }
                     for (Book book : books) {
                 %>
-                <div style="margin: 20px auto;display: grid;grid-template-columns: 105px auto;border-radius: 2px;width: 400px;
+                <div style="margin: 20px auto;display: grid;grid-template-columns: 105px auto;border-radius: 2px;width: 100%;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
                     <%if (book.getCover() == null || book.getCover().equals("")) {%>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"
@@ -78,6 +82,17 @@
 
         <div class="col s2"> <!--关注列表-->
             <h5 style="text-align: center">我的关注</h5>
+            <% if (followees.length == 0) {%>
+            <h4 style="text-align: center">你还没有关注任何人</h4>
+            <%
+                }
+                for (User user : followees) {
+            %>
+            <div style="margin: auto">
+                <a href="home?user=<%=user.getUsername()%>"><%=user.getNickname()%>
+                </a>
+            </div>
+            <%}%>
         </div>
     </div>
 </div>
