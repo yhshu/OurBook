@@ -1,22 +1,24 @@
-package dao;
+package service;
 
 import model.Follow;
-import model.User;
 
-public interface FollowDao {
+public interface FollowService {
+
     /**
      * 添加新关注的用户
      *
-     * @param username 新关注用户
+     * @param followee  新关注用户
+     *
+     * @param follower
      */
-    void add(Follow username);
+    boolean addFollow(String followee,String follower);
 
     /**
      * 取消关注
      *
      * @param username 被取消的用户
      */
-    void del(String username);
+    boolean delFollow(String username);
 
     /**
      * 查找某用户的关注列表
@@ -33,5 +35,4 @@ public interface FollowDao {
      * @return 用户被其他人关注的列表
      */
     String[] findFollowed(String followee);
-
 }
