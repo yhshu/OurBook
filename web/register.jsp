@@ -2,24 +2,6 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
-    <script language="javascript">
-        function check() {
-            var p1 = document.getElementById('password').value;
-            var p2 = document.getElementById('password_confirm').value;
-
-            if(p1=="" || p2 == "") {
-                alert("密码输入为空！");
-                return false;
-            }
-            if(p1 !== p2) {
-                alert("两次输入不一致！");
-                return false;
-            }else{
-                alert("两次输入一致！");
-                return true;
-            }
-        }
-    </script>
     <%@ include file="header.jsp" %>
     <title>用户注册 - OurBook</title>
 
@@ -72,10 +54,27 @@
                 <label for="password_confirm">确认密码</label>
             </div>
             <br><br><br><br><br><br><br><br>
-            <input type="submit" class="blue btn" id="submit"   value="加入 OurBook"/>
+            <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
         </form>
         <script >
         $(document).ready(){}
+        <!--确认两次密码是否一致-->
+        <script>
+            function check() {
+                var p1 = document.getElementById('password').value;
+                var p2 = document.getElementById('password_confirm').value;
+
+                if (p1 === "" || p2 === "") {
+                    M.toast({html: '请输入密码', classes: 'rounded'});
+                    return false;
+                }
+                if (p1 !== p2) {
+                    M.toast({html: '请核对密码输入', classes: 'rounded'});
+                    return false;
+                } else
+                    return true;
+            }
+
         </script>
     </div>
 </div>
