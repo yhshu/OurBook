@@ -27,20 +27,20 @@
 
     <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
-        <div style="width: 210px;height: 257px;background-color: #0D47A1">
-            <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                <%=book.getName()%>
-            </h4>
-        </div>
-
+        <img style="width: 210px;height: 257px"
+             src="<%=book.getCover()%>">
         <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
             <h5 style="margin: 25px 0 0 25px">
                 <a style="color: black" href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
                     <%=book.getName()%>
                 </a>
             </h5>
-            <p style="color: gray;margin: 0 0 0 25px"><%=book.getChiefEditor()%>
-            </p>
+            <div>
+                <p style="color: gray;margin: 0 0 0 25px; display: inline;"><%=book.getChiefEditor()%>
+                </p>
+                <a href="" class="btn blue" style="margin-left: 10px; display: inline;">关注</a>
+            </div>
+
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
             <p style="margin: 25px 0 0 25px">
                 <%=book.getDescription()%>
@@ -62,8 +62,7 @@
     </form>
 
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
-    <a href="homepage.jsp" class="btn blue" style="display: inline;margin-right: 10px">查看作者</a>
-    <a href="homepage.jsp" class="btn blue" style="display: inline;margin-right: 10px">关注作者</a>
+
 
     <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
         <div class="modal-content">
