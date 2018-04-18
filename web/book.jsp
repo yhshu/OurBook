@@ -51,7 +51,16 @@
     <!-- TODO 点击本书作者用户名跳转到其主页-->
 
     <h6 style="display: inline; margin-right: 30px;">章节目录</h6>
-    <a href="newChapter.jsp" class="btn blue" style="display: inline;margin-right: 10px">添加章节</a>
+    <style>form {
+        margin: 0;
+    }</style>
+    <form action="" accept-charset="UTF-8" method="post" style="display: inline; ">
+        <!-- 添加章节 表单 -->
+        <input name="bookname" type="hidden" value="<%=book.getName()%>">
+        <a type="submit" class="btn blue"
+           style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none ;">添加章节</a>
+    </form>
+
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
     <a href="homepage.jsp" class="btn blue" style="display: inline;margin-right: 10px">查看作者</a>
     <a href="homepage.jsp" class="btn blue" style="display: inline;margin-right: 10px">关注作者</a>

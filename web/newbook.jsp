@@ -31,7 +31,7 @@
         </form>
         <script>
             $(document).ready(function () {
-                $('#bookDescription').characterCounter();
+                $('#bookDescription').characterCounter(); // 文本框记数
             });
         </script>
     </div>

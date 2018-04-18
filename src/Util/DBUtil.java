@@ -10,9 +10,9 @@ public class DBUtil {
     public static Connection connectDB() {
         Connection conn = null;
         String classForName = "com.mysql.jdbc.Driver";
-        String ServandDB = "jdbc:mysql://104.207.135.139:3306/ourbook";
+        String ServandDB = "jdbc:mysql://sh-cdb-7p5q57hl.sql.tencentcdb.com:63280/ourbook";
         String DBUser = "root";
-        String DBPWD = "root";
+        String DBPWD = "root3306";
 
         try {
             Class.forName(classForName).newInstance();
