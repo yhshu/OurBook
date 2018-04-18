@@ -44,7 +44,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM Book WHERE "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] books = getBooks(stm);
             if (books != null) return books;
@@ -139,7 +139,8 @@ public class BookDaoImpl implements BookDao {
             conn.close(); // 关闭数据库连接
             return books.toArray(new Book[0]);
         } catch (Exception e) {
-            System.out.println("BookDao: 获取书目失败");
+            System.out.println("BookDao: 获取书目失败:");
+            e.printStackTrace();
         }
         return null;
     }
