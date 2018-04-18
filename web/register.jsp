@@ -7,10 +7,10 @@
 <head>
     <%@ include file="header.jsp" %>
     <title>用户注册 - OurBook</title>
-<%
-    UserService userService =new UserServiceImpl();
-    User user = userService.find(request.getParameter("username"));
-%>
+    <%
+        UserService userService = new UserServiceImpl();
+        User user = userService.find(request.getParameter("username"));
+    %>
 </head>
 <%
     Cookie[] cookies = request.getCookies();
@@ -63,27 +63,20 @@
             <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
         </form>
 
-        <script>
+        <script>/*
           function checkusername() {
               var u = document.getElementById('username').value;
-         <% int a = 0;
-            if (user.getNickname(u)!= null){
-                  System.out.print("used name!");
-                  a=1;
-              }
-         %>
-              var k = <%=a%>;
               if(k = 0){
-                  M.toast({html: '用户名可以使用！', classes: 'rounded'});
+                  M.toast({html: '该用户名已被注册', classes: 'rounded'});
                   return true;
               }
 
               else if(k = 1) {
-                  M.toast({html: '用户名已被使用！', classes: 'rounded'});
+                  M.toast({html: '该用户名已被注册', classes: 'rounded'});
                   return false;
               }
               }
-          }
+          }*/
         </script>
         <script>
             function check() {

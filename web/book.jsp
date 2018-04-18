@@ -62,6 +62,9 @@
     </form>
 
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
+    <a href="homepage.jsp" class="btn blue" style="display: inline;margin-right: 10px">查看作者</a>
+    <a href="homepage.jsp" class="btn blue" style="display: inline;margin-right: 10px">关注作者</a>
+
     <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
         <div class="modal-content">
             <h4>确认删除吗？</h4>

@@ -7,7 +7,7 @@ public class Follow {
     private String followee;    //被关注的  自己主页
     private String follower;    //关注的
 
-    public Follow(String follower,String followee){
+    public Follow(String followee,String follower){
         this.follower=follower;
         this.followee=followee;
     }
