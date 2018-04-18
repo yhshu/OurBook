@@ -107,7 +107,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE chiefEditorID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE chiefEditor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
             if (books != null)

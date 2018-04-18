@@ -28,13 +28,14 @@ public class HomepageServlet extends HttpServlet {
         String username = req.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        if (username == null || username.equals(req.getAttribute("username"))) {
+        if (username == null) username = (String) req.getSession().getAttribute("username");
+        if (username.equals(req.getSession().getAttribute("username"))) {
             Book[] books = bookService.findByEditor(username);
             String[] followers = userService.getFollowers(username);
             String[] followees = userService.getFollowees(username);
             req.setAttribute("books", books);
-            req.setAttribute("followers",followers);
-            req.setAttribute("followees",followees);
+            req.setAttribute("followers", followers);
+            req.setAttribute("followees", followees);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("homepage.jsp");
             requestDispatcher.forward(req, resp);
         }
