@@ -56,6 +56,8 @@
             <br><br><br><br><br><br><br><br>
             <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
         </form>
+        <script >
+        $(document).ready(){}
         <!--确认两次密码是否一致-->
         <script>
             function check() {
@@ -72,6 +74,7 @@
                 } else
                     return true;
             }
+
         </script>
     </div>
 </div>
