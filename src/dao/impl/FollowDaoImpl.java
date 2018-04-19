@@ -30,9 +30,9 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(2, follow.getFollowee());
             try {
                 stm.executeUpdate();
-                System.out.println("UserDao: 注册成功");
+                System.out.println("FollowDao: 注册成功");
             } catch (Exception e1) {
-                System.out.println("UserDao: 注册失败");
+                System.out.println("FollowDao: 注册失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接
