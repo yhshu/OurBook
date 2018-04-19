@@ -29,6 +29,7 @@ public class BookServlet extends BaseServlet {
         String bookDescription = request.getParameter("bookDescription");
         String editor = request.getParameter("editor");
         String keywords = request.getParameter("keywords");
+        String cover = request.getParameter("cover");
         try {
             bookService.addBook(bookName, bookDescription, editor, keywords, null); // TODO cover 的逻辑
             System.out.println("BookServlet: 添加书目成功");
