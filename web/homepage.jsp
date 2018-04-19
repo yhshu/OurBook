@@ -39,7 +39,7 @@
     </div>
 
     <div class="row">
-        <div class="col"> <!--文章、书目或动态-->
+        <div class="col card"> <!--文章、书目或动态-->
             <h5 style=" margin-right: 30px; text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
@@ -49,11 +49,11 @@
                     }
                     for (Book book : books) {
                 %>
-                <div style="padding: 5px;margin-bottom:10px;display: grid;grid-template-columns: 60px auto;width: 300px;"
-                class="card">
+                <div style="padding: 10px;margin-bottom:10px;display: grid;grid-template-columns: 90px auto;width: 600px;
+border-bottom: 1px solid lightgray">
                     <%if (book.getCover() == null || book.getCover().equals("")) {%>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                        <div style="width: 50px;height: 81px;background-color: #0D47A1">
+                        <div style="width: 90px;height: 120px;background-color: #0D47A1">
                             <h6 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                                 <%=book.getName()%>
                             </h6>
@@ -61,12 +61,12 @@
                     </a>
                     <%} else {%>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                        <img style="width: 60px;height: 80px"
+                        <img style="width: 90px;height: 120px"
                              src="<%=book.getCover()%>">
                     </a>
                     <%}%>
-                    <div style="display: grid;grid-template-rows: 32px 16px 32px">
-                        <a style="color: black;margin: 4px 16px;font-size: 14px"
+                    <div style="display: grid;grid-template-rows: 44px 24px 52px">
+                        <a style="color: black;margin: 8px 24px;font-size: 16px"
                            href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
@@ -80,7 +80,7 @@
             <!--不要随便删除它，除非需要改变排版-->
         </div>
 
-        <div class="col s3"> <!--关注列表-->
+        <div class="col card"> <!--关注列表-->
             <h5 style="text-align: center">我的关注</h5>
             <div style="margin-top: 20px">
                 <% if (followees.length == 0) {%>
@@ -89,8 +89,9 @@
                     }
                     for (User user : followees) {
                 %>
-                <div style="margin: auto">
-                    <a href="home?user=<%=user.getUsername()%>"><%=user.getNickname()%>
+                <div style="margin: auto;width: 200px">
+                    <a href="home?user=<%=user.getUsername()%>" style="text-align: center">
+                        <%=user.getNickname()%>
                     </a>
                 </div>
                 <%}%>
