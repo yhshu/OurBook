@@ -22,6 +22,7 @@ public class BookDaoImpl implements BookDao {
             if (books != null) return books[0];
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("BookDao: findbyID(" + ID + ")失败");
         }
         return null;
     }

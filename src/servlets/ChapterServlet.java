@@ -9,11 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 
 @WebServlet("/ChapterServlet")
 public class ChapterServlet extends BaseServlet {
@@ -27,9 +23,10 @@ public class ChapterServlet extends BaseServlet {
         String chapterName = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
         // 由 book.jsp 获取 bookID
-        int bookID = (int) request.getAttribute("bookID");
+        int bookID = Integer.parseInt(request.getParameter("bookID"));
         try {
             bookService.addChapter(chapterName, bookID, chapterContent);
+            System.out.println("ChapterServlet: 添加章节成功");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterServlet: 添加章节失败");
