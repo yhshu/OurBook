@@ -8,14 +8,9 @@
 <div class="row" style="height: 100%">
     <div class="col s3 grey lighten-5" style="height: 100%">
         <ul>
+            <!-- TODO 章节目录-->
             <li style="padding: 5px">
                 <a class="black-text">item1</a>
-            </li>
-            <li style="padding: 5px">
-                <a class="black-text">item2</a>
-            </li>
-            <li style="padding: 5px">
-                <a class="black-text">item3</a>
             </li>
         </ul>
     </div>
@@ -24,7 +19,7 @@
         </h4>
         <%
             try {
-                BufferedReader br = (BufferedReader)request.getAttribute("reader");
+                BufferedReader br = (BufferedReader) request.getAttribute("reader");
                 String line;
                 while ((line = br.readLine()) != null) {%>
         <p style="padding: 0 10px;"><%=line%>
@@ -37,5 +32,4 @@
         %>
     </div>
 </div>
-
 </body>
