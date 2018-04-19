@@ -35,12 +35,16 @@
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 50px">
 
-    <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;
+    <form action="${pageContext.request.contextPath}/FollowServlet" method="post" id="addfollowee">
+        <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
+        <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
+        <input type="hidden" name="book_id" value="<%=book.getID()%>">
+        <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
-        <%
-            if (book.getCover() == null || book.getCover().equals("")) {
+            <%
+                if (book.getCover() == null || book.getCover().equals("")) {
                 // 如果无封面
-        %>
+            %>
         <div style="width: 210px;height: 257px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
             <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                 <%=book.getName()%>
@@ -59,7 +63,12 @@
             <div>
                 <p style="color: gray;margin: 0 0 0 25px; display: inline;"><%=book.getChiefEditor()%>
                 </p>
-                <a href="" class="btn blue" style="margin-left: 10px; display: inline;">关注</a>
+                <%//如果是本人
+                    /*
+                    if(!session.getAttribute("username").equals(book.getChiefEditor()) ){*/%>
+                <!--<input type="submit" class="btn orange modal-trigger" value="关注作者" onclick="change()" style="..." />--->
+                <% /*}*/%>
+                <a type="submit" class="btn blue" style="margin-left: 10px; display: inline;" onclick="document .getElementById ('addfollowee').submit();" >关注</a>
             </div>
 
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
@@ -68,7 +77,7 @@
             </p>
         </div>
     </div>
-
+    </form>
     <!-- TODO 点击本书作者用户名跳转到其主页-->
 
     <h6 style="display: inline; margin-right: 30px;">章节目录</h6>
@@ -86,31 +95,6 @@
     </form>
 
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
-
-    <form action="${pageContext.request.contextPath}/FollowServlet" method="post" id="addfollowee">
-
-        <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
-        <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
-        <%/*
-            if(!session.getAttribute("username").equals(book.getChiefEditor()) ){*/%>
-        <a type="submit" class="btn orange modal-trigger" style="..." onclick="document.getElementById('addfollowee').submit();">关注作者</a>
-        <% /*}*/%>
-    </form>
-
-
-      <!--  <%/*
-            String Followee = "";
-            String Follower="";
-            request.setCharacterEncoding("UTF-8");
-            if(!book.getChiefEditor().equals("")){
-                session.setAttribute("followee",book.getChiefEditor());
-                session.setAttribute("follower",pageContext.user.getUsername())
-
-            }
-            Followee=*/
-        %>
-        <input type="button" id="btn" value="关注作者" onclick="change()"/>
-    -->
 
     <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
         <div class="modal-content">
