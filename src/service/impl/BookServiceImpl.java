@@ -69,14 +69,14 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         String db_path = "resources/book/" + bookID + "/" + name + ".txt";
-        String path = "../../../" + db_path;
+        String path = "../../web/" + db_path;
         // TODO 将章节内容存放在文件中，并将文件路径插入数据库
         try {
             File file = new File(path);
             if (!file.getParentFile().exists()) {
                 boolean res = file.getParentFile().mkdirs();
                 if (!res)
-                    System.out.println("BookService: 写入章节文件成功");
+                    System.out.println("BookService: 写入章节文件失败");
             }
             PrintStream printStream = new PrintStream(new FileOutputStream(file));
             printStream.print(content);

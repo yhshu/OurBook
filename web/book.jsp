@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Book" %>
+<%@ page import="model.Chapter" %>
 <%@ page import="service.BookService" %>
 <%@ page import="service.impl.BookServiceImpl" %>
-<%@ page import="model.Chapter" %>
 <%
     BookService bookService = new BookServiceImpl();
     Book book = bookService.find(Integer.parseInt(request.getParameter("id")));
@@ -22,11 +22,10 @@
     <title><%=book.getName()%> - OurBook</title>
 
     <script type="text/javascript">
-        function change()
-        {
+        function change() {
             var btn = document.getElementById("btn");
-            btn.value="已关注";
-            btn.disabled=true;
+            btn.value = "已关注";
+            btn.disabled = true;
         }
     </script>
 
@@ -41,44 +40,48 @@
         <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
         <input type="hidden" name="book_id" value="<%=book.getID()%>">
 
-    <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;border-radius: 2px;
+        <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
-        <%
-            if (book.getCover() == null || book.getCover().equals("")) {
-                // 如果无封面
-        %>
-        <div style="width: 192px;height: 256px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
-            <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                <%=book.getName()%>
-            </h4>
-        </div>
-        <%} else { // 如果有封面%>
-        <img style="width: 192px;height: 256px"
-             src="<%=book.getCover()%>">
-        <%}%>
-        <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
-            <h5 style="margin: 25px 0 0 25px">
-                <a style="color: black" href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+            <%
+                if (book.getCover() == null || book.getCover().equals("")) {
+                    // 如果无封面
+            %>
+            <div style="width: 192px;height: 256px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
+                <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                     <%=book.getName()%>
-                </a>
-            </h5>
-            <div>
-                <p style="color: gray;margin: 0 0 0 25px; display: inline;"><%=book.getChiefEditor()%>
-                </p>
-                <%//如果是本人
-                    /*
-                    if(!session.getAttribute("username").equals(book.getChiefEditor()) ){*/%>
-                <!--<input type="submit" class="btn orange modal-trigger" value="关注作者" onclick="change()" style="..." />--->
-                <% /*}*/%>
-                <a type="submit" class="btn blue" style="margin-left: 10px; display: inline;" onclick="document .getElementById ('addfollowee').submit();" >关注</a>
+                </h4>
             </div>
+            <%} else { // 如果有封面%>
+            <img style="width: 192px;height: 256px"
+                 src="<%=book.getCover()%>">
+            <%}%>
+            <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
+                <h5 style="margin: 25px 0 0 25px">
+                    <a style="color: black" href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                        <%=book.getName()%>
+                    </a>
+                </h5>
+                <div>
+                    <p style="color: gray;margin: 0 0 0 25px; display: inline;"><%=book.getChiefEditor()%>
+                    </p>
+                    <%
+                        //如果是本人
+                    /*
+                    if(!session.getAttribute("username").equals(book.getChiefEditor()) ){*/
+                    %>
+                    <!--<input type="submit" class="btn orange modal-trigger" value="关注作者" onclick="change()" style="..." />--->
+                    <% /*}*/%>
+                    <a type="submit" class="btn blue"
+                       style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
+                       onclick="document .getElementById ('addfollowee').submit();">关注</a>
+                </div>
 
-            <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
-            <p style="margin: 25px 0 0 25px">
-                <%=book.getDescription()%>
-            </p>
+                <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
+                <p style="margin: 25px 0 0 25px">
+                    <%=book.getDescription()%>
+                </p>
+            </div>
         </div>
-    </div>
     </form>
 
     <!-- TODO 点击本书作者用户名跳转到其主页-->
