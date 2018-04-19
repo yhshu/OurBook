@@ -39,9 +39,9 @@
     </div>
 
     <div class="row">
-        <div class="col s6"> <!--文章、书目或动态-->
+        <div class="col"> <!--文章、书目或动态-->
             <h5 style=" margin-right: 30px; text-align: center">我写的书</h5>
-            <div> <!-- 我写的书 目录-->
+            <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
                     if (books.length == 0) {%>
                 <h6 class="grey-text" style="text-align: center; margin-top: 100px"> 你还没有写书 </h6>
@@ -49,33 +49,29 @@
                     }
                     for (Book book : books) {
                 %>
-                <div style="margin: 20px auto;display: grid;grid-template-columns: 105px auto;border-radius: 2px;width: 100%;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
+                <div style="margin: 5px auto;display: grid;grid-template-columns: 60px auto;width: 300px">
                     <%if (book.getCover() == null || book.getCover().equals("")) {%>
-                    <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"
-                       style="border-radius: 2px 0 0 2px">
-                        <div style="width: 105px;height: 128px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
-                            <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
+                    <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                        <div style="width: 50px;height: 81px;background-color: #0D47A1">
+                            <h6 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                                 <%=book.getName()%>
-                            </h4>
+                            </h6>
                         </div>
                     </a>
                     <%} else {%>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                        <img style="width: 105px;height: 128px;border-radius: 2px 0 0 2px"
+                        <img style="width: 60px;height: 80px"
                              src="<%=book.getCover()%>">
                     </a>
                     <%}%>
-                    <div style="display: grid;grid-template-rows: 40px 21px 1px 67px">
-                        <h6 style="margin: 12px 0 0 12px">
-                            <a style="color: black"
-                               href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                                <%=book.getName()%>
-                            </a>
-                        </h6>
-                        <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
+                    <div style="display: grid;grid-template-rows: 32px 16px 32px">
+                        <a style="color: black;margin: 4px 16px;font-size: 14px"
+                           href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                            <%=book.getName()%>
+                        </a>
                     </div>
                 </div>
+                <hr style="width:320px; border-top: 1px solid lightgray;border-bottom: 0"/>
                 <%}%>
             </div>
         </div>
@@ -86,17 +82,19 @@
 
         <div class="col s3"> <!--关注列表-->
             <h5 style="text-align: center">我的关注</h5>
-            <% if (followees.length == 0) {%>
-            <h6 style="text-align: center">你还没有关注任何人</h6>
-            <%
-                }
-                for (User user : followees) {
-            %>
-            <div style="margin: auto">
-                <a href="home?user=<%=user.getUsername()%>"><%=user.getNickname()%>
-                </a>
+            <div style="margin-top: 20px">
+                <% if (followees.length == 0) {%>
+                <h6 style="text-align: center">你还没有关注任何人</h6>
+                <%
+                    }
+                    for (User user : followees) {
+                %>
+                <div style="margin: auto">
+                    <a href="home?user=<%=user.getUsername()%>"><%=user.getNickname()%>
+                    </a>
+                </div>
+                <%}%>
             </div>
-            <%}%>
         </div>
     </div>
 </div>
