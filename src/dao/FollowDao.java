@@ -24,7 +24,7 @@ public interface FollowDao {
      * @param follower 用户编号
      * @return 用户正关注的其他用户的用户名
      */
-    String[] findFollowing(String follower);
+    String[] findFollowees(String follower);
 
     /**
      * 查找某用户的被关注列表
@@ -32,6 +32,6 @@ public interface FollowDao {
      * @param followee 用户编号
      * @return 用户被其他人关注的列表
      */
-    String[] findFollowed(String followee);
+    String[] findFollowers(String followee);
 
 }
