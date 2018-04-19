@@ -18,6 +18,7 @@ import java.io.IOException;
  */
 public class FollowServlet {
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("****1");
     }
 
     public void add(HttpServletRequest request, HttpServletResponse response)

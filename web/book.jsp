@@ -87,10 +87,14 @@
 
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
 
-    <form action="${pageContext.request.contextPath}/FollowServlet" method="post">
+    <form action="${pageContext.request.contextPath}/FollowServlet" method="post" id="addfollowee">
+
         <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
         <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
-        <a type="submit" href="homepage.jsp" class="btn orange modal-trigger" style="display: inline" onclick="">关注作者</a>
+        <%/*
+            if(!session.getAttribute("username").equals(book.getChiefEditor()) ){*/%>
+        <a type="submit" class="btn orange modal-trigger" style="..." onclick="document.getElementById('addfollowee').submit();">关注作者</a>
+        <% /*}*/%>
     </form>
 
 
