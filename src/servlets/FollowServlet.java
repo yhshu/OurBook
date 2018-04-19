@@ -31,21 +31,32 @@ public class FollowServlet extends HttpServlet {
         FollowService followservice = new FollowServiceImpl();
         FollowDao followdao = new FollowDaoImpl();
         HttpSession session = request.getSession();
-/*      String followee = (String)session.getAttribute("followee");
-        String follower = (String)session.getAttribute("follower");*/
         String followee = request.getParameter("followee");
-        System.out.println("****");
         String follower = request.getParameter("follower");
-        String book_id=request.getParameter("book_id");
-        try{
-            followservice.addFollow(followee,follower);
-            System.out.println("BookServlet: 关注成功");
-            // 关注成功后，返回主页
-            response.sendRedirect("/book.jsp?id="+book_id);
-        }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("BookServlet: 添加失败");
+        String book_id = request.getParameter("book_id");
+        String method = request.getParameter("method") ;
+        if(method.equals("addfollowee")) {
+            try {
+                followservice.addFollow(followee, follower);
+                System.out.println("followee:"+followee+"    "+"follower:"+follower );
+                System.out.println("BookServlet: 关注成功");
+                // 关注成功后，返回主页
+                response.sendRedirect("/homepage.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("BookServlet: 添加失败");
+            }
+        }else if(method.equals("delfollowee") ){
+            try {
+                followservice.delFollow(followee,follower);
+                System.out.println("followee:"+followee+"    "+"follower"+follower );
+                System.out.println("BookServlet: 关注成功");
+                // 取消成功后，返回主页
+                response.sendRedirect("/homepage.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("BookServlet: 取消失败");
+            }
         }
-
     }
 }

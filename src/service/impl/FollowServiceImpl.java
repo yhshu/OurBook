@@ -15,7 +15,7 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public boolean addFollow(String followee, String follower) {
         if (followee == null || follower == null) {
-            System.out.println("用户名为空");
+            System.out.println("follow为空");
             return false;
         }
         try {
@@ -29,17 +29,17 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public boolean delFollow(String username) {
-        if (username == null) {
-            System.out.println("用户名为空");
+    public boolean delFollow(String followee, String follower) {
+        if (followee.equals("")||follower.equals("") ) {
+            System.out.println("follow为空");
             return false;
         }
         try {
-            followDao.del(username);
-            System.out.println("FollowService: 添加关注成功");
+            followDao.del(new Follow(followee, follower));
+            System.out.println("FollowService: 取消关注成功");
             return true;
         } catch (Exception e) {
-            System.out.println("FollowService: 添加关注失败");
+            System.out.println("FollowService: 取消关注失败");
         }
         return false;
     }

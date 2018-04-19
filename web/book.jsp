@@ -36,6 +36,7 @@
 
     <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
           style="display: inline; " id="addfollowee">
+        <input type="hidden" name="method" value="addfollowee">
         <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
         <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
         <input type="hidden" name="book_id" value="<%=book.getID()%>">

@@ -30,9 +30,9 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(2, follow.getFollowee());
             try {
                 stm.executeUpdate();
-                System.out.println("FollowDao: 注册成功");
+                System.out.println("FollowDao: 添加成功");
             } catch (Exception e1) {
-                System.out.println("FollowDao: 注册失败");
+                System.out.println("FollowDao: 添加失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接
@@ -44,16 +44,17 @@ public class FollowDaoImpl implements FollowDao {
      *取消关注的人，只能一个一个删除，用按钮形式<取消关注>
      */
     @Override
-    public void del(String follower) {
+    public void del(Follow follow) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE follower=?");
-            stm.setString(1, follower);
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE followee=? and follower=?");
+            stm.setString(1, follow.getFollowee() );
+            stm.setString(2, follow.getFollower());
             try {
                 stm.executeUpdate();
-                System.out.println("UserDao: 注册成功");
+                System.out.println("UserDao: 取消成功");
             } catch (Exception e1) {
-                System.out.println("UserDao: 注册失败");
+                System.out.println("UserDao: 取消失败");
             }
             stm.close();
             conn.close(); // 关闭数据库连接

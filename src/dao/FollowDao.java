@@ -14,9 +14,9 @@ public interface FollowDao {
     /**
      * 取消关注
      *
-     * @param username 被取消的用户
+     * @param follow 被取消的用户
      */
-    void del(String username);
+    void del(Follow follow);
 
     /**
      * 查找某用户的关注列表

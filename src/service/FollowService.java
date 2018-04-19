@@ -16,9 +16,9 @@ public interface FollowService {
     /**
      * 取消关注
      *
-     * @param username 被取消的用户
+     * @param   followee  取消的用户 follower 被取消的用户
      */
-    boolean delFollow(String username);
+    boolean delFollow(String followee,String follower);
 
     /**
      * 查找某用户的关注列表

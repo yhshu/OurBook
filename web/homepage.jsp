@@ -1,5 +1,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
+<%@ page import="model.Follow" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -80,6 +81,7 @@ border-bottom: 1px solid lightgray">
             <!--不要随便删除它，除非需要改变排版-->
         </div>
 
+        <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post" id="delfollowee">
         <div class="col card"> <!--关注列表-->
             <h5 style="text-align: center">我的关注</h5>
             <div style="margin-top: 20px">
@@ -90,13 +92,21 @@ border-bottom: 1px solid lightgray">
                     for (User user : followees) {
                 %>
                 <div style="margin: auto;width: 200px">
+                    <input type="hidden" name="method" value="delfollowee">
+                    <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
+                    <input type="hidden" name="follower" value="<%=user.getNickname()%>">
+
                     <a href="home?user=<%=user.getUsername()%>" style="text-align: center">
                         <%=user.getNickname()%>
                     </a>
+                    <a type="submit" class="btn blue"
+                       class="btn blue" style="margin-right: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
+                    onclick="document .getElementById ('delfollowee').submit();">取消关注</a>
                 </div>
                 <%}%>
             </div>
         </div>
+        </form>
     </div>
 </div>
 
