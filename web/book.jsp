@@ -20,6 +20,16 @@
 <head>
     <%@ include file="header.jsp" %>
     <title><%=book.getName()%> - OurBook</title>
+
+    <script type="text/javascript">
+        function change()
+        {
+            var btn = document.getElementById("btn");
+            btn.value="已关注";
+            btn.disabled=true;
+        }
+    </script>
+
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
@@ -65,6 +75,7 @@
     <style>form {
         margin: 0;
     }</style>
+
     <form action="${pageContext.request.contextPath}/newChapter.jsp" accept-charset="UTF-8" method="post"
           style="display: inline; " id="newChapterForm">
         <!-- 添加章节 表单 -->
@@ -75,6 +86,27 @@
     </form>
 
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
+
+    <form action="${pageContext.request.contextPath}/FollowServlet" method="post">
+        <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
+        <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
+        <a type="submit" href="homepage.jsp" class="btn orange modal-trigger" style="display: inline" onclick="">关注作者</a>
+    </form>
+
+
+      <!--  <%/*
+            String Followee = "";
+            String Follower="";
+            request.setCharacterEncoding("UTF-8");
+            if(!book.getChiefEditor().equals("")){
+                session.setAttribute("followee",book.getChiefEditor());
+                session.setAttribute("follower",pageContext.user.getUsername())
+
+            }
+            Followee=*/
+        %>
+        <input type="button" id="btn" value="关注作者" onclick="change()"/>
+    -->
 
     <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
         <div class="modal-content">
@@ -105,11 +137,13 @@
             <!--TODO 请求删除本书-->
         </div>
     </div>
+
     <script>
         $(document).ready(function () {
             $('.modal').modal();
         });
     </script>
+
     <div class="collection">
         <%for (Chapter chapter : chapters) {%>
         <div>

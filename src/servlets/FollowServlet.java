@@ -8,6 +8,7 @@ import service.impl.FollowServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -21,9 +22,17 @@ public class FollowServlet {
 
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("****1");
+        response .setContentType("text/html");
+        System.out.println("****2");
         FollowService followservice = new FollowServiceImpl();
+        System.out.println("****3");
         FollowDao followdao = new FollowDaoImpl();
+//        HttpSession session = new request.getSession();
+/*        String followee = (String)session.getAttribute("followee");
+        String follower = (String)session.getAttribute("follower");*/
         String followee = request.getParameter("followee");
+        System.out.println("****");
         String follower = request.getParameter("follower");
         try{
             followservice.addFollow(followee,follower);
