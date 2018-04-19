@@ -8,7 +8,10 @@ import model.Book;
 import model.Chapter;
 import service.BookService;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
@@ -54,9 +57,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public boolean addChapter(String name, int bookID, String content) {
-        // 获取新章节的 sequence
         Book book = bookDao.findByID(bookID);
-        int sequence = book.getChapterNum();
+        int sequence = book.getChapterNum() + 1; // 新章节 + 1
 
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
@@ -66,18 +68,21 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容URL为空");
             return false;
         }
+        String path = "web/resources/book/" + bookID + "/" + name + ".txt";
         // TODO 将章节内容存放在文件中，并将文件路径插入数据库
         try {
-            File file = new File("web/resources/book"); // TODO
+            File file = new File(path);
             PrintStream printStream = new PrintStream(new FileOutputStream(file));
             printStream.println(content);
+            System.out.println("BookService: 章节写入文件成功");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.out.println("BookService: 章节写入文件失败");
         }
 
         try {
             // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            return chapterDao.add(new Chapter(name, bookID, sequence, content));
+            return chapterDao.add(new Chapter(name, bookID, sequence, path));
         } catch (Exception e) {
             System.out.println("BookService: 添加章节失败");
             e.printStackTrace();
