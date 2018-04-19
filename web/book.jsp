@@ -39,13 +39,8 @@
             <%
                 if (book.getCover() == null || book.getCover().equals("")) {
                 // 如果无封面
-<<<<<<< HEAD
-            %>
-        <div style="width: 210px;height: 257px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
-=======
         %>
         <div style="width: 192px;height: 256px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
->>>>>>> 82b68e0bb7017966cab300ade7cbef1aaea6cdcc
             <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                 <%=book.getName()%>
             </h4>
