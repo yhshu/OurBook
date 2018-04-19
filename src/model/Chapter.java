@@ -6,7 +6,7 @@ public class Chapter implements Serializable {
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
     private int sequence; // 章节序号
-    private String content; // 章节内容地址
+    private String content; // 章节文件路径
 
     public Chapter(String name, int bookID, int sequence, String content) {
         // 插入数据库前构造
