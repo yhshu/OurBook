@@ -65,7 +65,7 @@ public class FollowDaoImpl implements FollowDao {
      *查找关注的人的列表<homepage,otherpage 同>
      */
     @Override
-    public String[] findFollowers(String followee) {
+    public String[] findFollowing(String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE followee = ?");
@@ -95,7 +95,7 @@ public class FollowDaoImpl implements FollowDao {
      * @param follower 用户编号  知道followee的名字，用作follower来搜索
      * @return 用户被其他人关注的列表
      */
-    public String[] findFollowees(String follower){
+    public String[] findFollowed(String follower){
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");

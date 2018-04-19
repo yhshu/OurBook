@@ -43,11 +43,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book[] findByEditor(String username) {
-        return bookDao.findByUserID(username);
-    }
-
-    @Override
     public Chapter findChapter(int bookID, int sequence) {
         return chapterDao.findByPri(bookID, sequence);
     }
@@ -76,8 +71,8 @@ public class BookServiceImpl implements BookService {
         }
 
         try {
-            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            return chapterDao.add(new Chapter(name, bookID, sequence, content));
+            chapterDao.add(new Chapter(name, bookID, sequence, content));
+            return true;
         } catch (Exception e) {
             System.out.println("BookService: 添加章节失败");
             e.printStackTrace();

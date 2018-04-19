@@ -6,11 +6,10 @@ import model.Chapter;
 public interface ChapterDao {
     /**
      * 添加章节
-     * 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
      *
      * @param chapter 新增章节
      */
-    boolean add(Chapter chapter);
+    void add(Chapter chapter);
 
     /**
      * 根据主键查找章节

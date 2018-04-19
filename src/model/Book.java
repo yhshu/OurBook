@@ -9,7 +9,6 @@ public class Book implements Serializable {
     private String chiefEditor;
     private String keywords;
     private String cover;
-    private int chapterNum;
 
     public Book() {
     }
@@ -23,7 +22,7 @@ public class Book implements Serializable {
         this.cover = cover;
     }
 
-    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum) {
+    public Book(int ID, String name, String description, String chiefEditor, String keywords ,String cover) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;
@@ -31,7 +30,6 @@ public class Book implements Serializable {
         this.chiefEditor = chiefEditor;
         this.keywords = keywords;
         this.cover = cover;
-        this.chapterNum = chapterNum;
     }
 
     public String getName() {
@@ -80,13 +78,5 @@ public class Book implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
-    }
-
-    public int getChapterNum() {
-        return chapterNum;
-    }
-
-    public void setChapterNum(int chapterNum) {
-        this.chapterNum = chapterNum;
     }
 }

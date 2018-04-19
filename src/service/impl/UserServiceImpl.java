@@ -1,15 +1,12 @@
 package service.impl;
 
-import dao.FollowDao;
 import dao.UserDao;
-import dao.impl.FollowDaoImpl;
 import dao.impl.UserDaoImpl;
 import model.User;
 import service.UserService;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao = new UserDaoImpl();
-    private FollowDao followDao = new FollowDaoImpl();
 
     @Override
     public User find(String username) {
@@ -44,23 +41,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getNickname(String username) {
         return userDao.getNickname(username);
-    }
-
-    @Override
-    public User[] getFollowers(String username) {
-        String[] usernames = followDao.findFollowers(username);
-        User[] followers = new User[usernames.length];
-        for (int i = 0; i < followers.length; i++)
-            followers[i] = userDao.find(usernames[i]);
-        return followers;
-    }
-
-    @Override
-    public User[] getFollowees(String username) {
-        String[] usernames = followDao.findFollowers(username);
-        User[] followees = new User[usernames.length];
-        for (int i = 0; i < followees.length; i++)
-            followees[i] = userDao.find(usernames[i]);
-        return followees;
     }
 }

@@ -14,38 +14,25 @@ public class ChapterDaoImpl implements ChapterDao {
     private Connection conn = null;
 
     @Override
-    public boolean add(Chapter chapter) {
+    public void add(Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm1 = conn.prepareStatement("UPDATE book SET chapter_num = chapter_num + 1 WHERE ID = ?");
-            stm1.setInt(1, chapter.getBookID());
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content) VALUES (?,?,?,?)");
+            stm.setString(1, chapter.getName());
+            stm.setInt(2, chapter.getBookID());
+            stm.setInt(3, chapter.getSequence());
+            stm.setString(4, chapter.getContent());
             try {
-                stm1.executeUpdate();
-                stm1.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("ChapterDao: 添加 book 表章节数失败");
-                return false;
-            }
-
-            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content) VALUES (?,?,?,?)");
-            stm2.setString(1, chapter.getName());
-            stm2.setInt(2, chapter.getBookID());
-            stm2.setInt(3, chapter.getSequence());
-            stm2.setString(4, chapter.getContent());
-            try {
-                stm2.executeUpdate();
-                stm2.close();
-                conn.close(); // 关闭数据库连接
+                stm.executeUpdate();
                 System.out.println("ChapterDao: 添加章节成功");
-                return true;
             } catch (Exception e1) {
                 System.out.println("ChapterDao: 添加章节失败");
             }
+            stm.close();
+            conn.close(); // 关闭数据库连接
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     @Override
