@@ -22,12 +22,14 @@ public class ChapterDaoImpl implements ChapterDao {
             try {
                 stm1.executeUpdate();
                 stm1.close();
+                conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("ChapterDao: 添加 book 表章节数失败");
+                System.out.println("ChapterDao: 修改 book 表章节数失败");
                 return false;
             }
 
+            conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content) VALUES (?,?,?,?)");
             stm2.setString(1, chapter.getName());
             stm2.setInt(2, chapter.getBookID());
