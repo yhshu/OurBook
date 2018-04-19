@@ -10,7 +10,7 @@
     for (Cookie cookie : cookies) {
         if (cookie.getName().equals("username")) {
             if (session.getAttribute("username") != null) {
-                response.sendRedirect("/homepage.jsp");
+                response.sendRedirect("/home");
                 System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
             }
             break;

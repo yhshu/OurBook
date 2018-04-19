@@ -53,7 +53,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String name, int bookID, int sequence, String content) {
+    public boolean addChapter(String name, int bookID, String content) {
+        // 获取新章节的 sequence
+        Book book = bookDao.findByID(bookID);
+        int sequence = book.getChapterNum();
+
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;

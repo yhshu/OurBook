@@ -24,14 +24,12 @@ public class ChapterServlet extends BaseServlet {
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
-        HttpSession session = request.getSession();
         String chapterName = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
-        // TODO 由 book.jsp 获取 bookID 和章节序号
+        // 由 book.jsp 获取 bookID
         int bookID = (int) request.getAttribute("bookID");
-        int sequence = 0;
         try {
-            bookService.addChapter(chapterName, bookID, sequence, chapterContent);
+            bookService.addChapter(chapterName, bookID, chapterContent);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterServlet: 添加章节失败");

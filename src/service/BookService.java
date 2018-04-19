@@ -60,9 +60,8 @@ public interface BookService {
      *
      * @param name     章节名
      * @param bookID   书的编号
-     * @param sequence 章节序号
      * @param content  章节内容，将以文件形式存储于 web/resources/book
      * @return 添加成功 true，添加失败 false
      */
-    boolean addChapter(String name, int bookID, int sequence, String content);
+    boolean addChapter(String name, int bookID, String content);
 }

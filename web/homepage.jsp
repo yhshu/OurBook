@@ -11,7 +11,7 @@
     <title>个人主页 - OurBook</title>
 </head>
 
-<body>
+<body class="grey lighten-4">
 <%@ include file="nav.jsp" %>
 <div class="container">
     <div class="row">

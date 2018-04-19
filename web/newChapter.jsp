@@ -8,9 +8,7 @@
 <%@ include file="nav.jsp" %>
 <div class="container">
     <form action="${pageContext.request.contextPath}/ChapterServlet" method="post">
-        <input name="bookID" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
-        <input name="bookname" type="hidden" value="<%=request.getAttribute("bookname")%>"/>
-        <input name="username" type="hidden" value="<%=request.getAttribute("username")%>"/>
+        <input name="bookID" type="hidden" value="<%=request.getParameter("bookID")%>"/>
         <h4><i class="material-icons">bookmark</i>添加章节</h4>
         <div class="input-field col s12">
             <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"/>

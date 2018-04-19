@@ -66,13 +66,12 @@
         margin: 0;
     }</style>
     <form action="${pageContext.request.contextPath}/newChapter.jsp" accept-charset="UTF-8" method="post"
-          style="display: inline; ">
+          style="display: inline; " id="newChapterForm">
         <!-- 添加章节 表单 -->
         <input name="bookID" type="hidden" value="<%=book.getID()%>"/>
-        <input name="bookname" type="hidden" value="<%=book.getName()%>"/>
-        <input name="username" type="hidden" value="<%=book.getChiefEditor()%>>"/>
-        <a href="newChapter.jsp" class="btn blue"
-           style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none ;">添加章节</a>
+        <a type="submit" class="btn blue"
+           style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;"
+           onclick="document.getElementById('newChapterForm').submit();">添加章节</a>
     </form>
 
     <a href="#delete_modal" class="btn orange modal-trigger" style="display: inline">删除本书</a>
