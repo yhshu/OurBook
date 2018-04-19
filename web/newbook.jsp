@@ -4,13 +4,27 @@
 <head>
     <%@ include file="header.jsp" %>
     <title>创建书籍 - OurBook</title>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#preview')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </head>
 
 <body>
 <%@ include file="nav.jsp" %>
 <div class="container" style="margin-top: 20px">
     <div class="col card" style="width: 600px; padding: 20px">
-        <form action="${pageContext.request.contextPath}/BookServlet" method="post">
+        <form action="${pageContext.request.contextPath}/Servlet" method="post">
             <input type="hidden" name="method" value="add"/>
             <input type="hidden" name="editor" value="<%=session.getAttribute("username")%>">
             <div style="border-bottom: 1px solid lightgray">
@@ -30,8 +44,18 @@
                     <input id="keywords" name="keywords" type="text" class="validate" data-length="40">
                     <label for="keywords">关键词</label>
                 </div>
+                <div style="padding:10px 60px">
+                    <input class="btn" id="cover" type='file' onchange="readURL(this);"
+                           style="display: none"/>
+                    <img id="preview" src="img/icon/plus-icon.png" alt="your image"
+                         style="display: inline-block;width: 240px;background-color: #f6f6f6"/>
+                    <label for="cover" class="blue btn" style="margin: -240px 0 0 60px;
+                     display: inline-block">上传封面</label>
+                </div>
+                <div style="margin: 20px">
+                    <input type="submit" class="blue btn" value="创建书籍" style="margin: auto; display: block"/>
+                </div>
             </div>
-            <input type="submit" class="blue btn" value="确认" style="float: right"/>
         </form>
         <script>
             $(document).ready(function () {

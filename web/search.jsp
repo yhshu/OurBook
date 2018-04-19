@@ -29,11 +29,11 @@
         }
         for (Book book : books) {
     %>
-    <div style="margin: 20px auto;display: grid;grid-template-columns: 210px auto;border-radius: 2px;width: 800px;
+    <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;border-radius: 2px;width: 800px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
         <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>" style="border-radius: 2px 0 0 2px">
-            <div style="width: 210px;height: 257px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
+            <div style="width: 192px;height: 256px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
                 <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                     <%=book.getName()%>
                 </h4>
@@ -41,7 +41,7 @@
         </a>
         <%} else {%>
         <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-            <img style="width: 210px;height: 257px;border-radius: 2px 0 0 2px"
+            <img style="width: 192px;height: 256px;border-radius: 2px 0 0 2px"
                  src="<%=book.getCover()%>">
         </a>
         <%}%>
