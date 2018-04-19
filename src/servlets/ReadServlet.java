@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 @WebServlet("/read")
 public class ReadServlet extends HttpServlet {
@@ -27,9 +26,8 @@ public class ReadServlet extends HttpServlet {
         BookService bookService = new BookServiceImpl();
         Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")), Integer.parseInt(request.getParameter("sequence")));
         request.setAttribute("name", chapter.getName());
-        InputStreamReader isr = new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath(chapter.getContent())), "UTF-8");
-        BufferedReader read = new BufferedReader(isr);
-        request.setAttribute("reader", read);
+        request.setAttribute("reader", new BufferedReader(new FileReader(
+                request.getServletContext().getRealPath(chapter.getContent()))));
         RequestDispatcher dispatcher = request.getRequestDispatcher("content.jsp");
         dispatcher.forward(request, response);
     }

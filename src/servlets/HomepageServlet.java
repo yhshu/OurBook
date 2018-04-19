@@ -28,22 +28,16 @@ public class HomepageServlet extends HttpServlet {
         String username = request.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
+        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
         if (username == null) username = (String) request.getSession().getAttribute("username");
-        String currentUser = (String) request.getSession().getAttribute("username");
-        String redirect = "homepage.jsp";
-        if (currentUser == null) {
-            currentUser = "";
-            redirect = "login.jsp";
-        }
-        if (username.equals(currentUser)) {
+        if (username.equals(request.getSession().getAttribute("username"))) {
             Book[] books = bookService.findByEditor(username);
             User[] followers = userService.getFollowers(username);
             User[] followees = userService.getFollowees(username);
             request.setAttribute("books", books);
             request.setAttribute("followers", followers);
             request.setAttribute("followees", followees);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(redirect);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("homepage.jsp");
             requestDispatcher.forward(request, response);
         }
     }
