@@ -8,6 +8,9 @@
 <%@ include file="nav.jsp" %>
 <div class="container">
     <form action="${pageContext.request.contextPath}/ChapterServlet" method="post">
+        <input name="bookID" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
+        <input name="bookname" type="hidden" value="<%=request.getAttribute("bookname")%>"/>
+        <input name="username" type="hidden" value="<%=request.getAttribute("username")%>"/>
         <h4><i class="material-icons">bookmark</i>添加章节</h4>
         <div class="input-field col s12">
             <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"/>
@@ -22,7 +25,7 @@
     </form>
     <script>
         $(document).ready(function () {
-            $('#chapterContent').characterCounter();
+            $('#chapterContent').characterCounter(); // 文本框计数器
         });
     </script>
 </div>

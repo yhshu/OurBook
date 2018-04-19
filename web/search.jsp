@@ -23,7 +23,8 @@
             int i = 0;
             Book[] books = (Book[]) request.getAttribute("books");
             if (books.length == 0) {%>
-    <h4 class="grey-text" style="text-align: center;margin-top:250px">未找到含有关键字的书籍</h4>
+    <h4 class="grey-text" style="text-align: center;margin-top:250px">
+        未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的书籍</h4>
     <%
         }
         for (Book book : books) {

@@ -44,7 +44,7 @@
             <div> <!-- 我写的书 目录-->
                 <%
                     if (books.length == 0) {%>
-                <h4 class="grey-text" style="text-align: center; margin-top: 100px"> 你还没有写书 </h4>
+                <h6 class="grey-text" style="text-align: center; margin-top: 100px"> 你还没有写书 </h6>
                 <%
                     }
                     for (Book book : books) {
@@ -80,10 +80,14 @@
             </div>
         </div>
 
-        <div class="col s2"> <!--关注列表-->
+        <div class="col s2">
+            <!--不要随便删除它，除非需要改变排版-->
+        </div>
+
+        <div class="col s3"> <!--关注列表-->
             <h5 style="text-align: center">我的关注</h5>
             <% if (followees.length == 0) {%>
-            <h4 style="text-align: center">你还没有关注任何人</h4>
+            <h6 style="text-align: center">你还没有关注任何人</h6>
             <%
                 }
                 for (User user : followees) {
