@@ -58,7 +58,7 @@ public class BookDaoImpl implements BookDao {
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO book (ID,name,description,chiefEditor,keywords,cover) VALUES (0,?,?,?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO book (ID,name,description,chiefEditor,keywords,cover,chapter_num) VALUES (null,?,?,?,?,?,0)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setString(3, book.getChiefEditor());
@@ -131,7 +131,7 @@ public class BookDaoImpl implements BookDao {
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
                         rs.getString("description"), rs.getString("chiefEditor"),
-                        rs.getString("keywords"), rs.getString("cover"));
+                        rs.getString("keywords"), rs.getString("cover"), rs.getInt("chapter_num"));
                 books.add(book);
             }
             rs.close();

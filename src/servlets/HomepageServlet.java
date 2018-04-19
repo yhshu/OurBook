@@ -19,26 +19,26 @@ import java.io.IOException;
 public class HomepageServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("user");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        if(req.getSession().getAttribute("username")==null) resp.sendRedirect("index.jsp");
-        if (username == null) username = (String) req.getSession().getAttribute("username");
-        if (username.equals(req.getSession().getAttribute("username"))) {
+        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
+        if (username == null) username = (String) request.getSession().getAttribute("username");
+        if (username.equals(request.getSession().getAttribute("username"))) {
             Book[] books = bookService.findByEditor(username);
             User[] followers = userService.getFollowers(username);
             User[] followees = userService.getFollowees(username);
-            req.setAttribute("books", books);
-            req.setAttribute("followers", followers);
-            req.setAttribute("followees", followees);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("homepage.jsp");
-            requestDispatcher.forward(req, resp);
+            request.setAttribute("books", books);
+            request.setAttribute("followers", followers);
+            request.setAttribute("followees", followees);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("homepage.jsp");
+            requestDispatcher.forward(request, response);
         }
     }
 }

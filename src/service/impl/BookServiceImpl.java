@@ -72,8 +72,8 @@ public class BookServiceImpl implements BookService {
         }
 
         try {
-            chapterDao.add(new Chapter(name, bookID, sequence, content));
-            return true;
+            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
+            return chapterDao.add(new Chapter(name, bookID, sequence, content));
         } catch (Exception e) {
             System.out.println("BookService: 添加章节失败");
             e.printStackTrace();

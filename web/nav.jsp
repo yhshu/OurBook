@@ -3,7 +3,7 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     <li><a id="username_display" class="blue-text">未登录</a></li><!--显示用户名与昵称-->
-    <li><a href="homepage.jsp" class="blue-text">我的主页</a></li>
+    <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="blue-text">退出</a></li>
 </ul>
@@ -50,7 +50,7 @@
     <div class="nav-wrapper blue row" style="margin: 0">
         <!-- Logo -->
         <div class="col s3">
-            <a href="homepage.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+            <a href="${pageContext.request.contextPath}/home" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
         <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">
