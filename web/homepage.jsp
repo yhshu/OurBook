@@ -49,8 +49,8 @@
                     }
                     for (Book book : books) {
                 %>
-                <div style="padding: 5px;margin-bottom:10px;display: grid;grid-template-columns: 60px auto;width: 300px;
-                border: 1px solid gray">
+                <div style="padding: 5px;margin-bottom:10px;display: grid;grid-template-columns: 60px auto;width: 300px;"
+                class="card">
                     <%if (book.getCover() == null || book.getCover().equals("")) {%>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
                         <div style="width: 50px;height: 81px;background-color: #0D47A1">
