@@ -21,12 +21,12 @@ public class LogoutServlet extends BaseServlet {
         Cookie[] cookies = request.getCookies();
         HttpSession session = request.getSession();
         session.removeAttribute("username");
-        for (Cookie cookie : cookies) {
-            cookie.setMaxAge(0); // 立即删除 cookie
-            response.addCookie(cookie);
-            System.out.println("LogoutServlet: 退出成功，跳转到登录页");
-        }
-        response.flushBuffer();
+        if (cookies != null)
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0); // 立即删除 cookie
+                response.addCookie(cookie);
+                System.out.println("LogoutServlet: 退出成功，跳转到登录页");
+            }
         response.sendRedirect("/login.jsp");
     }
 }

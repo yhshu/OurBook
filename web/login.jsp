@@ -7,15 +7,16 @@
 </head>
 <%
     Cookie[] cookies = request.getCookies();
-    for (Cookie cookie : cookies) {
-        if (cookie.getName().equals("username")) {
-            if (session.getAttribute("username") != null) {
-                response.sendRedirect("/home");
-                System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
+    if (cookies != null)
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("username")) {
+                if (session.getAttribute("username") != null) {
+                    response.sendRedirect("/home");
+                    System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
+                }
+                break;
             }
-            break;
         }
-    }
 %>
 <body class="grey lighten-4">
 <div class="row">

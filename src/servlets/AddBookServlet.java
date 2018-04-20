@@ -59,8 +59,7 @@ public class AddBookServlet extends HttpServlet {
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
                         filename = (bookDao.maxID() + 1) + extension;
-                        File saveFile = new File(this.getServletContext().getRealPath("/resources/cover/")
-                                + filename);
+                        File saveFile = new File(this.getServletContext().getRealPath("/resources/cover/") + filename);
                         fm.write(saveFile); // 向文件中写入数据
                         message = "文件上传成功！";
                     } else {
@@ -81,7 +80,7 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            bookService.addBook(bookName, bookDescription, editor, keywords, "/resources/cover/" + filename); // TODO cover 的逻辑
+            bookService.addBook(bookName, bookDescription, editor, keywords, "/resources/cover/" + filename);
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
             request.setAttribute("result", message);
