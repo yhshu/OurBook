@@ -24,15 +24,17 @@ public class ChapterServlet extends BaseServlet {
         String chapterContent = request.getParameter("chapterContent");
         // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("bookID"));
+        int sequence = 1;
         try {
-            bookService.addChapter(chapterName, bookID, chapterContent);
+            String path = this.getServletContext().getRealPath("/resources/book/");
+            sequence = bookService.addChapter(chapterName, bookID, chapterContent, path);
             System.out.println("ChapterServlet: 添加章节成功");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterServlet: 添加章节失败");
         }
         // 添加章节完成后，请求重定向，查看本书目录
-        response.sendRedirect("/book.jsp?id=" + bookID);
+        response.sendRedirect("/read?book=" + bookID + "&sequence=" + sequence);
     }
 
     public void read(HttpServletRequest request, HttpServletResponse response)

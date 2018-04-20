@@ -61,19 +61,22 @@
             </div>
             <br><br><br><br><br><br><br><br>
             <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
-
-
         </form>
         <script>
-            <%try {
-                 if(request.getAttribute("message").equals("username registered"))%>
-                M.toast({html: 'username registered', classes: 'rounded'});
             <%
-              }catch (Exception e) {
+            try {
+                 if(request.getAttribute("message").equals("username registered")){
+                 %>
+            M.toast({html: '该用户名已注册', classes: 'rounded'});
+            <%
+             }else if(request.getAttribute("message").equals("register failed")){
+             %>
+            M.toast({html: '注册失败', classes: 'rounded'});
+            <%}
+            }catch (Exception e) {
                 e.printStackTrace();
-                }
+            }
             %>
-
         </script>
         <script>
             function check() {
@@ -89,7 +92,6 @@
                 } else
                     return true;
             }
-
         </script>
     </div>
 </div>
