@@ -25,13 +25,19 @@ public class UserServlet extends BaseServlet {
         System.out.println("【用户注册】用户名：" + username + "，昵称：" + nickname + "，密码：" + password);
         UserService userService = new UserServiceImpl();
         try {
-            userService.register(username, nickname, password);
-            // 注册成功后，请求重定向，跳转到登录界面
-            response.sendRedirect("/login.jsp");
+           if(userService.register(username,nickname, password)) {
+               // 注册成功后，请求重定向，跳转到登录界面
+               response.sendRedirect("/login.jsp");
+           }else {
+               request.setAttribute("message", "username registered");
+               request.getRequestDispatcher("register.jsp").forward(request, response);
+               //response.sendRedirect("/register.jsp");
+           }
         } catch (Exception e) {
             request.setAttribute("message", "注册失败");
         }
     }
+
 
     public void login(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
