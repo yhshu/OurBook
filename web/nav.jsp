@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-    <li><a id="username_display" class="blue-text">未登录</a></li><!--显示用户名与昵称-->
+<ul id="dropdown1" class="dropdown-content" style="position: relative;top:64px">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="blue-text">退出</a></li>
@@ -10,11 +9,6 @@
 
 <script>
     $(document).ready(function () {
-        // 通过 cookie 修改下拉列表中的 username_display
-        var username = getCookie('username');
-        var nickname = getCookie('nickname');
-        if (nickname !== "" && username !== "")
-            document.getElementById("username_display").innerText = nickname + " (" + username + ")";
 
         // 搜索框点叉，清除框中内容
         var queryDict = {};
@@ -67,8 +61,10 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="addBook">创作新书</a></li>
                 <!-- 右上角下拉列表 -->
-                <li><a class="dropdown-trigger" data-target="dropdown1">我<i
-                        class="material-icons right">arrow_drop_down</i></a>
+                <li style="height: 64px"><a class="dropdown-trigger" data-target="dropdown1" style="height: 64px">
+                    <img src="<%=session.getAttribute("avatar")%>" style="width: 32px;height:32px;margin-top: 16px;
+                    object-fit: cover;border-radius: 5%">
+                    <i class="material-icons right">arrow_drop_down</i></a>
                 </li>
             </ul>
         </div>
