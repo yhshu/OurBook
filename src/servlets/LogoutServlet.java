@@ -25,7 +25,7 @@ public class LogoutServlet extends BaseServlet {
             for (Cookie cookie : cookies) {
                 cookie.setMaxAge(0); // 立即删除 cookie
                 response.addCookie(cookie);
-                System.out.println("LogoutServlet: 删除 cookie" + cookie.getName() + " 成功");
+                System.out.println("LogoutServlet: 删除 cookie " + cookie.getName() + " 成功");
             }
         System.out.println("LogoutServlet: 退出成功，跳转到登录页");
         response.sendRedirect("/login.jsp");

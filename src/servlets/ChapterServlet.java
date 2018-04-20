@@ -41,8 +41,7 @@ public class ChapterServlet extends BaseServlet {
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
         try {
-            Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("bookID")),
-                    Integer.parseInt(request.getParameter("sequence")));
+            Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("bookID")), Integer.parseInt(request.getParameter("sequence")));
             request.setAttribute("chapter", chapter);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
             // TODO dispatch request to jsp
