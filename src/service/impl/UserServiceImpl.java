@@ -16,10 +16,10 @@ public class UserServiceImpl implements UserService {
         return userDao.find(username);
     }
 
-    public boolean findExist(String username){
-        if (userDao.find(username).getUsername().isEmpty()){
+    public boolean findExist(String username) {
+        if (userDao.find(username).getUsername().isEmpty()) {
             return true;  //用户名不存在
-        }else
+        } else
             return false; //用户名存在
     }
 
@@ -34,18 +34,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         User user = userDao.find(username);
         if (user != null && user.getPassword().equals(password)) {
             // 用户名与密码匹配
             System.out.println("UserService: 【用户登录】用户名与密码匹配");
-            return true;
+            return user;
         }
         // 用户名或密码错误
         System.out.println("UserService: 【用户登录】用户名或密码错误");
         System.out.println("login as " + username + " " + password);
         System.out.println("Database:" + user.getUsername() + " " + user.getPassword());
-        return false;
+        return null;
     }
 
     @Override
@@ -54,25 +54,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User[] getFollowers(String username) {
-        String[] usernames = followDao.findFollowers(username);
-        User[] followers = new User[usernames.length];
-        for (int i = 0; i < followers.length; i++)
-            followers[i] = userDao.find(usernames[i]);
-        return followers;
+    public String[] getFollowers(String username) {
+        return followDao.findFollowers(username);
     }
 
     @Override
-    public User[] getFollowees(String username) {
-        String[] usernames = followDao.findFollowers(username);
-        User[] followees = new User[usernames.length];
-        for (int i = 0; i < followees.length; i++)
-            followees[i] = userDao.find(usernames[i]);
-        return followees;
+    public String[] getFollowees(String username) {
+        return followDao.findFollowers(username);
     }
 
     @Override
-    public boolean modify(String username, String nickname, String description) {
-        return userDao.modify(username, nickname, description);
+    public boolean modify(String username, String nickname, String description, String avatar) {
+        return userDao.modify(username, nickname, description, avatar);
     }
 }

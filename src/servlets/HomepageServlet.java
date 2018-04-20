@@ -1,7 +1,6 @@
 package servlets;
 
 import model.Book;
-import model.User;
 import service.BookService;
 import service.UserService;
 import service.impl.BookServiceImpl;
@@ -36,11 +35,11 @@ public class HomepageServlet extends HttpServlet {
             currentUser = "";
             redirect = "login.jsp";
         }
-        if (username == null) // 表单参数中用户名为空，跳转到当前登录用户的主页
+        if (username == null)
             username = currentUser;
         Book[] books = bookService.findByEditor(username);
-        User[] followers = userService.getFollowers(username);
-        User[] followees = userService.getFollowees(username);
+        String[] followers = userService.getFollowers(username);
+        String[] followees = userService.getFollowees(username);
         request.setAttribute("books", books);
         request.setAttribute("followers", followers);
         request.setAttribute("followees", followees);

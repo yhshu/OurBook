@@ -16,10 +16,11 @@ public class UserDaoImpl implements UserDao {
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(username,nickname,password) VALUES (?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(username,nickname,password,avatar) VALUES (?,?,?,?)");
             stm.setString(1, user.getUsername());
             stm.setString(2, user.getNickname());
             stm.setString(3, user.getPassword());
+            stm.setString(4, "/resources/avatar/empty-avatar.png");
             try {
                 stm.executeUpdate();
                 System.out.println("UserDao: 注册成功");
@@ -42,7 +43,9 @@ public class UserDaoImpl implements UserDao {
             try {
                 ResultSet rs = stm.executeQuery();
                 if (rs.next()) {
-                    User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"));
+                    User user = new User(rs.getString("username"), rs.getString("nickname"),
+                            rs.getString("password"), rs.getString("description"),
+                            rs.getString("avatar"));
                     rs.close();
                     stm.close();
                     conn.close(); // 关闭数据库连接
@@ -106,13 +109,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean modify(String username, String nickname, String description) {
+    public boolean modify(String username, String nickname, String description, String avatar) {
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("UPDATE user SET nickname = ?, description = ? WHERE username = ?");
+            PreparedStatement stm = conn.prepareStatement("UPDATE user SET nickname = ?, description = ?, avatar = ? WHERE username = ?");
             stm.setString(1, nickname);
             stm.setString(2, description);
             stm.setString(3, username);
+            stm.setString(4, avatar);
             conn.close();
             System.out.println("UserDao: 修改用户信息成功");
             return true;

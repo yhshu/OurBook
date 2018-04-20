@@ -6,7 +6,7 @@
     <%@ include file="header.jsp" %>
     <%
         Book[] books = (Book[]) request.getAttribute("books");
-        User[] followees = (User[]) request.getAttribute("followees");
+        String[] followees = (String[]) request.getAttribute("followees");
     %>
     <title>个人主页 - OurBook</title>
 </head>
@@ -22,9 +22,8 @@
         <a class="modal-trigger" data-target="personalInfo" style="display: inline;"><i
                 class="material-icons">settings</i></a>
         <!--TODO 修改个人信息 模态框 的后端逻辑-->
-        <div id="personalInfo" class="modal"> <!--修改个人信息 模态框-->
-            <form action="${pageContext.request.contextPath}/UserServlet" method="post">
-                <input type="hidden" name="method" value="modify"/>
+        <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
+            <form action="${pageContext.request.contextPath}/modifyUser" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="username" id="username" value="<%=session.getAttribute("username")%>">
                 <div class="modal-content">
                     <h4>修改个人信息</h4>
@@ -32,10 +31,17 @@
                     <input type="text" name="new_nickname" id="new_nickname"/>
                     <label for="new_description">一句话简介</label>
                     <input type="text" name="new_description" id="new_description"/>
+                    <input id="avatar" type='file' name="avatar" onchange="readURL(this);" style="display: none"/>
+                    <div style="margin: 20px auto; width: 300px;height: 128px">
+                        <img id="preview" src="<%=session.getAttribute("avatar")%>" alt="your image"
+                             style="height: 128px;width:128px;background-color: #f6f6f6;
+                             border-radius: 50%;float:left"/>
+                        <label for="avatar" class="blue btn" style="float: right;margin-top: 46px">上传头像</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="modal-action modal-close waves-effect waves-green btn-flat">取消
-                    </button>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消
+                    </a>
                     <button class="modal-action modal-close waves-effect waves-green btn-flat" id="submit_personal_info"
                             onclick="document.getElementById('personalInfo').submit();">
                         提交
@@ -47,11 +53,11 @@
 
     <div class="row">
         <div class="col card"> <!--文章、书目或动态-->
-            <h5 style=" margin-right: 30px; text-align: center">我写的书</h5>
+            <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
                     if (books.length == 0) {%>
-                <h6 class="grey-text" style="text-align: center; margin-top: 100px"> 你还没有写书 </h6>
+                <h6 class="grey-text" style="text-align: center; margin-top: 100px;width: 600px"> 你还没有写任何书 </h6>
                 <%
                     }
                     for (Book book : books) {
@@ -93,18 +99,18 @@ border-bottom: 1px solid lightgray">
                 <h5 style="text-align: center">我的关注</h5>
                 <div style="margin-top: 20px">
                     <% if (followees.length == 0) {%>
-                    <h6 style="text-align: center">你还没有关注任何人</h6>
+                    <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
                     <%
                         }
-                        for (User user : followees) {
+                        for (String user : followees) {
                     %>
                     <div style="margin: auto;width: 200px">
                         <input type="hidden" name="method" value="delfollowee">
                         <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
-                        <input type="hidden" name="follower" value="<%=user.getNickname()%>">
+                        <input type="hidden" name="follower" value="<%=user%>">
 
-                        <a href="home?user=<%=user.getUsername()%>" style="text-align: center">
-                            <%=user.getNickname()%>
+                        <a href="home?user=<%=user%>" style="text-align: center">
+                            <%=user%>
                         </a>
                         <a type="submit" class="btn blue"
                            class="btn blue"
