@@ -104,4 +104,19 @@ public class UserDaoImpl implements UserDao {
         }
         return null;
     }
+
+    @Override
+    public boolean modify(String username, String nickname, String description) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("UPDATE user SET nickname = ?, description = ? WHERE username = ?");
+            stm.setString(1, nickname);
+            stm.setString(2, description);
+            stm.setString(3, username);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 修改用户信息失败");
+        }
+        return false;
+    }
 }

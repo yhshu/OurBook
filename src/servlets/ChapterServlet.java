@@ -31,8 +31,8 @@ public class ChapterServlet extends BaseServlet {
             e.printStackTrace();
             System.out.println("ChapterServlet: 添加章节失败");
         }
-        // TODO 添加完成后，请求重定向，查看本章节
-        response.sendRedirect("/content.jsp");
+        // 添加章节完成后，请求重定向，查看本书目录
+        response.sendRedirect("/book.jsp?id=" + bookID);
     }
 
     public void read(HttpServletRequest request, HttpServletResponse response)

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="dao.ChapterDao" %>
+<%@ page import="dao.impl.ChapterDaoImpl" %>
+<%@ page import="model.Chapter" %>
 <%@ page import="java.io.BufferedReader" %>
 <head>
     <%@ include file="header.jsp" %>
@@ -8,10 +11,19 @@
 <div class="row" style="height: 100%">
     <div class="col s3 grey lighten-5" style="height: 100%">
         <ul>
-            <!-- TODO 章节目录-->
+            <!-- 本书的所有章节目录-->
+            <%
+                ChapterDao chapterDao = new ChapterDaoImpl();
+                Chapter[] chapters = chapterDao.findByBookID((int) request.getAttribute("bookID"));
+                for (Chapter chapter : chapters) {
+            %>
             <li style="padding: 5px">
-                <a class="black-text">item1</a>
+                <a class="black-text"
+                   href="/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"><%=chapter.getName()%>
+                </a>
             </li>
+            <%
+                }%>
         </ul>
     </div>
     <div class="col s9" style="height: 100%;">

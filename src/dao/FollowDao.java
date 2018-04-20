@@ -34,4 +34,18 @@ public interface FollowDao {
      */
     String[] findFollowers(String followee);
 
+    /**
+     * 添加用户
+     *
+     * @param follow 新关注用户
+     */
+    void addDialog(Follow follow);
+
+    /**
+     * 查找对话content
+     *
+     * @param follow 找到相应的对话
+     * @return 用户正关注的其他用户的用户名
+     */
+    String[] findDialogMessage(Follow follow);
 }

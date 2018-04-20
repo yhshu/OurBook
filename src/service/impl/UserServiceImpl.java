@@ -16,6 +16,13 @@ public class UserServiceImpl implements UserService {
         return userDao.find(username);
     }
 
+    public boolean findExist(String username){
+        if (userDao.find(username).getUsername().isEmpty()){
+            return true;  //用户名不存在
+        }else
+            return false; //用户名存在
+    }
+
     @Override
     public boolean register(String userName, String nickname, String password) {
         User user = userDao.find(userName);
@@ -62,5 +69,11 @@ public class UserServiceImpl implements UserService {
         for (int i = 0; i < followees.length; i++)
             followees[i] = userDao.find(usernames[i]);
         return followees;
+    }
+
+    @Override
+    public boolean modify(String username, String nickname, String description) {
+        UserDao userDao = new UserDaoImpl();
+        return userDao.modify(username, nickname, description);
     }
 }
