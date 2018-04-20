@@ -1,6 +1,5 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
-<%@ page import="model.Follow" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -16,26 +15,32 @@
 <%@ include file="nav.jsp" %>
 <div class="container">
     <div class="row">
-        <h4 id="homepage_username"></h4><!--用户的用户名与昵称-->
-        <h6 id="homepage_userDescription"></h6><!--用户的一句话描述-->
+        <h4 id="homepage_username"><%// TODO %>
+        </h4><!--用户的用户名与昵称-->
+        <h6 id="homepage_userDescription"><%// TODO %>
+        </h6><!--用户的一句话描述-->
         <a class="modal-trigger" data-target="personalInfo" style="display: inline;"><i
                 class="material-icons">settings</i></a>
         <!--TODO 修改个人信息 模态框 的后端逻辑-->
         <div id="personalInfo" class="modal"> <!--修改个人信息 模态框-->
-            <div class="modal-content">
-                <h4>修改个人信息</h4>
-                <label for="new_nickname">昵称</label>
-                <input type="text" name="new_nickname" id="new_nickname"/>
-                <label for="new_description">一句话简介</label>
-                <input type="text" name="new_description" id="new_description"/>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-action modal-close waves-effect waves-green btn-flat">取消
-                </button>
-                <button class="modal-action modal-close waves-effect waves-green btn-flat" id="submit_personal_info">
-                    提交
-                </button>
-            </div>
+            <form action="${pageContext.request.contextPath}/UserServlet" method="post">
+                <input type="hidden" name="method" value="modify"/>
+                <div class="modal-content">
+                    <h4>修改个人信息</h4>
+                    <label for="new_nickname">昵称</label>
+                    <input type="text" name="new_nickname" id="new_nickname"/>
+                    <label for="new_description">一句话简介</label>
+                    <input type="text" name="new_description" id="new_description"/>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat">取消
+                    </button>
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat"
+                            id="submit_personal_info">
+                        提交
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -81,31 +86,33 @@ border-bottom: 1px solid lightgray">
             <!--不要随便删除它，除非需要改变排版-->
         </div>
 
-        <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post" id="delfollowee">
-        <div class="col card"> <!--关注列表-->
-            <h5 style="text-align: center">我的关注</h5>
-            <div style="margin-top: 20px">
-                <% if (followees.length == 0) {%>
-                <h6 style="text-align: center">你还没有关注任何人</h6>
-                <%
-                    }
-                    for (User user : followees) {
-                %>
-                <div style="margin: auto;width: 200px">
-                    <input type="hidden" name="method" value="delfollowee">
-                    <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
-                    <input type="hidden" name="follower" value="<%=user.getNickname()%>">
+        <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
+              id="delfollowee">
+            <div class="col card"> <!--关注列表-->
+                <h5 style="text-align: center">我的关注</h5>
+                <div style="margin-top: 20px">
+                    <% if (followees.length == 0) {%>
+                    <h6 style="text-align: center">你还没有关注任何人</h6>
+                    <%
+                        }
+                        for (User user : followees) {
+                    %>
+                    <div style="margin: auto;width: 200px">
+                        <input type="hidden" name="method" value="delfollowee">
+                        <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
+                        <input type="hidden" name="follower" value="<%=user.getNickname()%>">
 
-                    <a href="home?user=<%=user.getUsername()%>" style="text-align: center">
-                        <%=user.getNickname()%>
-                    </a>
-                    <a type="submit" class="btn blue"
-                       class="btn blue" style="margin-right: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
-                    onclick="document .getElementById ('delfollowee').submit();">取消关注</a>
+                        <a href="home?user=<%=user.getUsername()%>" style="text-align: center">
+                            <%=user.getNickname()%>
+                        </a>
+                        <a type="submit" class="btn blue"
+                           class="btn blue"
+                           style="margin-right: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
+                           onclick="document .getElementById ('delfollowee').submit();">取消关注</a>
+                    </div>
+                    <%}%>
                 </div>
-                <%}%>
             </div>
-        </div>
         </form>
     </div>
 </div>

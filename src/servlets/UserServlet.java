@@ -64,4 +64,11 @@ public class UserServlet extends BaseServlet {
             // TODO 用户名密码验证失败的反馈
         }
     }
+
+    public void modify(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String nickname = request.getParameter("new_nickname");
+        String description = request.getParameter("new_description");
+        UserService userService = new UserServiceImpl();
+    }
 }
