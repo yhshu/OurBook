@@ -25,6 +25,7 @@
         <div id="personalInfo" class="modal"> <!--修改个人信息 模态框-->
             <form action="${pageContext.request.contextPath}/UserServlet" method="post">
                 <input type="hidden" name="method" value="modify"/>
+                <input type="hidden" name="username" id="username" value="<%=session.getAttribute("username")%>">
                 <div class="modal-content">
                     <h4>修改个人信息</h4>
                     <label for="new_nickname">昵称</label>
@@ -35,8 +36,8 @@
                 <div class="modal-footer">
                     <button class="modal-action modal-close waves-effect waves-green btn-flat">取消
                     </button>
-                    <button class="modal-action modal-close waves-effect waves-green btn-flat"
-                            id="submit_personal_info">
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat" id="submit_personal_info"
+                            onclick="document.getElementById('personalInfo').submit();">
                         提交
                     </button>
                 </div>
@@ -125,10 +126,8 @@ border-bottom: 1px solid lightgray">
         if (nickname !== "" && username !== "")
             document.getElementById("homepage_username").innerText = nickname + " (" + username + ")";
 
-        // 模态框
-        $(document).ready(function () {
-            $('.modal').modal();
-        });
+        $('.modal').modal(); // 模态框
+        $("#username").val(username); // 设置表单中的input
     });
 </script>
 </body>

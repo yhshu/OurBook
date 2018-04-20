@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean modify(String username, String nickname, String description) {
-        UserDao userDao = new UserDaoImpl();
         return userDao.modify(username, nickname, description);
     }
 }

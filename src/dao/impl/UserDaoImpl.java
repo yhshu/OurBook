@@ -113,6 +113,9 @@ public class UserDaoImpl implements UserDao {
             stm.setString(1, nickname);
             stm.setString(2, description);
             stm.setString(3, username);
+            conn.close();
+            System.out.println("UserDao: 修改用户信息成功");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 修改用户信息失败");

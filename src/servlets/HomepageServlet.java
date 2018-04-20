@@ -28,7 +28,8 @@ public class HomepageServlet extends HttpServlet {
         String username = request.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
+        if (request.getSession().getAttribute("username") == null) // 未登录
+            response.sendRedirect("index.jsp");
         if (username == null) username = (String) request.getSession().getAttribute("username");
         String currentUser = (String) request.getSession().getAttribute("username");
         String redirect = "homepage.jsp";

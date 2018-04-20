@@ -67,8 +67,10 @@ public class UserServlet extends BaseServlet {
 
     public void modify(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String username = request.getParameter("username");
         String nickname = request.getParameter("new_nickname");
         String description = request.getParameter("new_description");
         UserService userService = new UserServiceImpl();
+        userService.modify(username, nickname, description);
     }
 }
