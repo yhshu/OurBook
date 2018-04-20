@@ -33,6 +33,7 @@ public interface BookService {
 
     /**
      * 根据作者查找书籍
+     *
      * @param username 作者用户名
      * @return 作者的全部书籍
      */
@@ -58,10 +59,11 @@ public interface BookService {
     /**
      * 添加章节
      *
-     * @param name     章节名
-     * @param bookID   书的编号
-     * @param content  章节内容，将以文件形式存储于 web/resources/book
-     * @return 添加成功 true，添加失败 false
+     * @param name    章节名
+     * @param bookID  书的编号
+     * @param content 章节内容，将以文件形式存储于 resources/book
+     * @param path    由 Servlet 传递的文件路径
+     * @return 添加到数据库的 sequence
      */
-    boolean addChapter(String name, int bookID, String content);
+    int addChapter(String name, int bookID, String content, String path);
 }

@@ -48,10 +48,10 @@ public class AddBookServlet extends HttpServlet {
                 disk.setRepository(disk.getRepository());  // 设置临时文件目录
                 ServletFileUpload up = new ServletFileUpload(disk);
                 int maxsize = 2 * 1024 * 1024;
-                List list = up.parseRequest(request);   // 获取上传列表
+                List list = up.parseRequest(request); // 获取上传列表
                 for (Object aList : list) {
                     FileItem fm = (FileItem) aList; // 遍历列表
-                    if (!fm.isFormField()) {
+                    if (!fm.isFormField()) { // 是文件
                         String filePath = fm.getName();  // 获取文件全路径名
                         if (fm.getSize() > maxsize) {
                             message = "文件太大了，不要超过2MB";
@@ -62,10 +62,9 @@ public class AddBookServlet extends HttpServlet {
                         File saveFile = new File(this.getServletContext().getRealPath("/resources/cover/") + filename);
                         fm.write(saveFile); // 向文件中写入数据
                         message = "文件上传成功！";
-                    } else {
+                    } else { // 是表单元素
                         String foename = fm.getFieldName(); // 获取表单元素名
                         String con = fm.getString("UTF-8");
-                        //表单元素
                         switch (foename) {
                             case "bookName":
                                 bookName = con;

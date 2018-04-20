@@ -38,7 +38,6 @@ public class UserServlet extends BaseServlet {
         }
     }
 
-
     public void login(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -64,7 +63,7 @@ public class UserServlet extends BaseServlet {
             c_JSESSIONID.setMaxAge(maxInactiveInterval);
             c_JSESSIONID.setPath("/");
             response.addCookie(c_JSESSIONID);
-            // 登录成功后，请求 Homepage Servlet 以跳转到个人主页
+            // 登录成功后，请求 HomepageServlet 以跳转到个人主页
             response.sendRedirect("/home");
         } else { // 用户名或密码错误
             // TODO 用户名密码验证失败的反馈
