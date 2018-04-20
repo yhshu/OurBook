@@ -26,6 +26,7 @@
     <div class="col card" style="width: 600px; padding: 20px">
         <form action="${pageContext.request.contextPath}/BookServlet" method="post">
             <input type="hidden" name="method" value="add"/>
+.com/lzw429/OurBook"
             <input type="hidden" name="editor" value="<%=session.getAttribute("username")%>">
             <div style="border-bottom: 1px solid lightgray">
                 <h4><i class="material-icons">book</i>创建一本书</h4>
@@ -45,7 +46,7 @@
                     <label for="keywords">关键词</label>
                 </div>
                 <div style="padding:10px 60px">
-                    <input class="btn" id="cover" type='file' onchange="readURL(this);"
+                    <input class="btn" id="cover" type='file' name="cover" onchange="readURL(this);"
                            style="display: none"/>
                     <img id="preview" src="img/icon/plus-icon.png" alt="your image"
                          style="display: inline-block;width: 240px;background-color: #f6f6f6"/>
