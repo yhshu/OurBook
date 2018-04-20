@@ -34,6 +34,7 @@ public class FollowServlet extends HttpServlet {
         String follower = request.getParameter("follower");
         String book_id = request.getParameter("book_id");
         String method = request.getParameter("method");
+        //进行关注：
         if (method.equals("addfollowee")) {
             try {
                 followservice.addFollow(followee, follower);
@@ -45,7 +46,9 @@ public class FollowServlet extends HttpServlet {
                 e.printStackTrace();
                 System.out.println("FollowServlet: 添加失败");
             }
-        } else if (method.equals("delfollowee")) {
+        }
+        //取消关注：
+        else if (method.equals("delfollowee")) {
             try {
                 followservice.delFollow(followee, follower);
                 System.out.println("followee:" + followee + "    " + "follower" + follower);

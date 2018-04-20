@@ -61,22 +61,19 @@
             </div>
             <br><br><br><br><br><br><br><br>
             <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
+
+
         </form>
+        <script>
+            <%try {
+                 if(request.getAttribute("message").equals("username registered"))%>
+                M.toast({html: 'username registered', classes: 'rounded'});
+            <%
+              }catch (Exception e) {
+                e.printStackTrace();
+                }
+            %>
 
-        <script>/*
-          function checkusername() {
-              var u = document.getElementById('username').value;
-              if(k = 0){
-                  M.toast({html: '该用户名已被注册', classes: 'rounded'});
-                  return true;
-              }
-
-              else if(k = 1) {
-                  M.toast({html: '该用户名已被注册', classes: 'rounded'});
-                  return false;
-              }
-              }
-          }*/
         </script>
         <script>
             function check() {

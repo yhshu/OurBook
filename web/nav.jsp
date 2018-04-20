@@ -65,7 +65,7 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
-                <li><a href="newbook.jsp">创作新书</a></li>
+                <li><a href="addBook">创作新书</a></li>
                 <!-- 右上角下拉列表 -->
                 <li><a class="dropdown-trigger" data-target="dropdown1">我<i
                         class="material-icons right">arrow_drop_down</i></a>

@@ -24,9 +24,7 @@
 <%@ include file="nav.jsp" %>
 <div class="container" style="margin-top: 20px">
     <div class="col card" style="width: 600px; padding: 20px">
-        <form action="${pageContext.request.contextPath}/BookServlet" method="post">
-            <input type="hidden" name="method" value="add"/>
-            <input type="hidden" name="editor" value="<%=session.getAttribute("username")%>">
+        <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data">
             <div style="border-bottom: 1px solid lightgray">
                 <h4><i class="material-icons">book</i>创建一本书</h4>
             </div>

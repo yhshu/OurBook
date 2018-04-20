@@ -119,4 +119,27 @@ public class FollowDaoImpl implements FollowDao {
         }
         return null;
     }
+
+
+    @Override
+    /**
+     * 添加信息
+     *
+     * @param follow 查找的主码
+     * @return 用户被其他人关注的列表
+     */
+    public void addDialog(Follow follow) {
+
+    }
+
+    @Override
+    /**
+     * 查找历史的信息
+     *
+     * @param follower 用户编号  知道followee的名字，用作follower来搜索
+     * @return 用户被其他人关注的列表
+     */
+    public String[] findDialogMessage(Follow follow) {
+        return new String[0];
+    }
 }
