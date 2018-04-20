@@ -78,8 +78,9 @@ public class BookServiceImpl implements BookService {
                 if (!res)
                     System.out.println("BookService: 写入章节文件失败");
             }
+            // TODO 写文件编码bug
             PrintStream printStream = new PrintStream(new FileOutputStream(file));
-            printStream.print(content);
+            printStream.println(content);
             printStream.close();
             System.out.println("BookService: 写入章节文件成功");
         } catch (FileNotFoundException e) {

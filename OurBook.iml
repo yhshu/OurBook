@@ -28,5 +28,6 @@
     <orderEntry type="library" name="commons-fileupload:commons-fileupload:1.2.2" level="project" />
     <orderEntry type="library" name="commons-io:commons-io:2.1" level="project" />
     <orderEntry type="library" name="commons-logging:commons-logging:1.0.4" level="project" />
+    <orderEntry type="library" name="commons-collections-3.1" level="project" />
   </component>
 </module>
