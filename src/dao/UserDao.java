@@ -41,6 +41,7 @@ public interface UserDao {
      * @param username    通过用户名查找用户
      * @param nickname    新昵称
      * @param description 新描述
+     * @param avatar      头像地址
      */
-    boolean modify(String username, String nickname, String description);
+    boolean modify(String username, String nickname, String description,String avatar);
 }

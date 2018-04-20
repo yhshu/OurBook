@@ -43,8 +43,7 @@
                     <label for="keywords">关键词</label>
                 </div>
                 <div style="padding:10px 60px">
-                    <input class="btn" id="cover" type='file' name="cover" onchange="readURL(this);"
-                           style="display: none"/>
+                    <input id="cover" type='file' name="cover" onchange="readURL(this);" style="display: none"/>
                     <img id="preview" src="img/icon/plus-icon.png" alt="your image"
                          style="display: inline-block;width: 240px;background-color: #f6f6f6"/>
                     <label for="cover" class="blue btn" style="margin: -240px 0 0 60px;

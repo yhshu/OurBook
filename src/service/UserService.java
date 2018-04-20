@@ -29,9 +29,9 @@ public interface UserService {
      *
      * @param username 用户名
      * @param password 密码
-     * @return 登录成功 true，用户名或密码错误 false
+     * @return 登录成功 User对象，用户名或密码错误 null
      */
-    boolean login(String username, String password);
+    User login(String username, String password);
 
     /**
      * 登录后，通过用户名获取昵称
@@ -47,7 +47,7 @@ public interface UserService {
      * @param username 用户名
      * @return 关注该用户的用户的用户名
      */
-    User[] getFollowers(String username);
+    String[] getFollowers(String username);
 
     /**
      * 查找被该用户关注的用户
@@ -55,14 +55,15 @@ public interface UserService {
      * @param username 用户名
      * @return 被该用户关注的用户的用户名
      */
-    User[] getFollowees(String username);
+    String[] getFollowees(String username);
 
     /**
      * 修改昵称和一句话描述
      *
-     * @param username
+     * @param username    用户名
      * @param nickname    新昵称
      * @param description 一句话描述
+     * @param avatar      头像地址
      */
-    boolean modify(String username, String nickname, String description);
+    boolean modify(String username, String nickname, String description,String avatar);
 }

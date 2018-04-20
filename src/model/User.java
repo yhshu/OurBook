@@ -7,6 +7,7 @@ public class User implements Serializable {
     private String nickname; // 昵称
     private String password;
     private String description; // 个人简介
+    private String avatar; // 头像
 
     public User(String username, String nickname, String password) {
         this.username = username;
@@ -14,11 +15,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String username, String nickname, String password, String description) {
+    public User(String username, String nickname, String password, String description, String avatar) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.description = description;
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -51,5 +53,13 @@ public class User implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
