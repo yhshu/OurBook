@@ -26,7 +26,6 @@
     <div class="col card" style="width: 600px; padding: 20px">
         <form action="${pageContext.request.contextPath}/BookServlet" method="post">
             <input type="hidden" name="method" value="add"/>
-.com/lzw429/OurBook"
             <input type="hidden" name="editor" value="<%=session.getAttribute("username")%>">
             <div style="border-bottom: 1px solid lightgray">
                 <h4><i class="material-icons">book</i>创建一本书</h4>
