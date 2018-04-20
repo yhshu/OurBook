@@ -8,10 +8,7 @@ import model.Book;
 import model.Chapter;
 import service.BookService;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
@@ -70,7 +67,7 @@ public class BookServiceImpl implements BookService {
         }
         String db_path = "resources/book/" + bookID + "/" + name + ".txt";
         String path = "../../web/" + db_path;
-        // TODO 将章节内容存放在文件中，并将文件路径插入数据库
+        // 将章节内容存放在文件中，并将文件路径插入数据库
         try {
             File file = new File(path);
             if (!file.getParentFile().exists()) {
@@ -78,14 +75,15 @@ public class BookServiceImpl implements BookService {
                 if (!res)
                     System.out.println("BookService: 写入章节文件失败");
             }
-            // TODO 写文件编码bug
-            PrintStream printStream = new PrintStream(new FileOutputStream(file));
-            printStream.println(content);
+            PrintStream printStream = new PrintStream(new FileOutputStream(file), true, "UTF-8");
+            printStream.print(content);
             printStream.close();
             System.out.println("BookService: 写入章节文件成功");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("BookService: 写入章节文件失败");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         try {
