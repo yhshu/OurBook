@@ -51,7 +51,7 @@
                 </h4>
             </div>
             <%} else { // 如果有封面%>
-            <img style="width: 192px;height: 256px"
+            <img style="width: 192px;height: 256px;object-fit: cover"
                  src="<%=book.getCover()%>">
             <%}%>
             <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">

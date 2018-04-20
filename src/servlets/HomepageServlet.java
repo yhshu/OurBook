@@ -28,19 +28,22 @@ public class HomepageServlet extends HttpServlet {
         String username = request.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        if (request.getSession().getAttribute("username") == null) // 未登录
-            response.sendRedirect("index.jsp");
         String currentUser = (String) request.getSession().getAttribute("username");
         String redirect = "homepage.jsp";
-        if (currentUser == null) {
-            currentUser = "";
-            redirect = "login.jsp";
-        }
-        if (username == null) username = currentUser;
+        if (username == null)
+            if (currentUser == null) {
+                redirect = "login.jsp";
+                username = "";
+            } else username = currentUser;
+        User user = userService.find(username);
         Book[] books = bookService.findByEditor(username);
         String[] followers = userService.getFollowers(username);
         String[] followees = userService.getFollowees(username);
+        request.setAttribute("username", username);
         request.setAttribute("books", books);
+        request.setAttribute("nickname", user.getNickname());
+        request.setAttribute("description", user.getDescription());
+        request.setAttribute("avatar", user.getAvatar());
         request.setAttribute("followers", followers);
         request.setAttribute("followees", followees);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(redirect);

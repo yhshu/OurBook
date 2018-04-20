@@ -24,7 +24,8 @@ public class ModifyUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = "", nickname = "", description = "", avatar = "", message = "", filename;
+        String username = (String) request.getSession().getAttribute("username");
+        String nickname = "", description = "", message = "", filename = "";
         UserService userService = new UserServiceImpl();
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
@@ -38,14 +39,14 @@ public class ModifyUserServlet extends HttpServlet {
                     FileItem fm = (FileItem) aList; // 遍历列表
                     if (!fm.isFormField()) {
                         String filePath = fm.getName();  // 获取文件全路径名
+                        if (filePath.equals("")) break;
                         if (fm.getSize() > maxsize) {
                             message = "文件太大了，不要超过2MB";
                             break;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = request.getSession().getAttribute("username") + extension;
-                        File saveFile = new File(this.getServletContext().getRealPath("/resources/avatar/")
-                                + filename);
+                        filename = "/resources/avatar/" + request.getSession().getAttribute("username") + extension;
+                        File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
                         message = "文件上传成功！";
                     } else {
@@ -53,23 +54,20 @@ public class ModifyUserServlet extends HttpServlet {
                         String con = fm.getString("UTF-8");
                         //表单元素
                         switch (foename) {
-                            case "username":
-                                username = con;
-                                break;
                             case "new_nickname":
                                 nickname = con;
                                 break;
                             case "new_description":
                                 description = con;
                                 break;
-                            case "avatar":
-                                avatar = con;
-                                break;
                         }
                     }
                 }
+                if (filename.equals("")) filename = (String) request.getSession().getAttribute("avatar");
+                userService.modify(username, nickname, description, filename);
+                request.getSession().setAttribute("avatar", filename);
+                request.getSession().setAttribute("nickname", nickname);
             }
-            userService.modify(username, nickname, description, avatar);
             System.out.println("ModifyUserServlet: 修改用户信息成功");
             request.setAttribute("result", message);
             response.sendRedirect("/home");

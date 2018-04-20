@@ -60,6 +60,7 @@ public class UserServlet extends BaseServlet {
             final int maxInactiveInterval = 7 * 24 * 60 * 60;
             session.setMaxInactiveInterval(maxInactiveInterval);
             session.setAttribute("username", username);
+            session.setAttribute("nickname", user.getNickname());
             session.setAttribute("avatar", user.getAvatar());
             // 将 JSESSIONID 持久化
             Cookie c_JSESSIONID = new Cookie("JSESSIONID", session.getId());

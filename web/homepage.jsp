@@ -9,34 +9,56 @@
         String[] followees = (String[]) request.getAttribute("followees");
     %>
     <title>个人主页 - OurBook</title>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#preview')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </head>
 
 <body class="grey lighten-4">
 <%@ include file="nav.jsp" %>
 <div class="container">
-    <div class="row">
-        <h4 id="homepage_username"><%// TODO %>
-        </h4><!--用户的用户名与昵称-->
-        <h6 id="homepage_userDescription"><%// TODO %>
+    <div class="row card" style="padding: 20px;width: 900px">
+        <img src="<%=request.getAttribute("avatar")%>"
+             style="width:160px;height: 160px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
+        <div style="float:left;width:680px">
+            <h4 style="margin: 0;float: left"><%=request.getAttribute("nickname")%>
+            </h4>
+            <h4 class="grey-text" style="margin: 0 10px;float: left">@<%=request.getAttribute("username")%>
+            </h4>
+            <!--用户的用户名与昵称-->
+            <a class="modal-trigger waves-effect waves-light"
+               data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
+                <i class="material-icons">settings</i></a>
+        </div>
+        <h6 style="float: left"><%=request.getAttribute("description")%>
         </h6><!--用户的一句话描述-->
-        <a class="modal-trigger" data-target="personalInfo" style="display: inline;"><i
-                class="material-icons">settings</i></a>
         <!--TODO 修改个人信息 模态框 的后端逻辑-->
         <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
             <form action="${pageContext.request.contextPath}/modifyUser" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="username" id="username" value="<%=session.getAttribute("username")%>">
                 <div class="modal-content">
                     <h4>修改个人信息</h4>
                     <label for="new_nickname">昵称</label>
-                    <input type="text" name="new_nickname" id="new_nickname"/>
+                    <input type="text" name="new_nickname" id="new_nickname"
+                           value="<%=session.getAttribute("nickname")%>"/>
                     <label for="new_description">一句话简介</label>
                     <input type="text" name="new_description" id="new_description"/>
                     <input id="avatar" type='file' name="avatar" onchange="readURL(this);" style="display: none"/>
                     <div style="margin: 20px auto; width: 300px;height: 128px">
                         <img id="preview" src="<%=session.getAttribute("avatar")%>" alt="your image"
-                             style="height: 128px;width:128px;background-color: #f6f6f6;
-                             border-radius: 50%;float:left"/>
-                        <label for="avatar" class="blue btn" style="float: right;margin-top: 46px">上传头像</label>
+                             style="height: 160px;width:160px;object-fit: cover;
+                             border-radius: 5%;float:left"/>
+                        <label for="avatar" class="blue btn" style="float: right;margin-top: 62px">上传头像</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -126,14 +148,7 @@ border-bottom: 1px solid lightgray">
 
 <script>
     $(document).ready(function () {
-        // 通过 cookie 修改 username_display
-        var nickname = getCookie('nickname');
-        var username = getCookie('username');
-        if (nickname !== "" && username !== "")
-            document.getElementById("homepage_username").innerText = nickname + " (" + username + ")";
-
         $('.modal').modal(); // 模态框
-        $("#username").val(username); // 设置表单中的input
     });
 </script>
 </body>

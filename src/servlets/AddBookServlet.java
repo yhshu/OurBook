@@ -40,7 +40,7 @@ public class AddBookServlet extends HttpServlet {
         String bookDescription = "";
         String keywords = "";
         String message = null;
-        String filename = "";
+        String filename = null;
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
                 DiskFileItemFactory disk = new DiskFileItemFactory();
@@ -53,13 +53,14 @@ public class AddBookServlet extends HttpServlet {
                     FileItem fm = (FileItem) aList; // 遍历列表
                     if (!fm.isFormField()) { // 是文件
                         String filePath = fm.getName();  // 获取文件全路径名
+                        if (filePath.equals("")) break;
                         if (fm.getSize() > maxsize) {
                             message = "文件太大了，不要超过2MB";
                             break;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = (bookDao.maxID() + 1) + extension;
-                        File saveFile = new File(this.getServletContext().getRealPath("/resources/cover/") + filename);
+                        filename = "/resources/cover/" + (bookDao.maxID() + 1) + extension;
+                        File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
                         message = "文件上传成功！";
                     } else { // 是表单元素
@@ -79,7 +80,7 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            bookService.addBook(bookName, bookDescription, editor, keywords, "/resources/cover/" + filename);
+            bookService.addBook(bookName, bookDescription, editor, keywords, filename);
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
             request.setAttribute("result", message);

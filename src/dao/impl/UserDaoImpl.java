@@ -115,8 +115,9 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement stm = conn.prepareStatement("UPDATE user SET nickname = ?, description = ?, avatar = ? WHERE username = ?");
             stm.setString(1, nickname);
             stm.setString(2, description);
-            stm.setString(3, username);
-            stm.setString(4, avatar);
+            stm.setString(3, avatar);
+            stm.setString(4, username);
+            stm.executeUpdate();
             conn.close();
             System.out.println("UserDao: 修改用户信息成功");
             return true;
