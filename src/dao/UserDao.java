@@ -34,4 +34,13 @@ public interface UserDao {
      * @return 用户昵称
      */
     String getNickname(String username);
+
+    /**
+     * 修改昵称和一句话描述
+     *
+     * @param username    通过用户名查找用户
+     * @param nickname    新昵称
+     * @param description 新描述
+     */
+    boolean modify(String username, String nickname, String description);
 }

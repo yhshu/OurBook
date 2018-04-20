@@ -43,6 +43,7 @@ public interface UserService {
 
     /**
      * 查找关注该用户的其他用户
+     *
      * @param username 用户名
      * @return 关注该用户的用户的用户名
      */
@@ -50,8 +51,18 @@ public interface UserService {
 
     /**
      * 查找被该用户关注的用户
+     *
      * @param username 用户名
      * @return 被该用户关注的用户的用户名
      */
     User[] getFollowees(String username);
+
+    /**
+     * 修改昵称和一句话描述
+     *
+     * @param username
+     * @param nickname    新昵称
+     * @param description 一句话描述
+     */
+    boolean modify(String username, String nickname, String description);
 }

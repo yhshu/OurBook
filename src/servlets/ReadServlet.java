@@ -25,11 +25,16 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
-        Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("book")), Integer.parseInt(request.getParameter("sequence")));
+        int bookID = Integer.parseInt(request.getParameter("book"));
+        int sequence = Integer.parseInt(request.getParameter("sequence"));
+        Chapter chapter = bookService.findChapter(bookID, sequence);
         request.setAttribute("name", chapter.getName());
+        // 生成 reader
         InputStreamReader isr = new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath(chapter.getContent())), "UTF-8");
         BufferedReader read = new BufferedReader(isr);
         request.setAttribute("reader", read);
+        request.setAttribute("bookID", bookID);
+        // 重定向
         RequestDispatcher dispatcher = request.getRequestDispatcher("content.jsp");
         dispatcher.forward(request, response);
     }
