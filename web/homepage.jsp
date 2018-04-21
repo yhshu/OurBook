@@ -22,12 +22,6 @@
             }
         }
 
-        function unfollow() {
-            $('#unfollow').ajaxForm(function (message) {
-                alert();
-            });
-            return false;
-        }
     </script>
 </head>
 
@@ -131,31 +125,25 @@ border-bottom: 1px solid lightgray">
         </div>
 
         <div class="col card" style="width: 253px"> <!--关注列表-->
-            <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
-                  id="unfollow" onsubmit="return unfollow()">
-                <h5 style="text-align: center">我的关注</h5>
-                <% if (followees.length == 0) {%>
-                <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
+            <h5 style="text-align: center">我的关注</h5>
+            <% if (followees.length == 0) {%>
+            <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
+            <%
+            } else {%>
+            <div style="margin-top: 20px;display: grid;grid-template-columns: 80px 120px;"><%
+                for (String user : followees) {
+            %>
+                <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">
+                    <%=user%>
+                </a>
+                <a href="follow?method=remove&followee=<%=user%>" type="submit" class="btn blue"
+                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
+                        height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
                 <%
-                } else {%>
-                <div style="margin-top: 20px;display: grid;grid-template-columns: 80px 120px;"><%
-                    for (String user : followees) {
-                %>
-                    <input type="hidden" name="method" value="delfollowee">
-                    <input type="hidden" name="followee" value="<%=user%>">
-                    <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">
-                        <%=user%>
-                    </a>
-                    <a type="submit" class="btn blue"
-                       style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px"
-                       onclick="document .getElementById ('unfollow').submit();">取消关注</a>
-                    <%
-                            }
                         }
-                    %>
-                </div>
-            </form>
+                    }
+                %>
+            </div>
         </div>
     </div>
 </div>

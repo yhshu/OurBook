@@ -48,7 +48,7 @@ public class FollowServlet extends HttpServlet {
             }
         }
         //取消关注：
-        else if (method.equals("delfollowee")) {
+        else if (method.equals("remove")) {
             try {
                 followservice.delFollow(followee, follower);
                 System.out.println("followee:" + followee + "    " + "follower" + follower);
