@@ -2,6 +2,8 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
+<%@ page import="service.BookService" %>
+<%@ page import="service.impl.BookServiceImpl" %>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -18,6 +20,7 @@
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 100px">
         <%
+        BookService bookService= new BookServiceImpl();
         String type = (String) request.getAttribute("type"); // 获取搜索类型
         if (type == null || type.equals("book")) { // 如果搜索书籍
             User[] editors = (User[]) request.getAttribute("editors");
@@ -68,23 +71,34 @@
         <%
                 i++;
             }
-    }else if(type.equals("chapter")) // 如果搜索文章
+    }else if(type.equals("article")) // 如果搜索文章
         {
             Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
-            if(chapters.length==0){
+            if(chapters.length == 0){
                 %>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的文章</h4>
-        <%
-            }
+        <%}else for(Chapter chapter:chapters) {
+                Book book = bookService.find(chapter.getBookID());
+%>
+    <div class="row card" style="padding: 1px 20px 7px;">
+        <a href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+           class="black-text">
+            <h5><%=chapter.getName()%>
+            </h5>
+        </a>
+        <a class="grey-text" href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>"><h6><%=book.getName()%>
+        </h6>
+        </a>
+    </div>
+        <%}
         }
     else if (type.equals("user")) { // 如果搜索用户
         User[] users = (User[]) request.getAttribute("users");
         if (users.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的用户</h4>
-        <%
-    } else for (User user : users) {%>
+        <%} else for (User user : users) {%>
     <div class="row card">
         <img src="<%=user.getAvatar()%>"
              style="width:80px;height: 80px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">

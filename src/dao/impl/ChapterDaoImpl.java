@@ -61,7 +61,7 @@ public class ChapterDaoImpl implements ChapterDao {
             if (chapters != null) return chapters[0];
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ChapterDao: 获取章节失败");
+            System.out.println("ChapterDao: 按主键获取章节失败");
         }
         return null;
     }
@@ -70,7 +70,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE " + DBUtil.keywordsMatchCondition("keywords", keywords));
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE " + DBUtil.keywordsMatchCondition("name", keywords));
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
         } catch (Exception e) {
@@ -100,9 +100,7 @@ public class ChapterDaoImpl implements ChapterDao {
             ResultSet rs = stm.executeQuery();
             ArrayList<Chapter> chapters = new ArrayList<>();
             while (rs.next()) {
-                Chapter chapter = new Chapter(rs.getString("name"),
-                        rs.getInt("bookID"), rs.getInt("sequence"),
-                        rs.getString("content"));
+                Chapter chapter = new Chapter(rs.getString("name"), rs.getInt("bookID"), rs.getInt("sequence"), rs.getString("content"));
                 chapters.add(chapter);
             }
             rs.close();
