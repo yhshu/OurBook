@@ -7,6 +7,27 @@
     <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="blue-text">退出</a></li>
 </ul>
 
+<ul id="dropdown2" class="dropdown-content">
+    <li><a class="dropdown-trigger" data-target="dropdown3">按点击数排序</a></li>
+    <li><a class="dropdown-trigger" data-target="dropdown4">按收藏数排序</a></li>
+</ul>
+
+<ul id="dropdown3" class="dropdown-content">
+    <li><a>一天内</a></li>
+    <li><a>一周内</a></li>
+    <li><a>一个月内</a></li>
+    <li><a>一年内</a></li>
+    <li><a>所有时间</a></li>
+</ul>
+
+<ul id="dropdown4" class="dropdown-content">
+    <li><a>一天内</a></li>
+    <li><a>一周内</a></li>
+    <li><a>一个月内</a></li>
+    <li><a>一年内</a></li>
+    <li><a>所有时间</a></li>
+</ul>
+
 <script>
     $(document).ready(function () {
         var queryDict = {};
@@ -78,10 +99,12 @@
     </div>
     <script>$(".dropdown-trigger").dropdown();</script>
     <div class="blue" id="nav_search_type">
-        <ul class="hide-on-med-and-down" style="position: relative;height: 64px;width: 182px;margin: auto">
+        <ul class="hide-on-med-and-down" style="position: relative;height: 64px;width: 279px;margin: auto">
             <li id="search_book_button"><a id="search_book">书籍</a></li>
             <li id="search_article_button"><a id="search_article">文章</a></li>
             <li id="search_user_button"><a id="search_user">用户</a></li>
+            <li><a class="dropdown-trigger" data-target="dropdown2">
+                排序<i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>
     </div>
 </nav>
