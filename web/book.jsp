@@ -70,7 +70,7 @@
                     %>
                     <!--<input type="submit" class="btn orange modal-trigger" value="关注作者" onclick="change()" style="..." />--->
                     <% /*}*/%>
-                    <a type="submit" class="blue-text"
+                    <a type="submit" class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
                        onclick="document .getElementById ('addfollowee').submit();">关注</a>
                 </div>
@@ -101,7 +101,7 @@
             </button>
         </form>
 
-        <a href='#delete_modal' class="btn orange modal-trigger">删除本书</a>
+        <a href='#delete_modal' class="btn red modal-trigger" style="float: right">删除本书</a>
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
             <div class="modal-content">

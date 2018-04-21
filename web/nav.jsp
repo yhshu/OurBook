@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content" style="position: relative;top:64px">
+<ul id="dropdown1" class="dropdown-content">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="blue-text">退出</a></li>
@@ -37,6 +37,11 @@
             "${pageContext.request.contextPath}/search?type=article&keywords=" + search_value);
         $('#search_user').attr('href',
             "${pageContext.request.contextPath}/search?type=user&keywords=" + search_value);
+
+        $('.dropdown-trigger').dropdown({
+            hover: true,
+            coverTrigger: false
+        });
     });
 </script>
 
@@ -59,12 +64,16 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
-                <li><a href="addBook">创作新书</a></li>
+                <li><a href="addBook"><i class="material-icons">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
-                <li style="height: 64px"><a class="dropdown-trigger" data-target="dropdown1" style="height: 64px">
-                    <img src="<%=session.getAttribute("avatar")%>" style="width: 32px;height:32px;margin-top: 16px;
+                <li style="height: 64px">
+                    <a class="dropdown-trigger" data-target="dropdown1" style="height: 64px">
+                        <span style="position:relative;bottom:10px;right:10px;margin-left: 10px">
+                            <%=session.getAttribute("nickname")%>
+                        </span>
+                        <img src="<%=session.getAttribute("avatar")%>" style="width: 32px;height:32px;margin-top: 16px;
                     object-fit: cover;border-radius: 5%">
-                    <i class="material-icons right">arrow_drop_down</i></a>
+                        <i class="material-icons right">arrow_drop_down</i></a>
                 </li>
             </ul>
         </div>

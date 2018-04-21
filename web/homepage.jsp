@@ -73,7 +73,7 @@
     </div>
 
     <div class="row">
-        <div class="col card s8"> <!--文章、书目或动态-->
+        <div class="col card" style="width:623px"> <!--文章、书目或动态-->
             <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
@@ -115,42 +115,42 @@ border-bottom: 1px solid lightgray">
         </div>
 
 
-        <div class="col card s3"> <!--关注列表-->
+        <div class="col card" style="width: 220px"> <!--关注列表-->
             <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
                   id="delfollowee">
                 <h5 style="text-align: center">我的关注</h5>
-                <div style="margin-top: 20px">
-                    <% if (followees.length == 0) {%>
-                    <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
-                    <%
-                        }
-                        for (String user : followees) {
-                    %>
-                    <div style="margin: auto;width: 200px">
-                        <input type="hidden" name="method" value="delfollowee">
-                        <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
-                        <input type="hidden" name="follower" value="<%=user%>">
+                <% if (followees.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
+                <%
+                } else {%>
+                <div style="margin-top: 20px;display: grid;grid-template-columns: 80px 120px;"><%
+                    for (String user : followees) {
+                %>
+                    <input type="hidden" name="method" value="delfollowee">
+                    <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
+                    <input type="hidden" name="follower" value="<%=user%>">
 
-                        <a href="home?user=<%=user%>" style="text-align: center">
-                            <%=user%>
-                        </a>
-                        <a type="submit" class="btn blue"
-                           class="btn blue"
-                           style="margin-right: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
-                           onclick="document .getElementById ('delfollowee').submit();">取消关注</a>
-                    </div>
-                    <%}%>
+                    <a href="home?user=<%=user%>" style="text-align: center">
+                        <%=user%>
+                    </a>
+                    <a type="submit" class="btn blue"
+                       style="display: inline; -webkit-appearance:none; -moz-appearance:none;
+                        height: 21px;line-height: 21px;margin: 5px 10px"
+                       onclick="document .getElementById ('delfollowee').submit();">取消关注</a>
+                    <%
+                            }
+                        }
+                    %>
                 </div>
             </form>
         </div>
-
-        </d>
     </div>
+</div>
 
-    <script>
-        $(document).ready(function () {
-            $('.modal').modal(); // 模态框
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $('.modal').modal(); // 模态框
+    });
+</script>
 </body>
 </html>
