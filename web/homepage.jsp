@@ -26,7 +26,7 @@
 
 <body class="grey lighten-4">
 <%@ include file="nav.jsp" %>
-<div class="container" style="margin-top: 25px;">
+<div class="container" style="margin-top: 23px;">
     <div class="row card" style="padding: 20px;width: 900px">
         <img src="<%=request.getAttribute("avatar")%>"
              style="width:160px;height: 160px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
@@ -40,7 +40,16 @@
                data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
                 <i class="material-icons small">settings</i></a>
         </div>
-        <h6 style="float: left"><%=request.getAttribute("description")%>
+        <h6 style="float: left"><%
+            String description = (String) request.getAttribute("description");
+            if (description != null) {
+        %>
+            <%=description%>
+            <%
+            } else {
+            %>
+            <h6 class="grey-text">用一句话来描述自己吧</h6>
+            <%}%>
         </h6><!--用户的一句话描述-->
 
         <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
@@ -85,7 +94,9 @@
                 %>
                 <div style="padding: 10px;margin-bottom:10px;display: grid;grid-template-columns: 90px auto;width: 600px;
 border-bottom: 1px solid lightgray">
-                    <%if (book.getCover() == null || book.getCover().equals("")) {%>
+                    <%
+                        if (book.getCover() == null || book.getCover().equals("")) {
+                    %>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
                         <div style="width: 90px;height: 120px;background-color: #0D47A1">
                             <h6 style="color: white;display: block;position: relative;top: 30%;text-align: center">
@@ -93,7 +104,9 @@ border-bottom: 1px solid lightgray">
                             </h6>
                         </div>
                     </a>
-                    <%} else {%>
+                    <%
+                    } else {
+                    %>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
                         <img style="width: 90px;height: 120px"
                              src="<%=book.getCover()%>">
@@ -101,8 +114,7 @@ border-bottom: 1px solid lightgray">
                     <%}%>
                     <div style="display: grid;grid-template-rows: 44px 24px 52px">
                         <a style="color: black;margin: 8px 24px;font-size: 16px"
-                           href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                            <%=book.getName()%>
+                           href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"><%=book.getName()%>
                         </a>
                     </div>
                 </div>
@@ -120,7 +132,9 @@ border-bottom: 1px solid lightgray">
                   id="delfollowee">
                 <h5 style="text-align: center">我的关注</h5>
                 <div style="margin-top: 20px">
-                    <% if (followees.length == 0) {%>
+                    <%
+                        if (followees.length == 0) {
+                    %>
                     <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
                     <%
                         }
@@ -143,8 +157,6 @@ border-bottom: 1px solid lightgray">
                 </div>
             </form>
         </div>
-
-        </d>
     </div>
 
     <script>
@@ -152,5 +164,6 @@ border-bottom: 1px solid lightgray">
             $('.modal').modal(); // 模态框
         });
     </script>
+</div>
 </body>
 </html>
