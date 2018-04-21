@@ -21,6 +21,9 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        $(document).ready(function () {
+        })
     </script>
 </head>
 
@@ -92,7 +95,7 @@
                     }
                     for (Book book : books) {
                 %>
-                <div style="padding: 10px;margin-bottom:10px;display: grid;grid-template-columns: 90px auto;width: 600px;
+                <div style="padding: 20px 10px;display: grid;grid-template-columns: 90px auto;width: 600px;
 border-bottom: 1px solid lightgray">
                     <%
                         if (book.getCover() == null || book.getCover().equals("")) {
@@ -108,13 +111,14 @@ border-bottom: 1px solid lightgray">
                     } else {
                     %>
                     <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                        <img style="width: 90px;height: 120px"
+                        <img style="width: 90px;height: 120px;object-fit: cover"
                              src="<%=book.getCover()%>">
                     </a>
                     <%}%>
                     <div style="display: grid;grid-template-rows: 44px 24px 52px">
                         <a style="color: black;margin: 8px 24px;font-size: 16px"
-                           href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>"><%=book.getName()%>
+                           href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                            <%=book.getName()%>
                         </a>
                     </div>
                 </div>
@@ -139,10 +143,8 @@ border-bottom: 1px solid lightgray">
                     for (String user : followees) {
                 %>
                     <input type="hidden" name="method" value="delfollowee">
-                    <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
-                    <input type="hidden" name="follower" value="<%=user%>">
-
-                    <a href="home?user=<%=user%>" style="text-align: center">
+                    <input type="hidden" name="followee" value="<%=user%>">
+                    <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">
                         <%=user%>
                     </a>
                     <a type="submit" class="btn blue"

@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String[] getFollowees(String username) {
-        return followDao.findFollowers(username);
+        return followDao.findFollowees(username);
     }
 
     @Override

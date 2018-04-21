@@ -45,7 +45,7 @@
                 <div style="padding:10px 60px">
                     <input id="cover" type='file' name="cover" onchange="readURL(this);" style="display: none"/>
                     <img id="preview" src="img/icon/plus-icon.png" alt="your image"
-                         style="display: inline-block;width: 240px;background-color: #f6f6f6"/>
+                         style="display: inline-block;width: 240px;background-color: #f6f6f6;object-fit: cover"/>
                     <label for="cover" class="blue btn" style="margin: -240px 0 0 60px;
                      display: inline-block">上传封面</label>
                 </div>

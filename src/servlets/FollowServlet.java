@@ -31,7 +31,7 @@ public class FollowServlet extends HttpServlet {
         FollowDao followdao = new FollowDaoImpl();
         HttpSession session = request.getSession();
         String followee = request.getParameter("followee");
-        String follower = request.getParameter("follower");
+        String follower = (String) request.getSession().getAttribute("username");
         String book_id = request.getParameter("book_id");
         String method = request.getParameter("method");
         //进行关注：
