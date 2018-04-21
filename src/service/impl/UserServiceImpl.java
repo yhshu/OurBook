@@ -12,6 +12,11 @@ public class UserServiceImpl implements UserService {
     private FollowDao followDao = new FollowDaoImpl();
 
     @Override
+    public User[] search(String keyword) {
+        return userDao.search(keyword);
+    }
+
+    @Override
     public User find(String username) {
         return userDao.find(username);
     }
@@ -46,11 +51,6 @@ public class UserServiceImpl implements UserService {
         System.out.println("login as " + username + " " + password);
         System.out.println("Database:" + user.getUsername() + " " + user.getPassword());
         return null;
-    }
-
-    @Override
-    public String getNickname(String username) {
-        return userDao.getNickname(username);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package dao;
 
 import model.Follow;
-import model.User;
 
 public interface FollowDao {
     /**

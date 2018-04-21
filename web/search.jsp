@@ -16,18 +16,17 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 100px">
-    <%
-        String type = (String) request.getAttribute("type");
-        User[] editors = (User[]) request.getAttribute("editors");
-        if (type == null || type.equals("book")) {
+        <%
+        String type = (String) request.getAttribute("type"); // 获取搜索类型
+        if (type == null || type.equals("book")) { // 如果搜索书籍
+            User[] editors = (User[]) request.getAttribute("editors");
             int i = 0;
             Book[] books = (Book[]) request.getAttribute("books");
             if (books.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的书籍</h4>
-    <%
-        }
-        for (Book book : books) {
+        <%
+    } else for (Book book : books) {
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
@@ -65,10 +64,40 @@
             <i class="material-icons">add</i>
         </a>
     </div>
-    <%
+        <%
                 i++;
             }
-        }%>
-</div>
+    } else if (type.equals("user")) { // 如果搜索用户
+        User[] users = (User[]) request.getAttribute("users");
+        if (users.length == 0) {%>
+    <h4 class="grey-text" style="text-align: center;margin-top:250px">
+        未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的用户</h4>
+        <%
+    } else for (User user : users) {%>
+    <div class="row card">
+        <img src="<%=user.getAvatar()%>"
+             style="width:80px;height: 80px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
+        <div style="float:left;width:700px; margin:10px;">
+            <!--用户的用户名与昵称-->
+            <h6 style="margin:0;float: left"><a href=""><%=user.getNickname()%>
+            </a>
+            </h6>
+            <h6 class="grey-text" style="margin: 0 10px;float: left"><%=user.getUsername()%>
+            </h6>
+        </div>
+        <h6 style="float: left;margin-left: 10px;margin-top: 5px;"><!--用户的一句话描述--><%
+            String description = user.getDescription();
+            if (description != null) {
+        %>
+            <%=description%>
+            <%
+                }
+            %>
+        </h6>
+    </div>
+        <%
+                    }
+            }
+        %>
 </body>
 </html>

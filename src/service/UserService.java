@@ -3,9 +3,16 @@ package service;
 import model.User;
 
 public interface UserService {
+    /**
+     * 搜索用户
+     *
+     * @param keyword 关于用户名或昵称的关键字
+     * @return 匹配的所有用户
+     */
+    User[] search(String keyword);
 
     /**
-     * 查找用户
+     * 精准查找用户
      *
      * @param username 用户名
      * @return 用户
@@ -34,14 +41,6 @@ public interface UserService {
     User login(String username, String password);
 
     /**
-     * 登录后，通过用户名获取昵称
-     *
-     * @param username 用户名
-     * @return 用户昵称
-     */
-    String getNickname(String username);
-
-    /**
      * 查找关注该用户的其他用户
      *
      * @param username 用户名
@@ -65,13 +64,13 @@ public interface UserService {
      * @param description 一句话描述
      * @param avatar      头像地址
      */
-    boolean modify(String username, String nickname, String description,String avatar);
+    boolean modify(String username, String nickname, String description, String avatar);
 
     /**
      * 添加收藏
      *
-     * @param username  用户名
-     * @param bookID    书ID
+     * @param username 用户名
+     * @param bookID   书ID
      * @return 收藏成功 true 收藏失败 false
      */
     boolean addFavorite(String username, int bookID);
@@ -79,16 +78,17 @@ public interface UserService {
     /**
      * 取消收藏
      *
-     * @param username  用户名
-     * @param bookID    书ID
+     * @param username 用户名
+     * @param bookID   书ID
      * @return 取消成功 true 取消失败 false
      */
     boolean cancelFavorite(String username, int bookID);
 
     /**
      * 检查是否被收藏
-     * @param username  用户名
-     * @param bookID    书ID
+     *
+     * @param username 用户名
+     * @param bookID   书ID
      * @return 被收藏 true 未被收藏 false
      */
     boolean isFavorite(String username, int bookID);

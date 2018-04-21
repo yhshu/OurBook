@@ -2,9 +2,7 @@ package dao.impl;
 
 import Util.DBUtil;
 import dao.FollowDao;
-import dao.UserDao;
 import model.Follow;
-import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

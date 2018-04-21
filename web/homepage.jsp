@@ -38,16 +38,16 @@
         <img src="<%=request.getAttribute("avatar")%>"
              style="width:160px;height: 160px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
         <div style="float:left;width:680px">
+            <!--用户的用户名与昵称-->
             <h4 style="margin: 0;float: left"><%=request.getAttribute("nickname")%>
             </h4>
             <h4 class="grey-text" style="margin: 0 10px;float: left">@<%=request.getAttribute("username")%>
             </h4>
-            <!--用户的用户名与昵称-->
             <a class="modal-trigger waves-effect waves-light"
                data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
                 <i class="material-icons small">settings</i></a>
         </div>
-        <h6 style="float: left"><%
+        <h6 style="float: left"><!--用户的一句话描述--><%
             String description = (String) request.getAttribute("description");
             if (description != null) {
         %>
@@ -57,7 +57,7 @@
             %>
             <h6 class="grey-text">用一句话来描述自己吧</h6>
             <%}%>
-        </h6><!--用户的一句话描述-->
+        </h6>
 
         <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
             <form action="${pageContext.request.contextPath}/modifyUser" method="post" enctype="multipart/form-data">
@@ -89,7 +89,7 @@
     </div>
 
     <div class="row">
-        <div class="col card" style="width:623px"> <!--文章、书目或动态-->
+        <div class="col card" style="width:623px; margin-right:23px;"> <!--文章、书目或动态-->
             <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
@@ -130,12 +130,7 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div class="col" style="margin-right: 12px;">
-            <!--不要随便删除它，除非需要改变排版-->
-        </div>
-
-
-        <div class="col card" style="width: 220px"> <!--关注列表-->
+        <div class="col card" style="width: 253px"> <!--关注列表-->
             <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
                   id="unfollow" onsubmit="return unfollow()">
                 <h5 style="text-align: center">我的关注</h5>

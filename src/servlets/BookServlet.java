@@ -1,7 +1,6 @@
 package servlets;
 
 import model.Book;
-import model.Chapter;
 import service.BookService;
 import service.FollowService;
 import service.UserService;
@@ -49,7 +48,6 @@ public class BookServlet extends HttpServlet {
             req.setAttribute("isFollowing", isFollowing);
             // 重定向
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher(dis);
-        dispatcher.forward(req, resp);
+        RequestDispatcher dispatcher = req.getRequestDispatcher(dis);        dispatcher.forward(req, resp);
     }
 }
