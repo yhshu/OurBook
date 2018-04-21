@@ -27,7 +27,6 @@ public class HomepageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("user");
-        HttpSession session = request.getSession();
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
         String currentUser = (String) request.getSession().getAttribute("username");

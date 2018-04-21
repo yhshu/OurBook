@@ -1,5 +1,4 @@
 <%@ page import="model.Book" %>
-<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -27,7 +26,7 @@
 
 <body class="grey lighten-4">
 <%@ include file="nav.jsp" %>
-<div class="container">
+<div class="container" style="margin-top: 25px;">
     <div class="row card" style="padding: 20px;width: 900px">
         <img src="<%=request.getAttribute("avatar")%>"
              style="width:160px;height: 160px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
@@ -39,11 +38,11 @@
             <!--用户的用户名与昵称-->
             <a class="modal-trigger waves-effect waves-light"
                data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
-                <i class="material-icons">settings</i></a>
+                <i class="material-icons small">settings</i></a>
         </div>
         <h6 style="float: left"><%=request.getAttribute("description")%>
         </h6><!--用户的一句话描述-->
-        <!--TODO 修改个人信息 模态框 的后端逻辑-->
+
         <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
             <form action="${pageContext.request.contextPath}/modifyUser" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
@@ -74,7 +73,7 @@
     </div>
 
     <div class="row">
-        <div class="col card"> <!--文章、书目或动态-->
+        <div class="col card s8"> <!--文章、书目或动态-->
             <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
@@ -111,13 +110,14 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div class="col s2">
+        <div class="col" style="margin-right: 12px;">
             <!--不要随便删除它，除非需要改变排版-->
         </div>
 
-        <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
-              id="delfollowee">
-            <div class="col card"> <!--关注列表-->
+
+        <div class="col card s3"> <!--关注列表-->
+            <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
+                  id="delfollowee">
                 <h5 style="text-align: center">我的关注</h5>
                 <div style="margin-top: 20px">
                     <% if (followees.length == 0) {%>
@@ -141,15 +141,16 @@ border-bottom: 1px solid lightgray">
                     </div>
                     <%}%>
                 </div>
-            </div>
-        </form>
-    </div>
-</div>
+            </form>
+        </div>
 
-<script>
-    $(document).ready(function () {
-        $('.modal').modal(); // 模态框
-    });
-</script>
+        </d>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.modal').modal(); // 模态框
+        });
+    </script>
 </body>
 </html>
