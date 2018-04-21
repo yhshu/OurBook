@@ -75,8 +75,7 @@
                     <%
                         // 如果不是作者不是当前用户
                         if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
-                    <a type="submit" class="pink btn-small"
-                       style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
+                    <a class="pink btn-small" style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
                        href="follow?followee=<%=request.getAttribute("editor")%>&method=
 <%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>">
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
