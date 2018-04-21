@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Book" %>
+<%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
 <%--
   Created by IntelliJ IDEA.
@@ -67,7 +68,17 @@
         <%
                 i++;
             }
-    } else if (type.equals("user")) { // 如果搜索用户
+    }else if(type.equals("chapter")) // 如果搜索文章
+        {
+            Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
+            if(chapters.length==0){
+                %>
+    <h4 class="grey-text" style="text-align: center;margin-top:250px">
+        未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的文章</h4>
+        <%
+            }
+        }
+    else if (type.equals("user")) { // 如果搜索用户
         User[] users = (User[]) request.getAttribute("users");
         if (users.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">

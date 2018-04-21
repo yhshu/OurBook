@@ -97,8 +97,14 @@ public class BookServiceImpl implements BookService {
         return -1;
     }
 
+
     @Override
     public Chapter[] getChapters(int bookID) {
         return chapterDao.findByBookID(bookID);
+    }
+
+    @Override
+    public Chapter[] findChapterByKeywords(String keyword) {
+        return chapterDao.findByKeywords(keyword.split(" "));
     }
 }

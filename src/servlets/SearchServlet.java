@@ -1,6 +1,7 @@
 package servlets;
 
 import model.Book;
+import model.Chapter;
 import model.User;
 import service.BookService;
 import service.UserService;
@@ -35,24 +36,22 @@ public class SearchServlet extends HttpServlet {
                 User[] editors = new User[books.length];
                 for (int i = 0; i < books.length; i++)
                     editors[i] = userService.find(books[i].getChiefEditor());
-                request.setAttribute("keywords", keywords);
-                request.setAttribute("type", type);
                 request.setAttribute("books", books);
                 request.setAttribute("editors", editors);
                 break;
             case "article":
-                request.setAttribute("keywords", keywords);
-                request.setAttribute("type", type);
+                Chapter[] chapters = bookService.findChapterByKeywords(keywords);
+                request.setAttribute("chapters", chapters);
                 break;
             case "user":
                 User[] users = userService.search(keywords);
-                request.setAttribute("keywords", keywords);
-                request.setAttribute("type", type);
                 request.setAttribute("users", users);
                 break;
             default:
                 break;
         }
+        request.setAttribute("keywords", keywords);
+        request.setAttribute("type", type);
         // nav.jsp 请求 SearchServlet，本Servlet 处理后通过 search.jsp 渲染
         RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
         dispatcher.forward(request, response);

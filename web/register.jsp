@@ -25,7 +25,7 @@
             }
         }
 %>
-<body>
+<body class="white">
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
         <a href="home" class="brand-logo"><i class="material-icons">book</i>OurBook</a>

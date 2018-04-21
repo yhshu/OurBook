@@ -75,6 +75,7 @@ public class ChapterDaoImpl implements ChapterDao {
             if (chapters != null) return chapters;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ChapterDao: 通过关键字查找章节失败");
         }
         return new Chapter[0];
     }
