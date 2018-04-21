@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/book")
@@ -26,15 +27,17 @@ public class BookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String dis = "book.jsp";
-        if (request.getSession().getAttribute("username") == null) dis = "login.jsp";
+        if (session.getAttribute("username") == null)
+            dis = "login.jsp";
         else {
             int bookID = Integer.parseInt(request.getParameter("id"));
             BookService bookService = new BookServiceImpl();
             UserService userService = new UserServiceImpl();
             FollowService followService = new FollowServiceImpl();
             Book book = bookService.find(bookID);
-            String username = (String) request.getSession().getAttribute("username");
+            String username = (String) session.getAttribute("username");
             boolean isFavorite = userService.isFavorite(username, bookID);
             boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
             request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());

@@ -82,7 +82,7 @@ public class AddBookServlet extends HttpServlet {
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
             request.setAttribute("result", message);
-            response.sendRedirect("/book.jsp?id=" + bookDao.maxID());
+            response.sendRedirect("/book?id=" + bookDao.maxID());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
