@@ -4,9 +4,7 @@
 <%@ page import="service.BookService" %>
 <%@ page import="service.impl.BookServiceImpl" %>
 <%
-    BookService bookService = new BookServiceImpl();
-    Book book = bookService.find(Integer.parseInt(request.getParameter("id")));
-    Chapter[] chapters = bookService.getChapters(book.getID());
+
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -19,7 +17,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <title><%=book.getName()%> - OurBook</title>
+    <title><%=request.getAttribute("bookName")%> - OurBook</title>
 
     <script type="text/javascript">
         function change() {
@@ -27,6 +25,10 @@
             btn.value = "已关注";
             btn.disabled = true;
         }
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
     </script>
 
 </head>
@@ -34,54 +36,60 @@
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 50px">
 
-    <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
-          style="display: inline; " id="addfollowee">
-        <input type="hidden" name="method" value="addfollowee">
-        <input type="hidden" name="followee" value="<%=session.getAttribute("username")%>">
-        <input type="hidden" name="follower" value="<%=book.getChiefEditor()%>">
-        <input type="hidden" name="book_id" value="<%=book.getID()%>">
+    <div style="display: inline">
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
-                if (book.getCover() == null || book.getCover().equals("")) {
+                if (request.getAttribute("cover") == null || request.getAttribute("cover").equals("")) {
                     // 如果无封面
             %>
             <div style="width: 192px;height: 256px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
                 <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                    <%=book.getName()%>
+                    <%=request.getAttribute("bookName")%>
                 </h4>
             </div>
             <%} else { // 如果有封面%>
             <img style="width: 192px;height: 256px;object-fit: cover"
-                 src="<%=book.getCover()%>">
+                 src="<%=request.getAttribute("cover")%>">
             <%}%>
             <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
-                <h5 style="margin: 25px 0 0 25px">
-                    <a style="color: black" href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                        <%=book.getName()%>
+                <div style="margin: 25px 0 0 25px">
+                    <h5 style="float: left;margin: 0">
+                        <a style="color: black"
+                           href="${pageContext.request.contextPath}/book.jsp?id=<%=request.getAttribute("bookID")%>">
+                            <%=request.getAttribute("bookName")%>
+                        </a>
+                    </h5>
+                    <%if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
+                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
+                       class="pink-text"
+                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px">
+                        <i class="material-icons">
+                            <%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
+                        </i>
                     </a>
-                </h5>
+                    <%}%>
+                </div>
                 <div>
-                    <p style="color: gray;margin: 0 0 0 25px; display: inline;"><%=book.getChiefEditor()%>
-                    </p>
+                    <a href="${pageContext.request.contextPath}/home?id=<%=request.getAttribute("editor")%>"
+                       style="color: gray;margin: 0 0 0 25px; display: inline;">
+                        <%=request.getAttribute("editorNickname")%>
+                    </a>
                     <%
-                        //如果是本人
-                    /*
-                    if(!session.getAttribute("username").equals(book.getChiefEditor()) ){*/
-                    %>
-                    <!--<input type="submit" class="btn orange modal-trigger" value="关注作者" onclick="change()" style="..." />--->
-                    <% /*}*/%>
+                        //如果不是本人
+                        if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
                     <a type="submit" class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
-                       onclick="document .getElementById ('addfollowee').submit();">关注</a>
+                       href="follow?method=add&follower=<%=request.getAttribute("editor")%>&">关注</a>
+                    <%}%>
                 </div>
 
                 <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
                 <p style="margin: 25px 0 0 25px">
-                    <%=book.getDescription()%>
+                    <%=request.getAttribute("description")%>
                 </p>
             </div>
         </div>
-    </form>
+    </div>
 
     <!-- TODO 点击本书作者用户名跳转到其主页-->
 
@@ -94,20 +102,21 @@
         <form action="${pageContext.request.contextPath}/newChapter.jsp" accept-charset="UTF-8" method="post"
               style="display: inline; " id="newChapterForm">
             <!-- 添加章节 表单 -->
-            <input name="bookID" type="hidden" value="<%=book.getID()%>"/>
+            <input name="bookID" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
             <button class="btn blue"
                     style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;"
                     onclick="document.getElementById('newChapterForm').submit();">添加章节
             </button>
         </form>
 
+        <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
         <a href='#delete_modal' class="btn red modal-trigger" style="float: right">删除本书</a>
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
             <div class="modal-content">
                 <h4>确认删除吗？</h4>
                 <h5>忽略警告，糟糕的事情可能会发生。</h5>
-                <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + book.getName() + ' '%>
+                <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
                 </b>相关的所有信息。</p>
                 <p>请输入本书名称以确认操作。</p>
                 <input id="bookname_confirm" type="text" oninput="change_delete_link()">
@@ -117,7 +126,7 @@
                         var val = document.getElementById('bookname_confirm').value;
                         var link = $('#delete_link');
                         var disabled = ' disabled';
-                        if (val === '<%=book.getName()%>') { // 使链接有效
+                        if (val === '<%=request.getAttribute("bookName")%>') { // 使链接有效
                             link.removeClass(disabled);
                         } else { // 使链接失效
                             if (!link.hasClass(disabled))
@@ -132,15 +141,10 @@
                 <!--TODO 请求删除本书-->
             </div>
         </div>
-
-        <script>
-            $(document).ready(function () {
-                $('.modal').modal();
-            });
-        </script>
+        <%}%>
 
         <div class="collection">
-            <%for (Chapter chapter : chapters) {%>
+            <%for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {%>
             <div>
                 <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>

@@ -20,6 +20,7 @@ public class UserServlet extends BaseServlet {
 
     public void register(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
         String username = request.getParameter("username");
         String nickname = request.getParameter("nickname");
         String password = request.getParameter("password");

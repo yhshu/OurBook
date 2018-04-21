@@ -26,6 +26,7 @@ public class HomepageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
         String username = request.getParameter("user");
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();

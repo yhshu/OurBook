@@ -22,8 +22,12 @@
             }
         }
 
-        $(document).ready(function () {
-        })
+        function unfollow() {
+            $('#unfollow').ajaxForm(function (message) {
+                alert();
+            });
+            return false;
+        }
     </script>
 </head>
 
@@ -100,7 +104,7 @@ border-bottom: 1px solid lightgray">
                     <%
                         if (book.getCover() == null || book.getCover().equals("")) {
                     %>
-                    <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                    <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                         <div style="width: 90px;height: 120px;background-color: #0D47A1">
                             <h6 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                                 <%=book.getName()%>
@@ -110,14 +114,14 @@ border-bottom: 1px solid lightgray">
                     <%
                     } else {
                     %>
-                    <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                    <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                         <img style="width: 90px;height: 120px;object-fit: cover"
                              src="<%=book.getCover()%>">
                     </a>
                     <%}%>
                     <div style="display: grid;grid-template-rows: 44px 24px 52px">
                         <a style="color: black;margin: 8px 24px;font-size: 16px"
-                           href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+                           href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
                     </div>
@@ -133,7 +137,7 @@ border-bottom: 1px solid lightgray">
 
         <div class="col card" style="width: 220px"> <!--关注列表-->
             <form action="${pageContext.request.contextPath}/FollowServlet" accept-charset="UTF-8" method="post"
-                  id="delfollowee">
+                  id="unfollow" onsubmit="return unfollow()">
                 <h5 style="text-align: center">我的关注</h5>
                 <% if (followees.length == 0) {%>
                 <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
@@ -150,7 +154,7 @@ border-bottom: 1px solid lightgray">
                     <a type="submit" class="btn blue"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none;
                         height: 21px;line-height: 21px;margin: 5px 10px"
-                       onclick="document .getElementById ('delfollowee').submit();">取消关注</a>
+                       onclick="document .getElementById ('unfollow').submit();">取消关注</a>
                     <%
                             }
                         }

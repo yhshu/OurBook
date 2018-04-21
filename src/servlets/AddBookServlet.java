@@ -24,15 +24,13 @@ public class AddBookServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String dispatch = "newbook.jsp";
-        if (request.getSession().getAttribute("username") == null) dispatch = "login.jsp";
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(dispatch);
-        requestDispatcher.forward(request, response);
+        doPost(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
         String editor = (String) request.getSession().getAttribute("username");

@@ -127,4 +127,56 @@ public class UserDaoImpl implements UserDao {
         }
         return false;
     }
+
+    @Override
+    public boolean addFavorite(String username, int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?)");
+            stm.setString(1, username);
+            stm.setInt(2, bookID);
+            stm.executeUpdate();
+            conn.close();
+            System.out.println("UserDao: 收藏成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 收藏失败");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean cancelFavorite(String username, int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM favorite WHERE username = ? AND bookid = ?");
+            stm.setString(1, username);
+            stm.setInt(2, bookID);
+            stm.executeUpdate();
+            conn.close();
+            System.out.println("UserDao: 取消收藏成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 取消收藏失败");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isFavorite(String username, int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM favorite WHERE username = ? AND bookid = ?");
+            stm.setString(1, username);
+            stm.setInt(2, bookID);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            return rs.getInt(1) != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

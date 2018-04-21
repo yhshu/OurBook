@@ -34,9 +34,9 @@ public class UserFilter implements Filter {
         // 获取当前请求的URI
         String url = req.getRequestURI();
         // 判断请求的URI是否为不允许过滤的URI
-        if (url.contains("/resources/book")) {
-            res.sendRedirect(req.getContextPath() + "/index.jsp");
-        } else {
+        if (url.contains("/resources/book"))
+            res.sendRedirect(req.getContextPath() + "/login.jsp");
+        else {
             chain.doFilter(request, response);
             res.setHeader("Cache-Control", "no-store");
             res.setDateHeader("Expires", 0);
