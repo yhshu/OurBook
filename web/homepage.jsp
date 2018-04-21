@@ -41,8 +41,8 @@
             <!--用户的用户名与昵称-->
             <h4 style="margin: 0;float: left"><%=request.getAttribute("nickname")%>
             </h4>
-            <h4 class="grey-text" style="margin: 0 10px;float: left">@<%=request.getAttribute("username")%>
-            </h4>
+            <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
+            </h5>
             <a class="modal-trigger waves-effect waves-light"
                data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
                 <i class="material-icons small">settings</i></a>
@@ -94,7 +94,8 @@
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
                     if (books.length == 0) {%>
-                <h6 class="grey-text" style="text-align: center; margin-top: 100px;width: 600px"> 你还没有写任何书 </h6>
+                <h6 class="grey-text" style="text-align: center; margin-top: 100px;margin-bottom: 15px;width: 600px">
+                    你还没有写任何书 </h6>
                 <%
                     }
                     for (Book book : books) {
@@ -135,7 +136,8 @@ border-bottom: 1px solid lightgray">
                   id="unfollow" onsubmit="return unfollow()">
                 <h5 style="text-align: center">我的关注</h5>
                 <% if (followees.length == 0) {%>
-                <h6 style="text-align: center;margin-top: 100px;width: 200px" class="grey-text">你还没有关注任何人</h6>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有关注任何人</h6>
                 <%
                 } else {%>
                 <div style="margin-top: 20px;display: grid;grid-template-columns: 80px 120px;"><%

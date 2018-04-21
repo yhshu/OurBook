@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -29,10 +30,12 @@ public class AddBookServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
+        HttpSession session = request.getSession();
+        if (session.getAttribute("username") == null)
+            response.sendRedirect("index.jsp");
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
-        String editor = (String) request.getSession().getAttribute("username");
+        String editor = (String) session.getAttribute("username");
         String bookName = "";
         String bookDescription = "";
         String keywords = "";

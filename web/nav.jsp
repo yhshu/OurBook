@@ -62,7 +62,7 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
-                <li><a href="addBook"><i class="material-icons">mode_edit</i></a></li>
+                <li><a href="newbook.jsp"><i class="material-icons">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
                 <li style="height: 64px">
                     <a class="dropdown-trigger" data-target="dropdown1" style="height: 64px">

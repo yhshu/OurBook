@@ -18,28 +18,28 @@ import java.io.IOException;
 public class BookServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("username") == null) resp.sendRedirect("index.jsp");
-        int bookID = Integer.parseInt(req.getParameter("id"));
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
+        int bookID = Integer.parseInt(request.getParameter("id"));
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
         Book book = bookService.find(bookID);
-        req.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
-        req.setAttribute("bookID", bookID);
-        req.setAttribute("bookName", book.getName());
-        req.setAttribute("editor", book.getChiefEditor());
-        req.setAttribute("description", book.getDescription());
-        req.setAttribute("cover", book.getCover());
-        req.setAttribute("chapters", bookService.getChapters(bookID));
-        req.setAttribute("isFavorite",
-                userService.isFavorite((String) req.getSession().getAttribute("username"), bookID));
+        request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
+        request.setAttribute("bookID", bookID);
+        request.setAttribute("bookName", book.getName());
+        request.setAttribute("editor", book.getChiefEditor());
+        request.setAttribute("description", book.getDescription());
+        request.setAttribute("cover", book.getCover());
+        request.setAttribute("chapters", bookService.getChapters(bookID));
+        request.setAttribute("isFavorite",
+                userService.isFavorite((String) request.getSession().getAttribute("username"), bookID));
         // 重定向
-        RequestDispatcher dispatcher = req.getRequestDispatcher("book.jsp");
-        dispatcher.forward(req, resp);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("book.jsp");
+        dispatcher.forward(request, response);
     }
 }
