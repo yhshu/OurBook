@@ -30,7 +30,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public boolean delFollow(String followee, String follower) {
-        if (followee.equals("")||follower.equals("") ) {
+        if (followee.equals("") || follower.equals("")) {
             System.out.println("follow为空");
             return false;
         }

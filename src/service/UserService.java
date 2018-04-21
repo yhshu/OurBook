@@ -69,8 +69,8 @@ public interface UserService {
     /**
      * 添加收藏
      *
-     * @param username  用户名
-     * @param bookID    书ID
+     * @param username 用户名
+     * @param bookID   书ID
      * @return 收藏成功 true 收藏失败 false
      */
     boolean addFavorite(String username, int bookID);
@@ -78,16 +78,17 @@ public interface UserService {
     /**
      * 取消收藏
      *
-     * @param username  用户名
-     * @param bookID    书ID
+     * @param username 用户名
+     * @param bookID   书ID
      * @return 取消成功 true 取消失败 false
      */
     boolean cancelFavorite(String username, int bookID);
 
     /**
      * 检查是否被收藏
-     * @param username  用户名
-     * @param bookID    书ID
+     *
+     * @param username 用户名
+     * @param bookID   书ID
      * @return 被收藏 true 未被收藏 false
      */
     boolean isFavorite(String username, int bookID);
