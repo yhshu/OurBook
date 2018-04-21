@@ -135,7 +135,7 @@ border-bottom: 1px solid lightgray">
                 你还没有关注任何人</h6>
             <%
             } else {%>
-            <div style="margin-top: 20px;display: grid;grid-template-columns: 80px 120px;"><%
+            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
                 for (String user : followees) {
             %>
                 <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">

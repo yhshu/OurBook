@@ -28,14 +28,14 @@
             Book[] books = (Book[]) request.getAttribute("books");
             if (books.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的书籍</h4>
+        未找到含有关键字"<%=" " + request.getAttribute("keywords") + " "%>"的书籍</h4>
         <%
     } else for (Book book : books) {
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
         <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>" style="border-radius: 2px 0 0 2px">
-            <div style="width: 192px;height: 256px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
+            <div style="width: 192px;height: 256px;float:left;background-color: #0D47A1; border-radius: 2px 0 0 2px">
                 <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                     <%=book.getName()%>
                 </h4>
@@ -77,7 +77,7 @@
             if(chapters.length == 0){
                 %>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的文章</h4>
+        未找到含有关键字"<%=" " + request.getAttribute("keywords") + " "%>"的文章</h4>
         <%}else for(Chapter chapter:chapters) {
                 Book book = bookService.find(chapter.getBookID());
 %>
@@ -97,17 +97,21 @@
         User[] users = (User[]) request.getAttribute("users");
         if (users.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字<%=" " + request.getAttribute("keywords") + " "%>的用户</h4>
+        未找到含有关键字"<%=" " + request.getAttribute("keywords") + " "%>"的用户</h4>
         <%} else for (User user : users) {%>
     <div class="row card">
-        <img src="<%=user.getAvatar()%>"
-             style="width:80px;height: 80px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
+        <a href="home?user=<%=user.getUsername()%>">
+            <img src="<%=user.getAvatar()%>" style="width:80px;height: 80px;border-radius: 5%;
+            float: left;object-fit: cover;margin-right: 20px">
+        </a>
         <div style="float:left;width:700px; margin:10px;">
             <!--用户的用户名与昵称-->
-            <h6 style="margin:0;float: left"><a href=""><%=user.getNickname()%>
-            </a>
+            <h6 style="margin:0;float: left">
+                <a href="home?user=<%=user.getUsername()%>">
+                    <%=user.getNickname()%>
+                </a>
             </h6>
-            <h6 class="grey-text" style="margin: 0 10px;float: left"><%=user.getUsername()%>
+            <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
             </h6>
         </div>
         <h6 style="float: left;margin-left: 10px;margin-top: 5px;"><!--用户的一句话描述--><%
