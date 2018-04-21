@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * 关注用户、取消关注用户
  */
-@WebServlet("/FollowServlet")
+@WebServlet("/follow")
 public class FollowServlet extends HttpServlet {
 
     @Override
@@ -35,7 +35,7 @@ public class FollowServlet extends HttpServlet {
         String book_id = request.getParameter("book_id");
         String method = request.getParameter("method");
         //进行关注：
-        if (method.equals("addfollowee")) {
+        if (method.equals("add")) {
             try {
                 followservice.addFollow(followee, follower);
                 System.out.println("followee:" + followee + "    " + "follower:" + follower);

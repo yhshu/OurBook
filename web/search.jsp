@@ -30,7 +30,7 @@
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
-        <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>" style="border-radius: 2px 0 0 2px">
+        <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>" style="border-radius: 2px 0 0 2px">
             <div style="width: 192px;height: 256px;background-color: #0D47A1; border-radius: 2px 0 0 2px">
                 <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                     <%=book.getName()%>
@@ -38,17 +38,19 @@
             </div>
         </a>
         <%} else {%>
-        <a href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
+        <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
             <img style="width: 192px;height: 256px;border-radius: 2px 0 0 2px;object-fit: cover"
                  src="<%=book.getCover()%>">
         </a>
         <%}%>
         <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
-            <h5 style="margin: 25px 0 0 25px">
-                <a style="color: black" href="${pageContext.request.contextPath}/book.jsp?id=<%=book.getID()%>">
-                    <%=book.getName()%>
-                </a>
-            </h5>
+            <div>
+                <h5 style="margin: 25px 0 0 25px;display: inline-block">
+                    <a style="color: black" href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
+                        <%=book.getName()%>
+                    </a>
+                </h5>
+            </div>
             <p style="color: gray;margin: 0 0 0 25px"><%=editors[i].getNickname()%>
             </p>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
