@@ -1,4 +1,4 @@
-package servlets;
+package servlets.User;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;

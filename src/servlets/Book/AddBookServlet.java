@@ -1,4 +1,4 @@
-package servlets;
+package servlets.Book;
 
 import dao.BookDao;
 import dao.impl.BookDaoImpl;

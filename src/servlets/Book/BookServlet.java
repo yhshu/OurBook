@@ -1,4 +1,4 @@
-package servlets;
+package servlets.Book;
 
 import model.Book;
 import service.BookService;

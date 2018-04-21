@@ -139,6 +139,7 @@
                 <a href="#!" id="delete_link"
                    class="modal-action modal-close waves-effect waves-green btn-flat  red-text disabled ">我理解后果，删除本书</a>
                 <!--TODO 请求删除本书-->
+
             </div>
         </div>
         <%}%>

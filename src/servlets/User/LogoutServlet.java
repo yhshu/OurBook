@@ -1,4 +1,6 @@
-package servlets;
+package servlets.User;
+
+import servlets.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

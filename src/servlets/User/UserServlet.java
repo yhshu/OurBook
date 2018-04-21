@@ -1,8 +1,9 @@
-package servlets;
+package servlets.User;
 
 import model.User;
 import service.UserService;
 import service.impl.UserServiceImpl;
+import servlets.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
