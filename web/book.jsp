@@ -52,7 +52,7 @@
                 <div style="margin: 25px 0 0 25px">
                     <h5 style="float: left;margin: 0">
                         <a style="color: black"
-                           href="${pageContext.request.contextPath}/book.jsp?id=<%=request.getAttribute("bookID")%>">
+                           href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>">
                             <%=request.getAttribute("bookName")%>
                         </a>
                     </h5>
@@ -75,7 +75,8 @@
                     <%
                         // 如果不是作者不是当前用户
                         if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
-                    <a class="pink btn-small" style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
+                    <a class="pink btn-small"
+                       style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
                        href="follow?followee=<%=request.getAttribute("editor")%>&method=
 <%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>">
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
@@ -136,10 +137,13 @@
                 </script>
             </div>
             <div class="modal-footer">
-                <a href="#!" id="delete_link"
-                   class="modal-action modal-close waves-effect waves-green btn-flat  red-text disabled ">我理解后果，删除本书</a>
+                <a id="delete_link"
+                   class="modal-action modal-close waves-effect waves-green btn-flat  red-text disabled"
+                   onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
                 <!--TODO 请求删除本书-->
-
+                <form action="${pageContext.request.contextPath}/deleteBook" method="post" id="deleteBookForm">
+                    <input type="hidden" name="bookID" value="<%=request.getAttribute("bookID")%>"/>
+                </form>
             </div>
         </div>
         <%}%>

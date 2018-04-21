@@ -105,6 +105,7 @@ public class BookDaoImpl implements BookDao {
         return -1;
     }
 
+
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
@@ -144,5 +145,33 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    @Override
+    public boolean delete(int bookID) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement delChapter = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
+            delChapter.setInt(1, bookID);
+            PreparedStatement delBook = conn.prepareStatement("DELETE FROM book WHERE ID = ?");
+            delBook.setInt(1, bookID);
+            try {
+                delChapter.executeUpdate();
+                delBook.executeUpdate();
+                System.out.println("BookDao: 删除书目成功");
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                System.out.println("BookDao: 删除书目失败");
+            }
+            delChapter.close();
+            delBook.close();
+            conn.close(); // 关闭数据库连接
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

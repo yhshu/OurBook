@@ -1,4 +1,4 @@
-package servlets;
+package servlets.Chapter;
 
 import model.Chapter;
 import service.BookService;

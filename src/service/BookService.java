@@ -74,4 +74,13 @@ public interface BookService {
      * @return 标题中含有关键字的章节
      */
     Chapter[] findChapterByKeywords(String keyword);
+
+    /**
+     * 删除一本书及其所有章节
+     *
+     * @param bookID   书目编号
+     * @param username 发起删除请求的用户名
+     * @return 删除成功返回true；失败返回false
+     */
+    boolean delete(int bookID, String username);
 }
