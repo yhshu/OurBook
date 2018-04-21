@@ -18,11 +18,11 @@ public class UserDaoImpl implements UserDao {
             conn = DBUtil.connectDB(); // 连接数据库
             ArrayList<User> users = new ArrayList<>();
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username LIKE ? or nickname LIKE ?");
-            stm.setString(1, '%' + keyword + '%');
-            stm.setString(2, '%' + keyword + '%');
+            stm.setString(1, "%" + keyword + "%");
+            stm.setString(2, "%" + keyword + "%");
             try {
                 ResultSet rs = stm.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
                     users.add(user);
                 }
