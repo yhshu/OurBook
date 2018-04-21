@@ -13,6 +13,33 @@ public class UserDaoImpl implements UserDao {
     private Connection conn = null;
 
     @Override
+    public User[] search(String keyword) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            ArrayList<User> users = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username LIKE ? or nickname LIKE ?");
+            stm.setString(1, '%' + keyword + '%');
+            stm.setString(2, '%' + keyword + '%');
+            try {
+                ResultSet rs = stm.executeQuery();
+                if (rs.next()) {
+                    User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
+                    users.add(user);
+                }
+                rs.close();
+                stm.close();
+                conn.close(); // 关闭数据库连接
+                return users.toArray(new User[0]);
+            } catch (Exception e1) {
+                System.out.println("UserDao: 获取用户失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new User[0];
+    }
+
+    @Override
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
@@ -77,30 +104,6 @@ public class UserDaoImpl implements UserDao {
                 return users.toArray(new String[0]);
             } catch (Exception el) {
                 System.out.println("UserDao: 获取关注列表失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public String getNickname(String username) {
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT nickname FROM user WHERE username = ?");
-            stm.setString(1, username);
-            try {
-                ResultSet rs = stm.executeQuery();
-                String nickname = null;
-                while (rs.next())
-                    nickname = rs.getString("nickname");
-                rs.close();
-                stm.close();
-                conn.close();
-                return nickname;
-            } catch (Exception el) {
-                System.out.println("UserDao: 通过用户名获取昵称失败");
             }
         } catch (Exception e) {
             e.printStackTrace();

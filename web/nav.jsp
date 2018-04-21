@@ -9,8 +9,6 @@
 
 <script>
     $(document).ready(function () {
-
-        // 搜索框点叉，清除框中内容
         var queryDict = {};
         location.search.substr(1).split("&").forEach(function (item) {
             queryDict[item.split("=")[0]] = item.split("=")[1]
@@ -18,7 +16,7 @@
         var search_value = queryDict['keywords'];
         var search_type = queryDict['type'];
         $('#search-delete').on('click', function () {
-            $('#search').val('');
+            $('#search').val(''); // 搜索框点叉，清除框中内容
         });
         if (search_value === undefined) $('#nav_search_type').hide();
         if (search_type === null || search_type === 'book') {
@@ -30,7 +28,7 @@
         } else if (search_type === 'user') {
             $('#search_type').val('user');
             $('#search_user_button').addClass('active');
-        }
+        } // 将搜索请求提交给 SearchServlet
         $('#search_book').attr('href',
             "${pageContext.request.contextPath}/search?type=book&keywords=" + search_value);
         $('#search_article').attr('href',
