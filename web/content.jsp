@@ -10,7 +10,10 @@
 <jsp:include page="nav.jsp"/>
 <div class="row" style="height: 100%">
     <div class="col s3 grey lighten-5" style="height: 100%">
-        <ul>
+        <div style="margin-left: 4px; margin-top: 10px;">
+            <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
+                    class="material-icons">arrow_back</i>返回</a></div>
+        <ul style="margin-top: 2px;">
             <!-- 本书的所有章节目录-->
             <%
                 ChapterDao chapterDao = new ChapterDaoImpl();

@@ -4,9 +4,10 @@
     <%@ include file="header.jsp" %>
     <title>添加章节 - OurBook</title>
 </head>
-<body>
+<body class="white">
 <%@ include file="nav.jsp" %>
 <div class="container">
+
     <form action="${pageContext.request.contextPath}/ChapterServlet" method="post" onsubmit="return check_input();">
         <input type="hidden" name="method" value="add"/>
         <input type="hidden" name="bookID" value="<%=request.getParameter("bookID")%>"/>
@@ -28,7 +29,7 @@
         });
 
         function check_input() {
-            if (document.getElementById('chapterName').value === "" || document.getElementById('chapterName').value === "") {
+            if (document.getElementById('chapterName').value === "" || document.getElementById('chapterContent').value === "") {
                 M.toast({html: '请输入章节名称和内容', classes: 'rounded'});
                 return false;
             }
@@ -36,5 +37,6 @@
         }
     </script>
 </div>
+
 </body>
 </html>

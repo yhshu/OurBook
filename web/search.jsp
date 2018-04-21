@@ -28,7 +28,7 @@
             Book[] books = (Book[]) request.getAttribute("books");
             if (books.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字"<%=" " + request.getAttribute("keywords") + " "%>"的书籍</h4>
+        未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
         <%
     } else for (Book book : books) {
     %>
@@ -77,7 +77,7 @@
             if(chapters.length == 0){
                 %>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字"<%=" " + request.getAttribute("keywords") + " "%>"的文章</h4>
+        未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的文章</h4>
         <%}else for(Chapter chapter:chapters) {
                 Book book = bookService.find(chapter.getBookID());
 %>
@@ -97,7 +97,7 @@
         User[] users = (User[]) request.getAttribute("users");
         if (users.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字"<%=" " + request.getAttribute("keywords") + " "%>"的用户</h4>
+        未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的用户</h4>
         <%} else for (User user : users) {%>
     <div class="row card">
         <a href="home?user=<%=user.getUsername()%>">

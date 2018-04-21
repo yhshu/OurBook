@@ -30,8 +30,9 @@ public class DeleteBookServlet extends HttpServlet {
             File book = new File(this.getServletContext().getRealPath("/resources/book/" + bookID)); // book 是目录
             if (cover.exists() && cover.isFile())
                 cover.delete();
-            if (book.exists() && book.isDirectory())
+            if (book.exists() && book.isDirectory()) // TODO 当前无法删除该文件夹
                 FileUtil.deleteDir(book);
+            System.out.println(book.getPath());
         } catch (Exception e) {
             System.out.println("DeleteBookServlet: 删除书目文件失败");
             e.printStackTrace();
