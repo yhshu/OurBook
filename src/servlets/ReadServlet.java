@@ -24,7 +24,6 @@ public class ReadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
         BookService bookService = new BookServiceImpl();
         int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));

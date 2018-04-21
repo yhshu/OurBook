@@ -30,7 +30,6 @@ public class AddBookServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
         String editor = (String) request.getSession().getAttribute("username");

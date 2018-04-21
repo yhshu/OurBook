@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class FollowDaoImpl implements FollowDao {
     private Connection conn = null;
+
     /*
      *添加关注的人的，只能一个一个添加，用按钮形式<关注>
      */
@@ -40,6 +41,7 @@ public class FollowDaoImpl implements FollowDao {
             e.printStackTrace();
         }
     }
+
     /*
      *取消关注的人，只能一个一个删除，用按钮形式<取消关注>
      */
@@ -48,7 +50,7 @@ public class FollowDaoImpl implements FollowDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE followee=? and follower=?");
-            stm.setString(1, follow.getFollowee() );
+            stm.setString(1, follow.getFollowee());
             stm.setString(2, follow.getFollower());
             try {
                 stm.executeUpdate();
@@ -62,6 +64,7 @@ public class FollowDaoImpl implements FollowDao {
             e.printStackTrace();
         }
     }
+
     /*
      *查找关注的人的列表<homepage,otherpage 同>
      */
@@ -96,7 +99,7 @@ public class FollowDaoImpl implements FollowDao {
      * @param follower 用户编号  知道followee的名字，用作follower来搜索
      * @return 用户被其他人关注的列表
      */
-    public String[] findFollowees(String follower){
+    public String[] findFollowees(String follower) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");
@@ -141,5 +144,21 @@ public class FollowDaoImpl implements FollowDao {
      */
     public String[] findDialogMessage(Follow follow) {
         return new String[0];
+    }
+
+    @Override
+    public boolean isFollowing(String follower, String followee) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM follow WHERE follower = ? AND followee = ?");
+            stm.setString(1, follower);
+            stm.setString(2, followee);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            return rs.getInt(1) != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

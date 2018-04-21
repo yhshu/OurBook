@@ -30,7 +30,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public boolean delFollow(String followee, String follower) {
-        if (followee.equals("")||follower.equals("") ) {
+        if (followee.equals("") || follower.equals("")) {
             System.out.println("follow为空");
             return false;
         }
@@ -52,6 +52,11 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public String[] findFollowed(String followee) {
         return new String[0];
+    }
+
+    @Override
+    public boolean isFollowing(String follower, String followee) {
+        return followDao.isFollowing(follower, followee);
     }
 }
 
