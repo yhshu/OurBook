@@ -31,8 +31,6 @@ public class AddBookServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("username") == null)
-            response.sendRedirect("index.jsp");
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
         String editor = (String) session.getAttribute("username");

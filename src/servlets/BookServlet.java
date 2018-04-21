@@ -2,8 +2,10 @@ package servlets;
 
 import model.Book;
 import service.BookService;
+import service.FollowService;
 import service.UserService;
 import service.impl.BookServiceImpl;
+import service.impl.FollowServiceImpl;
 import service.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -24,22 +26,29 @@ public class BookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
-        int bookID = Integer.parseInt(request.getParameter("id"));
-        BookService bookService = new BookServiceImpl();
-        UserService userService = new UserServiceImpl();
-        Book book = bookService.find(bookID);
-        request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
-        request.setAttribute("bookID", bookID);
-        request.setAttribute("bookName", book.getName());
-        request.setAttribute("editor", book.getChiefEditor());
-        request.setAttribute("description", book.getDescription());
-        request.setAttribute("cover", book.getCover());
-        request.setAttribute("chapters", bookService.getChapters(bookID));
-        request.setAttribute("isFavorite",
-                userService.isFavorite((String) request.getSession().getAttribute("username"), bookID));
-        // 重定向
-        RequestDispatcher dispatcher = request.getRequestDispatcher("book.jsp");
+        String dis = "book.jsp";
+        if (request.getSession().getAttribute("username") == null) dis = "login.jsp";
+        else {
+            int bookID = Integer.parseInt(request.getParameter("id"));
+            BookService bookService = new BookServiceImpl();
+            UserService userService = new UserServiceImpl();
+            FollowService followService = new FollowServiceImpl();
+            Book book = bookService.find(bookID);
+            String username = (String) request.getSession().getAttribute("username");
+            boolean isFavorite = userService.isFavorite(username, bookID);
+            boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
+            request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
+            request.setAttribute("bookID", bookID);
+            request.setAttribute("bookName", book.getName());
+            request.setAttribute("editor", book.getChiefEditor());
+            request.setAttribute("description", book.getDescription());
+            request.setAttribute("cover", book.getCover());
+            request.setAttribute("chapters", bookService.getChapters(bookID));
+            request.setAttribute("isFavorite", isFavorite);
+            request.setAttribute("isFollowing", isFollowing);
+            // 重定向
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher(dis);
         dispatcher.forward(request, response);
     }
 }

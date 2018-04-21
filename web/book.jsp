@@ -1,8 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
-<%@ page import="service.BookService" %>
-<%@ page import="service.impl.BookServiceImpl" %>
 <%
 
 %>
@@ -60,7 +57,8 @@
                         </a>
                     </h5>
                     <%if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
-                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
+                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ?
+                     "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
                        class="pink-text"
                        style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px">
                         <i class="material-icons">
@@ -70,7 +68,7 @@
                     <%}%>
                 </div>
                 <div>
-                    <a href="${pageContext.request.contextPath}/home?id=<%=request.getAttribute("editor")%>"
+                    <a href="${pageContext.request.contextPath}/home?user=<%=request.getAttribute("editor")%>"
                        style="color: gray;margin: 0 0 0 25px; display: inline;">
                         <%=request.getAttribute("editorNickname")%>
                     </a>
@@ -79,7 +77,9 @@
                         if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
                     <a type="submit" class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
-                       href="follow?method=add&follower=<%=request.getAttribute("editor")%>&">关注</a>
+                       href="follow?followee=<%=request.getAttribute("editor")%>&method=
+<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>">
+                        <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%></a>
                     <%}%>
                 </div>
 

@@ -53,5 +53,10 @@ public class FollowServiceImpl implements FollowService {
     public String[] findFollowed(String followee) {
         return new String[0];
     }
+
+    @Override
+    public boolean isFollowing(String follower, String followee) {
+        return followDao.isFollowing(follower, followee);
+    }
 }
 

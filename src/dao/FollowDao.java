@@ -47,4 +47,13 @@ public interface FollowDao {
      * @return 用户正关注的其他用户的用户名
      */
     String[] findDialogMessage(Follow follow);
+
+    /**
+     * 检查是否关注
+     *
+     * @param follower  关注者
+     * @param followee  被关注者
+     * @return
+     */
+    boolean isFollowing(String follower, String followee);
 }

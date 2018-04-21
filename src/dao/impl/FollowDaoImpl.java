@@ -143,4 +143,20 @@ public class FollowDaoImpl implements FollowDao {
     public String[] findDialogMessage(Follow follow) {
         return new String[0];
     }
+
+    @Override
+    public boolean isFollowing(String follower, String followee) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM follow WHERE follower = ? AND followee = ?");
+            stm.setString(1, follower);
+            stm.setString(2, followee);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            return rs.getInt(1) != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

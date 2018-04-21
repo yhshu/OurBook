@@ -51,8 +51,9 @@
                     </a>
                 </h5>
             </div>
-            <p style="color: gray;margin: 0 0 0 25px"><%=editors[i].getNickname()%>
-            </p>
+            <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
+               style="color: gray;margin: 0 0 0 25px"><%=editors[i].getNickname()%>
+            </a>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
             <p style="margin: 25px 0 0 25px">
                 <%=book.getDescription()%>
