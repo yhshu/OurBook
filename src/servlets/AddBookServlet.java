@@ -8,7 +8,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import service.BookService;
 import service.impl.BookServiceImpl;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +29,7 @@ public class AddBookServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
+        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
         String editor = (String) request.getSession().getAttribute("username");

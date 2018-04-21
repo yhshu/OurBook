@@ -24,7 +24,7 @@ public class ModifyUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
+        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
         String username = (String) request.getSession().getAttribute("username");
         String nickname = "", description = "", message = "", filename = "";
         UserService userService = new UserServiceImpl();

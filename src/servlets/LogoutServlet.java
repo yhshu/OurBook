@@ -17,7 +17,7 @@ public class LogoutServlet extends BaseServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
+        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
         // 删除所有 cookie，关闭自动登录
         Cookie[] cookies = request.getCookies();
         HttpSession session = request.getSession();

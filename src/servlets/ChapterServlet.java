@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet("/ChapterServlet")
 public class ChapterServlet extends BaseServlet {
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("username")==null) response.sendRedirect("index.jsp");
+        if (request.getSession().getAttribute("username") == null) response.sendRedirect("index.jsp");
         super.service(request, response, "ChapterServlet");
     }
 

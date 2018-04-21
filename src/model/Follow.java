@@ -1,7 +1,5 @@
 package model;
 
-import java.io.Serializable;
-
 public class Follow {
 
     private String followee;    //被关注的  自己主页
@@ -26,15 +24,16 @@ public class Follow {
 
     private String time;
 
-    public Follow(String followee,String follower){
-        this.follower=follower;
-        this.followee=followee;
+    public Follow(String followee, String follower) {
+        this.follower = follower;
+        this.followee = followee;
     }
-    public Follow(String followee,String follower,String message,String time){
-        this.followee=followee;
-        this.follower=follower;
-        this.message=message;
-        this.time=time;
+
+    public Follow(String followee, String follower, String message, String time) {
+        this.followee = followee;
+        this.follower = follower;
+        this.message = message;
+        this.time = time;
     }
 
     public String getFollowee() {

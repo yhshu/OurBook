@@ -1,7 +1,6 @@
 package servlets;
 
 import model.Book;
-import model.Chapter;
 import service.BookService;
 import service.UserService;
 import service.impl.BookServiceImpl;
@@ -25,7 +24,7 @@ public class BookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("username")==null) resp.sendRedirect("index.jsp");
+        if (req.getSession().getAttribute("username") == null) resp.sendRedirect("index.jsp");
         int bookID = Integer.parseInt(req.getParameter("id"));
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
