@@ -24,7 +24,8 @@
         <div class="card-content black-text">
             <p class="card-title">登录到 OurBook</p>
             <br>
-            <form action="${pageContext.request.contextPath}/UserServlet" method="post">
+            <form action="${pageContext.request.contextPath}/UserServlet" method="post"
+                  onsubmit="return check_input();">
                 <input type="hidden" name="method" value="login"/>
                 <div class="row">
                     <div class="input-field s12">
@@ -43,21 +44,18 @@
                 <input type="submit" id="submit" class="waves-effect waves-light btn blue right " value="登录"/>
             </form>
             <script>
-                <%
-                if(request.getAttribute("mes")!=null)
-                try {
-                     if(request.getAttribute("mes").equals("1")){
-                     %>
-                M.toast({html: '登陆成功，正在跳转......', classes: 'rounded'});
-                <%
-                 }else if(request.getAttribute("mes").equals("0")){
-                 %>
-                M.toast({html: '用户名或密码错误，请重新登录！', classes: 'rounded'});
-                <%}
-                }catch (Exception e) {
-                    e.printStackTrace();
+                function check_input() {
+                    if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
+                        M.toast({html: '请输入用户名密码', classes: 'rounded'});
+                        return false;
+                    }
+                    else return true;
                 }
-                %>
+
+                <%
+                if(request.getAttribute("message") != null && request.getAttribute("message").equals("login failed")){%>
+                M.toast({html: '用户名或密码错误', classes: 'rounded'});
+                <%}%>
             </script>
         </div>
     </div>
