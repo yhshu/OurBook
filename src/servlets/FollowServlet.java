@@ -34,25 +34,25 @@ public class FollowServlet extends HttpServlet {
         String follower = (String) request.getSession().getAttribute("username");
         String book_id = request.getParameter("book_id");
         String method = request.getParameter("method");
-        //进行关注：
+        // 进行关注
         if (method.equals("add")) {
             try {
                 followservice.addFollow(followee, follower);
-                System.out.println("followee:" + followee + "    " + "follower:" + follower);
+                System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 关注成功");
                 // 关注成功后，返回主页
                 response.sendRedirect("/home");
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("FollowServlet: 添加失败");
+                System.out.println("FollowServlet: 添加关注失败");
             }
         }
-        //取消关注：
+        // 取消关注
         else if (method.equals("remove")) {
             try {
                 followservice.delFollow(followee, follower);
-                System.out.println("followee:" + followee + "    " + "follower" + follower);
-                System.out.println("FollowServlet: 关注成功");
+                System.out.println("followee: " + followee + "; " + "follower: " + follower);
+                System.out.println("FollowServlet: 取消关注成功");
                 // 取消成功后，返回主页
                 response.sendRedirect("/home");
             } catch (Exception e) {
