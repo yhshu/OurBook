@@ -41,9 +41,11 @@ public class HomepageServlet extends HttpServlet {
             }
             User user = userService.find(username);
             Book[] books = bookService.findByEditor(username);
-            String[] followers = userService.getFollowers(username);
-            String[] followees = userService.getFollowees(username);
+            Book[] favorites = bookService.getFavorites(username);
+            User[] followers = userService.getFollowers(username);
+            User[] followees = userService.getFollowees(username);
             request.setAttribute("username", username);
+            request.setAttribute("favorites", favorites);
             request.setAttribute("books", books);
             request.setAttribute("nickname", user.getNickname());
             request.setAttribute("description", user.getDescription());

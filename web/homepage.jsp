@@ -1,11 +1,13 @@
 <%@ page import="model.Book" %>
+<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@ include file="header.jsp" %>
     <%
         Book[] books = (Book[]) request.getAttribute("books");
-        String[] followees = (String[]) request.getAttribute("followees");
+        Book[] favorites = (Book[]) request.getAttribute("favorites");
+        User[] followees = (User[]) request.getAttribute("followees");
     %>
     <title>个人主页 - OurBook</title>
     <script>
@@ -128,6 +130,29 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
+        <div class="col card" style="width: 253px"> <!--收藏列表-->
+            <h5 style="text-align: center">我的收藏</h5>
+            <% if (favorites.length == 0) {%>
+            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                你还没有收藏任何书</h6>
+            <%
+            } else {%>
+            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
+                for (Book book : favorites) {
+            %>
+                <a href="book?id=<%=book.getID()%>" style="text-align: center;line-height: 31px">
+                    <%=book.getName()%>
+                </a>
+                <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn blue"
+                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
+                        height: 21px;line-height: 21px;margin: 5px 10px">取消收藏</a>
+                <%
+                        }
+                    }
+                %>
+            </div>
+        </div>
+
         <div class="col card" style="width: 253px"> <!--关注列表-->
             <h5 style="text-align: center">我的关注</h5>
             <% if (followees.length == 0) {%>
@@ -136,12 +161,12 @@ border-bottom: 1px solid lightgray">
             <%
             } else {%>
             <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
-                for (String user : followees) {
+                for (User user : followees) {
             %>
-                <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">
-                    <%=user%>
+                <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
+                    <%=user.getNickname()%>
                 </a>
-                <a href="follow?method=remove&followee=<%=user%>" type="submit" class="btn blue"
+                <a href="follow?method=remove&followee=<%=user%>" class="btn blue"
                    style="display: inline; -webkit-appearance:none; -moz-appearance:none;
                         height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
                 <%

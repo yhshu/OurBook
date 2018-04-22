@@ -83,4 +83,12 @@ public interface BookService {
      * @return 删除成功返回true；失败返回false
      */
     boolean delete(int bookID, String username);
+
+    /**
+     * 获取用户收藏的书
+     *
+     * @param username  用户名
+     * @return 用户收藏的书
+     */
+    Book[] getFavorites(String username);
 }

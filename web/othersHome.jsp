@@ -1,11 +1,12 @@
 <%@ page import="model.Book" %>
+<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@ include file="header.jsp" %>
     <%
         Book[] books = (Book[]) request.getAttribute("books");
-        String[] followees = (String[]) request.getAttribute("followees");
+        User[] followees = (User[]) request.getAttribute("followees");
     %>
     <title>个人主页 - OurBook</title>
     <script>
@@ -139,10 +140,10 @@ border-bottom: 1px solid lightgray">
             <%
             } else {%>
             <div style="margin: 10px 0;display: grid;grid-template-columns: 230px;"><%
-                for (String user : followees) {
+                for (User user : followees) {
             %>
-                <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">
-                    <%=user%>
+                <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
+                    <%=user.getNickname()%>
                 </a>
                 <%
                         }

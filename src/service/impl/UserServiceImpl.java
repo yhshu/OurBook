@@ -54,12 +54,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String[] getFollowers(String username) {
+    public User[] getFollowers(String username) {
         return followDao.findFollowers(username);
     }
 
     @Override
-    public String[] getFollowees(String username) {
+    public User[] getFollowees(String username) {
         return followDao.findFollowees(username);
     }
 

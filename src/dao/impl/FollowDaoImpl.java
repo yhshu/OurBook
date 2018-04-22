@@ -3,6 +3,7 @@ package dao.impl;
 import Util.DBUtil;
 import dao.FollowDao;
 import model.Follow;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -67,28 +68,17 @@ public class FollowDaoImpl implements FollowDao {
      *查找关注的人的列表<homepage,otherpage 同>
      */
     @Override
-    public String[] findFollowers(String followee) {
+    public User[] findFollowers(String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE followee = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, user WHERE follower = username AND followee = ?");
             stm.setString(1, followee);
-            try {
-                ResultSet rs = stm.executeQuery();
-                ArrayList<String> follower_arraylist = new ArrayList<>();
-                while (rs.next()) {
-                    follower_arraylist.add(rs.getString("follower"));  //得到followee关注的人
-                }
-                rs.close();
-                stm.close();
-                conn.close();
-                return follower_arraylist.toArray(new String[0]);
-            } catch (Exception el) {
-                System.out.println("UserDao: 获取关注列表失败");
-            }
+            User[] followers = getUsers(stm);
+            if(followers!=null) return followers;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new User[0];
     }
 
     /**
@@ -97,28 +87,17 @@ public class FollowDaoImpl implements FollowDao {
      * @param follower 用户编号  知道followee的名字，用作follower来搜索
      * @return 用户被其他人关注的列表
      */
-    public String[] findFollowees(String follower) {
+    public User[] findFollowees(String follower) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");
-            stm.setString(1, follower);                  //查找followee作为follower被关注的人
-            try {
-                ResultSet rs = stm.executeQuery();
-                ArrayList<String> followee_arraylist = new ArrayList<>();
-                while (rs.next()) {
-                    followee_arraylist.add(rs.getString("followee"));
-                }
-                rs.close();
-                stm.close();
-                conn.close();
-                return followee_arraylist.toArray(new String[0]);
-            } catch (Exception el) {
-                System.out.println("UserDao: 获取关注列表失败");
-            }
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, user WHERE followee = username AND follower = ?");
+            stm.setString(1, follower);
+            User[] followees = getUsers(stm);
+            if(followees!=null) return followees;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new User[0];
     }
 
 
@@ -158,5 +137,26 @@ public class FollowDaoImpl implements FollowDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private User[] getUsers(PreparedStatement stm) {
+        try {
+            ResultSet rs = stm.executeQuery();
+            ArrayList<User> users = new ArrayList<>();
+            while (rs.next()) {
+                User user = new User(rs.getString("username"), rs.getString("nickname"),
+                        rs.getString("password"), rs.getString("description"),
+                        rs.getString("avatar"));
+                users.add(user);
+            }
+            rs.close();
+            stm.close();
+            conn.close(); // 关闭数据库连接
+            return users.toArray(new User[0]);
+        } catch (Exception e) {
+            System.out.println("BookDao: 获取书目失败:");
+            e.printStackTrace();
+        }
+        return null;
     }
 }
