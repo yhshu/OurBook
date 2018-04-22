@@ -8,7 +8,7 @@
         Book[] books = (Book[]) request.getAttribute("books");
         User[] followees = (User[]) request.getAttribute("followees");
     %>
-    <title>个人主页 - OurBook</title>
+    <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {

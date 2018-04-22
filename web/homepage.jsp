@@ -9,21 +9,18 @@
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
     %>
-    <title>个人主页 - OurBook</title>
+    <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     $('#preview')
                         .attr('src', e.target.result);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
     </script>
 </head>
 
@@ -130,51 +127,53 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div class="col card" style="width: 253px"> <!--收藏列表-->
-            <h5 style="text-align: center">我的收藏</h5>
-            <% if (favorites.length == 0) {%>
-            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                你还没有收藏任何书</h6>
-            <%
-            } else {%>
-            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
-                for (Book book : favorites) {
-            %>
-                <a href="book?id=<%=book.getID()%>" style="text-align: center;line-height: 31px">
-                    <%=book.getName()%>
-                </a>
-                <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn blue"
-                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px">取消收藏</a>
+        <div><!--收藏列表 与 关注列表-->
+            <div class="col card" style="width: 253px"> <!--收藏列表-->
+                <h5 style="text-align: center">我的收藏</h5>
+                <% if (favorites.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有收藏任何书</h6>
                 <%
-                        }
-                    }
+                } else {%>
+                <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
+                    for (Book book : favorites) {
                 %>
+                    <a href="book?id=<%=book.getID()%>" style="text-align: center;line-height: 31px">
+                        <%=book.getName()%>
+                    </a>
+                    <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn blue"
+                       style="display: inline; -webkit-appearance:none; -moz-appearance:none;
+                        height: 21px;line-height: 21px;margin: 5px 10px">取消收藏</a>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+            </div>
+
+            <div class="col card" style="width: 253px"> <!--关注列表-->
+                <h5 style="text-align: center">我的关注</h5>
+                <% if (followees.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有关注任何人</h6>
+                <%
+                } else {%>
+                <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
+                    for (User user : followees) {
+                %>
+                    <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
+                        <%=user.getNickname()%>
+                    </a>
+                    <a href="follow?method=remove&followee=<%=user.getUsername()%>" class="btn blue"
+                       style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
             </div>
         </div>
 
-        <div class="col card" style="width: 253px"> <!--关注列表-->
-            <h5 style="text-align: center">我的关注</h5>
-            <% if (followees.length == 0) {%>
-            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                你还没有关注任何人</h6>
-            <%
-            } else {%>
-            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
-                for (User user : followees) {
-            %>
-                <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
-                    <%=user.getNickname()%>
-                </a>
-                <a href="follow?method=remove&followee=<%=user%>" class="btn blue"
-                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
-                <%
-                        }
-                    }
-                %>
-            </div>
-        </div>
     </div>
 </div>
 

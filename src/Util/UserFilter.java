@@ -43,7 +43,6 @@ public class UserFilter implements Filter {
             res.setHeader("Pragma", "no-cache");
             res.flushBuffer();
         }
-
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {

@@ -36,4 +36,13 @@ public interface ChapterDao {
      * @return 书中的所有章节
      */
     Chapter[] findByBookID(int bookID);
+
+    /**
+     * 删除某一章节
+     *
+     * @param bookID   书籍ID
+     * @param sequence 章节序号
+     * @return 删除成功返回true；失败返回false
+     */
+    boolean delete(int bookID, int sequence);
 }

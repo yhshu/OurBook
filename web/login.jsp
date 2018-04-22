@@ -3,7 +3,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <title>用户登录 - OurBook</title>
+    <title>登录 - OurBook</title>
 </head>
 <%
     Cookie[] cookies = request.getCookies();
