@@ -65,4 +65,12 @@ public interface BookDao {
      * @return 用户收藏的书
      */
     Book[] getFavorites(String username);
+
+    /**
+     * 记录点击
+     *
+     * @param username 用户名
+     * @param bookID   书编号
+     */
+    boolean click(String username,int bookID);
 }

@@ -126,4 +126,9 @@ public class BookServiceImpl implements BookService {
     public Book[] getFavorites(String username) {
         return bookDao.getFavorites(username);
     }
+
+    @Override
+    public boolean click(String username, int bookID) {
+        return bookDao.click(username, bookID);
+    }
 }
