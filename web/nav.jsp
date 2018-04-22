@@ -99,12 +99,17 @@
     </div>
     <script>$(".dropdown-trigger").dropdown();</script>
     <div class="blue" id="nav_search_type">
-        <ul class="hide-on-med-and-down" style="position: relative;height: 64px;width: 279px;margin: auto">
+        <ul class="hide-on-med-and-down" id="type" style="position: relative;height: 64px;width: 180px;margin: auto">
             <li id="search_book_button"><a id="search_book">书籍</a></li>
             <li id="search_article_button"><a id="search_article">文章</a></li>
             <li id="search_user_button"><a id="search_user">用户</a></li>
+            <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
             <li><a class="dropdown-trigger" data-target="dropdown2">
                 排序<i class="material-icons right">arrow_drop_down</i></a></li>
+            <script>$(document).ready(function () {
+                $('#type').css('width', '279px');
+            });</script>
+            <%}%>
         </ul>
     </div>
 </nav>

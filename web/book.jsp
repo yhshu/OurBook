@@ -56,7 +56,6 @@
                             <%=request.getAttribute("bookName")%>
                         </a>
                     </h5>
-                    <%if (!request.getAttribute("editor").equals(session.getAttribute("username"))) { // 如果不是作者不是当前用户%>
                     <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ?
                      "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
                        class="pink-text"
@@ -65,7 +64,6 @@
                             <%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
-                    <%}%>
                 </div>
                 <div>
                     <a href="${pageContext.request.contextPath}/home?user=<%=request.getAttribute("editor")%>"

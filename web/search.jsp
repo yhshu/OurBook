@@ -2,6 +2,7 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
+<%@ page import="java.util.ArrayList" %>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -23,11 +24,16 @@
             User[] editors = (User[]) request.getAttribute("editors");
             int i = 0;
             Book[] books = (Book[]) request.getAttribute("books");
+            Book[] favorites = (Book[]) request.getAttribute("favorites");
             if (books.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
         <%
     } else for (Book book : books) {
+                boolean favorite = false;
+                for(Book book1:favorites)
+                    if(book1.getID()==book.getID())
+                        favorite=true;
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
@@ -60,9 +66,12 @@
                 <%=book.getDescription()%>
             </p>
         </div>
-        <a class="btn-large btn-floating halfway-fab waves-effect waves-light red"
+        <a href="favorite?method=<%=favorite ? "remove" : "add"%>&book=<%=book.getID()%>"
+           class="btn-large btn-floating halfway-fab waves-effect waves-light pink"
            style="position: relative;margin-bottom: -100px;left:772px;bottom:176px">
-            <i class="material-icons">add</i>
+            <i class="material-icons"
+               style="margin-top:3px"><%=favorite ? "favorite" : "favorite_border"%>
+            </i>
         </a>
     </div>
         <%

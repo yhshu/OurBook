@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
@@ -33,12 +35,12 @@ public class SearchServlet extends HttpServlet {
         switch (type) {
             case "book":
                 Book[] books = bookService.findByKeywords(keywords);
-                Book[] favorites = bookService.getFavorites((String) request.getSession().getAttribute("username"));
+                Book[] fav = bookService.getFavorites((String) request.getSession().getAttribute("username"));
                 User[] editors = new User[books.length];
                 for (int i = 0; i < books.length; i++)
                     editors[i] = userService.find(books[i].getChiefEditor());
                 request.setAttribute("books", books);
-                request.setAttribute("favorites", favorites);
+                request.setAttribute("favorites", fav);
                 request.setAttribute("editors", editors);
                 break;
             case "article":
