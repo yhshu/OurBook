@@ -98,14 +98,13 @@
             <div style="display: grid; grid-template-rows: 65px auto">
                 <a style="margin: 5px 10px" class="black-text"
                    href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>">
-                    <h6 style="line-height: 23px"><%=chapter.getBookName()%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chapter.getName()%>
+                    <h6 style="line-height: 23px;margin-top: 10px"><%=chapter.getBookName()%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chapter.getName()%>
                     </h6>
                 </a>
-                <a href="${pageContext.request.contextPath}/home?user=<%=chapter.getEditorUsername()%>"
-                   class="grey-text">
-                    <p style="float: right;margin:0 20px">@<%=chapter.getEditorUsername()%>
+                <a href="${pageContext.request.contextPath}/home?user=<%=chapter.getEditorUsername()%>">
+                    <p style="float: left;margin:0 10px 0 10px"><%=chapter.getEditorNickname()%>
                     </p>
-                    <p class="black-text" style="float: right;margin:0"><%=chapter.getEditorNickname()%>
+                    <p class="grey-text" style="float: left;margin:0">@<%=chapter.getEditorUsername()%>
                     </p>
                 </a>
             </div>
