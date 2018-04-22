@@ -32,6 +32,16 @@ public interface BookService {
     Book[] findByKeywords(String keywords);
 
     /**
+     * 根据关键字查找书籍，并按类型和时间范围排序
+     *
+     * @param keywords  关键字
+     * @param sort      排序类型
+     * @param range     排序时间范围
+     * @return  经过排序的书籍
+     */
+    Book[] findByKeywords(String keywords,String sort,String range);
+
+    /**
      * 根据作者查找书籍
      *
      * @param username 作者用户名

@@ -32,4 +32,16 @@ public class DBUtil {
         stringBuilder.append("1)");
         return stringBuilder.toString();
     }
+
+    public static String timeLimit(String field, String range) {
+        if (range.equalsIgnoreCase("day")) return "TO_DAYS(" + field + ") = TO_DAYS(NOW())";
+        else if (range.equalsIgnoreCase("week")) return "DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date("
+                + field + ")";
+        else if (range.equalsIgnoreCase("month")) return "DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date("
+                + field + ")";
+        else if (range.equalsIgnoreCase("year")) return "DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= date("
+                + field + ")";
+        else return "1";
+    }
+
 }
