@@ -41,7 +41,7 @@ public class FollowServlet extends HttpServlet {
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 关注成功");
                 // 关注成功后，返回主页
-                response.sendRedirect("/home");
+                response.sendRedirect("/home?user=" + followee);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("FollowServlet: 添加关注失败");
@@ -54,7 +54,7 @@ public class FollowServlet extends HttpServlet {
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 取消关注成功");
                 // 取消成功后，返回主页
-                response.sendRedirect("/home");
+                response.sendRedirect("/home?user=" + followee);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("FollowServlet: 取消关注失败");
