@@ -42,6 +42,23 @@
                 <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
                 <input type="submit" id="submit" class="waves-effect waves-light btn blue right " value="登录"/>
             </form>
+            <script>
+                <%
+                if(request.getAttribute("mes")!=null)
+                try {
+                     if(request.getAttribute("mes").equals("1")){
+                     %>
+                M.toast({html: '登陆成功，正在跳转......', classes: 'rounded'});
+                <%
+                 }else if(request.getAttribute("mes").equals("0")){
+                 %>
+                M.toast({html: '用户名或密码错误，请重新登录！', classes: 'rounded'});
+                <%}
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                %>
+            </script>
         </div>
     </div>
 </div>
