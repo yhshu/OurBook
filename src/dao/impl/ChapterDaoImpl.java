@@ -2,6 +2,7 @@ package dao.impl;
 
 import Util.DBUtil;
 import dao.ChapterDao;
+import model.Book;
 import model.Chapter;
 
 import java.sql.Connection;
@@ -70,9 +71,22 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE " + DBUtil.keywordsMatchCondition("name", keywords));
-            Chapter[] chapters = getChapters(stm);
-            if (chapters != null) return chapters;
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter,book,user WHERE bookID = ID AND username = chiefEditor AND " + DBUtil.keywordsMatchCondition("chapter.name", keywords));
+            ResultSet rs = stm.executeQuery();
+            ArrayList<Chapter> chapters = new ArrayList<>();
+            while (rs.next()) {
+                Chapter chapter = new Chapter(rs.getString("chapter.name"), rs.getInt("bookID"),
+                        rs.getInt("sequence"), rs.getString("content"));
+                chapter.setBookName(rs.getString("book.name"));
+                chapter.setEditorNickname(rs.getString("nickname"));
+                chapter.setEditorUsername(rs.getString("username"));
+                chapter.setBookCover(rs.getString("cover"));
+                chapters.add(chapter);
+            }
+            rs.close();
+            stm.close();
+            conn.close(); // 关闭数据库连接
+            return chapters.toArray(new Chapter[0]);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 通过关键字查找章节失败");
