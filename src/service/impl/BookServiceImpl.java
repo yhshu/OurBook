@@ -131,4 +131,9 @@ public class BookServiceImpl implements BookService {
     public boolean click(String username, int bookID) {
         return bookDao.click(username, bookID);
     }
+
+    @Override
+    public boolean delete_chapter(int bookID, int sequence) {
+        return chapterDao.delete(bookID, sequence);
+    }
 }

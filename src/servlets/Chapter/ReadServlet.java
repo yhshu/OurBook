@@ -34,6 +34,7 @@ public class ReadServlet extends HttpServlet {
         BufferedReader read = new BufferedReader(isr);
         request.setAttribute("reader", read);
         request.setAttribute("bookID", bookID);
+        request.setAttribute("sequence", sequence);
         // 重定向
         RequestDispatcher dispatcher = request.getRequestDispatcher("content.jsp");
         dispatcher.forward(request, response);

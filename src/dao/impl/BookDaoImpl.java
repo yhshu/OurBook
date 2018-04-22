@@ -156,13 +156,15 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement delChapter = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
             delChapter.setInt(1, bookID);
+            PreparedStatement delClick = conn.prepareStatement("DELETE FROM click WHERE bookID = ?");
+            delClick.setInt(1, bookID);
             PreparedStatement delBook = conn.prepareStatement("DELETE FROM book WHERE ID = ?");
             delBook.setInt(1, bookID);
             try {
                 delChapter.executeUpdate();
+                delClick.executeUpdate();
                 delBook.executeUpdate();
                 System.out.println("BookDao: 删除书目成功");
-
             } catch (Exception e1) {
                 e1.printStackTrace();
                 System.out.println("BookDao: 删除书目失败");
@@ -197,7 +199,7 @@ public class BookDaoImpl implements BookDao {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,?)");
             stm.setString(1, username);
-            stm.setInt(2,bookID);
+            stm.setInt(2, bookID);
             stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             return true;

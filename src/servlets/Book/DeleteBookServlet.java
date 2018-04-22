@@ -23,16 +23,20 @@ public class DeleteBookServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
+        // 数据库删除
         int bookID = Integer.parseInt(request.getParameter("bookID"));
         bookService.delete(bookID, (String) request.getSession().getAttribute("username"));
+        // 删除文件
         try {
             File cover = new File(this.getServletContext().getRealPath("/resources/cover/" + bookID + ".jpg")); // cover 是 jpg 文件
             File book = new File(this.getServletContext().getRealPath("/resources/book/" + bookID)); // book 是目录
             if (cover.exists() && cover.isFile())
                 cover.delete();
             if (book.exists() && book.isDirectory()) // TODO 当前无法删除该文件夹
-                FileUtil.deleteDir(book);
-            System.out.println(book.getPath());
+            {
+                if (FileUtil.deleteDir(book))
+                    System.out.println("DeleteBookServlet: 删除目录成功 "book.getPath());
+            }
         } catch (Exception e) {
             System.out.println("DeleteBookServlet: 删除书目文件失败");
             e.printStackTrace();

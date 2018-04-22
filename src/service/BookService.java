@@ -87,7 +87,7 @@ public interface BookService {
     /**
      * 获取用户收藏的书
      *
-     * @param username  用户名
+     * @param username 用户名
      * @return 用户收藏的书
      */
     Book[] getFavorites(String username);
@@ -98,5 +98,14 @@ public interface BookService {
      * @param username 用户名
      * @param bookID   书编号
      */
-    boolean click(String username,int bookID);
+    boolean click(String username, int bookID);
+
+    /**
+     * 删除指定章节
+     *
+     * @param bookID   书目编号
+     * @param sequence 章节序号
+     * @return 删除成功返回true；失败返会false
+     */
+    boolean delete_chapter(int bookID, int sequence);
 }
