@@ -11,4 +11,14 @@
         <filter-name>UserFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--  <error-page>
+          <error-code>500</error-code>
+          <location>/500.jsp</location>
+      </error-page> TODO 开发完成后启用-->
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
 </web-app>
