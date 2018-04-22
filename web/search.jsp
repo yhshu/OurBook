@@ -2,8 +2,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
-<%@ page import="service.BookService" %>
-<%@ page import="service.impl.BookServiceImpl" %>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -20,7 +18,6 @@
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 100px">
         <%
-        BookService bookService= new BookServiceImpl();
         String type = (String) request.getAttribute("type"); // 获取搜索类型
         if (type == null || type.equals("book")) { // 如果搜索书籍
             User[] editors = (User[]) request.getAttribute("editors");
@@ -78,19 +75,42 @@
                 %>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的文章</h4>
-        <%}else for(Chapter chapter:chapters) {
-                Book book = bookService.find(chapter.getBookID());
-%>
-    <div class="row card" style="padding: 1px 20px 7px;">
-        <a href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
-           class="black-text">
-            <h5><%=chapter.getName()%>
-            </h5>
-        </a>
-        <a class="grey-text" href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>"><h6><%=book.getName()%>
-        </h6>
-        </a>
-    </div>
+        <%}else {%>
+    <div style="display: grid;grid-template-columns: 480px 480px">
+        <%for (Chapter chapter : chapters) {%>
+        <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
+        grid-template-columns: 72px 10px auto">
+            <a href="${pageContext.request.contextPath}/book?id=<%=chapter.getBookID()%>">
+                <%
+                    if (chapter.getBookCover() == null || chapter.getBookCover().equals("")) {
+                %>
+                <div style="width: 72px;height: 96px;background-color: #0D47A1;border-radius: 2px 0 0 2px;float: left">
+                    <p style="color: white;display: block;position: relative;top: 20%;text-align: center">
+                        <%=chapter.getBookName()%>
+                    </p>
+                </div>
+                <%} else {%>
+                <img src="<%=chapter.getBookCover()%>"
+                     style="border-radius: 2px 0 0 2px;width:72px;height: 96px;float:left;object-fit: cover">
+                <%}%>
+            </a>
+            <div></div>
+            <div style="display: grid; grid-template-rows: 65px auto">
+                <a style="margin: 5px 10px" class="black-text"
+                   href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>">
+                    <h6 style="line-height: 23px"><%=chapter.getBookName()%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chapter.getName()%>
+                    </h6>
+                </a>
+                <a href="${pageContext.request.contextPath}/home?user=<%=chapter.getEditorUsername()%>"
+                   class="grey-text">
+                    <p style="float: right;margin:0 20px">@<%=chapter.getEditorUsername()%>
+                    </p>
+                    <p class="black-text" style="float: right;margin:0"><%=chapter.getEditorNickname()%>
+                    </p>
+                </a>
+            </div>
+        </div>
+        <%}%></div>
         <%}
         }
     else if (type.equals("user")) { // 如果搜索用户

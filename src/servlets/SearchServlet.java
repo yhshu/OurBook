@@ -33,10 +33,12 @@ public class SearchServlet extends HttpServlet {
         switch (type) {
             case "book":
                 Book[] books = bookService.findByKeywords(keywords);
+                Book[] favorites = bookService.getFavorites((String) request.getSession().getAttribute("username"));
                 User[] editors = new User[books.length];
                 for (int i = 0; i < books.length; i++)
                     editors[i] = userService.find(books[i].getChiefEditor());
                 request.setAttribute("books", books);
+                request.setAttribute("favorites", favorites);
                 request.setAttribute("editors", editors);
                 break;
             case "article":
