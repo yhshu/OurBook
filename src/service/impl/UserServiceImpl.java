@@ -12,6 +12,11 @@ public class UserServiceImpl implements UserService {
     private FollowDao followDao = new FollowDaoImpl();
 
     @Override
+    public User[] search(String keyword) {
+        return userDao.search(keyword);
+    }
+
+    @Override
     public User find(String username) {
         return userDao.find(username);
     }
@@ -49,22 +54,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getNickname(String username) {
-        return userDao.getNickname(username);
-    }
-
-    @Override
     public String[] getFollowers(String username) {
         return followDao.findFollowers(username);
     }
 
     @Override
     public String[] getFollowees(String username) {
-        return followDao.findFollowers(username);
+        return followDao.findFollowees(username);
     }
 
     @Override
     public boolean modify(String username, String nickname, String description, String avatar) {
         return userDao.modify(username, nickname, description, avatar);
+    }
+
+    @Override
+    public boolean addFavorite(String username, int bookID) {
+        return userDao.addFavorite(username, bookID);
+    }
+
+    @Override
+    public boolean cancelFavorite(String username, int bookID) {
+        return userDao.cancelFavorite(username, bookID);
+    }
+
+    @Override
+    public boolean isFavorite(String username, int bookID) {
+        return userDao.isFavorite(username, bookID);
     }
 }

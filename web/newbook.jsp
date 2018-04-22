@@ -23,7 +23,7 @@
 <body>
 <%@ include file="nav.jsp" %>
 <div class="container" style="margin-top: 20px">
-    <div class="col card" style="width: 600px; padding: 20px">
+    <div class="col card" style="width: 600px; padding: 20px; margin:15px 18.5% ;">
         <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data">
             <div style="border-bottom: 1px solid lightgray">
                 <h4><i class="material-icons">book</i>创建一本书</h4>
@@ -45,7 +45,7 @@
                 <div style="padding:10px 60px">
                     <input id="cover" type='file' name="cover" onchange="readURL(this);" style="display: none"/>
                     <img id="preview" src="img/icon/plus-icon.png" alt="your image"
-                         style="display: inline-block;width: 240px;background-color: #f6f6f6"/>
+                         style="display: inline-block;width: 240px;background-color: #f6f6f6;object-fit: cover"/>
                     <label for="cover" class="blue btn" style="margin: -240px 0 0 60px;
                      display: inline-block">上传封面</label>
                 </div>

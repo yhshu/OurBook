@@ -5,6 +5,7 @@ import model.User;
 import service.BookService;
 import service.UserService;
 import service.impl.BookServiceImpl;
+import service.impl.FollowServiceImpl;
 import service.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -13,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/home")
@@ -31,22 +31,26 @@ public class HomepageServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         String currentUser = (String) request.getSession().getAttribute("username");
         String redirect = "homepage.jsp";
-        if (username == null)
-            if (currentUser == null) {
-                redirect = "login.jsp";
-                username = "";
-            } else username = currentUser;
-        User user = userService.find(username);
-        Book[] books = bookService.findByEditor(username);
-        String[] followers = userService.getFollowers(username);
-        String[] followees = userService.getFollowees(username);
-        request.setAttribute("username", username);
-        request.setAttribute("books", books);
-        request.setAttribute("nickname", user.getNickname());
-        request.setAttribute("description", user.getDescription());
-        request.setAttribute("avatar", user.getAvatar());
-        request.setAttribute("followers", followers);
-        request.setAttribute("followees", followees);
+        if (currentUser == null) {
+            redirect = "login.jsp";
+        } else {
+            if (username == null) username = currentUser;
+            if (!currentUser.equals(username)) {
+                redirect = "othersHome.jsp";
+                request.setAttribute("isFollowing", new FollowServiceImpl().isFollowing(currentUser, username));
+            }
+            User user = userService.find(username);
+            Book[] books = bookService.findByEditor(username);
+            String[] followers = userService.getFollowers(username);
+            String[] followees = userService.getFollowees(username);
+            request.setAttribute("username", username);
+            request.setAttribute("books", books);
+            request.setAttribute("nickname", user.getNickname());
+            request.setAttribute("description", user.getDescription());
+            request.setAttribute("avatar", user.getAvatar());
+            request.setAttribute("followers", followers);
+            request.setAttribute("followees", followees);
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(redirect);
         requestDispatcher.forward(request, response);
     }

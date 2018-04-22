@@ -38,9 +38,12 @@
                 </h4>
                 <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
                 </h5>
-                <a class="modal-trigger waves-effect waves-light"
-                   data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
-                    <i class="material-icons small">settings</i></a>
+                <a class="pink btn-small"
+                   style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;"
+                   href="follow?followee=<%=request.getAttribute("username")%>
+                   &method=<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>">
+                    <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
+                </a>
             </div>
             <h6 style="float: left"><!--用户的一句话描述--><%
                 String description = (String) request.getAttribute("description");
@@ -50,7 +53,7 @@
                 <%
                 } else {
                 %>
-                <h6 class="grey-text">用一句话来描述自己吧</h6>
+                <h6 class="grey-text">TA还没有自我介绍</h6>
                 <%}%>
             </h6>
 
@@ -87,12 +90,12 @@
     </div>
     <div class="row" style="width: 900px">
         <div class="col card" style="width:623px; margin-right:23px;"> <!--文章、书目或动态-->
-            <h5 style="text-align: center">我写的书</h5>
-            <div style="margin-top: 20px"> <!-- 我写的书 目录-->
+            <h5 style="text-align: center">TA写的书</h5>
+            <div style="margin-top: 20px"> <!-- TA写的书 目录-->
                 <%
                     if (books.length == 0) {%>
                 <h6 class="grey-text" style="text-align: center; margin-top: 100px;margin-bottom: 15px;width: 600px">
-                    你还没有写任何书 </h6>
+                    TA还没有写任何书 </h6>
                 <%
                     }
                     for (Book book : books) {
@@ -129,21 +132,18 @@ border-bottom: 1px solid lightgray">
         </div>
 
         <div class="col card" style="width: 253px"> <!--关注列表-->
-            <h5 style="text-align: center">我的关注</h5>
+            <h5 style="text-align: center">TA的关注</h5>
             <% if (followees.length == 0) {%>
             <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                你还没有关注任何人</h6>
+                TA还没有关注任何人</h6>
             <%
             } else {%>
-            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
+            <div style="margin: 10px 0;display: grid;grid-template-columns: 230px;"><%
                 for (String user : followees) {
             %>
                 <a href="home?user=<%=user%>" style="text-align: center;line-height: 31px">
                     <%=user%>
                 </a>
-                <a href="follow?method=remove&followee=<%=user%>" type="submit" class="btn blue"
-                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
                 <%
                         }
                     }

@@ -41,5 +41,7 @@
 
     <orderEntry type="library" name="commons-beanutils-1.9.3" level="project" />
     <orderEntry type="library" name="commons-io-2.4" level="project" />
+
+    <orderEntry type="library" name="jquery.form" level="application" />
   </component>
 </module>

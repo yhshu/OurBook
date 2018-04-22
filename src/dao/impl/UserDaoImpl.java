@@ -13,6 +13,33 @@ public class UserDaoImpl implements UserDao {
     private Connection conn = null;
 
     @Override
+    public User[] search(String keyword) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            ArrayList<User> users = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username LIKE ? or nickname LIKE ?");
+            stm.setString(1, "%" + keyword + "%");
+            stm.setString(2, "%" + keyword + "%");
+            try {
+                ResultSet rs = stm.executeQuery();
+                while (rs.next()) {
+                    User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
+                    users.add(user);
+                }
+                rs.close();
+                stm.close();
+                conn.close(); // 关闭数据库连接
+                return users.toArray(new User[0]);
+            } catch (Exception e1) {
+                System.out.println("UserDao: 获取用户失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new User[0];
+    }
+
+    @Override
     public void add(User user) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
@@ -85,30 +112,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public String getNickname(String username) {
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT nickname FROM user WHERE username = ?");
-            stm.setString(1, username);
-            try {
-                ResultSet rs = stm.executeQuery();
-                String nickname = null;
-                while (rs.next())
-                    nickname = rs.getString("nickname");
-                rs.close();
-                stm.close();
-                conn.close();
-                return nickname;
-            } catch (Exception el) {
-                System.out.println("UserDao: 通过用户名获取昵称失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public boolean modify(String username, String nickname, String description, String avatar) {
         try {
             conn = DBUtil.connectDB();
@@ -124,6 +127,58 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 修改用户信息失败");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addFavorite(String username, int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?)");
+            stm.setString(1, username);
+            stm.setInt(2, bookID);
+            stm.executeUpdate();
+            conn.close();
+            System.out.println("UserDao: 收藏成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 收藏失败");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean cancelFavorite(String username, int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM favorite WHERE username = ? AND bookid = ?");
+            stm.setString(1, username);
+            stm.setInt(2, bookID);
+            stm.executeUpdate();
+            conn.close();
+            System.out.println("UserDao: 取消收藏成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 取消收藏失败");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isFavorite(String username, int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM favorite WHERE username = ? AND bookid = ?");
+            stm.setString(1, username);
+            stm.setInt(2, bookID);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            return rs.getInt(1) != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

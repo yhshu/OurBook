@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * 关注用户、取消关注用户
  */
-@WebServlet("/FollowServlet")
+@WebServlet("/follow")
 public class FollowServlet extends HttpServlet {
 
     @Override
@@ -31,11 +31,11 @@ public class FollowServlet extends HttpServlet {
         FollowDao followdao = new FollowDaoImpl();
         HttpSession session = request.getSession();
         String followee = request.getParameter("followee");
-        String follower = request.getParameter("follower");
+        String follower = (String) request.getSession().getAttribute("username");
         String book_id = request.getParameter("book_id");
         String method = request.getParameter("method");
         //进行关注：
-        if (method.equals("addfollowee")) {
+        if (method.equals("add")) {
             try {
                 followservice.addFollow(followee, follower);
                 System.out.println("followee:" + followee + "    " + "follower:" + follower);
@@ -48,7 +48,7 @@ public class FollowServlet extends HttpServlet {
             }
         }
         //取消关注：
-        else if (method.equals("delfollowee")) {
+        else if (method.equals("remove")) {
             try {
                 followservice.delFollow(followee, follower);
                 System.out.println("followee:" + followee + "    " + "follower" + follower);

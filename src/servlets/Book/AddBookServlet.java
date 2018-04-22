@@ -1,4 +1,4 @@
-package servlets;
+package servlets.Book;
 
 import dao.BookDao;
 import dao.impl.BookDaoImpl;
@@ -8,12 +8,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import service.BookService;
 import service.impl.BookServiceImpl;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -24,18 +24,16 @@ public class AddBookServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String dispatch = "newbook.jsp";
-        if (request.getSession().getAttribute("username") == null) dispatch = "login.jsp";
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(dispatch);
-        requestDispatcher.forward(request, response);
+        doPost(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
-        String editor = (String) request.getSession().getAttribute("username");
+        String editor = (String) session.getAttribute("username");
         String bookName = "";
         String bookDescription = "";
         String keywords = "";
@@ -84,7 +82,7 @@ public class AddBookServlet extends HttpServlet {
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
             request.setAttribute("result", message);
-            response.sendRedirect("/book.jsp?id=" + bookDao.maxID());
+            response.sendRedirect("/book?id=" + bookDao.maxID());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");

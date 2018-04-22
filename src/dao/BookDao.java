@@ -49,4 +49,12 @@ public interface BookDao {
      * @return book 表中最大的 ID
      */
     int maxID();
+
+    /**
+     * 删除一本书及其所有章节
+     *
+     * @param bookID 书目编号
+     * @return 删除成功返回true，失败返回false
+     */
+    boolean delete(int bookID);
 }

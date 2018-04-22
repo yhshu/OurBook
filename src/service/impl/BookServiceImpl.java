@@ -97,8 +97,28 @@ public class BookServiceImpl implements BookService {
         return -1;
     }
 
+
     @Override
     public Chapter[] getChapters(int bookID) {
         return chapterDao.findByBookID(bookID);
+    }
+
+    @Override
+    public Chapter[] findChapterByKeywords(String keyword) {
+        return chapterDao.findByKeywords(keyword.split(" "));
+    }
+
+    @Override
+    public boolean delete(int bookID, String username) {
+        if (!bookDao.findByID(bookID).getChiefEditor().equals(username))
+            return false;
+        try {
+            bookDao.delete(bookID);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("BookService: 删除书目失败");
+        }
+        return false;
     }
 }
