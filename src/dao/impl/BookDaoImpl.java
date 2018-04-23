@@ -58,6 +58,36 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public Book[] findByKeywordsClick(String[] keywords, String range) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book LEFT JOIN (SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") as c ON book.ID = c.bookID WHERE "
+                    + DBUtil.keywordsMatchCondition("keywords", keywords) +
+                    " GROUP BY book.ID ORDER BY COUNT(*) DESC");
+            Book[] books = getBooks(stm);
+            if (books != null) return books;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Book[0];
+    }
+
+    @Override
+    public Book[] findByKeywordsFav(String[] keywords, String range) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book LEFT JOIN (SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") as f ON book.ID = f.bookid WHERE "
+                    + DBUtil.keywordsMatchCondition("keywords", keywords) +
+                    " GROUP BY book.ID ORDER BY COUNT(*) DESC");
+            Book[] books = getBooks(stm);
+            if (books != null) return books;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Book[0];
+    }
+
+    @Override
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库

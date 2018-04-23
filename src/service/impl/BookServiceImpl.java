@@ -43,6 +43,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book[] findByKeywords(String keywords, String sort, String range) {
+        if (sort.equals("click"))
+            return bookDao.findByKeywordsClick(keywords.split(" "), range);
+        else
+            return bookDao.findByKeywordsFav(keywords.split(" "), range);
+    }
+
+    @Override
     public Book[] findByEditor(String username) {
         return bookDao.findByUserID(username);
     }

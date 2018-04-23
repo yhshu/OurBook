@@ -34,7 +34,11 @@ public class SearchServlet extends HttpServlet {
         if (keywords == null) response.sendRedirect("index.jsp");
         switch (type) {
             case "book":
-                Book[] books = bookService.findByKeywords(keywords);
+                String sort = request.getParameter("sort"); // 排序类型
+                String range = request.getParameter("range"); // 排序时间范围
+                if (sort == null) sort = "click";
+                if (range == null) range = "day";
+                Book[] books = bookService.findByKeywords(keywords, sort, range);
                 Book[] fav = bookService.getFavorites((String) request.getSession().getAttribute("username"));
                 User[] editors = new User[books.length];
                 for (int i = 0; i < books.length; i++)
