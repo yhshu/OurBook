@@ -36,8 +36,8 @@ public interface FollowService {
     /**
      * 检查是否关注
      *
-     * @param follower  关注者
-     * @param followee  被关注者
+     * @param follower 关注者
+     * @param followee 被关注者
      * @return
      */
     boolean isFollowing(String follower, String followee);

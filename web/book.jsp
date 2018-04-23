@@ -51,8 +51,7 @@
             <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
                 <div style="margin: 25px 0 0 25px">
                     <h5 style="float: left;margin: 0">
-                        <a style="color: black"
-                           href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>">
+                        <a style="color: black">
                             <%=request.getAttribute("bookName")%>
                         </a>
                     </h5>

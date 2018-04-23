@@ -74,7 +74,7 @@ public class FollowDaoImpl implements FollowDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, user WHERE follower = username AND followee = ?");
             stm.setString(1, followee);
             User[] followers = getUsers(stm);
-            if(followers!=null) return followers;
+            if (followers != null) return followers;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class FollowDaoImpl implements FollowDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, user WHERE followee = username AND follower = ?");
             stm.setString(1, follower);
             User[] followees = getUsers(stm);
-            if(followees!=null) return followees;
+            if (followees != null) return followees;
         } catch (Exception e) {
             e.printStackTrace();
         }

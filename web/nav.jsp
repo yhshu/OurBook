@@ -132,7 +132,6 @@
                    data-beloworigin="true">
                 排序&nbsp;&nbsp;&nbsp;<i class="material-icons right" style="margin-top:4px">
                 arrow_drop_down</i></a></li>
-
             <%}%>
         </ul>
     </div>
