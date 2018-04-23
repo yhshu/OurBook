@@ -238,4 +238,10 @@ public class BookDaoImpl implements BookDao {
         }
         return false;
     }
+
+    @Override
+    public Book[] recommend() {
+        // TODO
+        return new Book[0];
+    }
 }

@@ -144,4 +144,9 @@ public class BookServiceImpl implements BookService {
     public boolean delete_chapter(int bookID, int sequence) {
         return chapterDao.delete(bookID, sequence);
     }
+
+    @Override
+    public Book[] recommend() {
+        return bookDao.recommend();
+    }
 }

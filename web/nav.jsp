@@ -85,7 +85,7 @@
     <div class="nav-wrapper blue row" style="margin: 0">
         <!-- Logo -->
         <div class="col s3">
-            <a href="${pageContext.request.contextPath}/index.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+            <a href="${pageContext.request.contextPath}/index" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
         <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">

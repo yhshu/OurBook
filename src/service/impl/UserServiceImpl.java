@@ -82,4 +82,9 @@ public class UserServiceImpl implements UserService {
     public boolean isFavorite(String username, int bookID) {
         return userDao.isFavorite(username, bookID);
     }
+
+    @Override
+    public User[] recommend() {
+        return userDao.recommend();
+    }
 }

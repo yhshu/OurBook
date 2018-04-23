@@ -72,4 +72,11 @@ public interface UserDao {
      * @return 被收藏 true 未被收藏 false
      */
     boolean isFavorite(String username, int bookID);
+
+    /**
+     * 推荐 创作章节数最多的5个用户 作为活跃用户
+     *
+     * @return 活跃用户
+     */
+    User[] recommend();
 }

@@ -92,4 +92,11 @@ public interface UserService {
      * @return 被收藏 true 未被收藏 false
      */
     boolean isFavorite(String username, int bookID);
+
+    /**
+     * 首页推荐活跃用户
+     *
+     * @return 活跃用户
+     */
+    User[] recommend();
 }
