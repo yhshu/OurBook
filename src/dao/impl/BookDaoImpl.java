@@ -241,7 +241,35 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book[] recommend() {
-        // TODO
+        try {
+            DBUtil.connectDB();
+            ArrayList<Book> books = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT\n" +
+                    "  bookID,\n" +
+                    "  name,\n" +
+                    "  description,\n" +
+                    "  chiefEditor,\n" +
+                    "  keywords,\n" +
+                    "  cover,\n" +
+                    "  chapter_num,\n" +
+                    "  COUNT(bookID) AS count_book\n" +
+                    "FROM book\n" +
+                    "  JOIN click\n" +
+                    "WHERE book.ID = click.bookID\n" +
+                    "GROUP BY bookID\n" +
+                    "ORDER BY count_book DESC");
+            int displayBookNum = 10;
+            ResultSet rs = stm.executeQuery();
+            while (displayBookNum-- > 0 && rs.next()) {
+                books.add(new Book(rs.getInt("bookID"), rs.getString("name"), rs.getString("description"), rs.getString("chiefEditor"), rs.getString("keywords"), rs.getString("cover"), rs.getInt("chapter_num")));
+            }
+            rs.close();
+            stm.close();
+            conn.close();
+            return books.toArray(new Book[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new Book[0];
     }
 }

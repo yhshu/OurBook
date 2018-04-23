@@ -19,8 +19,15 @@
 <div class="container row" style="margin-top: 20px"><!-- 页面中部 -->
     <div class="col card" style="width: 623px;"><!--热门书籍-->
         <h5 class="center-align">热门书籍</h5>
+        <%
+            if (books != null) {
+                for (Book book : books) {
+        %>
 
-
+        <%
+                }
+            }
+        %>
     </div>
 
     <div class="col card" style="width: 262px; margin-left: 25px;"><!--推荐作者-->
