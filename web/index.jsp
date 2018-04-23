@@ -16,10 +16,15 @@
 %>
 <body>
 <%@ include file="nav.jsp" %>
-<div class="container row" style="margin-top: 20px; margin-bottom: 0;">
-    <div class="card">
-        <button class="white btn black-text">我的主页</button>
-        <button class="white btn black-text">创作新书</button>
+<div class="container row" style="margin-top: 20px; margin-bottom: 0; ">
+    <div class="card" style="padding:  1px 10px;">
+        <a style="display: inline-block;" href="${pageContext.request.contextPath}/home" class="grey-text"><h6><i
+                class="material-icons"
+        >home</i>
+            我的主页</h6></a>
+        <a style="display: inline-block; margin-left: 20px;" href="${pageContext.request.contextPath}/newbook.jsp"
+           class="grey-text"><h6><i
+                class="material-icons">mode_edit</i>创作新书</h6></a>
     </div>
 </div>
 <div class="container row"><!-- 页面中部 -->
