@@ -256,24 +256,17 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<Book> books = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT\n" +
-                    "  bookID,\n" +
-                    "  name,\n" +
-                    "  description,\n" +
-                    "  chiefEditor,\n" +
-                    "  keywords,\n" +
-                    "  cover,\n" +
-                    "  chapter_num,\n" +
-                    "  COUNT(bookID) AS count_book\n" +
-                    "FROM book\n" +
-                    "  JOIN click\n" +
-                    "WHERE book.ID = click.bookID\n" +
-                    "GROUP BY bookID\n" +
-                    "ORDER BY count_book DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites*10+clicks");
             int displayBookNum = 10;
             ResultSet rs = stm.executeQuery();
             while (displayBookNum-- > 0 && rs.next()) {
-                books.add(new Book(rs.getInt("bookID"), rs.getString("name"), rs.getString("description"), rs.getString("chiefEditor"), rs.getString("keywords"), rs.getString("cover"), rs.getInt("chapter_num")));
+                books.add(new Book(rs.getInt("ID"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("chiefEditor"),
+                        rs.getString("keywords"),
+                        rs.getString("cover"),
+                        rs.getInt("chapter_num")));
             }
             rs.close();
             stm.close();
@@ -282,6 +275,6 @@ public class BookDaoImpl implements BookDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new Book[0];
     }
 }
