@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class="row" style="width: 900px">
-        <div class="col card" style="width:623px; margin-right:23px;"> <!--文章、书目或动态-->
+        <div class="col card" style="width:623px; margin-right:23px;">
             <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
@@ -121,6 +121,7 @@ border-bottom: 1px solid lightgray">
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
+
                         <p class="grey-text" style="margin: 0 20px">
                             <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
                             <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>

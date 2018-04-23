@@ -209,6 +209,6 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new User[0];
+        return null;
     }
 }

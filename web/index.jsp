@@ -16,11 +16,57 @@
 %>
 <body>
 <%@ include file="nav.jsp" %>
-<div class="container row" style="margin-top: 20px"><!-- 页面中部 -->
-    <div class="col card" style="width: 623px;"><!--热门书籍-->
+<div class="container row" style="margin-top: 20px; margin-bottom: 0;">
+    <div class="card">
+        <button class="white btn black-text">我的主页</button>
+        <button class="white btn black-text">创作新书</button>
+    </div>
+</div>
+<div class="container row"><!-- 页面中部 -->
+    <div class="col card" style="width: 656px; display: inline;"><!--热门书籍-->
         <h5 class="center-align">热门书籍</h5>
-
-
+        <%
+            if (books != null) {
+                for (Book book : books) {
+        %>
+        <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
+            <%
+                if (book.getCover() == null || book.getCover().equals("")) {
+                    // 如果无封面
+            %>
+            <div style="width: 192px;height: 256px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
+                <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
+                    <%=book.getName()%>
+                </h4>
+            </div>
+            <%} else { // 如果有封面%>
+            <img style="width: 192px;height: 256px;object-fit: cover"
+                 src="<%=book.getCover()%>">
+            <%}%>
+            <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
+                <div style="margin: 25px 0 0 25px">
+                    <h5 style="float: left;margin: 0">
+                        <a style="color: black"
+                           href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>"><%=book.getName()%>
+                        </a>
+                    </h5>
+                </div>
+                <div>
+                    <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
+                       style="color: gray;margin: 0 0 0 25px; display: inline;">
+                        <%=book.getChiefEditor()%>
+                    </a>
+                </div>
+                <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
+                <p style="margin: 25px 0 0 25px">
+                    <%=book.getDescription()%>
+                </p>
+            </div>
+        </div>
+        <%
+                }
+            }
+        %>
     </div>
 
     <div class="col card" style="width: 262px; margin-left: 25px;"><!--推荐作者-->
@@ -49,7 +95,8 @@
             }
         %>
     </div>
-</div>
+</
+>
 
 </body>
 </html>
