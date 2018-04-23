@@ -5,9 +5,11 @@ import dao.ChapterDao;
 import model.Chapter;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ChapterDaoImpl implements ChapterDao {
@@ -30,11 +32,12 @@ public class ChapterDaoImpl implements ChapterDao {
             }
 
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content) VALUES (?,?,?,?)");
+            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,last_modified) VALUES (?,?,?,?,?)");
             stm2.setString(1, chapter.getName());
             stm2.setInt(2, chapter.getBookID());
             stm2.setInt(3, chapter.getSequence());
             stm2.setString(4, chapter.getContent());
+            stm2.setDate(5,new Date(Calendar.getInstance().getTime().getTime()));
             try {
                 stm2.executeUpdate();
                 stm2.close();
