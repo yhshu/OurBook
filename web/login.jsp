@@ -57,7 +57,7 @@
                         event.preventDefault();
                         var check = check_input();
                         if (check === true) {
-                            toast('正在登录中...');
+                            toast('请稍后...');
                             $.get('${pageContext.request.contextPath}/UserServlet', {
                                 method: 'login',
                                 username: $('#username').val(),
