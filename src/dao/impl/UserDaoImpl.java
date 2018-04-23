@@ -140,7 +140,7 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?,?)");
             stm.setString(1, username);
             stm.setInt(2, bookID);
-            stm.setDate(3,new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             conn.close();
             System.out.println("UserDao: 收藏成功");
@@ -184,5 +184,31 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public User[] recommend() {
+        // 推荐 创作章节数最多的5个用户 作为活跃用户
+        try {
+            conn = DBUtil.connectDB();
+            ArrayList<User> users = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT username, nickname,password, user.description, avatar,COUNT(username) AS count_username\n" +
+                    "FROM chapter JOIN user JOIN book\n" +
+                    "WHERE book.ID = chapter.bookID and book.chiefEditor = user.username\n" +
+                    "GROUP BY username\n" +
+                    "ORDER BY count_username DESC ");
+            int displayUserNum = 5;
+            ResultSet rs = stm.executeQuery();
+            while (displayUserNum-- > 0 && rs.next()) {
+                users.add(new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar")));
+            }
+            rs.close();
+            stm.close();
+            conn.close();
+            return users.toArray(new User[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new User[0];
     }
 }

@@ -142,6 +142,7 @@ border-bottom: 1px solid lightgray">
             <div style="margin: 10px 0;display: grid;grid-template-columns: 230px;"><%
                 for (User user : followees) {
             %>
+                <!--TODO 被关注者的头像-->
                 <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
                     <%=user.getNickname()%>
                 </a>
