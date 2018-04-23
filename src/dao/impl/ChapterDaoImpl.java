@@ -2,7 +2,6 @@ package dao.impl;
 
 import Util.DBUtil;
 import dao.ChapterDao;
-import model.Book;
 import model.Chapter;
 
 import java.sql.Connection;
@@ -113,20 +112,16 @@ public class ChapterDaoImpl implements ChapterDao {
     public boolean delete(int bookID, int sequence) {
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement book = conn.prepareStatement("UPDATE book SET chapter_num = chapter_num - 1 WHERE ID = ?");
-            book.setInt(1, bookID);
             PreparedStatement chapter = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?");
             chapter.setInt(1, bookID);
             chapter.setInt(2, sequence);
             try {
-                book.executeUpdate();
                 chapter.executeUpdate();
                 System.out.println("ChapterDao: 删除指定章节成功");
             } catch (Exception e1) {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 删除指定章节失败");
             }
-            book.close();
             chapter.close();
             conn.close();
             return true;
