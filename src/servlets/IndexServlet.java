@@ -26,6 +26,7 @@ public class IndexServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         request.setAttribute("book_recommend", bookService.recommend());
         request.setAttribute("user_recommend", userService.recommend());
+        request.setAttribute("visit", "true");
         // 重定向
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);

@@ -30,6 +30,6 @@ public class LogoutServlet extends BaseServlet {
                 System.out.println("LogoutServlet: 删除 cookie " + cookie.getName() + " 成功");
             }
         System.out.println("LogoutServlet: 退出成功，跳转到登录页");
-        response.sendRedirect("/register");
+        response.sendRedirect("/login");
     }
 }

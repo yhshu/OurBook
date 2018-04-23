@@ -29,11 +29,10 @@ public class UserServlet extends BaseServlet {
         try {
             if (userService.register(username, nickname, password)) {
                 // 注册成功后，请求重定向，跳转到登录界面
-                response.sendRedirect("/login.jsp");
+                response.sendRedirect("/login");
             } else {
                 request.setAttribute("message", "username registered");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
-                //response.sendRedirect("/register.jsp");
             }
         } catch (Exception e) {
             request.setAttribute("message", "register failed");
@@ -70,7 +69,7 @@ public class UserServlet extends BaseServlet {
             c_JSESSIONID.setPath("/");
             response.addCookie(c_JSESSIONID);
             // 登录成功后，请求 HomepageServlet 以跳转到个人主页
-            response.sendRedirect("/home");
+            response.sendRedirect("/index");
         } else { // 用户名或密码错误
             request.setAttribute("message", "login failed");
             request.getRequestDispatcher("login.jsp").forward(request, response);

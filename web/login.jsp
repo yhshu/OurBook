@@ -12,7 +12,7 @@
             if (cookie.getName().equals("username")) {
                 if (session.getAttribute("username") != null) {
                     response.sendRedirect("/index");
-                    System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
+                    System.out.println("login.jsp: 自动登录成功，跳转到个人主页");
                 }
                 break;
             }
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <br>
-                <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
+                <a class="black-text">新用户？</a><a href="/register">注册</a>
                 <button type="submit" onclick="$('login').submit()"
                         class="waves-effect waves-light btn blue right">登 录
                 </button>
@@ -48,7 +48,7 @@
             <script>
                 function check_input() {
                     if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
-                        Materialize.toast('请输入用户名密码',2000, 'rounded');
+                        Materialize.toast('请输入用户名密码', 2000, 'rounded');
                         return false;
                     }
                     else return true;
@@ -56,7 +56,7 @@
 
                 <%
                 if(request.getAttribute("message") != null && request.getAttribute("message").equals("login failed")){%>
-                Materialize.toast('用户名或密码错误',2000, 'rounded');
+                Materialize.toast('用户名或密码错误', 2000, 'rounded');
                 <%}%>
             </script>
         </div>

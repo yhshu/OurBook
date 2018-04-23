@@ -10,9 +10,13 @@
 <%
     if (session.getAttribute("username") == null) {
         response.sendRedirect("/login");
-    }
-    User[] users = (User[]) request.getAttribute("user_recommend");
-    Book[] books = (Book[]) request.getAttribute("book_recommend");
+    } else {
+        User[] users = (User[]) request.getAttribute("user_recommend");
+        Book[] books = (Book[]) request.getAttribute("book_recommend");
+        String visit = (String) request.getAttribute("visit");
+        if (users == null && books == null && visit == null) response.sendRedirect("/index");
+
+
 %>
 <body>
 <%@ include file="nav.jsp" %>
@@ -96,12 +100,11 @@
             </div>
         </div>
         <%
+                    }
                 }
             }
         %>
     </div>
-</
->
-
+</div>
 </body>
 </html>
