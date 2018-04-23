@@ -191,15 +191,11 @@ public class UserDaoImpl implements UserDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT username, nickname,password, user.description, avatar,COUNT(username) AS count_username\n" +
-                    "FROM chapter JOIN user JOIN book\n" +
-                    "WHERE book.ID = chapter.bookID and book.chiefEditor = user.username\n" +
-                    "GROUP BY username\n" +
-                    "ORDER BY count_username DESC ");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites*10+clicks DESC");
             int displayUserNum = 5;
             ResultSet rs = stm.executeQuery();
             while (displayUserNum-- > 0 && rs.next()) {
-                users.add(new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar")));
+                users.add(new User(rs.getString("username"), rs.getString("nickname"), null, rs.getString("description"), rs.getString("avatar")));
             }
             rs.close();
             stm.close();
@@ -208,6 +204,6 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new User[0];
     }
 }
