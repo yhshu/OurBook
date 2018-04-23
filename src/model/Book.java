@@ -10,6 +10,8 @@ public class Book implements Serializable {
     private String keywords;
     private String cover;
     private int chapterNum;
+    private int clicks;
+    private int favorites;
 
     public Book() {
     }
@@ -88,5 +90,21 @@ public class Book implements Serializable {
 
     public void setChapterNum(int chapterNum) {
         this.chapterNum = chapterNum;
+    }
+
+    public int getClicks() {
+        return clicks;
+    }
+
+    public void setClicks(int clicks) {
+        this.clicks = clicks;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(int favorites) {
+        this.favorites = favorites;
     }
 }

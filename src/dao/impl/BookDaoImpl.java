@@ -141,7 +141,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE chiefEditor = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT *, COUNT(c.bookID) AS clicks, COUNT(f.bookid) AS favs FROM book LEFT JOIN click c ON book.ID = c.bookID LEFT JOIN favorite f on book.ID = f.bookid WHERE chiefEditor = ? GROUP BY book.ID ORDER BY clicks DESC");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
             if (books != null)
@@ -166,6 +166,15 @@ public class BookDaoImpl implements BookDao {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
                         rs.getString("description"), rs.getString("chiefEditor"),
                         rs.getString("keywords"), rs.getString("cover"), rs.getInt("chapter_num"));
+                try {
+                    book.setClicks(rs.getInt("clicks"));
+                } catch (Exception ignored) {
+                }
+                try {
+                    book.setFavorites(rs.getInt("favs"));
+                } catch (Exception ignored) {
+
+                }
                 books.add(book);
             }
             rs.close();

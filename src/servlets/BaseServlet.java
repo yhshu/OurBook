@@ -11,22 +11,22 @@ import java.lang.reflect.Method;
 @WebServlet("/BaseServlet")
 public class BaseServlet extends HttpServlet {
     public void service(HttpServletRequest request, HttpServletResponse response, String subClassName) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
-        // 1. 获得方法名称
-        String methodName = request.getParameter("method");
-        Method method;
-
-        // 2. 通过方法名和方法所需要的参数获得Method对象
         try {
-            method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-        } catch (Exception e) {
-            throw new RuntimeException(subClassName + ": 调用的方法：" + methodName + "不存在", e);
-        }
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
 
-        // 3. 通过Method对象调用方法
-        try {
+            // 1. 获得方法名称
+            String methodName = request.getParameter("method");
+            Method method;
+
+            // 2. 通过方法名和方法所需要的参数获得Method对象
+            try {
+                method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+            } catch (Exception e) {
+                throw new RuntimeException(subClassName + ": 调用的方法：" + methodName + "不存在", e);
+            }
+
+            // 3. 通过Method对象调用方法
             String result = (String) method.invoke(this, request, response);
             if (result != null && result.trim().length() > 0) {// 如果返回的result不为空
                 int index = result.indexOf(":");// 获得第一个冒号的位置
@@ -43,7 +43,7 @@ public class BaseServlet extends HttpServlet {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            response.sendError(500, e.getMessage());
         }
     }
 }
