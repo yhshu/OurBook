@@ -9,7 +9,7 @@
 </head>
 <%
     if (session.getAttribute("username") == null) {
-        response.sendRedirect("/login.jsp");
+        response.sendRedirect("/login");
     }
     User[] users = (User[]) request.getAttribute("user_recommend");
     Book[] books = (Book[]) request.getAttribute("book_recommend");

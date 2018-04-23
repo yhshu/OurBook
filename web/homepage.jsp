@@ -121,6 +121,7 @@ border-bottom: 1px solid lightgray">
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
+                        <p class="grey-text"><i class="material-icons">remove_red_eye</i><%=book.getClicks()%></p>
                     </div>
                 </div>
                 <%}%>
@@ -135,13 +136,13 @@ border-bottom: 1px solid lightgray">
                     你还没有收藏任何书</h6>
                 <%
                 } else {%>
-                <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
+                <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
                     for (Book book : favorites) {
                 %>
-                    <a href="book?id=<%=book.getID()%>" style="text-align: center;line-height: 31px">
+                    <a href="book?id=<%=book.getID()%>" class="black-text" style="text-align: center;line-height: 31px">
                         <%=book.getName()%>
                     </a>
-                    <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn blue"
+                    <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn pink"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none;
                         height: 21px;line-height: 21px;margin: 5px 10px">取消收藏</a>
                     <%
@@ -158,10 +159,11 @@ border-bottom: 1px solid lightgray">
                     你还没有关注任何人</h6>
                 <%
                 } else {%>
-                <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
+                <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
                     for (User user : followees) {
                 %>
-                    <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
+                    <a href="home?user=<%=user.getUsername()%>" class="black-text"
+                       style="text-align: center;line-height: 31px">
                         <%=user.getNickname()%>
                     </a>
                     <a href="follow?method=remove&followee=<%=user.getUsername()%>" class="btn blue"

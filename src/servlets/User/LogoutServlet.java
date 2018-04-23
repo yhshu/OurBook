@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/LogoutServlet")
+@WebServlet("/logout")
 public class LogoutServlet extends BaseServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -30,6 +30,6 @@ public class LogoutServlet extends BaseServlet {
                 System.out.println("LogoutServlet: 删除 cookie " + cookie.getName() + " 成功");
             }
         System.out.println("LogoutServlet: 退出成功，跳转到登录页");
-        response.sendRedirect("/login.jsp");
+        response.sendRedirect("/register");
     }
 }

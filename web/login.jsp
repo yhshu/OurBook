@@ -25,7 +25,7 @@
             <p class="card-title">登录到 OurBook</p>
             <br>
             <form action="${pageContext.request.contextPath}/UserServlet" method="post"
-                  onsubmit="return check_input();">
+                  onsubmit="return check_input();" id="login">
                 <input type="hidden" name="method" value="login"/>
                 <div class="row">
                     <div class="input-field s12">
@@ -41,7 +41,9 @@
                 </div>
                 <br>
                 <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
-                <input type="submit" id="submit" class="waves-effect waves-light btn blue right " value="登录"/>
+                <button type="submit" onclick="$('login').submit()"
+                        class="waves-effect waves-light btn blue right">登 录
+                </button>
             </form>
             <script>
                 function check_input() {
