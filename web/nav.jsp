@@ -128,12 +128,11 @@
             <li id="search_article_button"><a id="search_article">文章</a></li>
             <li id="search_user_button"><a id="search_user">用户</a></li>
             <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
-            <li><a class="dropdown-button" data-activates="dropdown2" data-hover="hover" data-beloworigin="true">
+            <li><a class="dropdown-button grey-text" data-activates="dropdown2" data-hover="hover"
+                   data-beloworigin="true">
                 排序&nbsp;&nbsp;&nbsp;<i class="material-icons right" style="margin-top:4px">
                 arrow_drop_down</i></a></li>
-            <script>$(document).ready(function () {
-                $('#type').css('width', '291px');
-            });</script>
+
             <%}%>
         </ul>
     </div>

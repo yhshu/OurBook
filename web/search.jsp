@@ -2,7 +2,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
-<%@ page import="java.util.ArrayList" %>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -177,5 +176,12 @@
     }
 }
     %>
+    <script>
+        $(document).ready(function () {
+            <%if(request.getAttribute("keywords")!=null){%>
+            document.getElementById("search").value = "<%=request.getAttribute("keywords")%>";
+            <%}%>
+        });
+    </script>
 </body>
 </html>
