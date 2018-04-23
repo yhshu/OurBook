@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 <script type="text/javascript" src="js/myJS.js"></script>
 <style>
-    .dropdown-content .dropdown-content{
+    .dropdown-content .dropdown-content {
         margin-left: 100%;
     }
 
@@ -21,13 +21,19 @@
         right: auto !important;
         bottom: 20%;
         left: 50% !important;;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
     }
 
     .dropdown-nested {
         overflow-y: visible;
     }
 </style>
+
+<script>
+    function toast(msg) {
+        Materialize.toast(msg, 2000, 'rounded');
+    }
+</script>
 
 <%
     request.setCharacterEncoding("UTF-8");

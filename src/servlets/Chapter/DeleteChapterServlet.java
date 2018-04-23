@@ -13,12 +13,12 @@ import java.io.IOException;
 
 @WebServlet("/DeleteChapterServlet")
 public class DeleteChapterServlet extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        doGet(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
         // 数据库删除章节

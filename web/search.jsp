@@ -135,7 +135,7 @@
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的用户</h4>
         <%} else {%>
-    <div style="display: grid;grid-template-columns: 480px 480px">
+    <div style="display: grid;grid-template-columns: 480px 480px;width:960px;margin:auto">
         <%for (User user : users) {%>
         <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
         grid-template-columns: 96px 10px auto">

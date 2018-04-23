@@ -8,6 +8,7 @@
         Book[] books = (Book[]) request.getAttribute("books");
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
+        User[] followers = (User[]) request.getAttribute("followers");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
@@ -175,6 +176,27 @@ border-bottom: 1px solid lightgray">
                     </a>
                     <a href="follow?method=remove&followee=<%=user.getUsername()%>" class="btn blue"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+            </div>
+
+            <div class="col card" style="width: 253px"> <!--关注列表-->
+                <h5 style="text-align: center">我的书迷</h5>
+                <% if (followers.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有任何书迷</h6>
+                <%
+                } else {%>
+                <div style="margin: 10px auto"><%
+                    for (User user : followers) {
+                %>
+                    <a href="home?user=<%=user.getUsername()%>" class="black-text"
+                       style="text-align: center;line-height: 31px">
+                        <%=user.getNickname()%>
+                    </a>
                     <%
                             }
                         }

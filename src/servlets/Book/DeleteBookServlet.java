@@ -16,12 +16,12 @@ import java.io.IOException;
 @WebServlet("/deleteBook")
 public class DeleteBookServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        doGet(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             BookService bookService = new BookServiceImpl();

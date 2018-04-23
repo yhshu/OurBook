@@ -12,12 +12,12 @@ import java.io.IOException;
 
 @WebServlet("/logout")
 public class LogoutServlet extends BaseServlet {
-    public void doGet(HttpServletRequest request,
+    public void doPost(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        doGet(request, response);
     }
 
-    public void doPost(HttpServletRequest request,
+    public void doGet(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         // 删除所有 cookie，关闭自动登录
         Cookie[] cookies = request.getCookies();

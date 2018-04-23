@@ -55,7 +55,6 @@ public class UserServlet extends BaseServlet {
             c_nickname.setMaxAge(maxAge);
             c_nickname.setPath("/");
             response.addCookie(c_nickname);
-            request.setAttribute("message", "login successful");
             // 首次登录成功后，将用户名保存到 session 中
             HttpSession session = request.getSession();
             final int maxInactiveInterval = 7 * 24 * 60 * 60;
@@ -69,10 +68,10 @@ public class UserServlet extends BaseServlet {
             c_JSESSIONID.setPath("/");
             response.addCookie(c_JSESSIONID);
             // 登录成功后，请求 HomepageServlet 以跳转到个人主页
-            response.sendRedirect("/index");
+            response.setContentType("text/plain");
+            response.getWriter().write("/index");
         } else { // 用户名或密码错误
-            request.setAttribute("message", "login failed");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendError(403,"用户名或密码错误");
         }
     }
 }

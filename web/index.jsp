@@ -15,8 +15,6 @@
         Book[] books = (Book[]) request.getAttribute("book_recommend");
         String visit = (String) request.getAttribute("visit");
         if (users == null && books == null && visit == null) response.sendRedirect("/index");
-
-
 %>
 <body>
 <%@ include file="nav.jsp" %>
