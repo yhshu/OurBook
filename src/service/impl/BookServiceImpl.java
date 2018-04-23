@@ -46,8 +46,9 @@ public class BookServiceImpl implements BookService {
     public Book[] findByKeywords(String keywords, String sort, String range) {
         if (sort.equals("click"))
             return bookDao.findByKeywordsClick(keywords.split(" "), range);
-        else
+        else if (sort.equals("fav"))
             return bookDao.findByKeywordsFav(keywords.split(" "), range);
+        else return bookDao.findByKeywords(keywords.split(""));
     }
 
     @Override

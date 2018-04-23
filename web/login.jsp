@@ -48,7 +48,7 @@
             <script>
                 function check_input() {
                     if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
-                        M.toast({html: '请输入用户名密码', classes: 'rounded'});
+                        Materialize.toast('请输入用户名密码',2000, 'rounded');
                         return false;
                     }
                     else return true;
@@ -56,7 +56,7 @@
 
                 <%
                 if(request.getAttribute("message") != null && request.getAttribute("message").equals("login failed")){%>
-                M.toast({html: '用户名或密码错误', classes: 'rounded'});
+                Materialize.toast('用户名或密码错误',2000, 'rounded');
                 <%}%>
             </script>
         </div>

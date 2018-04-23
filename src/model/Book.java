@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Book implements Serializable {
     private int ID;
@@ -9,6 +10,7 @@ public class Book implements Serializable {
     private String chiefEditor;
     private String keywords;
     private String cover;
+    private Date lastModified;
     private int chapterNum;
     private int clicks;
     private int favorites;
@@ -106,5 +108,13 @@ public class Book implements Serializable {
 
     public void setFavorites(int favorites) {
         this.favorites = favorites;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }
