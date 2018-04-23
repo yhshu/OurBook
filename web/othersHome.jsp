@@ -46,17 +46,17 @@
                     <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                 </a>
             </div>
-            <h6 style="float: left"><!--用户的一句话描述--><%
-                String description = (String) request.getAttribute("description");
-                if (description != null) {
-            %>
-                <%=description%>
-                <%
-                } else {
-                %>
-                <h6 class="grey-text">TA还没有自我介绍</h6>
-                <%}%>
+            <!--用户的一句话描述--><%
+            String description = (String) request.getAttribute("description");
+            if (description != null) {
+        %>
+            <h6 style="float: left"><%=description%>
             </h6>
+            <%
+            } else {
+            %>
+            <h6 class="grey-text" style="float:left;">TA还没有自我介绍</h6>
+            <%}%>
 
             <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
                 <form action="${pageContext.request.contextPath}/modifyUser" method="post"
@@ -135,17 +135,30 @@ border-bottom: 1px solid lightgray">
         <div class="col card" style="width: 253px"> <!--关注列表-->
             <h5 style="text-align: center">TA的关注</h5>
             <% if (followees.length == 0) {%>
-            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px; margin-bottom: 15px;"
+                class="grey-text">
                 TA还没有关注任何人</h6>
             <%
             } else {%>
             <div style="margin: 10px 0;display: grid;grid-template-columns: 230px;"><%
                 for (User user : followees) {
             %>
-                <!--TODO 被关注者的头像-->
-                <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
-                    <%=user.getNickname()%>
-                </a>
+                <div class="row" style="margin: 15px 5px;">
+                    <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                        <img src="<%=user.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <div style="float:left;">
+                        <!--用户名与昵称-->
+                        <h6 style="margin:0;float: left">
+                            <a href="home?user=<%=user.getUsername()%>">
+                                <%=user.getNickname()%>
+                            </a>
+                        </h6>
+                        <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                        </h6>
+                    </div>
+                </div>
                 <%
                         }
                     }
