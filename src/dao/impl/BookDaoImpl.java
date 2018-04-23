@@ -279,6 +279,6 @@ public class BookDaoImpl implements BookDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Book[0];
+        return null;
     }
 }
