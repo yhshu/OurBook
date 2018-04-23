@@ -83,8 +83,8 @@
                 for (User user : users) {%>
         <div class="row" style="margin: 25px 5px;">
             <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
-                <img src="<%=user.getAvatar()%>" style="width:40px;height: 40px;border-radius: 5%;
-            float: left;object-fit: cover;margin-right: 5px">
+                <img src="<%=user.getAvatar()%>"
+                     style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
             </a>
             <div style="float:left;">
                 <!--用户名与昵称-->

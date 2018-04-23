@@ -1,7 +1,5 @@
 package servlets;
 
-import dao.FollowDao;
-import dao.impl.FollowDaoImpl;
 import service.FollowService;
 import service.impl.FollowServiceImpl;
 
@@ -10,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
