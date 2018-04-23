@@ -126,8 +126,8 @@ border-bottom: 1px solid lightgray">
                             <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
                             <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
                         </p>
-                        <p style="margin: 0 20px">
-                            最后更新时间： <%=book.getLastModified() != null ? book.getLastModified() : "暂未更新"%>
+                        <p style="margin: 5px 20px">
+                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
                         </p>
                     </div>
                 </div>

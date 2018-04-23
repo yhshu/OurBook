@@ -59,7 +59,8 @@ public class HomepageServlet extends HttpServlet {
         } catch (NullPointerException e) {
             response.sendError(404);
         } catch (Exception e) {
-            response.sendError(500);
+            // response.sendError(500);
+            e.printStackTrace();
         }
     }
 }

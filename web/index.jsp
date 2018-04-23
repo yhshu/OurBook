@@ -16,8 +16,14 @@
 %>
 <body>
 <%@ include file="nav.jsp" %>
-<div class="container row" style="margin-top: 20px"><!-- 页面中部 -->
-    <div class="col card" style="width: 623px; display: inline;"><!--热门书籍-->
+<div class="container row" style="margin-top: 20px; margin-bottom: 0;">
+    <div class="card">
+        <button class="white btn black-text">我的主页</button>
+        <button class="white btn black-text">创作新书</button>
+    </div>
+</div>
+<div class="container row"><!-- 页面中部 -->
+    <div class="col card" style="width: 656px; display: inline;"><!--热门书籍-->
         <h5 class="center-align">热门书籍</h5>
         <%
             if (books != null) {
@@ -89,7 +95,8 @@
             }
         %>
     </div>
-</div>
+</
+>
 
 </body>
 </html>

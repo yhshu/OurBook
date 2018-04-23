@@ -254,7 +254,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book[] recommend() {
         try {
-            DBUtil.connectDB();
+            conn = DBUtil.connectDB();
             ArrayList<Book> books = new ArrayList<>();
             PreparedStatement stm = conn.prepareStatement("SELECT\n" +
                     "  bookID,\n" +
