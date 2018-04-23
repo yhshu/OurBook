@@ -58,9 +58,14 @@
                     </a>
                 </h5>
             </div>
-            <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
-               style="color: gray;margin: 0 0 0 25px"><%=editors[i].getNickname()%>
-            </a>
+            <div>
+                <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
+                   style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
+                </a>
+                <p style="color: gray;margin: 0 0 0 25px;float: left">
+                    最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                </p>
+            </div>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
             <p style="margin: 25px 0 0 25px">
                 <%=book.getDescription()%>
@@ -113,7 +118,10 @@
                 <a href="${pageContext.request.contextPath}/home?user=<%=chapter.getEditorUsername()%>">
                     <p style="float: left;margin:0 10px 0 10px"><%=chapter.getEditorNickname()%>
                     </p>
-                    <p class="grey-text" style="float: left;margin:0">@<%=chapter.getEditorUsername()%>
+                    <p class="grey-text" style="float: left;margin:0 20px 0 0">@<%=chapter.getEditorUsername()%>
+                    </p>
+                    <p class="grey-text" style="float: left;margin:0">最后更新：
+                        <%=chapter.getLastModified() != null ? chapter.getLastModified() : "暂无"%>
                     </p>
                 </a>
             </div>
