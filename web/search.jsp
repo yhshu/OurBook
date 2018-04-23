@@ -134,35 +134,48 @@
         if (users.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的用户</h4>
-        <%} else for (User user : users) {%>
-    <div class="row card">
-        <a href="home?user=<%=user.getUsername()%>">
-            <img src="<%=user.getAvatar()%>" style="width:80px;height: 80px;border-radius: 5%;
+        <%} else {%>
+    <div style="display: grid;grid-template-columns: 480px 480px">
+        <%for (User user : users) {%>
+        <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
+        grid-template-columns: 96px 10px auto">
+            <a href="home?user=<%=user.getUsername()%>">
+                <img src="<%=user.getAvatar()%>" style="width:96px;height: 96px;border-radius: 5%;
             float: left;object-fit: cover;margin-right: 20px">
-        </a>
-        <div style="float:left;width:700px; margin:10px;">
-            <!--用户的用户名与昵称-->
-            <h6 style="margin:0;float: left">
-                <a href="home?user=<%=user.getUsername()%>">
-                    <%=user.getNickname()%>
-                </a>
-            </h6>
-            <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
-            </h6>
+            </a>
+            <div></div>
+            <div>
+                <div style="padding:10px;height:40px">
+                    <!--用户的用户名与昵称-->
+                    <h6 style="margin:0;float: left">
+                        <a href="home?user=<%=user.getUsername()%>">
+                            <%=user.getNickname()%>
+                        </a>
+                    </h6>
+                    <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                    </h6>
+                </div>
+                <p class="grey-text" style="margin: 0 10px">
+                    <i class="material-icons">remove_red_eye</i><%=user.getClicks()%>
+                    <i class="material-icons" style="margin-left: 10px">favorite</i><%=user.getFavorites()%>
+                </p>
+                <p style="float: left;margin-left: 10px;margin-top: 5px;"><!--用户的一句话描述--><%
+                    String description = user.getDescription();
+                    if (description != null) {
+                %>
+                    <%=description%>
+                    <%
+                        }
+                    %>
+                </p>
+            </div>
         </div>
-        <h6 style="float: left;margin-left: 10px;margin-top: 5px;"><!--用户的一句话描述--><%
-            String description = user.getDescription();
-            if (description != null) {
-        %>
-            <%=description%>
-            <%
-                }
-            %>
-        </h6>
-    </div>
         <%
-                    }
             }
-        %>
+        %></div>
+        <%
+    }
+}
+    %>
 </body>
 </html>

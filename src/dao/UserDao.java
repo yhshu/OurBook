@@ -26,15 +26,6 @@ public interface UserDao {
      */
     User find(String username);
 
-
-    /**
-     * 查找某用户的关注列表
-     *
-     * @param username 用户编号
-     * @return 用户正关注的其他用户的用户名
-     */
-    String[] findFollowing(String username);
-
     /**
      * 修改昵称和一句话描述
      *

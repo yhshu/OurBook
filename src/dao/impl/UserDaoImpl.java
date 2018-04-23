@@ -19,24 +19,23 @@ public class UserDaoImpl implements UserDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username LIKE ? or nickname LIKE ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author WHERE username LIKE ? or nickname LIKE ?");
             stm.setString(1, "%" + keyword + "%");
             stm.setString(2, "%" + keyword + "%");
-            try {
-                ResultSet rs = stm.executeQuery();
-                while (rs.next()) {
-                    User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
-                    users.add(user);
-                }
-                rs.close();
-                stm.close();
-                conn.close(); // 关闭数据库连接
-                return users.toArray(new User[0]);
-            } catch (Exception e1) {
-                System.out.println("UserDao: 获取用户失败");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User user = new User(rs.getString("username"), rs.getString("nickname"), null, rs.getString("description"), rs.getString("avatar"));
+                user.setClicks(rs.getInt("clicks"));
+                user.setFavorites(rs.getInt("favorites"));
+                users.add(user);
             }
+            rs.close();
+            stm.close();
+            conn.close(); // 关闭数据库连接
+            return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("UserDao: 获取用户失败");
         }
         return new User[0];
     }
