@@ -8,9 +8,10 @@
 </ul>
 
 <ul id="dropdown2" class="dropdown-content dropdown-nested">
-    <li><a class="dropdown-trigger blue-text" data-target="dropdown3" data-alignment="left" data-hover="hover">
+    <li><a class=" blue-text" id="last-updated">最后更新</a></li>
+    <li><a class="dropdown-button blue-text" data-activates="dropdown3" data-alignment="left" data-hover="hover">
         按点击数&nbsp;<span class="right-triangle blue-text" style="float: right">&#9656;</span></a></li>
-    <li><a class="dropdown-trigger blue-text" data-target="dropdown4" data-alignment="left" data-hover="hover">
+    <li><a class="dropdown-button blue-text" data-activates="dropdown4" data-alignment="left" data-hover="hover">
         按收藏数&nbsp;<span class="right-triangle blue-text" style="float: right">&#9656;</span></a></li>
 </ul>
 
@@ -58,6 +59,8 @@
             "${pageContext.request.contextPath}/search?type=article&keywords=" + search_value);
         $('#search_user').attr('href',
             "${pageContext.request.contextPath}/search?type=user&keywords=" + search_value);
+        $('#last-updated').attr('href',
+            "${pageContext.request.contextPath}/search?type=book&keywords=" + search_value + "&sort=last_updated");
         $('#click-day').attr('href',
             "${pageContext.request.contextPath}/search?type=book&keywords=" + search_value + "&sort=click&range=day");
         $('#click-week').attr('href',
@@ -78,10 +81,6 @@
             "${pageContext.request.contextPath}/search?type=book&keywords=" + search_value + "&sort=fav&range=year");
         $('#fav-all').attr('href',
             "${pageContext.request.contextPath}/search?type=book&keywords=" + search_value + "&sort=fav&range=all");
-        $('.dropdown-trigger').dropdown({
-            hover: true,
-            coverTrigger: false
-        });
     });
 </script>
 
@@ -89,7 +88,7 @@
     <div class="nav-wrapper blue row" style="margin: 0">
         <!-- Logo -->
         <div class="col s3">
-            <a href="${pageContext.request.contextPath}/index" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+            <a href="${pageContext.request.contextPath}/index.jsp" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         </div>
         <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">
@@ -108,8 +107,8 @@
                 <li><a href="newbook.jsp"><i class="material-icons">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
                 <li style="height: 64px">
-                    <a class="dropdown-trigger" data-target="dropdown1"
-                       style="height: 64px">
+                    <a class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"
+                       data-hover="hover" style="height: 64px">
                         <span style="position:relative;bottom:10px;right:10px;margin-left: 10px">
                             <%=session.getAttribute("nickname")%>
                         </span>
@@ -121,7 +120,7 @@
             </ul>
         </div>
     </div>
-    <script>$(".dropdown-trigger").dropdown();</script>
+    <script>$(".dropdown-button").dropdown();</script>
     <div class="blue" id="nav_search_type">
         <ul class="hide-on-med-and-down" id="type"
             style="position: relative;height: 64px;width: 180px;margin: auto">
@@ -129,7 +128,7 @@
             <li id="search_article_button"><a id="search_article">文章</a></li>
             <li id="search_user_button"><a id="search_user">用户</a></li>
             <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
-            <li><a class="dropdown-trigger" data-target="dropdown2">
+            <li><a class="dropdown-button" data-activates="dropdown2" data-hover="hover" data-beloworigin="true">
                 排序&nbsp;&nbsp;&nbsp;<i class="material-icons right" style="margin-top:4px">
                 arrow_drop_down</i></a></li>
             <script>$(document).ready(function () {

@@ -36,8 +36,7 @@ public class SearchServlet extends HttpServlet {
             case "book":
                 String sort = request.getParameter("sort"); // 排序类型
                 String range = request.getParameter("range"); // 排序时间范围
-                if (sort == null) sort = "click";
-                if (range == null) range = "day";
+                if (sort == null) sort = "last_updated";
                 Book[] books = bookService.findByKeywords(keywords, sort, range);
                 Book[] fav = bookService.getFavorites((String) request.getSession().getAttribute("username"));
                 User[] editors = new User[books.length];
