@@ -26,39 +26,33 @@ public class FollowServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        FollowService followservice = new FollowServiceImpl();
-        FollowDao followdao = new FollowDaoImpl();
-        HttpSession session = request.getSession();
-        String followee = request.getParameter("followee");
-        String follower = (String) request.getSession().getAttribute("username");
-        String book_id = request.getParameter("book_id");
-        String method = request.getParameter("method");
-        // 进行关注
-        if (method.equals("add")) {
-            try {
+        try {
+            response.setContentType("text/html");
+            FollowService followservice = new FollowServiceImpl();
+            String followee = request.getParameter("followee");
+            String follower = (String) request.getSession().getAttribute("username");
+            String method = request.getParameter("method");
+            // 进行关注
+            if (method.equals("add")) {
                 followservice.addFollow(followee, follower);
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 关注成功");
                 // 关注成功后，返回主页
                 response.sendRedirect("/home?user=" + followee);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("FollowServlet: 添加关注失败");
             }
-        }
-        // 取消关注
-        else if (method.equals("remove")) {
-            try {
+            // 取消关注
+            else if (method.equals("remove")) {
                 followservice.delFollow(followee, follower);
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 取消关注成功");
                 // 取消成功后，返回主页
                 response.sendRedirect("/home?user=" + followee);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("FollowServlet: 取消关注失败");
             }
+        } catch (NullPointerException e) {
+            response.sendError(404);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(500);
         }
     }
 }
