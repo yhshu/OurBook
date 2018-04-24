@@ -7,9 +7,9 @@
 <head>
     <%@ include file="header.jsp" %>
 </head>
-<body class="green lighten-5">
+<body class="yellow lighten-5">
 <jsp:include page="nav.jsp"/>
-<div id="side" style=" margin-top: 3px; padding-left: 7px; float: left; width: 25.4%;">
+<div id="side" style=" margin-top: 3px; padding-left: 7px; float: left; width: 300px;">
     <div style="margin-left: 4px; margin-top: 10px;">
         <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
                 class="material-icons">arrow_back</i>返回</a>
@@ -20,8 +20,7 @@
     <ul style="margin-top: 2px;">
         <!-- 本书的所有章节目录-->
         <%
-            ChapterDao chapterDao = new ChapterDaoImpl();
-            Chapter[] chapters = chapterDao.findByBookID((int) request.getAttribute("bookID"));
+            Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
             for (Chapter chapter : chapters) {
         %>
         <li style="padding: 5px">
