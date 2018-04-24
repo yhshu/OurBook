@@ -18,13 +18,13 @@ public class BookDaoImpl implements BookDao {
     public Book findByID(int ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE ID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
             stm.setInt(1, ID);
             Book[] books = getBooks(stm);
             if (books != null) return books[0];
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("BookDao: findbyID(" + ID + ")失败");
+            System.out.println("BookDao: findByID(" + ID + ")失败");
         }
         return null;
     }
@@ -33,7 +33,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByName(String name) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book WHERE name = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
             if (books != null) return books;
@@ -47,7 +47,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_chapter WHERE "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] books = getBooks(stm);
             if (books != null) return books;
@@ -61,9 +61,10 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywordsClick(String[] keywords, String range) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book LEFT JOIN (SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") as c ON book.ID = c.bookID WHERE "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
+                    + DBUtil.timeLimit("date", range) + " AND "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
-                    " GROUP BY book.ID ORDER BY COUNT(*) DESC");
+                    " ORDER BY clicks DESC");
             Book[] books = getBooks(stm);
             if (books != null) return books;
         } catch (Exception e) {
@@ -76,9 +77,10 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywordsFav(String[] keywords, String range) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book LEFT JOIN (SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") as f ON book.ID = f.bookid WHERE "
-                    + DBUtil.keywordsMatchCondition("keywords", keywords) +
-                    " GROUP BY book.ID ORDER BY COUNT(*) DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
+                    + DBUtil.timeLimit("date", range) + " AND "
+                    + DBUtil.keywordsMatchCondition("keywords", keywords)
+                    + " ORDER BY favorites DESC");
             Book[] books = getBooks(stm);
             if (books != null) return books;
         } catch (Exception e) {
@@ -91,7 +93,8 @@ public class BookDaoImpl implements BookDao {
     public void add(Book book) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO book (ID,name,description,chiefEditor,keywords,cover,chapter_num) VALUES (null,?,?,?,?,?,0)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO book " +
+                    "(ID,name,description,chiefEditor,keywords,cover,chapter_num) VALUES (null,?,?,?,?,?,0)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setString(3, book.getChiefEditor());
@@ -141,7 +144,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByUserID(String chiefEditorID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT *, COUNT(c.bookID) AS clicks, COUNT(f.bookid) AS favs FROM book_chapter LEFT JOIN click c ON ID = c.bookID LEFT JOIN favorite f on ID = f.bookid WHERE chiefEditor = ? GROUP BY ID ORDER BY clicks DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE chiefEditor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
             if (books != null)
@@ -165,13 +168,14 @@ public class BookDaoImpl implements BookDao {
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
                         rs.getString("description"), rs.getString("chiefEditor"),
-                        rs.getString("keywords"), rs.getString("cover"), rs.getInt("chapter_num"));
+                        rs.getString("keywords"), rs.getString("cover"),
+                        rs.getInt("chapter_num"));
                 try {
                     book.setClicks(rs.getInt("clicks"));
                 } catch (Exception ignored) {
                 }
                 try {
-                    book.setFavorites(rs.getInt("favs"));
+                    book.setFavorites(rs.getInt("favorites"));
                 } catch (Exception ignored) {
                 }
                 try {
@@ -225,7 +229,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] getFavorites(String username) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book, favorite WHERE username = ? AND favorite.bookid = book.ID");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info, favorite WHERE username = ? AND bookid = ID");
             stm.setString(1, username);
             Book[] books = getBooks(stm);
             if (books != null) return books;
