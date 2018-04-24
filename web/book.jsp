@@ -55,11 +55,10 @@
                             <%=request.getAttribute("bookName")%>
                         </a>
                     </h5>
-                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ?
-                     "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
+                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
                        class="pink-text"
-                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px">
-                        <i class="material-icons">
+                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px" id="favorite_submit">
+                        <i class="material-icons" id="favorite_icon">
                             <%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
@@ -89,8 +88,6 @@
         </div>
     </div>
 
-    <!-- TODO 点击本书作者用户名跳转到其主页-->
-
     <div class="card" style="padding: 20px">
         <h5 style="display: inline; margin-left:20px; margin-right: 30px;">章节目录</h5>
         <style>form {
@@ -119,25 +116,12 @@
                 <p>请输入本书名称以确认操作。</p>
                 <input id="bookname_confirm" type="text" oninput="change_delete_link()">
                 <label for="bookname_confirm"></label>
-                <script>
-                    function change_delete_link() {
-                        var val = document.getElementById('bookname_confirm').value;
-                        var link = $('#delete_link');
-                        var disabled = ' disabled';
-                        if (val === '<%=request.getAttribute("bookName")%>') { // 使链接有效
-                            link.removeClass(disabled);
-                        } else { // 使链接失效
-                            if (!link.hasClass(disabled))
-                                link.addClass(disabled);
-                        }
-                    }
-                </script>
             </div>
             <div class="modal-footer">
                 <a id="delete_link"
                    class="modal-action modal-close waves-effect waves-green btn-flat  red-text disabled"
                    onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
-                <!--TODO 请求删除本书-->
+                <!-- 请求删除本书-->
                 <form action="${pageContext.request.contextPath}/deleteBook" method="post" id="deleteBookForm">
                     <input type="hidden" name="bookID" value="<%=request.getAttribute("bookID")%>"/>
                 </form>
@@ -155,5 +139,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    function change_delete_link() {
+        var val = document.getElementById('bookname_confirm').value;
+        var link = $('#delete_link');
+        var disabled = ' disabled';
+        if (val === '<%=request.getAttribute("bookName")%>') { // 使链接有效
+            link.removeClass(disabled);
+        } else { // 使链接失效
+            if (!link.hasClass(disabled))
+                link.addClass(disabled);
+        }
+    }
+
+    $('#favorite_submit').click(function (event) {
+        event.preventDefault();
+        $.get('${pageContext.request.contextPath}/favorite?method=<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>', {}, function (respondText) {
+            window.location.href = respondText;
+        }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
+    });
+</script>
 </body>
 </html>

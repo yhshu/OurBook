@@ -21,9 +21,9 @@ public class FavoriteServlet extends BaseServlet {
             throws ServletException, IOException {
         try {
             UserService userService = new UserServiceImpl();
-            userService.addFavorite((String) request.getSession().getAttribute("username"),
-                    Integer.parseInt(request.getParameter("book")));
-            response.sendRedirect("/book?id=" + request.getParameter("book"));
+            userService.addFavorite((String) request.getSession().getAttribute("username"), Integer.parseInt(request.getParameter("book")));
+            response.setContentType("text/plain");
+            response.getWriter().write("/book?id=" + request.getParameter("book"));
         } catch (NullPointerException e) {
             response.sendError(404);
         } catch (Exception e) {
@@ -35,9 +35,9 @@ public class FavoriteServlet extends BaseServlet {
             throws ServletException, IOException {
         try {
             UserService userService = new UserServiceImpl();
-            userService.cancelFavorite((String) request.getSession().getAttribute("username"),
-                    Integer.parseInt(request.getParameter("book")));
-            response.sendRedirect("/book?id=" + request.getParameter("book"));
+            userService.cancelFavorite((String) request.getSession().getAttribute("username"), Integer.parseInt(request.getParameter("book")));
+            response.setContentType("text/plain");
+            response.getWriter().write("/book?id=" + request.getParameter("book"));
         } catch (NullPointerException e) {
             response.sendError(404);
         } catch (Exception e) {

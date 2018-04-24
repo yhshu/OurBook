@@ -62,11 +62,11 @@
                                 method: 'login',
                                 username: $('#username').val(),
                                 password: $('#password').val()
-                            }, function (respondText) {
+                            }, function (respondText) { // 服务器响应 "/index"
                                 toast("登录成功");
                                 window.setTimeout(1000);
-                                window.location.href = respondText;
-                            }).fail(function () {
+                                window.location.href = respondText; // 跳转 index
+                            }).fail(function () { // 服务器响应 403
                                 toast("用户名或密码错误");
                             })
                         }

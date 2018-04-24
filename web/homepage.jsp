@@ -136,7 +136,7 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div><!--收藏列表 与 关注列表-->
+        <div><!--右侧 收藏、关注与书迷-->
             <div class="col card" style="width: 253px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
                 <% if (favorites.length == 0) {%>
@@ -150,14 +150,12 @@ border-bottom: 1px solid lightgray">
                     <a href="book?id=<%=book.getID()%>" class="black-text" style="text-align: center;line-height: 31px">
                         <%=book.getName()%>
                     </a>
-                    <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn pink"
+                    <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn pink remove_favorite"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px">取消收藏</a>
-                    <%
-                            }
-                        }
-                    %>
-                </div>
+                        height: 21px;line-height: 21px;margin: 5px 10px" id="remove_favorite_<%=book.getID()%>">取消收藏</a>
+                    <% }
+                    %></div>
+                <% }%>
             </div>
 
             <div class="col card" style="width: 253px"> <!--我的关注-->
@@ -177,10 +175,9 @@ border-bottom: 1px solid lightgray">
                     <a href="follow?method=remove&followee=<%=user.getUsername()%>" class="btn blue"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
                     <%
-                            }
                         }
-                    %>
-                </div>
+                    %></div>
+                <% }%>
             </div>
 
             <div class="col card" style="width: 253px"> <!--我的书迷-->
@@ -210,10 +207,9 @@ border-bottom: 1px solid lightgray">
                         </div>
                     </div>
                     <%
-                            }
-                        }
-                    %>
+                        }%>
                 </div>
+                <%}%>
             </div>
 
         </div>
@@ -224,6 +220,15 @@ border-bottom: 1px solid lightgray">
 <script>
     $(document).ready(function () {
         $('.modal').modal(); // 模态框
+    });
+
+    $('.remove_favorite').click(function (event) {
+        event.preventDefault();
+        $.get(this.href, {}, function (respondText) {
+            window.location.href = "/home";
+        }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
     });
 </script>
 </body>
