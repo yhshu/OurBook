@@ -39,10 +39,10 @@
                 </h4>
                 <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
                 </h5>
-                <a class="pink btn-small"
-                   style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;"
-                   href="follow?followee=<%=request.getAttribute("username")%>
-                   &method=<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>">
+                <a href="" class="pink btn-small"
+                   style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;" href=""
+                   id="follow_submit"
+                   data-method="<%=(boolean)request.getAttribute("isFollowing") ? "remove" : "add" %>">
                     <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                 </a>
             </div>
@@ -57,42 +57,12 @@
             %>
             <h6 class="grey-text" style="float:left;">TA还没有自我介绍</h6>
             <%}%>
-
-            <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
-                <form action="${pageContext.request.contextPath}/modifyUser" method="post"
-                      enctype="multipart/form-data">
-                    <div class="modal-content">
-                        <h4>修改个人信息</h4>
-                        <label for="new_nickname">昵称</label>
-                        <input type="text" name="new_nickname" id="new_nickname"
-                               value="<%=session.getAttribute("nickname")%>"/>
-                        <label for="new_description">一句话简介</label>
-                        <input type="text" name="new_description" id="new_description"/>
-                        <input id="avatar" type='file' name="avatar" onchange="readURL(this);" style="display: none"/>
-                        <div style="margin: 20px auto; width: 300px;height: 128px">
-                            <img id="preview" src="<%=session.getAttribute("avatar")%>" alt="your image"
-                                 style="height: 160px;width:160px;object-fit: cover;
-                             border-radius: 5%;float:left"/>
-                            <label for="avatar" class="blue btn" style="float: right;margin-top: 62px">上传头像</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消
-                        </a>
-                        <button class="modal-action modal-close waves-effect waves-green btn-flat"
-                                id="submit_personal_info"
-                                onclick="document.getElementById('personalInfo').submit();">
-                            提交
-                        </button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
     <div class="row" style="width: 900px">
-        <div class="col card" style="width:623px; margin-right:23px;"> <!--文章、书目或动态-->
+        <div class="col card" style="width:623px; margin-right:23px;"> <!-- TA写的书 目录-->
             <h5 style="text-align: center">TA写的书</h5>
-            <div style="margin-top: 20px"> <!-- TA写的书 目录-->
+            <div style="margin-top: 20px">
                 <%
                     if (books.length == 0) {%>
                 <h6 class="grey-text" style="text-align: center; margin-top: 100px;margin-bottom: 15px;width: 600px">
@@ -102,7 +72,7 @@
                     for (Book book : books) {
                 %>
                 <div style="padding: 20px 10px;display: grid;grid-template-columns: 90px auto;width: 600px;
-border-bottom: 1px solid lightgray">
+border-bottom: 1px solid lightgray"> <!--书的封面-->
                     <%
                         if (book.getCover() == null || book.getCover().equals("")) {
                     %>
@@ -121,7 +91,7 @@ border-bottom: 1px solid lightgray">
                              src="<%=book.getCover()%>">
                     </a>
                     <%}%>
-                    <div style="display: grid;grid-template-rows: 44px 24px 52px">
+                    <div style="display: grid;grid-template-rows: 44px 24px 52px"><!--书的信息-->
                         <a style="color: black;margin: 8px 24px;font-size: 16px"
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
@@ -171,6 +141,22 @@ border-bottom: 1px solid lightgray">
 <script>
     $(document).ready(function () {
         $('.modal').modal(); // 模态框
+    });
+
+    $('#follow_submit').click(function (event) {
+        event.preventDefault();
+        $.get('${pageContext.request.contextPath}/follow?followee=<%=request.getAttribute("username")%>&method=' + $('#follow_submit').data("method"), {}, function (respondText) {
+            if ($('#follow_submit').data("method") === "remove") {
+                $('#follow_submit').html("关注");
+                $('#follow_submit').data("method", "add");
+            }
+            else if ($('#follow_submit').data("method") === "add") {
+                $('#follow_submit').html("取消关注");
+                $('#follow_submit').data("method", "remove");
+            }
+        }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
     });
 </script>
 </body>

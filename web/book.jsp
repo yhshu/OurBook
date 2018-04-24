@@ -55,11 +55,11 @@
                             <%=request.getAttribute("bookName")%>
                         </a>
                     </h5>
-                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
-                       class="pink-text"
-                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px" id="favorite_submit">
-                        <i class="material-icons" id="favorite_icon">
-                            <%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
+                    <a href="" class="pink-text"
+                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px" id="favorite_submit"
+                       data-method="<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>">
+                        <i class="material-icons"
+                           id="favorite_icon"><%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
                 </div>
@@ -93,7 +93,7 @@
         <style>form {
             margin: 0;
         }</style>
-
+        <%if (session.getAttribute("username").equals(request.getAttribute("editor"))) {%>
         <form action="${pageContext.request.contextPath}/newChapter.jsp" accept-charset="UTF-8" method="post"
               style="display: inline; " id="newChapterForm">
             <!-- 添加章节 表单 -->
@@ -104,7 +104,6 @@
             </button>
         </form>
 
-        <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
         <a href='#delete_modal' class="btn red modal-trigger" style="float: right">删除本书</a>
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
@@ -155,8 +154,15 @@
 
     $('#favorite_submit').click(function (event) {
         event.preventDefault();
-        $.get('${pageContext.request.contextPath}/favorite?method=<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>', {}, function (respondText) {
-            window.location.href = respondText;
+        $.get('${pageContext.request.contextPath}/favorite?method=' + $('#favorite_submit').data("method") + '&book=<%=request.getAttribute("bookID")%>', {}, function (respondText) {
+            if ($('#favorite_submit').data("method") === "remove") {
+                $('#favorite_icon').html("favorite_border");
+                $('#favorite_submit').data("method", "add");
+            }
+            else if ($('#favorite_submit').data("method") === "add") {
+                $('#favorite_icon').html("favorite");
+                $('#favorite_submit').data("method", "remove");
+            }
         }).fail(function () { // 服务器响应错误信息
             toast("操作异常");
         })

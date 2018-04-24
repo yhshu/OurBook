@@ -56,8 +56,10 @@ public class BookServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher(dis);
             dispatcher.forward(request, response);
         } catch (NullPointerException e) {
+            e.printStackTrace();
             response.sendError(404);
         } catch (Exception e) {
+            e.printStackTrace();
             response.sendError(500);
         }
     }

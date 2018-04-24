@@ -147,14 +147,16 @@ border-bottom: 1px solid lightgray">
                 <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
                     for (Book book : favorites) {
                 %>
-                    <a href="book?id=<%=book.getID()%>" class="black-text" style="text-align: center;line-height: 31px">
+                    <a href="book?id=<%=book.getID()%>" class="black-text book_<%=book.getName()%>"
+                       style="text-align: center;line-height: 31px">
                         <%=book.getName()%>
                     </a>
-                    <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn pink remove_favorite"
+                    <a href="" class="btn pink remove_favorite book_<%=book.getID()%>"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px" id="remove_favorite_<%=book.getID()%>">取消收藏</a>
-                    <% }
-                    %></div>
+                    height: 21px;line-height: 21px;margin: 5px 10px" id="remove_favorite_<%=book.getID()%>"
+                       data-book="<%=book.getID()%>">取消收藏</a>
+                    <% }%>
+                </div>
                 <% }%>
             </div>
 
@@ -168,16 +170,16 @@ border-bottom: 1px solid lightgray">
                 <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
                     for (User user : followees) {
                 %>
-                    <a href="home?user=<%=user.getUsername()%>" class="black-text"
+                    <a href="home?user=<%=user.getUsername()%>" class="black-text user_<%=user.getUsername()%>"
                        style="text-align: center;line-height: 31px">
                         <%=user.getNickname()%>
                     </a>
-                    <a href="follow?method=remove&followee=<%=user.getUsername()%>" class="btn blue"
-                       style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
-                    <%
-                        }
-                    %></div>
-                <% }%>
+                    <a href="" class="btn blue remove_follow user_<%=user.getUsername()%>"
+                       style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px"
+                       id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">取消关注</a>
+                    <%}%>
+                </div>
+                <%}%>
             </div>
 
             <div class="col card" style="width: 253px"> <!--我的书迷-->
@@ -206,14 +208,11 @@ border-bottom: 1px solid lightgray">
                             </h6>
                         </div>
                     </div>
-                    <%
-                        }%>
+                    <%}%>
                 </div>
                 <%}%>
             </div>
-
         </div>
-
     </div>
 </div>
 
@@ -224,8 +223,17 @@ border-bottom: 1px solid lightgray">
 
     $('.remove_favorite').click(function (event) {
         event.preventDefault();
-        $.get(this.href, {}, function (respondText) {
-            window.location.href = "/home";
+        $.get('${pageContext.request.contextPath}/favorite?method=remove&book=' + $(this).data('book'), {}, function (respondText) {
+            $('.book_' + $(this).data('book')).remove();
+        }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
+    });
+
+    $('.remove_follow').click(function (event) {
+        event.preventDefault();
+        $.get('${pageContext.request.contextPath}/follow?method=remove&followee=' + $(this).data('user'), {}, function (respondText) {
+            $('.user_' + $(this).data('user')).remove();
         }).fail(function () { // 服务器响应错误信息
             toast("操作异常");
         })

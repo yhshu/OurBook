@@ -225,7 +225,7 @@ public class BookDaoImpl implements BookDao {
     public Book[] getFavorites(String username) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book, favorite WHERE username = ? AND bookid = ID");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book, favorite WHERE username = ? AND favorite.bookid = book.ID");
             stm.setString(1, username);
             Book[] books = getBooks(stm);
             if (books != null) return books;

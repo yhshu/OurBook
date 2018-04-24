@@ -34,16 +34,18 @@ public class FollowServlet extends HttpServlet {
                 followservice.addFollow(followee, follower);
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 关注成功");
-                // 关注成功后，返回主页
-                response.sendRedirect("/home?user=" + followee);
+                // 关注成功后，发送响应
+                response.setContentType("text/plain");
+                response.getWriter().write("200 OK");
             }
             // 取消关注
             else if (method.equals("remove")) {
                 followservice.delFollow(followee, follower);
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 取消关注成功");
-                // 取消成功后，返回主页
-                response.sendRedirect("/home?user=" + followee);
+                // 取消成功，发送响应
+                response.setContentType("text/plain");
+                response.getWriter().write("200 OK");
             }
         } catch (NullPointerException e) {
             response.sendError(404);
