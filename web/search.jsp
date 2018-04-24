@@ -61,7 +61,11 @@
                 <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
                    style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
                 </a>
-                <p style="color: gray;margin: 0 0 0 25px;float: left">
+                <p class="grey-text" style="margin: 0 25px; float: left;">
+                    <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
+                    <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
+                </p>
+                <p style="color: gray;margin: 0;float: left">
                     最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
                 </p>
             </div>
