@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="css/myCSS.css">
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
+<script type="text/javascript" src="js/jQueryFormPlugin-4.2.2.js"></script>
 <script type="text/javascript" src="js/materialize.js"></script>
 <script type="text/javascript" src="js/myJS.js"></script>
 <style>
