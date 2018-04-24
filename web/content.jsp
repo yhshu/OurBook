@@ -7,7 +7,7 @@
 <head>
     <%@ include file="header.jsp" %>
 </head>
-<body class="yellow lighten-5">
+<body class="lighten-5" style="background-color: #F9F3E9">
 <jsp:include page="nav.jsp"/>
 <div id="side" style=" margin-top: 3px; padding-left: 7px; float: left; width: 300px;">
     <div style="margin-left: 4px; margin-top: 10px;">
