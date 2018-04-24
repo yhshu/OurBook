@@ -57,15 +57,14 @@
                         event.preventDefault();
                         var check = check_input();
                         if (check === true) {
-                            toast('请稍后...');
+                            toast('请稍候...');
                             $.get('${pageContext.request.contextPath}/UserServlet', {
                                 method: 'login',
                                 username: $('#username').val(),
                                 password: $('#password').val()
                             }, function (respondText) { // 服务器响应 "/index"
-                                toast("登录成功");
-                                window.setTimeout(1000);
                                 window.location.href = respondText; // 跳转 index
+                                toast("登录成功");
                             }).fail(function () { // 服务器响应 403
                                 toast("用户名或密码错误");
                             })
