@@ -17,14 +17,9 @@ public class BaseServlet extends HttpServlet {
 
             // 1. 获得方法名称
             String methodName = request.getParameter("method");
-            Method method;
 
             // 2. 通过方法名和方法所需要的参数获得Method对象
-            try {
-                method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            } catch (Exception e) {
-                throw new RuntimeException(subClassName + ": 调用的方法：" + methodName + "不存在", e);
-            }
+            Method method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
 
             // 3. 通过Method对象调用方法
             String result = (String) method.invoke(this, request, response);
@@ -43,7 +38,7 @@ public class BaseServlet extends HttpServlet {
                 }
             }
         } catch (Exception e) {
-            response.sendError(500, e.getMessage());
+            response.sendError(404, e.getMessage());
         }
     }
 }

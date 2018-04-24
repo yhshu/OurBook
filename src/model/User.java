@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String avatar; // 头像
     private int clicks; //书的总点击量
     private int favorites; // 书的总收藏量
+    private int followers; // 粉丝数
 
     public User(String username, String nickname, String password) {
         this.username = username;
@@ -79,5 +80,13 @@ public class User implements Serializable {
 
     public void setFavorites(int favorites) {
         this.favorites = favorites;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(int followers) {
+        this.followers = followers;
     }
 }

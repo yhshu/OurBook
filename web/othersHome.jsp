@@ -7,6 +7,7 @@
     <%
         Book[] books = (Book[]) request.getAttribute("books");
         User[] followees = (User[]) request.getAttribute("followees");
+        User[] followers = (User[]) request.getAttribute("followers");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
@@ -72,7 +73,7 @@
                     for (Book book : books) {
                 %>
                 <div style="padding: 20px 10px;display: grid;grid-template-columns: 90px auto;width: 600px;
-border-bottom: 1px solid lightgray"> <!--书的封面-->
+border-bottom: 1px solid lightgray">
                     <%
                         if (book.getCover() == null || book.getCover().equals("")) {
                     %>
@@ -91,11 +92,19 @@ border-bottom: 1px solid lightgray"> <!--书的封面-->
                              src="<%=book.getCover()%>">
                     </a>
                     <%}%>
-                    <div style="display: grid;grid-template-rows: 44px 24px 52px"><!--书的信息-->
+                    <div style="display: grid;grid-template-rows: 44px 24px 52px">
                         <a style="color: black;margin: 8px 24px;font-size: 16px"
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
+
+                        <p class="grey-text" style="margin: 0 20px">
+                            <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
+                            <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
+                        </p>
+                        <p style="margin: 10px 20px">
+                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                        </p>
                     </div>
                 </div>
                 <%}%>
@@ -133,6 +142,37 @@ border-bottom: 1px solid lightgray"> <!--书的封面-->
                         }
                     }
                 %>
+            </div>
+
+            <div class="col card" style="width: 253px"> <!--TA的书迷-->
+                <h5 style="text-align: center">TA的书迷</h5>
+                <% if (followers.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有任何书迷</h6>
+                <%
+                } else {%>
+                <div style="margin: 10px auto"><%
+                    for (User user : followers) {
+                %>
+                    <div class="row" style="margin: 25px 5px;">
+                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                            <img src="<%=user.getAvatar()%>"
+                                 style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                        </a>
+                        <div style="float:left;">
+                            <!--用户名与昵称-->
+                            <h6 style="margin:0;float: left">
+                                <a href="home?user=<%=user.getUsername()%>">
+                                    <%=user.getNickname()%>
+                                </a>
+                            </h6>
+                            <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                            </h6>
+                        </div>
+                    </div>
+                    <%}%>
+                </div>
+                <%}%>
             </div>
         </div>
     </div>

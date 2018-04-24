@@ -63,10 +63,10 @@
                        style="color: gray;margin: 0 0 0 25px; display: inline-block;">
                         <%=book.getChiefEditor()%>
                     </a>
-                    <a class="grey-text" style="margin: 0 25px; display: inline-block">
-                        <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
-                        <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
-                    </a>
+                    <p class="grey-text" style="margin: 0 25px; display: inline-block">
+                        <i class="material-icons">remove_red_eye </i> <%=book.getClicks()%>
+                        <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
+                    </p>
                 </div>
                 <hr style="width: 100%; margin: 0; border-top: 1px gray"/>
                 <p style="margin: 15px 0 0 25px"><!--简介-->
@@ -85,7 +85,7 @@
         <%
             if (users != null) {
                 for (User user : users) {%>
-        <div class="row" style="margin: 25px 5px;">
+        <div class="row" style="margin: 25px 5px 10px;">
             <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                 <img src="<%=user.getAvatar()%>"
                      style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
@@ -99,6 +99,9 @@
                 </h6>
                 <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
                 </h6>
+                <p class="grey-text" style="margin: 22px 0 0 0">
+                    <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                </p>
             </div>
         </div>
         <%

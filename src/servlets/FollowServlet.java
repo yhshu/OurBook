@@ -47,11 +47,8 @@ public class FollowServlet extends HttpServlet {
                 response.setContentType("text/plain");
                 response.getWriter().write("200 OK");
             }
-        } catch (NullPointerException e) {
-            response.sendError(404);
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(500);
+            response.sendError(404);
         }
     }
 }

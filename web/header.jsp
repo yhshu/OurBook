@@ -9,28 +9,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
 <script type="text/javascript" src="js/materialize.js"></script>
 <script type="text/javascript" src="js/myJS.js"></script>
-<style>
-    .dropdown-content .dropdown-content {
-        margin-left: 100%;
-    }
-
-    #toast-container {
-        top: auto !important;
-        right: auto !important;
-        bottom: 20%;
-        left: 50% !important;;
-        transform: translate(-50%, -50%);
-    }
-
-    .dropdown-nested {
-        overflow-y: visible;
-    }
-</style>
 
 <script>
     function toast(msg) {
         Materialize.toast(msg, 2000, 'rounded');
     }
+
+    $(document).ready(function () {
+        $('.edit_icon').addClass("tooltipped");
+        $('.edit_icon').attr('data-tooltip', '创建新书');
+        $('a .material-icons:contains("favorite")').addClass("tooltipped");
+        $('a .material-icons:contains("favorite")').attr("data-tooltip", '取消收藏');
+        $('a .material-icons:contains("favorite_border")').addClass("tooltipped");
+        $('a .material-icons:contains("favorite_border")').attr("data-tooltip", '收藏');
+        $('p .material-icons:contains("favorite")').addClass("tooltipped");
+        $('p .material-icons:contains("favorite")').attr("data-tooltip", '收藏量');
+        $('p .material-icons:contains("remove_red_eye")').addClass("tooltipped");
+        $('p .material-icons:contains("remove_red_eye")').attr("data-tooltip", '点击量');
+        $('p .material-icons:contains("perm_identity")').addClass("tooltipped");
+        $('p .material-icons:contains("perm_identity")').attr("data-tooltip", '书迷数');
+        $('.tooltipped').tooltip({position: 'bottom'});
+    });
+
 </script>
 
 <%

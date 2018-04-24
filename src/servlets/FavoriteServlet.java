@@ -38,10 +38,8 @@ public class FavoriteServlet extends BaseServlet {
             userService.cancelFavorite((String) request.getSession().getAttribute("username"), Integer.parseInt(request.getParameter("book")));
             response.setContentType("text/plain");
             response.getWriter().write("200 OK");
-        } catch (NullPointerException e) {
-            response.sendError(404);
         } catch (Exception e) {
-            response.sendError(500);
+            response.sendError(404);
         }
     }
 }

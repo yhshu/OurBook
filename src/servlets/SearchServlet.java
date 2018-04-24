@@ -29,7 +29,10 @@ public class SearchServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         String keywords = request.getParameter("keywords"); // 搜索关键词
         String type = request.getParameter("type"); // 搜索类型
-        if (keywords == null) response.sendRedirect("index.jsp");
+        if (keywords == null) {
+            response.sendError(404);
+            return;
+        }
         switch (type) {
             case "book":
                 String sort = request.getParameter("sort"); // 排序类型

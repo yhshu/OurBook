@@ -157,14 +157,18 @@
         $.get('${pageContext.request.contextPath}/favorite', {
             method: $('#favorite_submit').data("method"),
             book:<%=request.getAttribute("bookID")%>
-        }, function (respondText) {
+        }, function () {
             if ($('#favorite_submit').data("method") === "remove") {
                 $('#favorite_icon').html("favorite_border");
                 $('#favorite_submit').data("method", "add");
+                $('#favorite_icon').attr("data-tooltip", '收藏');
+                $('#favorite_icon').tooltip();
             }
             else if ($('#favorite_submit').data("method") === "add") {
                 $('#favorite_icon').html("favorite");
                 $('#favorite_submit').data("method", "remove");
+                $('#favorite_icon').attr("data-tooltip", '取消收藏');
+                $('#favorite_icon').tooltip();
             }
         }).fail(function () { // 服务器响应错误信息
             toast("操作异常");

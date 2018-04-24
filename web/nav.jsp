@@ -104,7 +104,7 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
-                <li><a href="newbook.jsp"><i class="material-icons">mode_edit</i></a></li>
+                <li><a href="newbook.jsp"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
                 <li style="height: 64px">
                     <a class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"
@@ -128,8 +128,9 @@
             <li id="search_article_button"><a id="search_article">文章</a></li>
             <li id="search_user_button"><a id="search_user">用户</a></li>
             <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
-            <li style="margin-left: 35px"><a class="dropdown-button grey-text" data-activates="dropdown2" data-hover="hover"
-                   data-beloworigin="true">
+            <li style="margin-left: 35px"><a class="dropdown-button grey-text" data-activates="dropdown2"
+                                             data-hover="hover"
+                                             data-beloworigin="true">
                 排序&nbsp;&nbsp;&nbsp;<i class="material-icons right" style="margin-top:4px">
                 arrow_drop_down</i></a></li>
             <%}%>

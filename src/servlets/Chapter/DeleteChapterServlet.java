@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
-@WebServlet("/DeleteChapterServlet")
+@WebServlet("/deleteChapter")
 public class DeleteChapterServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class DeleteChapterServlet extends HttpServlet {
         try {
             File chapter = new File(this.getServletContext().getRealPath("/resources/book/" + bookID + "/" + chapterName + ".txt"));
             if (chapter.exists() && chapter.isFile())
-                chapter.delete();
+                if (!chapter.delete()) throw new Exception();
         } catch (Exception e) {
             System.out.println("DeleteChapterServlet: 删除章节文件失败");
             e.printStackTrace();

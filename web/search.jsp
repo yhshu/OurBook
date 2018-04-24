@@ -196,14 +196,18 @@
                     method: submit_book.data("method"),
                     book: submit_book.data("book")
                 },
-                function (respondText) {
+                function () {
                     if (submit_book.data("method") === "remove") {
                         icon_book.html("favorite_border");
                         submit_book.data("method", "add");
+                        icon_book.attr("data-tooltip", '收藏');
+                        icon_book.tooltip();
                     }
                     else if (submit_book.data("method") === "add") {
                         icon_book.html("favorite");
                         submit_book.data("method", "remove");
+                        icon_book.attr("data-tooltip", '取消收藏');
+                        icon_book.tooltip();
                     }
                 }
             ).fail(function () { // 服务器响应错误信息

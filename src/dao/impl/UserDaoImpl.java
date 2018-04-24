@@ -24,7 +24,8 @@ public class UserDaoImpl implements UserDao {
             stm.setString(2, "%" + keyword + "%");
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getString("username"), rs.getString("nickname"), null, rs.getString("description"), rs.getString("avatar"));
+                User user = new User(rs.getString("username"), rs.getString("nickname"),
+                        null, rs.getString("description"), rs.getString("avatar"));
                 user.setClicks(rs.getInt("clicks"));
                 user.setFavorites(rs.getInt("favorites"));
                 users.add(user);
@@ -195,7 +196,12 @@ public class UserDaoImpl implements UserDao {
             int displayUserNum = 5;
             ResultSet rs = stm.executeQuery();
             while (displayUserNum-- > 0 && rs.next()) {
-                users.add(new User(rs.getString("username"), rs.getString("nickname"), null, rs.getString("description"), rs.getString("avatar")));
+                User user = new User(rs.getString("username"),
+                        rs.getString("nickname"),
+                        null, rs.getString("description"),
+                        rs.getString("avatar"));
+                user.setFollowers(rs.getInt("followers"));
+                users.add(user);
             }
             rs.close();
             stm.close();
