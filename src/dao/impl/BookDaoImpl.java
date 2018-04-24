@@ -269,7 +269,10 @@ public class BookDaoImpl implements BookDao {
                         rs.getString("chiefEditor"),
                         rs.getString("keywords"),
                         rs.getString("cover"),
-                        rs.getInt("chapter_num"), rs.getDate("last_modified"), rs.getInt("clicks"), rs.getInt("favorites")));
+                        rs.getInt("chapter_num"),
+                        rs.getDate("last_modified"),
+                        rs.getInt("clicks"),
+                        rs.getInt("favorites")));
             }
             rs.close();
             stm.close();
