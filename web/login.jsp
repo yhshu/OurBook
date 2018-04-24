@@ -40,7 +40,7 @@
                 </div>
                 <br>
                 <a class="black-text">新用户？</a><a href="${pageContext.request.contextPath}/register">注册</a>
-                <button type="submit" class="waves-effect waves-light btn blue right">登 录
+                <button type="submit" class="waves-effect waves-light btn right blue">登 录
                 </button>
             </form>
             <script>
