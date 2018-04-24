@@ -260,7 +260,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<Book> books = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites*10+clicks DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites * 10 + clicks DESC");
             int displayBookNum = 10;
             ResultSet rs = stm.executeQuery();
             while (displayBookNum-- > 0 && rs.next()) {

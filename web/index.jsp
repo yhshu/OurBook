@@ -63,6 +63,10 @@
                        style="color: gray;margin: 0 0 0 25px; display: inline;">
                         <%=book.getChiefEditor()%>
                     </a>
+                    <p class="grey-text" style="margin: 0 25px">
+                        <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
+                        <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
+                    </p>
                 </div>
                 <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
                 <p style="margin: 25px 0 0 25px">

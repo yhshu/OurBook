@@ -154,7 +154,10 @@
 
     $('#favorite_submit').click(function (event) {
         event.preventDefault();
-        $.get('${pageContext.request.contextPath}/favorite?method=' + $('#favorite_submit').data("method") + '&book=<%=request.getAttribute("bookID")%>', {}, function (respondText) {
+        $.get('${pageContext.request.contextPath}/favorite', {
+            method: $('#favorite_submit').data("method"),
+            book:<%=request.getAttribute("bookID")%>
+        }, function (respondText) {
             if ($('#favorite_submit').data("method") === "remove") {
                 $('#favorite_icon').html("favorite_border");
                 $('#favorite_submit').data("method", "add");
