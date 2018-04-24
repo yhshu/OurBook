@@ -49,7 +49,7 @@
                  src="<%=book.getCover()%>">
         </a>
         <%}%>
-        <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
+        <div style="display: grid;grid-template-rows: 66px 40px 1px auto">
             <div>
                 <h5 style="margin: 25px 0 0 25px;display: inline-block">
                     <a style="color: black" href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
@@ -66,7 +66,7 @@
                 </p>
             </div>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
-            <p style="margin: 25px 0 0 25px">
+            <p style="margin: 25px;overflow: scroll">
                 <%=book.getDescription()%>
             </p>
         </div>
