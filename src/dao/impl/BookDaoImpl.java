@@ -195,7 +195,6 @@ public class BookDaoImpl implements BookDao {
         return null;
     }
 
-
     @Override
     public boolean delete(int bookID) {
         try {
@@ -260,7 +259,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<Book> books = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites*10+clicks DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites * 10 + clicks DESC");
             int displayBookNum = 10;
             ResultSet rs = stm.executeQuery();
             while (displayBookNum-- > 0 && rs.next()) {
@@ -270,7 +269,7 @@ public class BookDaoImpl implements BookDao {
                         rs.getString("chiefEditor"),
                         rs.getString("keywords"),
                         rs.getString("cover"),
-                        rs.getInt("chapter_num")));
+                        rs.getInt("chapter_num"), rs.getDate("last_modified"), rs.getInt("clicks"), rs.getInt("favorites")));
             }
             rs.close();
             stm.close();

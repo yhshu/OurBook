@@ -30,9 +30,9 @@
         <%
     } else for (Book book : books) {
                 boolean favorite = false;
-                for(Book book1:favorites)
-                    if(book1.getID()==book.getID())
-                        favorite=true;
+                for(Book book1 : favorites)
+                    if(book1.getID() == book.getID())
+                        favorite = true;
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
@@ -61,19 +61,24 @@
                 <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
                    style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
                 </a>
-                <p style="color: gray;margin: 0 0 0 25px;float: left">
+                <p class="grey-text" style="margin: 0 25px; float: left;">
+                    <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
+                    <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
+                </p>
+                <p style="color: gray;margin: 0;float: left">
                     最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
                 </p>
             </div>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
-            <p style="margin: 25px;overflow: scroll">
+            <p style="margin: 25px;overflow: auto">
                 <%=book.getDescription()%>
             </p>
         </div>
-        <a href="favorite?method=<%=favorite ? "remove" : "add"%>&book=<%=book.getID()%>"
-           class="btn-large btn-floating halfway-fab waves-effect waves-light pink"
-           style="position: relative;margin-bottom: -100px;left:772px;bottom:176px">
-            <i class="material-icons"
+        <a href=""
+           class="btn-large btn-floating halfway-fab waves-effect waves-light pink favorite_submit"
+           style="position: relative;margin-bottom: -100px;left:772px;bottom:176px"
+           data-method="<%=favorite ? "remove" : "add"%>" data-book="<%=book.getID()%>">
+            <i class="material-icons" id="book_icon_<%=book.getID()%>"
                style="margin-top:3px"><%=favorite ? "favorite" : "favorite_border"%>
             </i>
         </a>
@@ -181,6 +186,29 @@
             <%if(request.getAttribute("keywords")!=null){%>
             document.getElementById("search").value = "<%=request.getAttribute("keywords")%>";
             <%}%>
+        });
+
+        $('.favorite_submit').click(function (event) {
+            event.preventDefault();
+            var submit_book = $(this);
+            var icon_book = $('#book_icon_' + submit_book.data("book"));
+            $.get('${pageContext.request.contextPath}/favorite', {
+                    method: submit_book.data("method"),
+                    book: submit_book.data("book")
+                },
+                function (respondText) {
+                    if (submit_book.data("method") === "remove") {
+                        icon_book.html("favorite_border");
+                        submit_book.data("method", "add");
+                    }
+                    else if (submit_book.data("method") === "add") {
+                        icon_book.html("favorite");
+                        submit_book.data("method", "remove");
+                    }
+                }
+            ).fail(function () { // 服务器响应错误信息
+                toast("操作异常");
+            })
         });
     </script>
 </body>

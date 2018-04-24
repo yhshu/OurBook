@@ -38,6 +38,20 @@ public class Book implements Serializable {
         this.chapterNum = chapterNum;
     }
 
+    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum, Date lastModified, int clicks, int favorites) {
+        // 查找数据库后构造
+        this.name = name;
+        this.description = description;
+        this.ID = ID;
+        this.chiefEditor = chiefEditor;
+        this.keywords = keywords;
+        this.cover = cover;
+        this.chapterNum = chapterNum;
+        this.lastModified = lastModified;
+        this.clicks = clicks;
+        this.favorites = favorites;
+    }
+
     public String getName() {
         return name;
     }

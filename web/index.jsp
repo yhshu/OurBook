@@ -51,21 +51,25 @@
                  src="<%=book.getCover()%>">
             <%}%>
             <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
-                <div style="margin: 25px 0 0 25px">
+                <div style="margin: 25px 0 0 25px"><!--书名-->
                     <h5 style="float: left;margin: 0">
                         <a style="color: black"
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>"><%=book.getName()%>
                         </a>
                     </h5>
                 </div>
-                <div>
+                <div><!--作者-->
                     <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
-                       style="color: gray;margin: 0 0 0 25px; display: inline;">
+                       style="color: gray;margin: 0 0 0 25px; display: inline-block;">
                         <%=book.getChiefEditor()%>
                     </a>
+                    <a class="grey-text" style="margin: 0 25px; display: inline-block">
+                        <i class="material-icons">remove_red_eye</i><%=book.getClicks()%>
+                        <i class="material-icons" style="margin-left: 10px">favorite</i><%=book.getFavorites()%>
+                    </a>
                 </div>
-                <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
-                <p style="margin: 25px 0 0 25px">
+                <hr style="width: 100%; margin: 0; border-top: 1px gray"/>
+                <p style="margin: 15px 0 0 25px"><!--简介-->
                     <%=book.getDescription()%>
                 </p>
             </div>
