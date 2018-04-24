@@ -147,7 +147,7 @@ border-bottom: 1px solid lightgray">
                 <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
                     for (Book book : favorites) {
                 %>
-                    <a href="book?id=<%=book.getID()%>" class="black-text book_<%=book.getName()%>"
+                    <a href="book?id=<%=book.getID()%>" class="black-text book_<%=book.getID()%>"
                        style="text-align: center;line-height: 31px">
                         <%=book.getName()%>
                     </a>
@@ -176,7 +176,8 @@ border-bottom: 1px solid lightgray">
                     </a>
                     <a href="" class="btn blue remove_follow user_<%=user.getUsername()%>"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px"
-                       id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">取消关注</a>
+                       id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">
+                        取消关注</a>
                     <%}%>
                 </div>
                 <%}%>
@@ -219,25 +220,37 @@ border-bottom: 1px solid lightgray">
 <script>
     $(document).ready(function () {
         $('.modal').modal(); // 模态框
+        $('.remove_favorite').click(function (event) {
+            var removed_fav = $(this).data('book');
+            event.preventDefault();
+            $.get('${pageContext.request.contextPath}/favorite?',
+                {
+                    method: 'remove',
+                    book: removed_fav
+                }, function () {
+                    toast('取消收藏成功');
+                    $('.book_' + removed_fav).remove();
+                }).fail(function () { // 服务器响应错误信息
+                toast("操作异常");
+            })
+        });
+
+        $('.remove_follow').click(function (event) {
+            var removed_user = $(this).data('user');
+            event.preventDefault();
+            $.get('${pageContext.request.contextPath}/follow',
+                {
+                    method: 'remove',
+                    followee: removed_user
+                }, function () {
+                    toast('取消关注成功');
+                    $('.user_' + removed_user).remove();
+                }).fail(function () { // 服务器响应错误信息
+                toast("操作异常");
+            })
+        });
     });
 
-    $('.remove_favorite').click(function (event) {
-        event.preventDefault();
-        $.get('${pageContext.request.contextPath}/favorite?method=remove&book=' + $(this).data('book'), {}, function (respondText) {
-            $('.book_' + $(this).data('book')).remove();
-        }).fail(function () { // 服务器响应错误信息
-            toast("操作异常");
-        })
-    });
-
-    $('.remove_follow').click(function (event) {
-        event.preventDefault();
-        $.get('${pageContext.request.contextPath}/follow?method=remove&followee=' + $(this).data('user'), {}, function (respondText) {
-            $('.user_' + $(this).data('user')).remove();
-        }).fail(function () { // 服务器响应错误信息
-            toast("操作异常");
-        })
-    });
 </script>
 </body>
 </html>
