@@ -71,7 +71,7 @@ public class UserServlet extends BaseServlet {
             response.setContentType("text/plain");
             response.getWriter().write("/index");
         } else { // 用户名或密码错误
-            response.sendError(403,"用户名或密码错误");
+            response.sendError(403);
         }
     }
 }

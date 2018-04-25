@@ -159,12 +159,14 @@
             book:<%=request.getAttribute("bookID")%>
         }, function () {
             if ($('#favorite_submit').data("method") === "remove") {
+                toast('取消收藏成功');
                 $('#favorite_icon').html("favorite_border");
                 $('#favorite_submit').data("method", "add");
                 $('#favorite_icon').attr("data-tooltip", '收藏');
                 $('#favorite_icon').tooltip();
             }
             else if ($('#favorite_submit').data("method") === "add") {
+                toast('收藏成功');
                 $('#favorite_icon').html("favorite");
                 $('#favorite_submit').data("method", "remove");
                 $('#favorite_icon').attr("data-tooltip", '取消收藏');

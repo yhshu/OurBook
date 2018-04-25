@@ -2,6 +2,10 @@ body{
     background: #f6f6f6;
 }
 
+p{
+    text-overflow: ellipsis;
+}
+
 .dropdown-content .dropdown-content {
     margin-left: 100%;
 }

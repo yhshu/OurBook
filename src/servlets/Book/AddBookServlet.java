@@ -1,5 +1,6 @@
 package servlets.Book;
 
+import Util.FileUtil;
 import dao.BookDao;
 import dao.impl.BookDaoImpl;
 import org.apache.commons.fileupload.FileItem;
@@ -37,8 +38,8 @@ public class AddBookServlet extends HttpServlet {
         String bookName = "";
         String bookDescription = "";
         String keywords = "";
-        String message = null;
         String filename = null;
+        String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"}; //图片格式
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
                 DiskFileItemFactory disk = new DiskFileItemFactory();
@@ -52,21 +53,34 @@ public class AddBookServlet extends HttpServlet {
                     if (!fm.isFormField()) { // 是文件
                         String filePath = fm.getName();  // 获取文件全路径名
                         if (filePath.equals("")) break;
-                        if (fm.getSize() > maxsize) {
-                            message = "文件太大了，不要超过2MB";
-                            break;
+                        boolean isImage = false;
+                        for (String ext : allowedExt) {
+                            if (fm.getContentType().contains(ext)) {
+                                isImage = true;
+                                break;
+                            }
+                        }
+                        if (!isImage) {
+                            response.sendError(415);
+                            return;
+                        } else if (fm.getSize() > maxsize) {
+                            response.sendError(403,"12");
+                            return;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
                         filename = "/resources/cover/" + (bookDao.maxID() + 1) + extension;
                         File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
-                        message = "文件上传成功！";
                     } else { // 是表单元素
                         String foename = fm.getFieldName(); // 获取表单元素名
                         String con = fm.getString("UTF-8");
                         switch (foename) {
                             case "bookName":
-                                bookName = con;
+                                if (con == null || con.trim().equals("") || !FileUtil.isLetterDigitOrChinese(con.trim())) {
+                                    response.sendError(400);
+                                    return;
+                                }
+                                bookName = con.trim();
                                 break;
                             case "keywords":
                                 keywords = con;
@@ -81,11 +95,11 @@ public class AddBookServlet extends HttpServlet {
             bookService.addBook(bookName, bookDescription, editor, keywords, filename);
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
-            request.setAttribute("result", message);
-            response.sendRedirect("/book?id=" + bookDao.maxID());
+            response.getWriter().write("/book?id=" + bookDao.maxID());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
+            response.sendError(403);
         }
     }
 }

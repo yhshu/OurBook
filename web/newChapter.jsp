@@ -30,7 +30,7 @@
 
         function check_input() {
             if (document.getElementById('chapterName').value === "" || document.getElementById('chapterContent').value === "") {
-                M.toast({html: '请输入章节名称和内容', classes: 'rounded'});
+                toast({html: '请输入章节名称和内容', classes: 'rounded'});
                 return false;
             }
             else return true;
