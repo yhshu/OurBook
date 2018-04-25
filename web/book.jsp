@@ -117,8 +117,9 @@
                 <label for="bookname_confirm"></label>
             </div>
             <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
                 <a id="delete_link"
-                   class="modal-action modal-close waves-effect waves-green btn-flat  red-text disabled"
+                   class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
                    onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
                 <!-- 请求删除本书-->
                 <form action="${pageContext.request.contextPath}/deleteBook" method="post" id="deleteBookForm">
