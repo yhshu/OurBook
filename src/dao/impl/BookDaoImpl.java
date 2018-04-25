@@ -94,7 +94,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO book " +
-                    "(ID,name,description,chiefEditor,keywords,cover,chapter_num) VALUES (null,?,?,?,?,?,0)");
+                    "(ID,name,description,chiefEditor,keywords,cover) VALUES (null,?,?,?,?,?)");
             stm.setString(1, book.getName());
             stm.setString(2, book.getDescription());
             stm.setString(3, book.getChiefEditor());
@@ -180,6 +180,10 @@ public class BookDaoImpl implements BookDao {
                 }
                 try {
                     book.setLastModified(rs.getDate("last_modified"));
+                } catch (Exception ignored) {
+                }
+                try {
+                    book.setChapterNum(rs.getInt("chapter_num"));
                 } catch (Exception ignored) {
                 }
                 books.add(book);

@@ -99,7 +99,7 @@ public class AddBookServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookServlet: 添加书目失败");
-            response.sendError(403);
+            response.sendError(520);
         }
     }
 }

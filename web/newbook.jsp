@@ -53,6 +53,7 @@
                         if((jqXHR.status)===403) toast("封面不能超过2MB");
                         else if(jqXHR.status===415) toast("封面必须是图片");
                         else if(jqXHR.status===400) toast("书名只能包括汉字、字母或数字");
+                        else toast('未知错误');
                     });
                 }
             })
