@@ -1,16 +1,10 @@
 package Util;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * 用户访问权限的过滤器
@@ -36,20 +30,19 @@ public class UserFilter implements Filter {
         // 获取Session
         HttpSession session = req.getSession();
         // 获取Session中存储的对象
-        Object o = session.getAttribute("user");
+        Object o = session.getAttribute("username");
         // 获取当前请求的URI
         String url = req.getRequestURI();
         // 判断请求的URI是否为不允许过滤的URI
-        if (url.contains("/resources/")) {
-            res.sendRedirect(req.getContextPath() + "/login.jsp");
-        } else {
+        if (url.contains("/resources/book"))
+            res.sendRedirect(req.getContextPath() + "/login");
+        else {
             chain.doFilter(request, response);
             res.setHeader("Cache-Control", "no-store");
             res.setDateHeader("Expires", 0);
             res.setHeader("Pragma", "no-cache");
             res.flushBuffer();
         }
-
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {

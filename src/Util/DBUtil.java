@@ -10,9 +10,9 @@ public class DBUtil {
     public static Connection connectDB() {
         Connection conn = null;
         String classForName = "com.mysql.jdbc.Driver";
-        String ServandDB = "jdbc:mysql://104.207.135.139:3306/ourbook";
+        String ServandDB = "jdbc:mysql://sh-cdb-7p5q57hl.sql.tencentcdb.com:63280/ourbook";
         String DBUser = "root";
-        String DBPWD = "root";
+        String DBPWD = "root3306";
 
         try {
             Class.forName(classForName).newInstance();
@@ -32,4 +32,16 @@ public class DBUtil {
         stringBuilder.append("1)");
         return stringBuilder.toString();
     }
+
+    public static String timeLimit(String field, String range) {
+        if (range.equalsIgnoreCase("day")) return "TO_DAYS(" + field + ") = TO_DAYS(NOW())";
+        else if (range.equalsIgnoreCase("week")) return "DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date("
+                + field + ")";
+        else if (range.equalsIgnoreCase("month")) return "DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date("
+                + field + ")";
+        else if (range.equalsIgnoreCase("year")) return "DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= date("
+                + field + ")";
+        else return "1";
+    }
+
 }

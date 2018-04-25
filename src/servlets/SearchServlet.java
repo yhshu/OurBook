@@ -14,31 +14,56 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
-        String keywords = req.getParameter("keywords");
-        String type = req.getParameter("type");
-        Book[] books = bookService.findByKeywords(keywords);
-        User[] editors = new User[books.length];
-        for (int i = 0; i < books.length; i++) editors[i] = userService.find(books[i].getChiefEditor());
-        req.setAttribute("keywords", keywords);
-        req.setAttribute("type", type);
-        req.setAttribute("books", books);
-        req.setAttribute("editors", editors);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("search.jsp");
-        dispatcher.forward(req, resp);
+        String keywords = request.getParameter("keywords"); // 搜索关键词
+        String type = request.getParameter("type"); // 搜索类型
+        if (keywords == null) {
+            response.sendError(404);
+            return;
+        }
+        switch (type) {
+            case "book":
+                String sort = request.getParameter("sort"); // 排序类型
+                String range = request.getParameter("range"); // 排序时间范围
+                if (sort == null) sort = "last_updated";
+                Book[] books = bookService.findByKeywords(keywords, sort, range);
+                Book[] fav = bookService.getFavorites((String) session.getAttribute("username"));
+                User[] editors = new User[books.length];
+                for (int i = 0; i < books.length; i++)
+                    editors[i] = userService.find(books[i].getChiefEditor());
+                request.setAttribute("books", books);
+                request.setAttribute("favorites", fav);
+                request.setAttribute("editors", editors);
+                break;
+            case "article":
+                Chapter[] chapters = bookService.findChapterByKeywords(keywords);
+                request.setAttribute("chapters", chapters);
+                break;
+            case "user":
+                User[] users = userService.search(keywords);
+                request.setAttribute("users", users);
+                break;
+            default:
+                break;
+        }
+        request.setAttribute("keywords", keywords);
+        request.setAttribute("type", type);
+        // nav.jsp 请求 SearchServlet，本Servlet 处理后通过 search.jsp 渲染
+        RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+        dispatcher.forward(request, response);
     }
 }
