@@ -95,10 +95,10 @@
             margin: 0;
         }</style>
         <%if (session.getAttribute("username").equals(request.getAttribute("editor"))) {%>
-        <form action="${pageContext.request.contextPath}/newChapter.jsp" accept-charset="UTF-8" method="post"
+        <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
               style="display: inline; " id="newChapterForm">
             <!-- 添加章节 表单 -->
-            <input name="bookID" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
+            <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
             <button class="btn blue"
                     style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;"
                     onclick="document.getElementById('newChapterForm').submit();">添加章节

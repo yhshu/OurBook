@@ -28,11 +28,12 @@ public class ChapterServlet extends BaseServlet {
             String path = this.getServletContext().getRealPath("/resources/book/");
             sequence = bookService.addChapter(chapterName, bookID, chapterContent, path);
             System.out.println("ChapterServlet: 添加章节成功");
+            // 添加章节完成后，请求重定向，查看本书目录
+            response.getWriter().write("/book?id="+bookID);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterServlet: 添加章节失败");
+            response.sendError(500);
         }
-        // 添加章节完成后，请求重定向，查看本书目录
-        response.sendRedirect("/read?book=" + bookID + "&sequence=" + sequence);
     }
 }
