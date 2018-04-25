@@ -2,6 +2,44 @@ body{
     background: #f6f6f6;
 }
 
+.dropdown-content .dropdown-content {
+    margin-left: 100%;
+}
+
+#toast-container {
+    top: auto !important;
+    right: auto !important;
+    bottom: 20%;
+    left: 50% !important;;
+    transform: translate(-50%, -50%);
+}
+
+.dropdown-nested {
+    overflow-y: visible;
+}
+
+p{
+    cursor: default;
+}
+h6{
+    cursor: default;
+}
+h5{
+    cursor: default;
+}
+h4{
+    cursor: default;
+}
+h3{
+    cursor: default;
+}
+h2{
+    cursor: default;
+}
+h1{
+    cursor: default;
+}
+
 .picker__date-display {
     background-color: #2196f3;
 }

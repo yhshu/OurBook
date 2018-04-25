@@ -15,7 +15,7 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public boolean addFollow(String followee, String follower) {
         if (followee == null || follower == null) {
-            System.out.println("follow为空");
+            System.out.println("follow 为空");
             return false;
         }
         try {

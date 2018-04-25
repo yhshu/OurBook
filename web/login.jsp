@@ -3,7 +3,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <title>用户登录 - OurBook</title>
+    <title>登录 - OurBook</title>
 </head>
 <%
     Cookie[] cookies = request.getCookies();
@@ -11,8 +11,8 @@
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("username")) {
                 if (session.getAttribute("username") != null) {
-                    response.sendRedirect("/home");
-                    System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
+                    response.sendRedirect("/index");
+                    System.out.println("login.jsp: 自动登录成功，跳转到个人主页");
                 }
                 break;
             }
@@ -24,8 +24,7 @@
         <div class="card-content black-text">
             <p class="card-title">登录到 OurBook</p>
             <br>
-            <form action="${pageContext.request.contextPath}/UserServlet" method="post"
-                  onsubmit="return check_input();">
+            <form action="${pageContext.request.contextPath}/UserServlet" method="post" id="login">
                 <input type="hidden" name="method" value="login"/>
                 <div class="row">
                     <div class="input-field s12">
@@ -40,22 +39,38 @@
                     </div>
                 </div>
                 <br>
-                <a class="black-text">新用户？</a><a href="register.jsp">注册</a>
-                <input type="submit" id="submit" class="waves-effect waves-light btn blue right " value="登录"/>
+                <a class="black-text">新用户？</a><a href="${pageContext.request.contextPath}/register">注册</a>
+                <button type="submit" class="waves-effect waves-light btn right blue">登 录
+                </button>
             </form>
             <script>
-                function check_input() {
-                    if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
-                        M.toast({html: '请输入用户名密码', classes: 'rounded'});
-                        return false;
+                $(document).ready(function () {
+                    function check_input() {
+                        if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
+                            Materialize.toast('请输入用户名密码', 2000, 'rounded');
+                            return false;
+                        }
+                        else return true;
                     }
-                    else return true;
-                }
 
-                <%
-                if(request.getAttribute("message") != null && request.getAttribute("message").equals("login failed")){%>
-                M.toast({html: '用户名或密码错误', classes: 'rounded'});
-                <%}%>
+                    $('#login').submit(function (event) {
+                        event.preventDefault();
+                        var check = check_input();
+                        if (check === true) {
+                            toast('请稍候...');
+                            $.get('${pageContext.request.contextPath}/UserServlet', {
+                                method: 'login',
+                                username: $('#username').val(),
+                                password: $('#password').val()
+                            }, function (respondText) { // 服务器响应 "/index"
+                                window.location.href = respondText; // 跳转 index
+                                toast("登录成功");
+                            }).fail(function () { // 服务器响应 403
+                                toast("用户名或密码错误");
+                            })
+                        }
+                    });
+                });
             </script>
         </div>
     </div>

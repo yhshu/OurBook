@@ -26,15 +26,6 @@ public interface UserDao {
      */
     User find(String username);
 
-
-    /**
-     * 查找某用户的关注列表
-     *
-     * @param username 用户编号
-     * @return 用户正关注的其他用户的用户名
-     */
-    String[] findFollowing(String username);
-
     /**
      * 修改昵称和一句话描述
      *
@@ -72,4 +63,11 @@ public interface UserDao {
      * @return 被收藏 true 未被收藏 false
      */
     boolean isFavorite(String username, int bookID);
+
+    /**
+     * 推荐 创作章节数最多的5个用户 作为活跃用户
+     *
+     * @return 活跃用户
+     */
+    User[] recommend();
 }

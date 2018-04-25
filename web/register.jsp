@@ -6,7 +6,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <title>用户注册 - OurBook</title>
+    <title>注册 - OurBook</title>
     <%
         UserService userService = new UserServiceImpl();
         User user = userService.find(request.getParameter("username"));
@@ -18,7 +18,7 @@
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("username")) {
                 if (session.getAttribute("username") != null) {
-                    response.sendRedirect("/home");
+                    response.sendRedirect("/index");
                     System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
                 }
                 break;
@@ -30,7 +30,7 @@
     <div class="nav-wrapper blue">
         <a href="home" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="login.jsp">登录</a></li>
+            <li><a href="${pageContext.request.contextPath}/login">登录</a></li>
         </ul>
     </div>
 </nav>
@@ -69,11 +69,11 @@
             try {
                  if(request.getAttribute("message").equals("username registered")){
                  %>
-            M.toast({html: '该用户名已注册', classes: 'rounded'});
+            Materialize.toast('该用户名已注册', 2000, 'rounded');
             <%
              }else if(request.getAttribute("message").equals("register failed")){
              %>
-            M.toast({html: '注册失败', classes: 'rounded'});
+            Materialize.toast('注册失败', 2000, 'rounded');
             <%}
             }catch (Exception e) {
                 e.printStackTrace();
@@ -85,11 +85,11 @@
                 var p1 = document.getElementById('password').value;
                 var p2 = document.getElementById('password_confirm').value;
                 if (p1 === "" || p2 === "") {
-                    M.toast({html: '请输入密码', classes: 'rounded'});
+                    Materialize.toast('请输入密码', 2000, 'rounded');
                     return false;
                 }
                 if (p1 !== p2) {
-                    M.toast({html: '请核对密码输入', classes: 'rounded'});
+                    Materialize.toast('请核对密码输入', 2000, 'rounded');
                     return false;
                 } else
                     return true;

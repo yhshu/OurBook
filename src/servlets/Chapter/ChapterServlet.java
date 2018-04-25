@@ -1,11 +1,9 @@
 package servlets.Chapter;
 
-import model.Chapter;
 import service.BookService;
 import service.impl.BookServiceImpl;
 import servlets.BaseServlet;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,19 +34,5 @@ public class ChapterServlet extends BaseServlet {
         }
         // 添加章节完成后，请求重定向，查看本书目录
         response.sendRedirect("/read?book=" + bookID + "&sequence=" + sequence);
-    }
-
-    public void read(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        BookService bookService = new BookServiceImpl();
-        try {
-            Chapter chapter = bookService.findChapter(Integer.parseInt(request.getParameter("bookID")), Integer.parseInt(request.getParameter("sequence")));
-            request.setAttribute("chapter", chapter);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
-            // TODO dispatch request to jsp
-            requestDispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

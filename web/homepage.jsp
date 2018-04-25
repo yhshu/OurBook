@@ -8,8 +8,9 @@
         Book[] books = (Book[]) request.getAttribute("books");
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
+        User[] followers = (User[]) request.getAttribute("followers");
     %>
-    <title>个人主页 - OurBook</title>
+    <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -18,11 +19,9 @@
                     $('#preview')
                         .attr('src', e.target.result);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
     </script>
 </head>
 
@@ -87,7 +86,7 @@
         </div>
     </div>
     <div class="row" style="width: 900px">
-        <div class="col card" style="width:623px; margin-right:23px;"> <!--文章、书目或动态-->
+        <div class="col card" style="width:623px; margin-right:23px;">
             <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                 <%
@@ -123,55 +122,119 @@ border-bottom: 1px solid lightgray">
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
+
+                        <p class="grey-text" style="margin: 0 20px">
+                            <i class="material-icons">remove_red_eye </i> <%=book.getClicks()%>
+                            <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
+                        </p>
+                        <p style="margin: 10px 20px">
+                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                        </p>
                     </div>
                 </div>
                 <%}%>
             </div>
         </div>
 
-        <div class="col card" style="width: 253px"> <!--收藏列表-->
-            <h5 style="text-align: center">我的收藏</h5>
-            <% if (favorites.length == 0) {%>
-            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                你还没有收藏任何书</h6>
-            <%
-            } else {%>
-            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
-                for (Book book : favorites) {
-            %>
-                <a href="book?id=<%=book.getID()%>" style="text-align: center;line-height: 31px">
-                    <%=book.getName()%>
-                </a>
-                <a href="favorite?method=remove&book=<%=book.getID()%>" class="btn blue"
-                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px">取消收藏</a>
+        <div><!--右侧 收藏、关注与书迷-->
+            <div class="col card" style="width: 253px"> <!--收藏列表-->
+                <h5 style="text-align: center">我的收藏</h5>
+                <% if (favorites.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有收藏任何书</h6>
                 <%
-                        }
-                    }
+                } else {%>
+                <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
+                    for (Book book : favorites) {
                 %>
+                    <a href="book?id=<%=book.getID()%>" class="black-text book_<%=book.getID()%>"
+                       style="text-align: center;line-height: 31px">
+                        <%=book.getName()%>
+                    </a>
+                    <a href="" class="btn pink remove_favorite book_<%=book.getID()%>"
+                       style="display: inline; -webkit-appearance:none; -moz-appearance:none;
+                    height: 21px;line-height: 21px;margin: 5px 10px" id="remove_favorite_<%=book.getID()%>"
+                       data-book="<%=book.getID()%>">取消收藏</a>
+                    <% }%>
+                </div>
+                <% }%>
             </div>
-        </div>
 
-        <div class="col card" style="width: 253px"> <!--关注列表-->
-            <h5 style="text-align: center">我的关注</h5>
-            <% if (followees.length == 0) {%>
-            <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                你还没有关注任何人</h6>
-            <%
-            } else {%>
-            <div style="margin: 10px auto;display: grid;grid-template-columns: 80px 120px;"><%
-                for (User user : followees) {
-            %>
-                <a href="home?user=<%=user.getUsername()%>" style="text-align: center;line-height: 31px">
-                    <%=user.getNickname()%>
-                </a>
-                <a href="follow?method=remove&followee=<%=user%>" class="btn blue"
-                   style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                        height: 21px;line-height: 21px;margin: 5px 10px">取消关注</a>
+            <div class="col card" style="width: 253px"> <!--我的关注-->
+                <h5 style="text-align: center">我的关注</h5>
+                <% if (followees.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有关注任何人</h6>
                 <%
-                        }
-                    }
+                } else {%>
+                <div style="margin: 10px auto"><%
+                    for (User user : followees) {
                 %>
+                    <div class="row" style="margin: 15px 5px;">
+                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                            <img src="<%=user.getAvatar()%>"
+                                 style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                        </a>
+                        <div style="float:left;">
+                            <!--用户名与昵称-->
+                            <div style="width: 175px;height:20px">
+                                <h6 style="margin:0;float: left">
+                                    <a href="home?user=<%=user.getUsername()%>">
+                                        <%=user.getNickname()%>
+                                    </a>
+                                </h6>
+                                <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                                </h6>
+                            </div>
+                            <div style="width: 175px;height:20px">
+                                <p class="grey-text" style="margin:0 10px 0 0;display: inline-block">
+                                    <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                                </p>
+                                <a class="btn blue remove_follow user_<%=user.getUsername()%> right"
+                                   style="-webkit-appearance:none; -moz-appearance:none; height: 20px;
+                                   line-height: 20px;margin: 0 10px;display: inline-block"
+                                   id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">
+                                    取消关注</a>
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+                </div>
+                <%}%>
+            </div>
+
+            <div class="col card" style="width: 253px"> <!--我的书迷-->
+                <h5 style="text-align: center">我的书迷</h5>
+                <% if (followers.length == 0) {%>
+                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
+                    你还没有任何书迷</h6>
+                <%
+                } else {%>
+                <div style="margin: 10px auto"><%
+                    for (User user : followers) {
+                %>
+                    <div class="row" style="margin: 25px 5px;">
+                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                            <img src="<%=user.getAvatar()%>"
+                                 style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                        </a>
+                        <div style="float:left;">
+                            <!--用户名与昵称-->
+                            <h6 style="margin:0;float: left">
+                                <a href="home?user=<%=user.getUsername()%>">
+                                    <%=user.getNickname()%>
+                                </a>
+                            </h6>
+                            <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                            </h6>
+                            <p class="grey-text" style="margin: 22px 0 0 0">
+                                <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                            </p>
+                        </div>
+                    </div>
+                    <%}%>
+                </div>
+                <%}%>
             </div>
         </div>
     </div>
@@ -180,7 +243,37 @@ border-bottom: 1px solid lightgray">
 <script>
     $(document).ready(function () {
         $('.modal').modal(); // 模态框
+        $('.remove_favorite').click(function (event) {
+            var removed_fav = $(this).data('book');
+            event.preventDefault();
+            $.get('${pageContext.request.contextPath}/favorite?',
+                {
+                    method: 'remove',
+                    book: removed_fav
+                }, function () {
+                    toast('取消收藏成功');
+                    $('.book_' + removed_fav).remove();
+                }).fail(function () { // 服务器响应错误信息
+                toast("操作异常");
+            })
+        });
+
+        $('.remove_follow').click(function (event) {
+            var removed_user = $(this).data('user');
+            event.preventDefault();
+            $.get('${pageContext.request.contextPath}/follow',
+                {
+                    method: 'remove',
+                    followee: removed_user
+                }, function () {
+                    toast('取消关注成功');
+                    $('.user_' + removed_user).remove();
+                }).fail(function () { // 服务器响应错误信息
+                toast("操作异常");
+            })
+        });
     });
+
 </script>
 </body>
 </html>

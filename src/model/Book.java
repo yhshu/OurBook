@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Book implements Serializable {
     private int ID;
@@ -9,7 +10,10 @@ public class Book implements Serializable {
     private String chiefEditor;
     private String keywords;
     private String cover;
+    private Date lastModified;
     private int chapterNum;
+    private int clicks;
+    private int favorites;
 
     public Book() {
     }
@@ -32,6 +36,20 @@ public class Book implements Serializable {
         this.keywords = keywords;
         this.cover = cover;
         this.chapterNum = chapterNum;
+    }
+
+    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum, Date lastModified, int clicks, int favorites) {
+        // 查找数据库后构造
+        this.name = name;
+        this.description = description;
+        this.ID = ID;
+        this.chiefEditor = chiefEditor;
+        this.keywords = keywords;
+        this.cover = cover;
+        this.chapterNum = chapterNum;
+        this.lastModified = lastModified;
+        this.clicks = clicks;
+        this.favorites = favorites;
     }
 
     public String getName() {
@@ -88,5 +106,29 @@ public class Book implements Serializable {
 
     public void setChapterNum(int chapterNum) {
         this.chapterNum = chapterNum;
+    }
+
+    public int getClicks() {
+        return clicks;
+    }
+
+    public void setClicks(int clicks) {
+        this.clicks = clicks;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(int favorites) {
+        this.favorites = favorites;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }

@@ -26,34 +26,38 @@ public class HomepageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("user");
-        BookService bookService = new BookServiceImpl();
-        UserService userService = new UserServiceImpl();
-        String currentUser = (String) request.getSession().getAttribute("username");
-        String redirect = "homepage.jsp";
-        if (currentUser == null) {
-            redirect = "login.jsp";
-        } else {
-            if (username == null) username = currentUser;
-            if (!currentUser.equals(username)) {
-                redirect = "othersHome.jsp";
-                request.setAttribute("isFollowing", new FollowServiceImpl().isFollowing(currentUser, username));
+        try {
+            String username = request.getParameter("user");
+            BookService bookService = new BookServiceImpl();
+            UserService userService = new UserServiceImpl();
+            String currentUser = (String) request.getSession().getAttribute("username");
+            String redirect = "homepage.jsp";
+            if (currentUser == null) {
+                redirect = "login.jsp";
+            } else {
+                if (username == null) username = currentUser;
+                if (!currentUser.equals(username)) {
+                    redirect = "othersHome.jsp";
+                    request.setAttribute("isFollowing", new FollowServiceImpl().isFollowing(currentUser, username));
+                }
+                User user = userService.find(username);
+                Book[] books = bookService.findByEditor(username);
+                Book[] favorites = bookService.getFavorites(username);
+                User[] followers = userService.getFollowers(username);
+                User[] followees = userService.getFollowees(username);
+                request.setAttribute("username", username);
+                request.setAttribute("favorites", favorites);
+                request.setAttribute("books", books);
+                request.setAttribute("nickname", user.getNickname());
+                request.setAttribute("description", user.getDescription());
+                request.setAttribute("avatar", user.getAvatar());
+                request.setAttribute("followers", followers);
+                request.setAttribute("followees", followees);
             }
-            User user = userService.find(username);
-            Book[] books = bookService.findByEditor(username);
-            Book[] favorites = bookService.getFavorites(username);
-            User[] followers = userService.getFollowers(username);
-            User[] followees = userService.getFollowees(username);
-            request.setAttribute("username", username);
-            request.setAttribute("favorites", favorites);
-            request.setAttribute("books", books);
-            request.setAttribute("nickname", user.getNickname());
-            request.setAttribute("description", user.getDescription());
-            request.setAttribute("avatar", user.getAvatar());
-            request.setAttribute("followers", followers);
-            request.setAttribute("followees", followees);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(redirect);
+            requestDispatcher.forward(request, response);
+        } catch (Exception e) {
+            response.sendError(404);
         }
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(redirect);
-        requestDispatcher.forward(request, response);
     }
 }

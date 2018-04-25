@@ -5,9 +5,11 @@ import dao.UserDao;
 import model.User;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class UserDaoImpl implements UserDao {
     private Connection conn = null;
@@ -17,24 +19,24 @@ public class UserDaoImpl implements UserDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username LIKE ? or nickname LIKE ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author WHERE username LIKE ? or nickname LIKE ?");
             stm.setString(1, "%" + keyword + "%");
             stm.setString(2, "%" + keyword + "%");
-            try {
-                ResultSet rs = stm.executeQuery();
-                while (rs.next()) {
-                    User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
-                    users.add(user);
-                }
-                rs.close();
-                stm.close();
-                conn.close(); // 关闭数据库连接
-                return users.toArray(new User[0]);
-            } catch (Exception e1) {
-                System.out.println("UserDao: 获取用户失败");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User user = new User(rs.getString("username"), rs.getString("nickname"),
+                        null, rs.getString("description"), rs.getString("avatar"));
+                user.setClicks(rs.getInt("clicks"));
+                user.setFavorites(rs.getInt("favorites"));
+                users.add(user);
             }
+            rs.close();
+            stm.close();
+            conn.close(); // 关闭数据库连接
+            return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("UserDao: 获取用户失败");
         }
         return new User[0];
     }
@@ -135,9 +137,10 @@ public class UserDaoImpl implements UserDao {
     public boolean addFavorite(String username, int bookID) {
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?,?)");
             stm.setString(1, username);
             stm.setInt(2, bookID);
+            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             conn.close();
             System.out.println("UserDao: 收藏成功");
@@ -181,5 +184,32 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public User[] recommend() {
+        // 推荐 创作章节数最多的5个用户 作为活跃用户
+        try {
+            conn = DBUtil.connectDB();
+            ArrayList<User> users = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites*10+clicks DESC");
+            int displayUserNum = 5;
+            ResultSet rs = stm.executeQuery();
+            while (displayUserNum-- > 0 && rs.next()) {
+                User user = new User(rs.getString("username"),
+                        rs.getString("nickname"),
+                        null, rs.getString("description"),
+                        rs.getString("avatar"));
+                user.setFollowers(rs.getInt("followers"));
+                users.add(user);
+            }
+            rs.close();
+            stm.close();
+            conn.close();
+            return users.toArray(new User[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new User[0];
     }
 }

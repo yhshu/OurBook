@@ -32,6 +32,16 @@ public interface BookService {
     Book[] findByKeywords(String keywords);
 
     /**
+     * 根据关键字查找书籍，并按类型和时间范围排序
+     *
+     * @param keywords 关键字
+     * @param sort     排序类型
+     * @param range    排序时间范围
+     * @return 经过排序的书籍
+     */
+    Book[] findByKeywords(String keywords, String sort, String range);
+
+    /**
      * 根据作者查找书籍
      *
      * @param username 作者用户名
@@ -87,8 +97,32 @@ public interface BookService {
     /**
      * 获取用户收藏的书
      *
-     * @param username  用户名
+     * @param username 用户名
      * @return 用户收藏的书
      */
     Book[] getFavorites(String username);
+
+    /**
+     * 记录点击
+     *
+     * @param username 用户名
+     * @param bookID   书编号
+     */
+    boolean click(String username, int bookID);
+
+    /**
+     * 删除指定章节
+     *
+     * @param bookID   书目编号
+     * @param sequence 章节序号
+     * @return 删除成功返回true；失败返会false
+     */
+    boolean delete_chapter(int bookID, int sequence);
+
+    /**
+     * 首页推荐书目
+     *
+     * @return 推荐书目
+     */
+    Book[] recommend();
 }

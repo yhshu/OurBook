@@ -5,9 +5,11 @@ import dao.ChapterDao;
 import model.Chapter;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ChapterDaoImpl implements ChapterDao {
@@ -30,11 +32,12 @@ public class ChapterDaoImpl implements ChapterDao {
             }
 
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content) VALUES (?,?,?,?)");
+            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,last_modified) VALUES (?,?,?,?,?)");
             stm2.setString(1, chapter.getName());
             stm2.setInt(2, chapter.getBookID());
             stm2.setInt(3, chapter.getSequence());
             stm2.setString(4, chapter.getContent());
+            stm2.setDate(5,new Date(Calendar.getInstance().getTime().getTime()));
             try {
                 stm2.executeUpdate();
                 stm2.close();
@@ -70,9 +73,22 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE " + DBUtil.keywordsMatchCondition("name", keywords));
-            Chapter[] chapters = getChapters(stm);
-            if (chapters != null) return chapters;
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter,book,user WHERE bookID = ID AND username = chiefEditor AND " + DBUtil.keywordsMatchCondition("chapter.name", keywords));
+            ResultSet rs = stm.executeQuery();
+            ArrayList<Chapter> chapters = new ArrayList<>();
+            while (rs.next()) {
+                Chapter chapter = new Chapter(rs.getString("chapter.name"), rs.getInt("bookID"),
+                        rs.getInt("sequence"), rs.getString("content"));
+                chapter.setBookName(rs.getString("book.name"));
+                chapter.setEditorNickname(rs.getString("nickname"));
+                chapter.setEditorUsername(rs.getString("username"));
+                chapter.setBookCover(rs.getString("cover"));
+                chapters.add(chapter);
+            }
+            rs.close();
+            stm.close();
+            conn.close(); // 关闭数据库连接
+            return chapters.toArray(new Chapter[0]);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 通过关键字查找章节失败");
@@ -93,6 +109,29 @@ public class ChapterDaoImpl implements ChapterDao {
             System.out.println("ChapterDao: 按书目获取章节失败");
         }
         return new Chapter[0];
+    }
+
+    @Override
+    public boolean delete(int bookID, int sequence) {
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement chapter = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?");
+            chapter.setInt(1, bookID);
+            chapter.setInt(2, sequence);
+            try {
+                chapter.executeUpdate();
+                System.out.println("ChapterDao: 删除指定章节成功");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                System.out.println("ChapterDao: 删除指定章节失败");
+            }
+            chapter.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private Chapter[] getChapters(PreparedStatement stm) {

@@ -19,17 +19,27 @@ public class FavoriteServlet extends BaseServlet {
 
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserService userService = new UserServiceImpl();
-        userService.addFavorite((String) request.getSession().getAttribute("username"),
-                Integer.parseInt(request.getParameter("book")));
-        response.sendRedirect("/book?id=" + request.getParameter("book"));
+        try {
+            UserService userService = new UserServiceImpl();
+            userService.addFavorite((String) request.getSession().getAttribute("username"), Integer.parseInt(request.getParameter("book")));
+            response.setContentType("text/plain");
+            response.getWriter().write("200 OK");
+        } catch (NullPointerException e) {
+            response.sendError(404);
+        } catch (Exception e) {
+            response.sendError(500);
+        }
     }
 
     public void remove(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserService userService = new UserServiceImpl();
-        userService.cancelFavorite((String) request.getSession().getAttribute("username"),
-                Integer.parseInt(request.getParameter("book")));
-        response.sendRedirect("/book?id=" + request.getParameter("book"));
+        try {
+            UserService userService = new UserServiceImpl();
+            userService.cancelFavorite((String) request.getSession().getAttribute("username"), Integer.parseInt(request.getParameter("book")));
+            response.setContentType("text/plain");
+            response.getWriter().write("200 OK");
+        } catch (Exception e) {
+            response.sendError(404);
+        }
     }
 }

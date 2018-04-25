@@ -1,7 +1,5 @@
 package servlets;
 
-import dao.FollowDao;
-import dao.impl.FollowDaoImpl;
 import service.FollowService;
 import service.impl.FollowServiceImpl;
 
@@ -10,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -26,39 +23,32 @@ public class FollowServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        FollowService followservice = new FollowServiceImpl();
-        FollowDao followdao = new FollowDaoImpl();
-        HttpSession session = request.getSession();
-        String followee = request.getParameter("followee");
-        String follower = (String) request.getSession().getAttribute("username");
-        String book_id = request.getParameter("book_id");
-        String method = request.getParameter("method");
-        //进行关注：
-        if (method.equals("add")) {
-            try {
+        try {
+            response.setContentType("text/html");
+            FollowService followservice = new FollowServiceImpl();
+            String followee = request.getParameter("followee");
+            String follower = (String) request.getSession().getAttribute("username");
+            String method = request.getParameter("method");
+            // 进行关注
+            if (method.equals("add")) {
                 followservice.addFollow(followee, follower);
-                System.out.println("followee:" + followee + "    " + "follower:" + follower);
+                System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 关注成功");
-                // 关注成功后，返回主页
-                response.sendRedirect("/home");
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("FollowServlet: 添加失败");
+                // 关注成功后，发送响应
+                response.setContentType("text/plain");
+                response.getWriter().write("200 OK");
             }
-        }
-        //取消关注：
-        else if (method.equals("remove")) {
-            try {
+            // 取消关注
+            else if (method.equals("remove")) {
                 followservice.delFollow(followee, follower);
-                System.out.println("followee:" + followee + "    " + "follower" + follower);
-                System.out.println("FollowServlet: 关注成功");
-                // 取消成功后，返回主页
-                response.sendRedirect("/home");
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("FollowServlet: 取消关注失败");
+                System.out.println("followee: " + followee + "; " + "follower: " + follower);
+                System.out.println("FollowServlet: 取消关注成功");
+                // 取消成功，发送响应
+                response.setContentType("text/plain");
+                response.getWriter().write("200 OK");
             }
+        } catch (Exception e) {
+            response.sendError(404);
         }
     }
 }

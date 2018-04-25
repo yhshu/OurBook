@@ -43,6 +43,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book[] findByKeywords(String keywords, String sort, String range) {
+        if (sort.equals("click"))
+            return bookDao.findByKeywordsClick(keywords.split(" "), range);
+        else if (sort.equals("fav"))
+            return bookDao.findByKeywordsFav(keywords.split(" "), range);
+        else return bookDao.findByKeywords(keywords.split(""));
+    }
+
+    @Override
     public Book[] findByEditor(String username) {
         return bookDao.findByUserID(username);
     }
@@ -125,5 +134,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book[] getFavorites(String username) {
         return bookDao.getFavorites(username);
+    }
+
+    @Override
+    public boolean click(String username, int bookID) {
+        return bookDao.click(username, bookID);
+    }
+
+    @Override
+    public boolean delete_chapter(int bookID, int sequence) {
+        return chapterDao.delete(bookID, sequence);
+    }
+
+    @Override
+    public Book[] recommend() {
+        return bookDao.recommend();
     }
 }

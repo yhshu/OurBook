@@ -51,21 +51,17 @@
             <div style="display: grid;grid-template-rows: 66px 40px 1px 130px">
                 <div style="margin: 25px 0 0 25px">
                     <h5 style="float: left;margin: 0">
-                        <a style="color: black"
-                           href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>">
+                        <a style="color: black">
                             <%=request.getAttribute("bookName")%>
                         </a>
                     </h5>
-                    <%if (!request.getAttribute("editor").equals(session.getAttribute("username"))) { // 如果不是作者不是当前用户%>
-                    <a href="favorite?method=<%=(boolean) request.getAttribute("isFavorite") ?
-                     "remove" : "add"%>&book=<%=request.getAttribute("bookID")%>"
-                       class="pink-text"
-                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px">
-                        <i class="material-icons">
-                            <%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
+                    <a href="" class="pink-text"
+                       style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px" id="favorite_submit"
+                       data-method="<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>">
+                        <i class="material-icons"
+                           id="favorite_icon"><%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
-                    <%}%>
                 </div>
                 <div>
                     <a href="${pageContext.request.contextPath}/home?user=<%=request.getAttribute("editor")%>"
@@ -92,14 +88,12 @@
         </div>
     </div>
 
-    <!-- TODO 点击本书作者用户名跳转到其主页-->
-
     <div class="card" style="padding: 20px">
         <h5 style="display: inline; margin-left:20px; margin-right: 30px;">章节目录</h5>
         <style>form {
             margin: 0;
         }</style>
-
+        <%if (session.getAttribute("username").equals(request.getAttribute("editor"))) {%>
         <form action="${pageContext.request.contextPath}/newChapter.jsp" accept-charset="UTF-8" method="post"
               style="display: inline; " id="newChapterForm">
             <!-- 添加章节 表单 -->
@@ -110,7 +104,6 @@
             </button>
         </form>
 
-        <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
         <a href='#delete_modal' class="btn red modal-trigger" style="float: right">删除本书</a>
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
@@ -122,25 +115,12 @@
                 <p>请输入本书名称以确认操作。</p>
                 <input id="bookname_confirm" type="text" oninput="change_delete_link()">
                 <label for="bookname_confirm"></label>
-                <script>
-                    function change_delete_link() {
-                        var val = document.getElementById('bookname_confirm').value;
-                        var link = $('#delete_link');
-                        var disabled = ' disabled';
-                        if (val === '<%=request.getAttribute("bookName")%>') { // 使链接有效
-                            link.removeClass(disabled);
-                        } else { // 使链接失效
-                            if (!link.hasClass(disabled))
-                                link.addClass(disabled);
-                        }
-                    }
-                </script>
             </div>
             <div class="modal-footer">
                 <a id="delete_link"
                    class="modal-action modal-close waves-effect waves-green btn-flat  red-text disabled"
                    onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
-                <!--TODO 请求删除本书-->
+                <!-- 请求删除本书-->
                 <form action="${pageContext.request.contextPath}/deleteBook" method="post" id="deleteBookForm">
                     <input type="hidden" name="bookID" value="<%=request.getAttribute("bookID")%>"/>
                 </form>
@@ -158,5 +138,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    function change_delete_link() {
+        var val = document.getElementById('bookname_confirm').value;
+        var link = $('#delete_link');
+        var disabled = ' disabled';
+        if (val === '<%=request.getAttribute("bookName")%>') { // 使链接有效
+            link.removeClass(disabled);
+        } else { // 使链接失效
+            if (!link.hasClass(disabled))
+                link.addClass(disabled);
+        }
+    }
+
+    $('#favorite_submit').click(function (event) {
+        event.preventDefault();
+        $.get('${pageContext.request.contextPath}/favorite', {
+            method: $('#favorite_submit').data("method"),
+            book:<%=request.getAttribute("bookID")%>
+        }, function () {
+            if ($('#favorite_submit').data("method") === "remove") {
+                $('#favorite_icon').html("favorite_border");
+                $('#favorite_submit').data("method", "add");
+                $('#favorite_icon').attr("data-tooltip", '收藏');
+                $('#favorite_icon').tooltip();
+            }
+            else if ($('#favorite_submit').data("method") === "add") {
+                $('#favorite_icon').html("favorite");
+                $('#favorite_submit').data("method", "remove");
+                $('#favorite_icon').attr("data-tooltip", '取消收藏');
+                $('#favorite_icon').tooltip();
+            }
+        }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
+    });
+</script>
 </body>
 </html>
