@@ -8,9 +8,10 @@
 <%@ include file="nav.jsp" %>
 <div class="container">
 
-    <form action="${pageContext.request.contextPath}/ChapterServlet" method="post" onsubmit="return check_input();">
+    <form action="${pageContext.request.contextPath}/ChapterServlet" method="post" onsubmit="return check_input();"
+          id="form">
         <input type="hidden" name="method" value="add"/>
-        <input type="hidden" name="bookID" value="<%=request.getParameter("bookID")%>"/>
+        <input type="hidden" id="bookID" name="bookID" value="<%=request.getParameter("bookID")%>"/>
         <h4><i class="material-icons">bookmark</i>添加章节</h4>
         <div class="input-field col s12">
             <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"/>
@@ -35,6 +36,25 @@
             }
             else return true;
         }
+
+        $('#form').submit(function (event) {
+            event.preventDefault();
+            if (check_input()) {
+                $.post('${pageContext.request.contextPath}/ChapterServlet', {
+                        method: 'add',
+                        chapterName: document.getElementById("chapterName").value,
+                        chapterContent: document.getElementById("chapterContent").value,
+                        bookID: <%=request.getParameter("bookID")%>
+                    },
+                    function (respondText) {
+                        toast("添加章节成功");
+                        window.location.href = respondText;
+                    }
+                ).fail(function (jqXHR) {
+                    toast('未知错误');
+                });
+            }
+        })
     </script>
 </div>
 
