@@ -64,7 +64,7 @@ public class AddBookServlet extends HttpServlet {
                             response.sendError(415);
                             return;
                         } else if (fm.getSize() > maxsize) {
-                            response.sendError(403,"12");
+                            response.sendError(403, "12");
                             return;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));

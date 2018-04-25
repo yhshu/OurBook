@@ -6,7 +6,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <title>注册 - OurBook</title>
+    <title>注册 - 发现新的世界</title>
     <%
         UserService userService = new UserServiceImpl();
         User user = userService.find(request.getParameter("username"));
