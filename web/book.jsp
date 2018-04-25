@@ -135,7 +135,12 @@
             <div>
                 <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
-                </a></div>
+                </a>
+                <a href="modify?bookID=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="right"
+                   style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
+                    <i class="material-icons">mode_edit</i>
+                </a>
+            </div>
             <%}%>
         </div>
     </div>
@@ -158,7 +163,7 @@
         event.preventDefault();
         $.get('follow?'
             , {
-                followee:$('#follow_submit').data("followee"),
+                followee: $('#follow_submit').data("followee"),
                 method: $('#follow_submit').data("method")
             }, function (respondText) {
                 if ($('#follow_submit').data("method") === "remove") {

@@ -78,6 +78,18 @@ public interface BookService {
     int addChapter(String name, int bookID, String content, String path);
 
     /**
+     * 修改章节
+     *
+     * @param name     章节名
+     * @param bookID   书的编号
+     * @param content  章节内容，将以文件形式存储于 resources/book
+     * @param path     由 Servlet 传递的文件路径
+     * @param sequence 章节号
+     * @return 成功 true 失败 false
+     */
+    boolean modifyChapter(String name, int bookID, String content, String path, int sequence);
+
+    /**
      * 通过关键字查找章节
      *
      * @param keyword 关键字

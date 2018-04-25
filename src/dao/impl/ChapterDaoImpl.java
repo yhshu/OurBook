@@ -42,6 +42,31 @@ public class ChapterDaoImpl implements ChapterDao {
     }
 
     @Override
+    public boolean modify(Chapter chapter) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("UPDATE chapter SET name=?,last_modified=? " +
+                    "WHERE bookID = ? AND sequence = ?");
+            stm.setString(1, chapter.getName());
+            stm.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setInt(3, chapter.getBookID());
+            stm.setInt(4, chapter.getSequence());
+            try {
+                stm.executeUpdate();
+                stm.close();
+                conn.close(); // 关闭数据库连接
+                System.out.println("ChapterDao: 修改章节成功");
+                return true;
+            } catch (Exception e1) {
+                System.out.println("ChapterDao: 修改章节失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public Chapter findByPri(int bookID, int sequence) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库

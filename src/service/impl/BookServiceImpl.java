@@ -106,6 +106,43 @@ public class BookServiceImpl implements BookService {
         return -1;
     }
 
+    @Override
+    public boolean modifyChapter(String name, int bookID, String content, String path,int sequence) {
+        if (name == null || name.length() == 0) {
+            System.out.println("BookService: 书名为空");
+            return false;
+        }
+        if (content == null || content.length() == 0) {
+            System.out.println("BookService: 内容URL为空");
+            return false;
+        }
+        String db_path = "resources/book/" + bookID + "/" + name + ".txt";
+        path += bookID + "/" + name + ".txt";
+        // 将章节内容存放在文件中，并将文件路径插入数据库
+        try {
+            File file = new File(path);
+            PrintStream printStream = new PrintStream(new FileOutputStream(file), true, "UTF-8");
+            printStream.print(content); // 将章节内容写入文件
+            printStream.close(); // 输出流关闭
+            System.out.println("BookService: 写入章节文件成功");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("BookService: 写入章节文件失败");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
+            chapterDao.modify(new Chapter(name, bookID, sequence, db_path));
+            return true;
+        } catch (Exception e) {
+            System.out.println("BookService: 添加章节失败");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     @Override
     public Chapter[] getChapters(int bookID) {
