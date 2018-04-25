@@ -193,10 +193,12 @@ border-bottom: 1px solid lightgray">
         event.preventDefault();
         $.get('${pageContext.request.contextPath}/follow?followee=<%=request.getAttribute("username")%>&method=' + $('#follow_submit').data("method"), {}, function (respondText) {
             if ($('#follow_submit').data("method") === "remove") {
+                toast('取消关注成功');
                 $('#follow_submit').html("关注");
                 $('#follow_submit').data("method", "add");
             }
             else if ($('#follow_submit').data("method") === "add") {
+                toast('关注成功');
                 $('#follow_submit').html("取消关注");
                 $('#follow_submit').data("method", "remove");
             }

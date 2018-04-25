@@ -47,17 +47,17 @@
                 $(document).ready(function () {
                     function check_input() {
                         if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
-                            Materialize.toast('请输入用户名密码', 2000, 'rounded');
+                            toast('请输入用户名密码');
                             return false;
                         }
-                        else return true;
+                        toast('请稍候...');
+                        return true;
                     }
 
                     $('#login').submit(function (event) {
                         event.preventDefault();
                         var check = check_input();
                         if (check === true) {
-                            toast('请稍候...');
                             $.get('${pageContext.request.contextPath}/UserServlet', {
                                 method: 'login',
                                 username: $('#username').val(),

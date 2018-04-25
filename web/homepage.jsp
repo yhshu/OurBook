@@ -40,7 +40,7 @@
                 </h5>
                 <a class="modal-trigger waves-effect waves-light"
                    data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
-                    <i class="material-icons small">settings</i></a>
+                    <i class="material-icons small grey-text">settings</i></a>
             </div>
             <h6 style="float: left"><!--用户的一句话描述--><%
                 String description = (String) request.getAttribute("description");
@@ -136,7 +136,7 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div><!--右侧 收藏、关注与书迷-->
+        <div STYLE="width: 253px;float: left"><!--右侧 收藏、关注与书迷-->
             <div class="col card" style="width: 253px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
                 <% if (favorites.length == 0) {%>
