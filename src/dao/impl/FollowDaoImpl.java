@@ -71,7 +71,7 @@ public class FollowDaoImpl implements FollowDao {
     public User[] findFollowers(String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, user WHERE follower = username AND followee = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, author WHERE follower = username AND followee = ?");
             stm.setString(1, followee);
             User[] followers = getUsers(stm);
             if (followers != null) return followers;
@@ -90,7 +90,7 @@ public class FollowDaoImpl implements FollowDao {
     public User[] findFollowees(String follower) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, user WHERE followee = username AND follower = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, author WHERE followee = username AND follower = ?");
             stm.setString(1, follower);
             User[] followees = getUsers(stm);
             if (followees != null) return followees;
@@ -145,8 +145,9 @@ public class FollowDaoImpl implements FollowDao {
             ArrayList<User> users = new ArrayList<>();
             while (rs.next()) {
                 User user = new User(rs.getString("username"), rs.getString("nickname"),
-                        rs.getString("password"), rs.getString("description"),
+                        null, rs.getString("description"),
                         rs.getString("avatar"));
+                user.setFollowers(rs.getInt("followers"));
                 users.add(user);
             }
             rs.close();

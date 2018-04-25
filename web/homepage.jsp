@@ -167,17 +167,37 @@ border-bottom: 1px solid lightgray">
                     你还没有关注任何人</h6>
                 <%
                 } else {%>
-                <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
+                <div style="margin: 10px auto"><%
                     for (User user : followees) {
                 %>
-                    <a href="home?user=<%=user.getUsername()%>" class="black-text user_<%=user.getUsername()%>"
-                       style="text-align: center;line-height: 31px">
-                        <%=user.getNickname()%>
-                    </a>
-                    <a href="" class="btn blue remove_follow user_<%=user.getUsername()%>"
-                       style="display: inline; -webkit-appearance:none; -moz-appearance:none; height: 21px;line-height: 21px;margin: 5px 10px"
-                       id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">
-                        取消关注</a>
+                    <div class="row" style="margin: 15px 5px;">
+                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                            <img src="<%=user.getAvatar()%>"
+                                 style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                        </a>
+                        <div style="float:left;">
+                            <!--用户名与昵称-->
+                            <div style="width: 175px;height:20px">
+                                <h6 style="margin:0;float: left">
+                                    <a href="home?user=<%=user.getUsername()%>">
+                                        <%=user.getNickname()%>
+                                    </a>
+                                </h6>
+                                <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                                </h6>
+                            </div>
+                            <div style="width: 175px;height:20px">
+                                <p class="grey-text" style="margin:0 10px 0 0;display: inline-block">
+                                    <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                                </p>
+                                <a class="btn blue remove_follow user_<%=user.getUsername()%> right"
+                                   style="-webkit-appearance:none; -moz-appearance:none; height: 20px;
+                                   line-height: 20px;margin: 0 10px;display: inline-block"
+                                   id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">
+                                    取消关注</a>
+                            </div>
+                        </div>
+                    </div>
                     <%}%>
                 </div>
                 <%}%>
@@ -207,6 +227,9 @@ border-bottom: 1px solid lightgray">
                             </h6>
                             <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
                             </h6>
+                            <p class="grey-text" style="margin: 22px 0 0 0">
+                                <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                            </p>
                         </div>
                     </div>
                     <%}%>

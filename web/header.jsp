@@ -28,6 +28,8 @@
         $('p .material-icons:contains("remove_red_eye")').attr("data-tooltip", '点击量');
         $('p .material-icons:contains("perm_identity")').addClass("tooltipped");
         $('p .material-icons:contains("perm_identity")').attr("data-tooltip", '书迷数');
+        $('a .material-icons:contains("settings")').addClass("tooltipped");
+        $('a .material-icons:contains("settings")').attr("data-tooltip", '修改个人信息');
         $('.tooltipped').tooltip({position: 'bottom'});
     });
 
