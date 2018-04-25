@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/deleteBook")
-public class DeleteBookServlet extends HttpServlet {    
+public class DeleteBookServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,12 +39,6 @@ public class DeleteBookServlet extends HttpServlet {
             File bookFolder = new File(this.getServletContext().getRealPath("/resources/book/" + bookID)); // book 是目录
             if (cover.exists() && cover.isFile())
                 cover.delete();
-
-            if (book.exist() && book.isDirectory()) // TODO 当前无法删除该文件夹
-                FileUtil.deleteDir(book);
-            System.out.println(book.getPath());
-
-
             if (bookFolder.exists() && bookFolder.isDirectory()) // TODO 当前无法删除该文件夹
             {
                 if (FileUtil.deleteDir(bookFolder))
