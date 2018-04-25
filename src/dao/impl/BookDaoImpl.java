@@ -3,6 +3,7 @@ package dao.impl;
 import Util.DBUtil;
 import dao.BookDao;
 import model.Book;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -286,5 +287,33 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return new Book[0];
+    }
+
+    @Override
+    public boolean setCollaborators(int bookID, String[] collaborators) {
+        try {
+            conn = DBUtil.connectDB();
+            StringBuilder collaborator_sql = null;
+            for (String collaborator : collaborators) {
+                collaborator_sql.append("(" + bookID + "," + collaborator + "),");
+            }
+            // 将最后一个逗号修改为分号
+            collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            String sql = "INSERT INTO edits(bookID,username) VALUES" + collaborator_sql;
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.executeUpdate();
+            stm.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("BookDao: 设置协作者成功");
+        }
+        return false;
+    }
+
+    @Override
+    public User[] getCollaborators(int bookID) {
+        return new User[0];
     }
 }

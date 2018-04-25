@@ -60,6 +60,25 @@
             }
             else return true;
         }
+
+        $('#form').submit(function (event) {
+            event.preventDefault();
+            if (check_input()) {
+                $.post('${pageContext.request.contextPath}/ChapterServlet', {
+                        method: 'add',
+                        chapterName: document.getElementById("chapterName").value,
+                        chapterContent: document.getElementById("chapterContent").value,
+                        bookID: <%=request.getParameter("bookID")%>
+                    },
+                    function (respondText) {
+                        toast("添加章节成功");
+                        window.location.href = respondText;
+                    }
+                ).fail(function (jqXHR) {
+                    toast('未知错误');
+                });
+            }
+        })
     </script>
 </div>
 
