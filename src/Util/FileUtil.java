@@ -18,4 +18,15 @@ public class FileUtil {
         // 目录此时为空，可以删除
         return dir.delete();
     }
+
+    /**
+     * 判断字符串是否只包含字母、数字和汉字
+     *
+     * @param str 字符串
+     * @return 包含特殊符号false 不包含true
+     */
+    public static boolean isLetterDigitOrChinese(String str) {
+        String regex = "^[a-z0-9A-Z\u4e00-\u9fa5]+$";
+        return str.matches(regex);
+    }
 }

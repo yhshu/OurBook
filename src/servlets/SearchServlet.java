@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/search")
@@ -25,6 +26,7 @@ public class SearchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
         String keywords = request.getParameter("keywords"); // 搜索关键词
@@ -39,7 +41,7 @@ public class SearchServlet extends HttpServlet {
                 String range = request.getParameter("range"); // 排序时间范围
                 if (sort == null) sort = "last_updated";
                 Book[] books = bookService.findByKeywords(keywords, sort, range);
-                Book[] fav = bookService.getFavorites((String) request.getSession().getAttribute("username"));
+                Book[] fav = bookService.getFavorites((String) session.getAttribute("username"));
                 User[] editors = new User[books.length];
                 for (int i = 0; i < books.length; i++)
                     editors[i] = userService.find(books[i].getChiefEditor());

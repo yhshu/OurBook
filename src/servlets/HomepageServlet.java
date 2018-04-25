@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/home")
@@ -27,10 +28,11 @@ public class HomepageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            HttpSession session = request.getSession();
             String username = request.getParameter("user");
             BookService bookService = new BookServiceImpl();
             UserService userService = new UserServiceImpl();
-            String currentUser = (String) request.getSession().getAttribute("username");
+            String currentUser = (String) session.getAttribute("username");
             String redirect = "homepage.jsp";
             if (currentUser == null) {
                 redirect = "login.jsp";

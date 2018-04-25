@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +25,8 @@ public class ModifyUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = (String) request.getSession().getAttribute("username");
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
         String nickname = "", description = "", message = "", filename = "";
         UserService userService = new UserServiceImpl();
         try {
@@ -45,7 +47,7 @@ public class ModifyUserServlet extends HttpServlet {
                             break;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = "/resources/avatar/" + request.getSession().getAttribute("username") + extension;
+                        filename = "/resources/avatar/" + session.getAttribute("username") + extension;
                         File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
                         message = "文件上传成功！";
@@ -63,10 +65,10 @@ public class ModifyUserServlet extends HttpServlet {
                         }
                     }
                 }
-                if (filename.equals("")) filename = (String) request.getSession().getAttribute("avatar");
+                if (filename.equals("")) filename = (String) session.getAttribute("avatar");
                 userService.modify(username, nickname, description, filename);
-                request.getSession().setAttribute("avatar", filename);
-                request.getSession().setAttribute("nickname", nickname);
+                session.setAttribute("avatar", filename);
+                session.setAttribute("nickname", nickname);
             }
             System.out.println("ModifyUserServlet: 修改用户信息成功");
             request.setAttribute("result", message);

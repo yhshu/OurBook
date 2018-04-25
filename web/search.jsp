@@ -198,12 +198,14 @@
                 },
                 function () {
                     if (submit_book.data("method") === "remove") {
+                        toast('取消收藏成功');
                         icon_book.html("favorite_border");
                         submit_book.data("method", "add");
                         icon_book.attr("data-tooltip", '收藏');
                         icon_book.tooltip();
                     }
                     else if (submit_book.data("method") === "add") {
+                        toast('收藏成功');
                         icon_book.html("favorite");
                         submit_book.data("method", "remove");
                         icon_book.attr("data-tooltip", '取消收藏');

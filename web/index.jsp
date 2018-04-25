@@ -69,7 +69,7 @@
                     </p>
                 </div>
                 <hr style="width: 100%; margin: 0; border-top: 1px gray"/>
-                <p style="margin: 15px 0 0 25px"><!--简介-->
+                <p style="margin: 15px 25px"><!--简介-->
                     <%=book.getDescription()%>
                 </p>
             </div>

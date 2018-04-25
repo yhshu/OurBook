@@ -13,10 +13,50 @@
                     $('#preview')
                         .attr('src', e.target.result);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        function check_input() {
+            if (!$.trim($('#bookName').val()).length) {
+                toast('书名不能为空');
+                return false;
+            } else if (!$.trim($('#keywords').val()).length) {
+                toast('关键词不能为空');
+                return false;
+            }
+            return true;
+        }
+
+        $(document).ready(function () {
+            $('#bookDescription').characterCounter(); // 文本框记数
+
+            $('#form').submit(function (event) {
+                event.preventDefault();
+                if (check_input()) {
+                    // Create an FormData object
+                    var data = new FormData($('#form')[0]);
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/addBook',
+                        type: 'POST',
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        enctype: 'multipart/form-data',
+                        data: data,
+                        success: function (respondText) {
+                            toast("创建书籍成功");
+                            window.location.href = respondText;
+                        }
+                    }).fail(function (jqXHR) {
+                        if((jqXHR.status)===403) toast("封面不能超过2MB");
+                        else if(jqXHR.status===415) toast("封面必须是图片");
+                        else if(jqXHR.status===400) toast("书名只能包括汉字、字母或数字");
+                    });
+                }
+            })
+        });
     </script>
 </head>
 
@@ -24,7 +64,7 @@
 <%@ include file="nav.jsp" %>
 <div class="container" style="margin-top: 20px">
     <div class="col card" style="width: 600px; padding: 20px; margin:15px 18.5% ;">
-        <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data" id='form'>
             <div style="border-bottom: 1px solid lightgray">
                 <h4><i class="material-icons">book</i>创建一本书</h4>
             </div>
@@ -46,7 +86,7 @@
                     <input id="cover" type='file' name="cover" onchange="readURL(this);" style="display: none"/>
                     <img id="preview" src="img/icon/plus-icon.png" alt="your image"
                          style="display: inline-block;width: 240px;background-color: #f6f6f6;object-fit: cover"/>
-                    <label for="cover" class="blue btn" style="margin: -240px 0 0 60px;
+                    <label for="cover" class="blue btn" style="margin-left:60px;float: right;
                      display: inline-block">上传封面</label>
                 </div>
                 <div style="margin: 20px">
@@ -54,11 +94,6 @@
                 </div>
             </div>
         </form>
-        <script>
-            $(document).ready(function () {
-                $('#bookDescription').characterCounter(); // 文本框记数
-            });
-        </script>
     </div>
 </div>
 </body>
