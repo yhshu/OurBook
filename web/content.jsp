@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="dao.ChapterDao" %>
-<%@ page import="dao.impl.ChapterDaoImpl" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="java.io.BufferedReader" %>
 <html>
@@ -13,9 +11,11 @@
     <div style="margin-left: 4px; margin-top: 10px;">
         <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
                 class="material-icons">arrow_back</i>返回</a>
+        <%if (session.getAttribute("username") == request.getAttribute("editor")) {%>
         <a style="margin-left: 72px;"><i class="material-icons">edit</i>编辑</a>
         <a style="margin-left: 72px;" class="modal-trigger" href="#delete_confirm"><i
                 class="material-icons">delete_forever</i>删除</a>
+        <%}%>
     </div>
     <ul style="margin-top: 2px;">
         <!-- 本书的所有章节目录-->

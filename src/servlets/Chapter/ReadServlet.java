@@ -30,6 +30,7 @@ public class ReadServlet extends HttpServlet {
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         Chapter[] chapters = bookService.getChapters(bookID);
         Chapter chapter = bookService.findChapter(bookID, sequence);
+        Book book = bookService.find(bookID);
         request.setAttribute("name", chapter.getName());
         // 生成 reader
         InputStreamReader isr = new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath(chapter.getContent())), "UTF-8");
@@ -38,6 +39,7 @@ public class ReadServlet extends HttpServlet {
         request.setAttribute("reader", read);
         request.setAttribute("bookID", bookID);
         request.setAttribute("sequence", sequence);
+        request.setAttribute("editor", book.getChiefEditor());
         // 重定向
         RequestDispatcher dispatcher = request.getRequestDispatcher("content.jsp");
         dispatcher.forward(request, response);
