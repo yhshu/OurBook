@@ -10,8 +10,6 @@
 
     <form action="${pageContext.request.contextPath}/ChapterServlet" method="post" onsubmit="return check_input();"
           id="form">
-        <input type="hidden" name="method" value="add"/>
-        <input type="hidden" id="bookID" name="bookID" value="<%=request.getParameter("bookID")%>"/>
         <h4><i class="material-icons">bookmark</i>添加章节</h4>
         <div class="input-field col s12">
             <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"/>
