@@ -61,10 +61,10 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywordsClick(String[] keywords, String range) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
-                    + DBUtil.timeLimit("date", range) + " AND "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") AS c ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
-                    " ORDER BY clicks DESC");
+                    " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
             if (books != null) return books;
         } catch (Exception e) {
@@ -77,10 +77,10 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywordsFav(String[] keywords, String range) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
-                    + DBUtil.timeLimit("date", range) + " AND "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
-                    + " ORDER BY favorites DESC");
+                    + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
             Book[] books = getBooks(stm);
             if (books != null) return books;
         } catch (Exception e) {

@@ -89,7 +89,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByBookID(int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ? ORDER BY sequence");
             stm.setInt(1, bookID);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
