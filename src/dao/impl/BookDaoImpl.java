@@ -21,7 +21,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
             stm.setInt(1, ID);
             Book[] books = getBooks(stm);
-            if (books != null) return books[0];
+            if (books != null && books[0] != null) return books[0];
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookDao: findByID(" + ID + ")失败");

@@ -25,7 +25,7 @@ public class ChapterDaoImpl implements ChapterDao {
             stm.setInt(2, chapter.getBookID());
             stm.setInt(3, chapter.getSequence());
             stm.setString(4, chapter.getContent());
-            stm.setDate(5,new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setDate(5, new Date(Calendar.getInstance().getTime().getTime()));
             try {
                 stm.executeUpdate();
                 stm.close();
@@ -114,7 +114,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 删除指定章节失败");
             }
-            PreparedStatement stm2 = conn.prepareStatement("UPDATE chapter SET sequence = sequence-1 WHERE bookID = ? and sequence > ?");
+            PreparedStatement stm2 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?");
             stm2.setInt(1, bookID);
             stm2.setInt(2, sequence);
             try {

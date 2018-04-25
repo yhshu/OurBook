@@ -86,7 +86,7 @@ public class BookServiceImpl implements BookService {
             }
             PrintStream printStream = new PrintStream(new FileOutputStream(file), true, "UTF-8");
             printStream.print(content); // 将章节内容写入文件
-            printStream.close();
+            printStream.close(); // 输出流关闭
             System.out.println("BookService: 写入章节文件成功");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
