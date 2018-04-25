@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -24,10 +25,11 @@ public class FollowServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            HttpSession session = request.getSession();
             response.setContentType("text/html");
             FollowService followservice = new FollowServiceImpl();
             String followee = request.getParameter("followee");
-            String follower = (String) request.getSession().getAttribute("username");
+            String follower = (String) session.getAttribute("username");
             String method = request.getParameter("method");
             // 进行关注
             if (method.equals("add")) {
