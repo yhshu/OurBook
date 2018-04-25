@@ -73,8 +73,9 @@
                         if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
                     <a class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
-                       href="follow?followee=<%=request.getAttribute("editor")%>&method=
-<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>">
+                       id="follow_submit"
+                       data-method='<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>'
+                       data-followee='<%=request.getAttribute("editor")%>'>
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                     </a>
                     <%}%>
@@ -152,6 +153,28 @@
                 link.addClass(disabled);
         }
     }
+
+    $('#follow_submit').click(function (event) {
+        event.preventDefault();
+        $.get('follow?'
+            , {
+                followee:$('#follow_submit').data("followee"),
+                method: $('#follow_submit').data("method")
+            }, function (respondText) {
+                if ($('#follow_submit').data("method") === "remove") {
+                    toast('取消关注成功');
+                    $('#follow_submit').html("关注");
+                    $('#follow_submit').data("method", "add");
+                }
+                else if ($('#follow_submit').data("method") === "add") {
+                    toast('关注成功');
+                    $('#follow_submit').html("取消关注");
+                    $('#follow_submit').data("method", "remove");
+                }
+            }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
+    });
 
     $('#favorite_submit').click(function (event) {
         event.preventDefault();

@@ -170,7 +170,7 @@ border-bottom: 1px solid lightgray">
                 <div style="margin: 10px auto"><%
                     for (User user : followees) {
                 %>
-                    <div class="row" style="margin: 15px 5px;">
+                    <div class="row user_<%=user.getUsername()%>" style="margin: 15px 5px;">
                         <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                             <img src="<%=user.getAvatar()%>"
                                  style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
@@ -190,7 +190,7 @@ border-bottom: 1px solid lightgray">
                                 <p class="grey-text" style="margin:0 10px 0 0;display: inline-block">
                                     <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                                 </p>
-                                <a class="btn blue remove_follow user_<%=user.getUsername()%> right"
+                                <a class="btn blue remove_follow right"
                                    style="-webkit-appearance:none; -moz-appearance:none; height: 20px;
                                    line-height: 20px;margin: 0 10px;display: inline-block"
                                    id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">
