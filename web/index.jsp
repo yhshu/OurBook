@@ -18,8 +18,11 @@
 %>
 <body>
 <%@ include file="nav.jsp" %>
+
+
 <div class="container row" style="margin-top: 20px; margin-bottom: 0; width: 943px">
     <div class="card" style="padding:  1px 10px">
+
         <a style="display: inline-block;" href="${pageContext.request.contextPath}/home" class="grey-text"><h6><i
                 class="material-icons"
         >home</i>
@@ -28,8 +31,11 @@
            class="grey-text"><h6><i
                 class="material-icons">mode_edit</i>创作新书</h6></a>
     </div>
+    <img  src="https://upload.jianshu.io/admin_banners/web_images/4300/30d9d47ea36263ee2a83b953de7230dda74e81c4.png?imageMogr2/auto-orient/strip|imageView2/1/w/1250/h/540" style=" display:inline;width: 943px" />
 </div>
+
 <div class="container row" style="width: 943px"><!-- 页面中部 -->
+
     <div class="col card" style="width: 656px; display: inline;"><!--热门书籍-->
         <h5 class="center-align">热门书籍</h5>
         <%
