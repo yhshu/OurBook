@@ -5,9 +5,6 @@ import dao.BookDao;
 import model.Book;
 import model.User;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -309,7 +306,7 @@ public class BookDaoImpl implements BookDao {
             }
             // 将最后一个逗号修改为分号
             collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
-            String sql = "INSERT INTO edits(bookID,username) VALUES" + collaborator_sql;
+            String sql = "INSERT INTO edit(bookID,username) VALUES" + collaborator_sql;
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.executeUpdate();
             stm.close();
@@ -328,7 +325,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM edits,user WHERE edits.username = user.username AND edits.bookID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM edit,user WHERE edit.username = user.username AND edit.bookID = ?");
             stm.setInt(1, bookID);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
