@@ -19,23 +19,31 @@ public class ChapterDaoImpl implements ChapterDao {
     public boolean add(Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,last_modified)" +
-                    " VALUES (?,?,?,?,?)");
-            stm.setString(1, chapter.getName());
-            stm.setInt(2, chapter.getBookID());
-            stm.setInt(3, chapter.getSequence());
-            stm.setString(4, chapter.getContent());
-            stm.setDate(5, new Date(Calendar.getInstance().getTime().getTime()));
-            try {
-                stm.executeUpdate();
-                stm.close();
-                conn.close();
-                System.out.println("ChapterDao: 添加章节成功");
-                return true;
-            } catch (Exception e1) {
-                System.out.println("ChapterDao: 添加章节失败");
-            }
+            PreparedStatement stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence+1 WHERE sequence>=? AND OurBook.Chapter.bookID=?");
+            stm1.setInt(1, chapter.getSequence());
+            stm1.setInt(2,chapter.getBookID());
+            stm1.executeUpdate();
+            stm1.close();
+            PreparedStatement stm2 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM chapter");
+            ResultSet rs = stm2.executeQuery();
+            rs.next();
+            int maxID = rs.getInt("max_ID");
+            stm2.close();
+            PreparedStatement stm3 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,last_modified,ID)" +
+                    " VALUES (?,?,?,?,?,?)");
+            stm3.setString(1, chapter.getName());
+            stm3.setInt(2, chapter.getBookID());
+            stm3.setInt(3, chapter.getSequence());
+            stm3.setString(4, chapter.getContent());
+            stm3.setDate(5, new Date(Calendar.getInstance().getTime().getTime()));
+            stm3.setInt(6, maxID + 1);
+            stm3.executeUpdate();
+            stm3.close();
+            conn.close();
+            System.out.println("ChapterDao: 添加章节成功");
+            return true;
         } catch (Exception e) {
+            System.out.println("ChapterDao: 添加章节失败");
             e.printStackTrace();
         }
         return false;

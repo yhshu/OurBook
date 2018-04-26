@@ -74,9 +74,10 @@ public interface BookService {
      * @param bookID  书的编号
      * @param content 章节内容，将以文件形式存储于 resources/book
      * @param path    由 Servlet 传递的文件路径
+     * @param sequence 章节号
      * @return 添加到数据库的 sequence
      */
-    int addChapter(String name, int bookID, String content, String path);
+    boolean addChapter(String name, int bookID, String content, String path,int sequence);
 
     /**
      * 修改章节

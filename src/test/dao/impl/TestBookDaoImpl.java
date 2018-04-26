@@ -1,28 +1,26 @@
 package test.dao.impl;
 
 
+import Util.DBUtil;
 import dao.BookDao;
 import dao.impl.BookDaoImpl;
 import model.Book;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 public class TestBookDaoImpl {
-    private static BookDao bdi = new BookDaoImpl();
-
-    public static void addBooks() {
-        for (int i = 1; i < 10; i++) {
-
-        }
-    }
-
-    public static Book[] find(String name) {
-        Book[] books = bdi.findByName("1");
-        for (Book book : books) {
-            System.out.println(book.getID());
-        }
-        return books;
-    }
-
     public static void main(String[] args) {
-        find("Book4");
+        try {
+            Connection conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm1 = conn.prepareStatement("SELECT MAX(ID) FROM ourbook.chapter");
+            ResultSet rs = stm1.executeQuery();
+            rs.next();
+            int maxID = rs.getInt("ID");
+            stm1.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

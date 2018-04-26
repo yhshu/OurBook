@@ -26,14 +26,18 @@
 
         $(document).ready(function () {
             $('.modal').modal();
+            $('select').material_select();
+            $('#select_sequence').change(function () {
+                $('#sequence').val($('#select_sequence').val());
+            })
         });
     </script>
+    <% User[] collaborators = (User[]) request.getAttribute("collaborators");%>
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 50px">
-    <% User[] collaborators = (User[]) request.getAttribute("collaborators");%>
-    <div style="display: inline">
+    <div style="width:1000px">
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
                 if (request.getAttribute("cover") == null || request.getAttribute("cover").equals("")) {
@@ -132,25 +136,40 @@
         </div>
     </div>
 
-    <div class="card" style="padding: 20px">
-        <h5 style="display: inline; margin-left:20px; margin-right: 30px;">章节目录</h5>
+    <div class="card" style="padding: 20px;width:1000px">
+        <h5 style="margin-left:20px; margin-right: 30px;">章节目录</h5>
         <style>form {
             margin: 0;
-        }</style>
-        <%
-            if (session.getAttribute("username").equals(request.getAttribute("editor"))) {
-        %>
-        <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
-              style="display: inline; " id="newChapterForm">
-            <!-- 添加章节 表单 -->
-            <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
-            <button class="btn blue"
-                    style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;"
-                    onclick="document.getElementById('newChapterForm').submit();">添加章节
-            </button>
-        </form>
-
-        <a href='#delete_modal' class="btn red modal-trigger" style="float: right">删除本书</a>
+        }
+        </style>
+        <%if (session.getAttribute("username").equals(request.getAttribute("editor"))) {%>
+        <div style="width: 960px">
+            <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
+                  id="newChapterForm" style="display: inline-block;width: 800px">
+                <!-- 添加章节 表单 -->
+                <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
+                <input id="sequence" name="sequence" type="hidden"
+                       value="<%=(int)request.getAttribute("chapterNum")+1%>"/>
+                <button class="btn blue"
+                        style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;"
+                >添加章节
+                </button>
+                <div class="input-field"
+                     style="width: 300px;display: inline-block;left: 50px;margin: 0;height: 36px">
+                    <select id="select_sequence">
+                        <%for (int i = 1; i <= (int) request.getAttribute("chapterNum"); i++) {%>
+                        <option value="<%=i%>">第<%=i%>章</option>
+                        <%}%>
+                        <option value="<%=(int) request.getAttribute("chapterNum") + 1%>" selected>
+                            第<%=(int) request.getAttribute("chapterNum") + 1%>章
+                        </option>
+                    </select>
+                    <label>选择章节插入位置</label>
+                </div>
+            </form>
+            <a href='#delete_modal' class="btn red modal-trigger right">删除本书</a>
+        </div>
+        >>>>>>> 784120063ae47001721f1664e40fc90d493155d0
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
             <div class="modal-content">

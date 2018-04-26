@@ -43,6 +43,7 @@ public class BookServlet extends HttpServlet {
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
                 request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
                 request.setAttribute("bookID", bookID);
+                request.setAttribute("chapterNum",book.getChapterNum());
                 request.setAttribute("bookName", book.getName());
                 request.setAttribute("editor", book.getChiefEditor());
                 request.setAttribute("description", book.getDescription());
