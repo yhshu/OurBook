@@ -31,6 +31,9 @@
         $('.tooltipped').tooltip({position: 'bottom'});
     });
 
+    function toast(msg) {
+        Materialize.toast(msg, 2000, 'rounded');
+    }
 </script>
 
 <%

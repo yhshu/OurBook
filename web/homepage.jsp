@@ -49,6 +49,7 @@
                 <%=description%>
                 <%
                 } else {
+                    description = "";
                 %>
                 <h6 class="grey-text">用一句话来描述自己吧</h6>
                 <%}%>
@@ -63,7 +64,7 @@
                         <input type="text" name="new_nickname" id="new_nickname"
                                value="<%=session.getAttribute("nickname")%>"/>
                         <label for="new_description">一句话简介</label>
-                        <input type="text" name="new_description" id="new_description"/>
+                        <input type="text" name="new_description" id="new_description" value="<%=description%>"/>
                         <input id="avatar" type='file' name="avatar" onchange="readURL(this);" style="display: none"/>
                         <div style="margin: 20px auto; width: 300px;height: 128px">
                             <img id="preview" src="<%=session.getAttribute("avatar")%>" alt="your image"
