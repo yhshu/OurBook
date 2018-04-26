@@ -63,19 +63,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public int addChapter(String name, int bookID, String content, String path) {
-        Book book = bookDao.findByID(bookID);
-        int sequence = book.getChapterNum() + 1; // 新章节 + 1
-
+    public boolean addChapter(String name, int bookID, String content, String path, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
-            return -1;
+            return false;
         }
         if (content == null || content.length() == 0) {
-            System.out.println("BookService: 内容URL为空");
-            return -1;
+            System.out.println("BookService: 内容为空");
+            return false;
         }
-        String db_path = "resources/book/" + bookID + "/" + name + ".txt";
+        String db_path = "resources/book/" + bookID + "/" + name + ".txt";//TODO 修改
         path += bookID + "/" + name + ".txt";
         // 将章节内容存放在文件中，并将文件路径插入数据库
         try {
@@ -96,15 +93,8 @@ public class BookServiceImpl implements BookService {
             e.printStackTrace();
         }
 
-        try {
-            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            chapterDao.add(new Chapter(name, bookID, sequence, db_path));
-            return sequence;
-        } catch (Exception e) {
-            System.out.println("BookService: 添加章节失败");
-            e.printStackTrace();
-        }
-        return -1;
+        // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
+        return chapterDao.add(new Chapter(name, bookID, sequence, db_path));
     }
 
     @Override

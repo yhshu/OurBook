@@ -13,11 +13,11 @@ public class NewChapterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("content","");
-            request.setAttribute("name","");
-            request.setAttribute("method","add");
+            request.setAttribute("content", "");
+            request.setAttribute("name", "");
+            request.setAttribute("method", "add");
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("writeChapter.jsp");
-            requestDispatcher.forward(request,response);
+            requestDispatcher.forward(request, response);
         } catch (Exception e) {
             response.sendError(500);
         }
