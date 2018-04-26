@@ -23,7 +23,7 @@
     <form action="${pageContext.request.contextPath}/ChapterServlet" id="form" method="post">
         <h4>
             <i class="material-icons blue-text">bookmark</i>
-            <%=request.getAttribute("method").equals("add") ? "添加" : "修改"%>章节
+            <%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节
         </h4>
         <div class="input-field col s12">
             <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"
@@ -47,10 +47,10 @@
                         chapterName: $('#chapterName').val(),
                         chapterContent: $('#chapterContent').val()
                     }, function (respondText) {
-                        toast('<%=request.getAttribute("method").equals("add") ? "添加" : "修改"%>章节成功');
+                        toast('<%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节成功');
                         window.location.href = respondText;
                     }).fail(function (jqXHR) {
-                        toast('<%=request.getAttribute("method").equals("add") ? "添加" : "修改"%>章节失败');
+                        toast('<%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节失败');
                     });
                 }
             })

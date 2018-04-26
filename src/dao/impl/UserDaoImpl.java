@@ -185,7 +185,7 @@ public class UserDaoImpl implements UserDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites*10+clicks DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites * 10 + clicks DESC");
             int displayUserNum = 5;
             ResultSet rs = stm.executeQuery();
             while (displayUserNum-- > 0 && rs.next()) {

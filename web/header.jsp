@@ -4,17 +4,13 @@
 <link rel="stylesheet" href="css/materialize.css">
 <link rel="stylesheet" href="css/materialize_icon.css">
 <link rel="stylesheet" href="css/myCSS.css">
-<!--Import jQuery before materialize.js-->
+<!--不要随意更改js的引入顺序-->
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/jQueryFormPlugin-4.2.2.js"></script>
 <script type="text/javascript" src="js/materialize.js"></script>
 <script type="text/javascript" src="js/myJS.js"></script>
 
 <script>
-    function toast(msg) {
-        Materialize.toast(msg, 2000, 'rounded');
-    }
-
     $(document).ready(function () {
         $('.edit_icon').addClass("tooltipped");
         $('.edit_icon').attr('data-tooltip', '创建新书');
@@ -29,7 +25,7 @@
         $('p .material-icons:contains("perm_identity")').addClass("tooltipped");
         $('p .material-icons:contains("perm_identity")').attr("data-tooltip", '书迷数');
         $('a .material-icons:contains("settings")').addClass("tooltipped");
-        $('a .material-icons:contains("settings")').attr("data-tooltip", '修改个人信息');
+        $('a .material-icons:contains("settings")').attr("data-tooltip", '设置');
         $('.tooltipped').tooltip({position: 'bottom'});
     });
 

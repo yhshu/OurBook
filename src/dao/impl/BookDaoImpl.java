@@ -277,7 +277,6 @@ public class BookDaoImpl implements BookDao {
             }
             rs.close();
             stm.close();
-
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,16 +298,33 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.executeUpdate();
             stm.close();
+            System.out.println("BookDao: 设置协作者成功");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("BookDao: 设置协作者成功");
+            System.out.println("BookDao: 设置协作者失败");
         }
         return false;
     }
 
     @Override
     public User[] getCollaborators(int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            ArrayList<User> users = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM edits,user WHERE edits.username = user.username AND edits.bookID = ?");
+            stm.setInt(1, bookID);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
+                users.add(user);
+            }
+            rs.close();
+            stm.close();
+            return users.toArray(new User[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new User[0];
     }
 }
