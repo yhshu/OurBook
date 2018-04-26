@@ -9,12 +9,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import service.BookService;
 import service.impl.BookServiceImpl;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -71,6 +73,19 @@ public class AddBookServlet extends HttpServlet {
                         filename = "/resources/cover/" + (bookDao.maxID() + 1) + extension;
                         File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
+
+                        // 如果文件不是图片 立即删除
+                        try {
+                            Image img = ImageIO.read(saveFile);
+                            if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
+                                response.sendError(415);
+                                return;
+                            }
+                        } catch (Exception e) {
+                            saveFile.delete();
+                            response.sendError(415);
+                            return;
+                        }
                     } else { // 是表单元素
                         String foename = fm.getFieldName(); // 获取表单元素名
                         String con = fm.getString("UTF-8");
