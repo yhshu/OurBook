@@ -42,7 +42,7 @@
                 if (check_input()) {
                     $.post('${pageContext.request.contextPath}/ChapterServlet', {
                         method: '<%=request.getAttribute("method")%>',
-                        bookID: '<%=request.getParameter("bookID")%>',
+                        book: '<%=request.getParameter("book")%>',
                         sequence: '<%=request.getParameter("sequence")%>',
                         chapterName: $('#chapterName').val(),
                         chapterContent: $('#chapterContent').val()

@@ -20,7 +20,7 @@ public class ModifyChapterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             BookService bookService = new BookServiceImpl();
-            int bookID = Integer.parseInt(req.getParameter("bookID"));
+            int bookID = Integer.parseInt(req.getParameter("book"));
             int sequence = Integer.parseInt(req.getParameter("sequence"));
             Chapter chapter = bookService.findChapter(bookID, sequence);
             String path = req.getServletContext().getRealPath(chapter.getContent());

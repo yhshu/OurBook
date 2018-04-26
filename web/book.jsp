@@ -124,7 +124,7 @@
                    onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
                 <!-- 请求删除本书-->
                 <form action="${pageContext.request.contextPath}/deleteBook" method="post" id="deleteBookForm">
-                    <input type="hidden" name="bookID" value="<%=request.getAttribute("bookID")%>"/>
+                    <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
                 </form>
             </div>
         </div>
@@ -137,7 +137,7 @@
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
                 </a>
                 <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
-                <a href="modify?bookID=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+                <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
                    class="right modify_chapter_icon"
                    style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
                     <i class="material-icons">mode_edit</i>

@@ -29,6 +29,7 @@ public class ChapterDaoImpl implements ChapterDao {
             try {
                 stm.executeUpdate();
                 stm.close();
+                conn.close();
                 System.out.println("ChapterDao: 添加章节成功");
                 return true;
             } catch (Exception e1) {
@@ -53,6 +54,7 @@ public class ChapterDaoImpl implements ChapterDao {
             try {
                 stm.executeUpdate();
                 stm.close();
+                conn.close();
                 System.out.println("ChapterDao: 修改章节成功");
                 return true;
             } catch (Exception e1) {
@@ -72,6 +74,7 @@ public class ChapterDaoImpl implements ChapterDao {
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
             Chapter[] chapters = getChapters(stm);
+            conn.close();
             if (chapters != null) return chapters[0];
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +102,7 @@ public class ChapterDaoImpl implements ChapterDao {
             }
             rs.close();
             stm.close();
+            conn.close();
             return chapters.toArray(new Chapter[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,6 +119,7 @@ public class ChapterDaoImpl implements ChapterDao {
             stm.setInt(1, bookID);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 按书目获取章节失败");
@@ -147,6 +152,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 System.out.println("ChapterDao: 章节号调整失败");
             }
             stm2.close();
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
