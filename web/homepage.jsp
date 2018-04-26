@@ -213,7 +213,8 @@ border-bottom: 1px solid lightgray">
                     <div class="modal-footer">
                         <button class="modal-action modal-close waves-effect waves-green btn-flat"
                                 id="submit_private_info"
-                                onclick="document.getElementById('privatedialog').submit();">                   //提交到id="personalInfo"的页面上面
+                                onclick="document.getElementById('privatedialog').submit();">
+                            <!--提交到id="personalInfo"的页面上面-->
                             提交
                         </button>
                     </div>
