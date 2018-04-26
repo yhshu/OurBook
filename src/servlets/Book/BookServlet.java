@@ -51,9 +51,10 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("chapters", bookService.getChapters(bookID));
                 request.setAttribute("isFavorite", isFavorite);
                 request.setAttribute("isFollowing", isFollowing);
+                request.setAttribute("collaborators", bookService.getCollaborators(bookID));
                 bookService.click(username, bookID);
-                // 重定向
             }
+            // 重定向
             RequestDispatcher dispatcher = request.getRequestDispatcher(dis);
             dispatcher.forward(request, response);
         } catch (NullPointerException e) {

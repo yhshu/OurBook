@@ -2,8 +2,10 @@ package service.impl;
 
 import dao.BookDao;
 import dao.ChapterDao;
+import dao.UserDao;
 import dao.impl.BookDaoImpl;
 import dao.impl.ChapterDaoImpl;
+import dao.impl.UserDaoImpl;
 import model.Book;
 import model.Chapter;
 import model.User;
@@ -180,9 +182,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean setCollaborators(int bookID, String collaborators) {
+    public boolean setCollaborators(int bookID, String collaborators, String username) {
+        UserDao userDao = new UserDaoImpl();
         String[] col_split = collaborators.split(" ");
-        return bookDao.setCollaborators(bookID, col_split);
+        String[] col_check = new String[col_split.length];
+        int i = 0;
+        for (String collaborator : col_split) {
+            if (userDao.exist(collaborator) && !collaborator.equals(username))
+                col_check[i++] = collaborator;
+        }
+        return bookDao.setCollaborators(bookID, col_check);
     }
 
     @Override

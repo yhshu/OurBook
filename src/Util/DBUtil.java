@@ -4,26 +4,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
     /**
      * 连接数据库
      */
-    private static Connection conn = null;
 
     public static Connection connectDB() throws NamingException, SQLException {
         InitialContext ctx = new InitialContext();
-        DataSource ds =
-                (DataSource) ctx.lookup("java:/comp/env/jdbc/ourbook");
+        DataSource ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/ourbook");
         return ds.getConnection();
     }
 
-    public static void disConnectDB() throws SQLException {
-        if (conn != null)
-            conn.close();
-    }
 
     public static String keywordsMatchCondition(String field, String[] keywords) {
         StringBuilder stringBuilder = new StringBuilder("(");

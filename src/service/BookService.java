@@ -146,9 +146,10 @@ public interface BookService {
      *
      * @param bookID        书籍
      * @param collaborators 协作者
+     * @param username      添加协作者的主编（它不能是协作者）
      * @return 添加成功返回true；失败返回false
      */
-    boolean setCollaborators(int bookID, String collaborators);
+    boolean setCollaborators(int bookID, String collaborators, String username);
 
     /**
      * 查询协作者

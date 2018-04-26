@@ -300,13 +300,20 @@ public class BookDaoImpl implements BookDao {
     public boolean setCollaborators(int bookID, String[] collaborators) {
         try {
             conn = DBUtil.connectDB();
-            StringBuilder collaborator_sql = null;
+            StringBuilder collaborator_sql = new StringBuilder();
             for (String collaborator : collaborators) {
-                collaborator_sql.append("(" + bookID + "," + collaborator + "),");
+                if (collaborator != null) {
+                    collaborator_sql.append("(").append(bookID).append(",\"").append(collaborator).append("\"),");
+                }
             }
             // 将最后一个逗号修改为分号
             collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
-            String sql = "INSERT INTO edit(bookID,username) VALUES" + collaborator_sql;
+            PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
+            delete_stm.setInt(1, bookID);
+            delete_stm.executeUpdate();
+            delete_stm.close();
+
+            String sql = String.format("INSERT IGNORE INTO writes(bookID, username) VALUES %s", collaborator_sql);
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.executeUpdate();
             stm.close();
@@ -325,19 +332,22 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM edit,user WHERE edit.username = user.username AND edit.bookID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM writes,user WHERE writes.username = user.username AND writes.bookID = ?");
             stm.setInt(1, bookID);
             ResultSet rs = stm.executeQuery();
+            boolean exist = false;
             while (rs.next()) {
+                exist = true;
                 User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
                 users.add(user);
             }
             rs.close();
             stm.close();
-            return users.toArray(new User[0]);
+            conn.close();
+            return (exist) ? users.toArray(new User[0]) : null;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new User[0];
+        return null;
     }
 }

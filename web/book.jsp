@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Chapter" %>
+<%@ page import="model.User" %>
 <%
 
 %>
@@ -31,12 +32,11 @@
             })
         });
     </script>
-
+    <% User[] collaborators = (User[]) request.getAttribute("collaborators");%>
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin-top: 50px">
-
     <div style="width:1000px">
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
@@ -76,11 +76,38 @@
                     <!--设置协作者 模态框-->
                     <div id="set_collaborators_modal" class="modal">
                         <div class="modal-content">
-                            <h4>协作者</h4>
+                            <h4>设置协作者</h4>
                             <p>授予协作者编辑本书的权限。</p>
+                            <%
+                                if (collaborators == null) {// 如果无协作者 %>
+                            <div class="chips input-field chips-placeholder">
+                            </div>
+                            <script>
+                                // chips 脚本
+                                $('.chips').material_chip();
+                                $('.chips-placeholder').material_chip({
+                                    placeholder: '键入并按回车',
+                                    secondaryPlaceholder: '键入并按回车'
+                                });
+                            </script>
+                            <%} else { // 如果有协作者 %>
+                            <div class="chips input-field chips-initial">
+                            </div>
+                            <script>
+                                $('.chips').material_chip();
+                                $('.chips-initial').material_chip({
+                                    data: [
+                                            <%for(User collaborator:collaborators){%>{
+                                            tag: '<%=collaborator.getUsername()%>',
+                                        }, <%}%>],
+                                });
+                            </script>
+                            <%}%>
                         </div>
                         <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">确认</a>
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"
+                               id="collaborator_submit">确认</a>
                         </div>
                     </div>
                 </div>
@@ -89,8 +116,7 @@
                        style="color: gray;margin: 0 0 0 25px; display: inline;">
                         <%=request.getAttribute("editorNickname")%>
                     </a>
-                    <%
-                        // 如果不是作者不是当前用户
+                    <% // 如果不是作者不是当前用户
                         if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
                     <a class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
@@ -143,6 +169,7 @@
             </form>
             <a href='#delete_modal' class="btn red modal-trigger right">删除本书</a>
         </div>
+        >>>>>>> 784120063ae47001721f1664e40fc90d493155d0
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
             <div class="modal-content">
@@ -168,12 +195,16 @@
         <%}%>
 
         <div class="collection">
-            <%for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {%>
+            <%
+                for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
+            %>
             <div>
                 <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
                 </a>
-                <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
+                <%
+                    if (request.getAttribute("editor").equals(session.getAttribute("username"))) {
+                %>
                 <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
                    class="right modify_chapter_icon"
                    style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
@@ -243,6 +274,20 @@
             }
         }).fail(function () { // 服务器响应错误信息
             toast("操作异常");
+        })
+    });
+
+    $('#collaborator_submit').click(function (event) {
+        var Collaborator = $('.chip').text().replace(/close/g, " ");
+        Collaborator = Collaborator.substring(0, Collaborator.length - 1);
+        $.post('${pageContext.request.contextPath}/collaborator', {
+            bookID:<%=request.getAttribute("bookID")%>,
+            collaborator: Collaborator
+        }, function (responseText) {
+            toast("设置协作者成功");
+            window.location.href = responseText;
+        }).fail(function () {
+            toast("操作异常，请重试");
         })
     });
 </script>
