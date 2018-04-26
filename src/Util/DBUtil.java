@@ -2,12 +2,18 @@ package Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBUtil {
     /**
      * 连接数据库
      */
     private static Connection conn = null;
+
+    public static void disConnectDB() throws SQLException {
+        if (conn != null)
+            conn.close();
+    }
 
     public static Connection connectDB() {
         if (conn == null)

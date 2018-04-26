@@ -1,5 +1,6 @@
 package servlets;
 
+import Util.DBUtil;
 import service.BookService;
 import service.UserService;
 import service.impl.BookServiceImpl;
@@ -22,6 +23,7 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DBUtil.connectDB(); // 登录系统，连接数据库
         BookService bookService = new BookServiceImpl();
         UserService userService = new UserServiceImpl();
         request.setAttribute("book_recommend", bookService.recommend());
