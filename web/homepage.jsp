@@ -23,6 +23,13 @@
             }
         }
     </script>
+    <script>
+        function add_home_dialog(){
+            alert("have done");
+            $("private_textarea_dialog").append (request.getParameter ("private_input_dialog"));
+            $("private_input_dialog").clear();
+        }
+    </script>
 </head>
 
 <body class="grey lighten-4">
@@ -184,7 +191,7 @@ border-bottom: 1px solid lightgray">
                                         <%=user.getNickname()%>
                                     </a>
                                 </h6>
-                                <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                                <h6 class="grey-text" data-target="privatedialog" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
                                 </h6>
                             </div>
                             <div style="width: 175px;height:20px">
@@ -204,20 +211,22 @@ border-bottom: 1px solid lightgray">
                 <%}%>
             </div>
 
-            <div id="privatedialog" class="modal" style="min-width:300px">
-                <form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">
+            <div id="privatedialog" class="modal" style="height: 450px ;min-width:300px"><!--私信模态框-->
+                <!--<form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">-->
                     <div class="modal-content">
-
+                        <label for="send_message_from">发送方</label>
+                        <input type="text" name="send_message_from" id="send_message_from" value="" >
                     </div>
-
                     <div class="modal-footer">
+                        <textarea style="height: 200px;weight: 400px" id="private_textarea_dialog" >
+                        </textarea>
                         <button class="modal-action modal-close waves-effect waves-green btn-flat"
                                 id="submit_private_info"
-                                onclick="document.getElementById('privatedialog').submit();">                   //提交到id="personalInfo"的页面上面
+                                onclick="add_home_dialog();">                   <!--提交到id="personalInfo"的页面上面-->
                             提交
                         </button>
                     </div>
-                </form>
+                <!--</form>-->
             </div>
 
             <div class="col card" style="width: 253px"> <!--我的书迷-->
