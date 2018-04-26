@@ -11,6 +11,3 @@ function getCookie(c_name) {
     return ""
 }
 
-function toast(msg) {
-    Materialize.toast(msg, 2000, 'rounded');
-}
