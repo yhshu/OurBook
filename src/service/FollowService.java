@@ -1,5 +1,7 @@
 package service;
 
+import model.Follow;
+
 public interface FollowService {
 
     /**
@@ -33,6 +35,7 @@ public interface FollowService {
      */
     String[] findFollowed(String followee);
 
+    Follow findmessagediallog(String followee,String follower);
     /**
      * 检查是否关注
      *

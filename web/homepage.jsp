@@ -203,6 +203,22 @@ border-bottom: 1px solid lightgray">
                 <%}%>
             </div>
 
+            <div id="privatedialog" class="modal" style="min-width:300px">
+                <form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">
+                    <div class="modal-content">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="modal-action modal-close waves-effect waves-green btn-flat"
+                                id="submit_private_info"
+                                onclick="document.getElementById('privatedialog').submit();">                   //提交到id="personalInfo"的页面上面
+                            提交
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             <div class="col card" style="width: 253px"> <!--我的书迷-->
                 <h5 style="text-align: center">我的书迷</h5>
                 <% if (followers.length == 0) {%>

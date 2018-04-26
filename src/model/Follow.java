@@ -14,26 +14,29 @@ public class Follow {
         this.message = message;
     }
 
-    public String getTime() {
+    public java.sql.Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(java.sql.Date time) {
         this.time = time;
     }
 
-    private String time;
+    private java.sql.Date time;
 
     public Follow(String followee, String follower) {
         this.follower = follower;
         this.followee = followee;
     }
 
-    public Follow(String followee, String follower, String message, String time) {
+    public Follow(String followee, String follower, String message, java.sql.Date time) {
         this.followee = followee;
         this.follower = follower;
         this.message = message;
         this.time = time;
+    }
+    public Follow(String message,java.sql.Date time){
+
     }
 
     public String getFollowee() {
