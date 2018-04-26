@@ -62,6 +62,23 @@
                            id="favorite_icon"><%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
+                    <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {// 如果该书作者是当前用户%>
+                    <!--设置协作者 按钮-->
+                    <a href="#set_collaborators_modal" class="modal-trigger waves-effect waves-light"
+                       data-target="" style="display: inline; font-size: 32px;float: right; margin-right: 20px;"
+                       id="set_collaborators">
+                        <i class="material-icons small grey-text">settings</i></a>
+                    <%}%>
+                    <!--设置协作者 模态框-->
+                    <div id="set_collaborators_modal" class="modal">
+                        <div class="modal-content">
+                            <h4>协作者</h4>
+                            <p>授予协作者编辑本书的权限。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">确认</a>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <a href="${pageContext.request.contextPath}/home?user=<%=request.getAttribute("editor")%>"

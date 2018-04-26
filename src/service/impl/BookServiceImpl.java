@@ -6,6 +6,7 @@ import dao.impl.BookDaoImpl;
 import dao.impl.ChapterDaoImpl;
 import model.Book;
 import model.Chapter;
+import model.User;
 import service.BookService;
 
 import java.io.*;
@@ -107,7 +108,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean modifyChapter(String name, int bookID, String content, String path,int sequence) {
+    public boolean modifyChapter(String name, int bookID, String content, String path, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -186,5 +187,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book[] recommend() {
         return bookDao.recommend();
+    }
+
+    @Override
+    public boolean setCollaborators(int bookID, String collaborators) {
+        String[] col_split = collaborators.split(" ");
+        return bookDao.setCollaborators(bookID, col_split);
+    }
+
+    @Override
+    public User[] getCollaborators(int bookID) {
+        return bookDao.getCollaborators(bookID);
     }
 }
