@@ -14,6 +14,8 @@
     $(document).ready(function () {
         $('.edit_icon').addClass("tooltipped");
         $('.edit_icon').attr('data-tooltip', '创建新书');
+        $('.modify_chapter_icon').addClass("tooltipped");
+        $('.modify_chapter_icon').attr('data-tooltip', '修改章节');
         $('a .material-icons:contains("favorite")').addClass("tooltipped");
         $('a .material-icons:contains("favorite")').attr("data-tooltip", '取消收藏');
         $('a .material-icons:contains("favorite_border")').addClass("tooltipped");

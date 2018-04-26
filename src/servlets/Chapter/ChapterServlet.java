@@ -22,7 +22,7 @@ public class ChapterServlet extends BaseServlet {
         String chapterName = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
         // 由 book.jsp 获取 bookID
-        int bookID = Integer.parseInt(request.getParameter("bookID"));
+        int bookID = Integer.parseInt(request.getParameter("book"));
         // TODO 检查用户是否为作者之一
         try {
             String path = this.getServletContext().getRealPath("/resources/book/");
@@ -43,7 +43,7 @@ public class ChapterServlet extends BaseServlet {
         String chapterName = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
         // 由 book.jsp 获取 bookID
-        int bookID = Integer.parseInt(request.getParameter("bookID"));
+        int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         // TODO 检查用户是否为作者之一
         try {

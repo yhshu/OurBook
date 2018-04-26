@@ -32,6 +32,7 @@ public class UserDaoImpl implements UserDao {
             }
             rs.close();
             stm.close();
+            conn.close();
             return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,6 +57,7 @@ public class UserDaoImpl implements UserDao {
                 System.out.println("UserDao: 注册失败");
             }
             stm.close();
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,6 +77,7 @@ public class UserDaoImpl implements UserDao {
                             rs.getString("avatar"));
                     rs.close();
                     stm.close();
+                    conn.close();
                     return user;
                 } else return null;
             } catch (Exception e1) {
@@ -99,6 +102,7 @@ public class UserDaoImpl implements UserDao {
                 }
                 rs.close();
                 stm.close();
+                conn.close();
                 return users.toArray(new String[0]);
             } catch (Exception el) {
                 System.out.println("UserDao: 获取关注列表失败");
@@ -120,6 +124,7 @@ public class UserDaoImpl implements UserDao {
             stm.setString(4, username);
             stm.executeUpdate();
             System.out.println("UserDao: 修改用户信息成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,6 +143,7 @@ public class UserDaoImpl implements UserDao {
             stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             System.out.println("UserDao: 收藏成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,6 +161,7 @@ public class UserDaoImpl implements UserDao {
             stm.setInt(2, bookID);
             stm.executeUpdate();
             System.out.println("UserDao: 取消收藏成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,7 +179,9 @@ public class UserDaoImpl implements UserDao {
             stm.setInt(2, bookID);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            return rs.getInt(1) != 0;
+            boolean result = rs.getInt(1) != 0;
+            conn.close();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,6 +207,7 @@ public class UserDaoImpl implements UserDao {
             }
             rs.close();
             stm.close();
+            conn.close();
             return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();

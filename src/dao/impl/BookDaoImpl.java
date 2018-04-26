@@ -5,6 +5,9 @@ import dao.BookDao;
 import model.Book;
 import model.User;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -22,6 +25,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
             stm.setInt(1, ID);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null && books[0] != null) return books[0];
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,6 +41,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,6 +56,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +73,7 @@ public class BookDaoImpl implements BookDao {
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
                     " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,6 +90,7 @@ public class BookDaoImpl implements BookDao {
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
                     + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,6 +117,7 @@ public class BookDaoImpl implements BookDao {
                 System.out.println("BookDao: 添加书目失败");
             }
             stm.close();
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,6 +136,7 @@ public class BookDaoImpl implements BookDao {
                     ret = rs.getInt("max_id");
                 rs.close();
                 stm.close();
+                conn.close();
                 System.out.println("BookDao: 查询最大ID成功");
                 return ret;
             } catch (Exception e1) {
@@ -146,6 +156,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE chiefEditor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null)
                 return books;
         } catch (Exception e) {
@@ -218,6 +229,7 @@ public class BookDaoImpl implements BookDao {
             }
             delChapter.close();
             delBook.close();
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,6 +244,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info, favorite WHERE username = ? AND bookid = ID");
             stm.setString(1, username);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -248,6 +261,7 @@ public class BookDaoImpl implements BookDao {
             stm.setInt(2, bookID);
             stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -277,6 +291,7 @@ public class BookDaoImpl implements BookDao {
             }
             rs.close();
             stm.close();
+            conn.close();
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,6 +314,7 @@ public class BookDaoImpl implements BookDao {
             stm.executeUpdate();
             stm.close();
             System.out.println("BookDao: 设置协作者成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

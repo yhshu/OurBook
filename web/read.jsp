@@ -13,7 +13,9 @@
                 class="material-icons">arrow_back</i>返回</a>
         <% if (session.getAttribute("username").equals(request.getAttribute("editor"))) {
         %>
-        <a style="margin-left: 72px;"><i class="material-icons">edit</i>编辑</a>
+        <a style="margin-left: 72px;"
+           href="${pageContext.request.contextPath}/modify?book=<%=request.getAttribute("bookID")%>&sequence=<%=request.getAttribute("sequence")%>">
+            <i class="material-icons">edit</i>编辑</a>
         <a style="margin-left: 72px;" class="modal-trigger" href="#delete_confirm"><i
                 class="material-icons">delete_forever</i>删除</a>
         <%}%>
@@ -56,7 +58,7 @@
     });
 </script>
 <form id="delete_chapter" action="${pageContext.request.contextPath}/deleteChapter" method="post">
-    <input type="hidden" name="bookID" value="<%=(int)request.getAttribute("bookID")%>"/>
+    <input type="hidden" name="book" value="<%=(int)request.getAttribute("bookID")%>"/>
     <input type="hidden" name="sequence" value="<%=(int)request.getAttribute("sequence")%>">
     <input type="hidden" name="chapterName" value="<%=request.getAttribute("name")%>">
 </form>
