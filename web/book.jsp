@@ -136,10 +136,13 @@
                 <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
                 </a>
-                <a href="modify?bookID=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="right"
+                <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
+                <a href="modify?bookID=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+                   class="right modify_chapter_icon"
                    style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
                     <i class="material-icons">mode_edit</i>
                 </a>
+                <%}%>
             </div>
             <%}%>
         </div>
