@@ -20,6 +20,11 @@ public class DBUtil {
         return ds.getConnection();
     }
 
+    public static void disConnectDB() throws SQLException {
+        if (conn != null)
+            conn.close();
+    }
+
     public static String keywordsMatchCondition(String field, String[] keywords) {
         StringBuilder stringBuilder = new StringBuilder("(");
         for (String keyword : keywords) {
