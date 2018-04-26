@@ -19,21 +19,51 @@ public class ChapterDaoImpl implements ChapterDao {
     public boolean add(Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,last_modified)" +
-                    " VALUES (?,?,?,?,?)");
+            PreparedStatement stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence+1 WHERE sequence>=? AND OurBook.Chapter.bookID=?");
+            stm1.setInt(1, chapter.getSequence());
+            stm1.setInt(2,chapter.getBookID());
+            stm1.executeUpdate();
+            stm1.close();
+            PreparedStatement stm2 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM chapter");
+            ResultSet rs = stm2.executeQuery();
+            rs.next();
+            int maxID = rs.getInt("max_ID");
+            stm2.close();
+            PreparedStatement stm3 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,ID)" +
+                    " VALUES (?,?,?,?)");
+            stm3.setString(1, chapter.getName());
+            stm3.setInt(2, chapter.getBookID());
+            stm3.setInt(3, chapter.getSequence());
+            stm3.setInt(4, maxID + 1);
+            stm3.executeUpdate();
+            stm3.close();
+            conn.close();
+            System.out.println("ChapterDao: 添加章节成功");
+            return true;
+        } catch (Exception e) {
+            System.out.println("ChapterDao: 添加章节失败");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean modify(Chapter chapter) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("UPDATE chapter SET name=?" +
+                    "WHERE bookID = ? AND sequence = ?");
             stm.setString(1, chapter.getName());
-            stm.setInt(2, chapter.getBookID());
-            stm.setInt(3, chapter.getSequence());
-            stm.setString(4, chapter.getContent());
-            stm.setDate(5,new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setInt(3, chapter.getBookID());
             try {
                 stm.executeUpdate();
                 stm.close();
-                conn.close(); // 关闭数据库连接
-                System.out.println("ChapterDao: 添加章节成功");
+                conn.close();
+                System.out.println("ChapterDao: 修改章节成功");
                 return true;
             } catch (Exception e1) {
-                System.out.println("ChapterDao: 添加章节失败");
+                System.out.println("ChapterDao: 修改章节失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,10 +75,11 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter findByPri(int bookID, int sequence) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ? AND sequence = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter_info WHERE bookID = ? AND sequence = ?");
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
             Chapter[] chapters = getChapters(stm);
+            conn.close();
             if (chapters != null) return chapters[0];
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +92,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter,book,user WHERE bookID = book.ID " +
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter_info,book,user WHERE bookID = book.ID " +
                     "AND username = chiefEditor AND " + DBUtil.keywordsMatchCondition("chapter.name", keywords));
             ResultSet rs = stm.executeQuery();
             ArrayList<Chapter> chapters = new ArrayList<>();
@@ -76,7 +107,7 @@ public class ChapterDaoImpl implements ChapterDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
             return chapters.toArray(new Chapter[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,10 +120,11 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByBookID(int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter_info WHERE bookID = ? ORDER BY sequence");
             stm.setInt(1, bookID);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 按书目获取章节失败");
@@ -114,7 +146,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 删除指定章节失败");
             }
-            PreparedStatement stm2 = conn.prepareStatement("UPDATE chapter SET sequence = sequence-1 WHERE bookID = ? and sequence > ?");
+            PreparedStatement stm2 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?");
             stm2.setInt(1, bookID);
             stm2.setInt(2, sequence);
             try {
@@ -144,7 +176,6 @@ public class ChapterDaoImpl implements ChapterDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
             return chapters.toArray(new Chapter[0]);
         } catch (Exception e) {
             System.out.println("ChapterDao: 获取章节失败");

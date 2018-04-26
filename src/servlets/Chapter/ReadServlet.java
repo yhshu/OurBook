@@ -41,7 +41,7 @@ public class ReadServlet extends HttpServlet {
         request.setAttribute("sequence", sequence);
         request.setAttribute("editor", book.getChiefEditor());
         // 重定向
-        RequestDispatcher dispatcher = request.getRequestDispatcher("content.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("read.jsp");
         dispatcher.forward(request, response);
     }
 }

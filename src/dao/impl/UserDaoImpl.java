@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
             return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,10 +57,29 @@ public class UserDaoImpl implements UserDao {
                 System.out.println("UserDao: 注册失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean exist(String username) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
+            stm.setString(1, username);
+            try {
+                ResultSet rs = stm.executeQuery();
+                if (rs.next()) return true;
+                return false;
+            } catch (Exception e1) {
+                System.out.println("UserDao: 获取用户失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -77,7 +96,7 @@ public class UserDaoImpl implements UserDao {
                             rs.getString("avatar"));
                     rs.close();
                     stm.close();
-                    conn.close(); // 关闭数据库连接
+                    conn.close();
                     return user;
                 } else return null;
             } catch (Exception e1) {
@@ -123,8 +142,8 @@ public class UserDaoImpl implements UserDao {
             stm.setString(3, avatar);
             stm.setString(4, username);
             stm.executeUpdate();
-            conn.close();
             System.out.println("UserDao: 修改用户信息成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,8 +161,8 @@ public class UserDaoImpl implements UserDao {
             stm.setInt(2, bookID);
             stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
-            conn.close();
             System.out.println("UserDao: 收藏成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,8 +179,8 @@ public class UserDaoImpl implements UserDao {
             stm.setString(1, username);
             stm.setInt(2, bookID);
             stm.executeUpdate();
-            conn.close();
             System.out.println("UserDao: 取消收藏成功");
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,7 +198,9 @@ public class UserDaoImpl implements UserDao {
             stm.setInt(2, bookID);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            return rs.getInt(1) != 0;
+            boolean result = rs.getInt(1) != 0;
+            conn.close();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +213,7 @@ public class UserDaoImpl implements UserDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites*10+clicks DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites * 10 + clicks DESC");
             int displayUserNum = 5;
             ResultSet rs = stm.executeQuery();
             while (displayUserNum-- > 0 && rs.next()) {

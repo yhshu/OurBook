@@ -3,6 +3,7 @@ package dao.impl;
 import Util.DBUtil;
 import dao.BookDao;
 import model.Book;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,7 +22,8 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
             stm.setInt(1, ID);
             Book[] books = getBooks(stm);
-            if (books != null) return books[0];
+            conn.close();
+            if (books != null && books[0] != null) return books[0];
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookDao: findByID(" + ID + ")失败");
@@ -36,6 +38,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,6 +53,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,11 +65,12 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywordsClick(String[] keywords, String range) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
-                    + DBUtil.timeLimit("date", range) + " AND "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") AS c ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
-                    " ORDER BY clicks DESC");
+                    " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,11 +82,12 @@ public class BookDaoImpl implements BookDao {
     public Book[] findByKeywordsFav(String[] keywords, String range) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
-                    + DBUtil.timeLimit("date", range) + " AND "
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
-                    + " ORDER BY favorites DESC");
+                    + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,7 +114,7 @@ public class BookDaoImpl implements BookDao {
                 System.out.println("BookDao: 添加书目失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,7 +133,7 @@ public class BookDaoImpl implements BookDao {
                     ret = rs.getInt("max_id");
                 rs.close();
                 stm.close();
-                conn.close(); // 关闭数据库连接
+                conn.close();
                 System.out.println("BookDao: 查询最大ID成功");
                 return ret;
             } catch (Exception e1) {
@@ -147,6 +153,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE chiefEditor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null)
                 return books;
         } catch (Exception e) {
@@ -190,7 +197,6 @@ public class BookDaoImpl implements BookDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             System.out.println("BookDao: 获取书目失败:");
@@ -220,7 +226,7 @@ public class BookDaoImpl implements BookDao {
             }
             delChapter.close();
             delBook.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,6 +241,7 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info, favorite WHERE username = ? AND bookid = ID");
             stm.setString(1, username);
             Book[] books = getBooks(stm);
+            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
@@ -251,6 +258,7 @@ public class BookDaoImpl implements BookDao {
             stm.setInt(2, bookID);
             stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
+            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -286,5 +294,60 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return new Book[0];
+    }
+
+    @Override
+    public boolean setCollaborators(int bookID, String[] collaborators) {
+        try {
+            conn = DBUtil.connectDB();
+            StringBuilder collaborator_sql = new StringBuilder();
+            for (String collaborator : collaborators) {
+                if (collaborator != null) {
+                    collaborator_sql.append("(").append(bookID).append(",\"").append(collaborator).append("\"),");
+                }
+            }
+            // 将最后一个逗号修改为分号
+            collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
+            delete_stm.setInt(1, bookID);
+            delete_stm.executeUpdate();
+            delete_stm.close();
+
+            String sql = String.format("INSERT IGNORE INTO writes(bookID, username) VALUES %s", collaborator_sql);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.executeUpdate();
+            stm.close();
+            System.out.println("BookDao: 设置协作者成功");
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("BookDao: 设置协作者失败");
+        }
+        return false;
+    }
+
+    @Override
+    public User[] getCollaborators(int bookID) {
+        try {
+            conn = DBUtil.connectDB();
+            ArrayList<User> users = new ArrayList<>();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM writes,user WHERE writes.username = user.username AND writes.bookID = ?");
+            stm.setInt(1, bookID);
+            ResultSet rs = stm.executeQuery();
+            boolean exist = false;
+            while (rs.next()) {
+                exist = true;
+                User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
+                users.add(user);
+            }
+            rs.close();
+            stm.close();
+            conn.close();
+            return (exist) ? users.toArray(new User[0]) : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

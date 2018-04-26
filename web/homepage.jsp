@@ -49,6 +49,7 @@
                 <%=description%>
                 <%
                 } else {
+                    description = "";
                 %>
                 <h6 class="grey-text">用一句话来描述自己吧</h6>
                 <%}%>
@@ -63,7 +64,7 @@
                         <input type="text" name="new_nickname" id="new_nickname"
                                value="<%=session.getAttribute("nickname")%>"/>
                         <label for="new_description">一句话简介</label>
-                        <input type="text" name="new_description" id="new_description"/>
+                        <input type="text" name="new_description" id="new_description" value="<%=description%>"/>
                         <input id="avatar" type='file' name="avatar" onchange="readURL(this);" style="display: none"/>
                         <div style="margin: 20px auto; width: 300px;height: 128px">
                             <img id="preview" src="<%=session.getAttribute("avatar")%>" alt="your image"
@@ -170,7 +171,7 @@ border-bottom: 1px solid lightgray">
                 <div style="margin: 10px auto"><%
                     for (User user : followees) {
                 %>
-                    <div class="row" style="margin: 15px 5px;">
+                    <div class="row user_<%=user.getUsername()%>" style="margin: 15px 5px;">
                         <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                             <img src="<%=user.getAvatar()%>"
                                  style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
@@ -190,7 +191,7 @@ border-bottom: 1px solid lightgray">
                                 <p class="grey-text" style="margin:0 10px 0 0;display: inline-block">
                                     <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                                 </p>
-                                <a class="btn blue remove_follow user_<%=user.getUsername()%> right"
+                                <a class="btn blue remove_follow right"
                                    style="-webkit-appearance:none; -moz-appearance:none; height: 20px;
                                    line-height: 20px;margin: 0 10px;display: inline-block"
                                    id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">

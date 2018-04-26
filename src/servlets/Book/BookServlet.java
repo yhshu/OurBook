@@ -43,6 +43,7 @@ public class BookServlet extends HttpServlet {
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
                 request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
                 request.setAttribute("bookID", bookID);
+                request.setAttribute("chapterNum",book.getChapterNum());
                 request.setAttribute("bookName", book.getName());
                 request.setAttribute("editor", book.getChiefEditor());
                 request.setAttribute("description", book.getDescription());
@@ -50,9 +51,10 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("chapters", bookService.getChapters(bookID));
                 request.setAttribute("isFavorite", isFavorite);
                 request.setAttribute("isFollowing", isFollowing);
+                request.setAttribute("collaborators", bookService.getCollaborators(bookID));
                 bookService.click(username, bookID);
-                // 重定向
             }
+            // 重定向
             RequestDispatcher dispatcher = request.getRequestDispatcher(dis);
             dispatcher.forward(request, response);
         } catch (NullPointerException e) {

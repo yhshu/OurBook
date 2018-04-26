@@ -64,7 +64,7 @@ public class AddBookServlet extends HttpServlet {
                             response.sendError(415);
                             return;
                         } else if (fm.getSize() > maxsize) {
-                            response.sendError(403,"12");
+                            response.sendError(403, "12");
                             return;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
@@ -95,6 +95,7 @@ public class AddBookServlet extends HttpServlet {
             bookService.addBook(bookName, bookDescription, editor, keywords, filename);
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
+            response.setContentType("text/plain");
             response.getWriter().write("/book?id=" + bookDao.maxID());
         } catch (Exception e) {
             e.printStackTrace();

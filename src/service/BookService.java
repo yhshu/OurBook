@@ -2,6 +2,7 @@ package service;
 
 import model.Book;
 import model.Chapter;
+import model.User;
 
 public interface BookService {
     /**
@@ -73,9 +74,22 @@ public interface BookService {
      * @param bookID  书的编号
      * @param content 章节内容，将以文件形式存储于 resources/book
      * @param path    由 Servlet 传递的文件路径
+     * @param sequence 章节号
      * @return 添加到数据库的 sequence
      */
-    int addChapter(String name, int bookID, String content, String path);
+    boolean addChapter(String name, int bookID, String content, String path,int sequence);
+
+    /**
+     * 修改章节
+     *
+     * @param name     章节名
+     * @param bookID   书的编号
+     * @param content  章节内容，将以文件形式存储于 resources/book
+     * @param path     由 Servlet 传递的文件路径
+     * @param sequence 章节号
+     * @return 成功 true 失败 false
+     */
+    boolean modifyChapter(String name, int bookID, String content, String path, int sequence);
 
     /**
      * 通过关键字查找章节
@@ -125,4 +139,24 @@ public interface BookService {
      * @return 推荐书目
      */
     Book[] recommend();
+
+    /**
+     * 设置协作者
+     * 注意，主编不在此表
+     *
+     * @param bookID        书籍
+     * @param collaborators 协作者
+     * @param username      添加协作者的主编（它不能是协作者）
+     * @return 添加成功返回true；失败返回false
+     */
+    boolean setCollaborators(int bookID, String collaborators, String username);
+
+    /**
+     * 查询协作者
+     * 注意，主编不在此表
+     *
+     * @param bookID 书籍
+     * @return 协作者
+     */
+    User[] getCollaborators(int bookID);
 }

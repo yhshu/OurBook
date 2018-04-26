@@ -1,6 +1,7 @@
 package dao;
 
 import model.Book;
+import model.User;
 
 public interface BookDao {
     /**
@@ -98,4 +99,23 @@ public interface BookDao {
      * @return 推荐书目
      */
     Book[] recommend();
+
+    /**
+     * 设置协作者
+     * 注意，主编不在此表
+     *
+     * @param bookID        书籍
+     * @param collaborators 协作者
+     * @return 添加成功返回true；失败返回false
+     */
+    boolean setCollaborators(int bookID, String[] collaborators);
+
+    /**
+     * 查询协作者
+     * 注意，主编不在此表
+     *
+     * @param bookID 书籍
+     * @return 协作者
+     */
+    User[] getCollaborators(int bookID);
 }

@@ -22,7 +22,7 @@ public class DeleteChapterServlet extends HttpServlet {
             throws ServletException, IOException {
         BookService bookService = new BookServiceImpl();
         // 数据库删除章节
-        int bookID = Integer.parseInt(request.getParameter("bookID"));
+        int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         String chapterName = request.getParameter("chapterName");
         bookService.delete_chapter(bookID, sequence);

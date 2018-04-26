@@ -6,7 +6,6 @@ public class Chapter implements Serializable {
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
     private int sequence; // 章节序号
-    private int ID; //添加次序
     private String content; // 章节文件路径
     private String lastModified;  //最后修改日期
     private String editorUsername; // 作者用户名
@@ -92,13 +91,5 @@ public class Chapter implements Serializable {
 
     public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 }

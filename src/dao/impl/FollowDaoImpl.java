@@ -11,9 +11,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
- * @program:OurBook
- * @description: 关注其他用户、取消关注、查找关注用户的列表、
- * @create: 04-12-23
+ * 关注其他用户、取消关注、查找关注用户的列表
  */
 public class FollowDaoImpl implements FollowDao {
     private Connection conn = null;
@@ -35,7 +33,7 @@ public class FollowDaoImpl implements FollowDao {
                 System.out.println("FollowDao: 添加失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +56,7 @@ public class FollowDaoImpl implements FollowDao {
                 System.out.println("UserDao: 取消失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,6 +72,7 @@ public class FollowDaoImpl implements FollowDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, author WHERE follower = username AND followee = ?");
             stm.setString(1, followee);
             User[] followers = getUsers(stm);
+            conn.close();
             if (followers != null) return followers;
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,6 +92,7 @@ public class FollowDaoImpl implements FollowDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow, author WHERE followee = username AND follower = ?");
             stm.setString(1, follower);
             User[] followees = getUsers(stm);
+            conn.close();
             if (followees != null) return followees;
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +166,9 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(2, followee);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            return rs.getInt(1) != 0;
+            boolean result = rs.getInt(1) != 0;
+            conn.close();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,7 +188,6 @@ public class FollowDaoImpl implements FollowDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
             return users.toArray(new User[0]);
         } catch (Exception e) {
             System.out.println("BookDao: 获取关注列表失败:");
