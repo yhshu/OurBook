@@ -123,7 +123,7 @@
                    class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
                    onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
                 <!-- 请求删除本书-->
-                <form action="${pageContext.request.contextPath}/deleteBook" method="post" id="deleteBookForm">
+                <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
                     <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
                 </form>
             </div>

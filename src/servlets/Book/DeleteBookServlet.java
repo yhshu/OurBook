@@ -28,7 +28,7 @@ public class DeleteBookServlet extends HttpServlet {
             HttpSession session = request.getSession();
             BookService bookService = new BookServiceImpl();
             // 数据库删除
-            int bookID = Integer.parseInt(request.getParameter("bookID"));
+            int bookID = Integer.parseInt(request.getParameter("book"));
             Book book = bookService.find(bookID);
             if (!session.getAttribute("username").equals(book.getChiefEditor())) {
                 throw new Exception("用户不是作者");
