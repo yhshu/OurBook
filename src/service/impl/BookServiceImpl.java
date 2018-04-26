@@ -74,8 +74,8 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容为空");
             return false;
         }
-        String db_path = "resources/book/" + bookID + "/" + name + ".txt";//TODO 修改
-        path += bookID + "/" + name + ".txt";
+        String db_path = "resources/book/" + bookID + "/" + name + ".html";//TODO 修改
+        path += bookID + "/" + name + ".html";
         // 将章节内容存放在文件中，并将文件路径插入数据库
         try {
             File file = new File(path);

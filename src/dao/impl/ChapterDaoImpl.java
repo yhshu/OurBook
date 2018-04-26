@@ -29,14 +29,12 @@ public class ChapterDaoImpl implements ChapterDao {
             rs.next();
             int maxID = rs.getInt("max_ID");
             stm2.close();
-            PreparedStatement stm3 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,content,last_modified,ID)" +
-                    " VALUES (?,?,?,?,?,?)");
+            PreparedStatement stm3 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,ID)" +
+                    " VALUES (?,?,?,?)");
             stm3.setString(1, chapter.getName());
             stm3.setInt(2, chapter.getBookID());
             stm3.setInt(3, chapter.getSequence());
-            stm3.setString(4, chapter.getContent());
-            stm3.setDate(5, new Date(Calendar.getInstance().getTime().getTime()));
-            stm3.setInt(6, maxID + 1);
+            stm3.setInt(4, maxID + 1);
             stm3.executeUpdate();
             stm3.close();
             conn.close();
@@ -53,12 +51,11 @@ public class ChapterDaoImpl implements ChapterDao {
     public boolean modify(Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("UPDATE chapter SET name=?,last_modified=? " +
+            PreparedStatement stm = conn.prepareStatement("UPDATE chapter SET name=?" +
                     "WHERE bookID = ? AND sequence = ?");
             stm.setString(1, chapter.getName());
             stm.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
             stm.setInt(3, chapter.getBookID());
-            stm.setInt(4, chapter.getSequence());
             try {
                 stm.executeUpdate();
                 stm.close();
@@ -78,7 +75,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter findByPri(int bookID, int sequence) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ? AND sequence = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter_info WHERE bookID = ? AND sequence = ?");
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
             Chapter[] chapters = getChapters(stm);
@@ -95,7 +92,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByKeywords(String[] keywords) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter,book,user WHERE bookID = book.ID " +
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter_info,book,user WHERE bookID = book.ID " +
                     "AND username = chiefEditor AND " + DBUtil.keywordsMatchCondition("chapter.name", keywords));
             ResultSet rs = stm.executeQuery();
             ArrayList<Chapter> chapters = new ArrayList<>();
@@ -123,7 +120,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public Chapter[] findByBookID(int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter WHERE bookID = ? ORDER BY sequence");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM chapter_info WHERE bookID = ? ORDER BY sequence");
             stm.setInt(1, bookID);
             Chapter[] chapters = getChapters(stm);
             if (chapters != null) return chapters;

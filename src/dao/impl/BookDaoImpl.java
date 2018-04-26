@@ -308,7 +308,6 @@ public class BookDaoImpl implements BookDao {
             }
             // 将最后一个逗号修改为分号
             collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
-
             PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
             delete_stm.setInt(1, bookID);
             delete_stm.executeUpdate();
