@@ -40,8 +40,7 @@
     <div style="width:1000px">
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
-                if (request.getAttribute("cover") == null || request.getAttribute("cover").equals("")) {
-                    // 如果无封面
+                if (request.getAttribute("cover") == null || request.getAttribute("cover").equals("")) { // 如果无封面
             %>
             <div style="width: 192px;height: 256px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
                 <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
@@ -136,7 +135,7 @@
         </div>
     </div>
 
-    <div class="card" style="padding: 20px;width:1000px">
+    <div class="card" style="padding: 20px;width:1000px"><!-- 章节目录 -->
         <h5 style="margin-left:20px; margin-right: 30px;">章节目录</h5>
         <style>form {
             margin: 0;
@@ -151,8 +150,7 @@
                 <input id="sequence" name="sequence" type="hidden"
                        value="<%=(int)request.getAttribute("chapterNum")+1%>"/>
                 <button class="btn blue"
-                        style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;"
-                >添加章节
+                        style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;">添加章节
                 </button>
                 <div class="input-field"
                      style="width: 300px;display: inline-block;left: 50px;margin: 0;height: 36px">
@@ -213,6 +211,9 @@
             </div>
             <%}%>
         </div>
+    </div>
+    <div class="col"><!--编辑者列表，包括主编与协作者-->
+        <h5 style="text-align: center;">协作者</h5>
     </div>
 </div>
 

@@ -55,6 +55,16 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public Follow findmessagediallog(String followee, String follower) {
+        try{
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean isFollowing(String follower, String followee) {
         return followDao.isFollowing(follower, followee);
     }
