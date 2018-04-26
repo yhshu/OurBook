@@ -169,7 +169,6 @@
             </form>
             <a href='#delete_modal' class="btn red modal-trigger right">删除本书</a>
         </div>
-        >>>>>>> 784120063ae47001721f1664e40fc90d493155d0
 
         <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
             <div class="modal-content">
