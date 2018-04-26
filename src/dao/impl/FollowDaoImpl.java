@@ -35,7 +35,6 @@ public class FollowDaoImpl implements FollowDao {
                 System.out.println("FollowDao: 添加失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +57,6 @@ public class FollowDaoImpl implements FollowDao {
                 System.out.println("UserDao: 取消失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +150,6 @@ public class FollowDaoImpl implements FollowDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
             return users.toArray(new User[0]);
         } catch (Exception e) {
             System.out.println("BookDao: 获取书目失败:");

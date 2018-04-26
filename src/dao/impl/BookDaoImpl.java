@@ -109,7 +109,6 @@ public class BookDaoImpl implements BookDao {
                 System.out.println("BookDao: 添加书目失败");
             }
             stm.close();
-            conn.close(); // 关闭数据库连接
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,7 +127,6 @@ public class BookDaoImpl implements BookDao {
                     ret = rs.getInt("max_id");
                 rs.close();
                 stm.close();
-                conn.close(); // 关闭数据库连接
                 System.out.println("BookDao: 查询最大ID成功");
                 return ret;
             } catch (Exception e1) {
@@ -191,7 +189,6 @@ public class BookDaoImpl implements BookDao {
             }
             rs.close();
             stm.close();
-            conn.close(); // 关闭数据库连接
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             System.out.println("BookDao: 获取书目失败:");
@@ -221,7 +218,6 @@ public class BookDaoImpl implements BookDao {
             }
             delChapter.close();
             delBook.close();
-            conn.close(); // 关闭数据库连接
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -281,7 +277,7 @@ public class BookDaoImpl implements BookDao {
             }
             rs.close();
             stm.close();
-            conn.close();
+
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -303,7 +299,6 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.executeUpdate();
             stm.close();
-            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

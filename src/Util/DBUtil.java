@@ -7,8 +7,15 @@ public class DBUtil {
     /**
      * 连接数据库
      */
+    private static Connection conn = null;
+
     public static Connection connectDB() {
-        Connection conn = null;
+        if (conn == null)
+            conn = connect();
+        return conn;
+    }
+
+    public static Connection connect() {
         String classForName = "com.mysql.jdbc.Driver";
         String ServandDB = "jdbc:mysql://sh-cdb-7p5q57hl.sql.tencentcdb.com:63280/ourbook";
         String DBUser = "root";
