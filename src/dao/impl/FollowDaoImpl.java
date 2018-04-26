@@ -11,9 +11,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
- * @program:OurBook
- * @description: 关注其他用户、取消关注、查找关注用户的列表、
- * @create: 04-12-23
+ * 关注其他用户、取消关注、查找关注用户的列表
  */
 public class FollowDaoImpl implements FollowDao {
     private Connection conn = null;
@@ -134,7 +132,7 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(2, followee);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            boolean result =  rs.getInt(1) != 0;
+            boolean result = rs.getInt(1) != 0;
             conn.close();
             return result;
         } catch (Exception e) {

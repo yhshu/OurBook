@@ -48,7 +48,7 @@ public class ChapterServlet extends BaseServlet {
         // TODO 检查用户是否为作者之一
         try {
             String path = this.getServletContext().getRealPath("/resources/book/");
-            bookService.modifyChapter(chapterName, bookID, chapterContent, path,sequence);
+            bookService.modifyChapter(chapterName, bookID, chapterContent, path, sequence);
             System.out.println("ChapterServlet: 修改章节成功");
             // 添加章节完成后，请求重定向，查看本书目录
             response.setContentType("text/plain");

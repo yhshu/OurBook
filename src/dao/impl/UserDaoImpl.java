@@ -64,6 +64,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public boolean exist(String username) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
+            stm.setString(1, username);
+            try {
+                ResultSet rs = stm.executeQuery();
+                if (rs.next()) return true;
+                return false;
+            } catch (Exception e1) {
+                System.out.println("UserDao: 获取用户失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public User find(String username) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
