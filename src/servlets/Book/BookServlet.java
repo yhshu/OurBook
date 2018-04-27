@@ -41,6 +41,16 @@ public class BookServlet extends HttpServlet {
                 Book book = bookService.find(bookID);
                 String username = (String) session.getAttribute("username");
                 User chiefEditor = userService.find(book.getChiefEditor());
+                User[] collaborators = bookService.getCollaborators(bookID);
+                boolean isCollaborator = false;
+                if (collaborators != null) {
+                    for (User collaborator : collaborators) {
+                        if (username.equals(collaborator.getUsername())) {
+                            isCollaborator = true;
+                            break;
+                        }
+                    }
+                }
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
                 request.setAttribute("chiefEditor", chiefEditor);
@@ -52,7 +62,8 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("chapters", bookService.getChapters(bookID));
                 request.setAttribute("isFavorite", isFavorite);
                 request.setAttribute("isFollowing", isFollowing);
-                request.setAttribute("collaborators", bookService.getCollaborators(bookID));
+                request.setAttribute("collaborators", collaborators);
+                request.setAttribute("isCollaborator", isCollaborator);
                 bookService.click(username, bookID);
             }
             // 重定向
