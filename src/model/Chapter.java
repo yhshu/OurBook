@@ -1,13 +1,14 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class Chapter implements Serializable {
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
     private int sequence; // 章节序号
     private String content; // 章节文件路径
-    private String lastModified;  //最后修改日期
+    private Timestamp lastModified;  //最后修改时间
     private String editorUsername; // 作者用户名
     private String editorNickname; // 作者昵称
     private String bookName;       // 书名
@@ -85,11 +86,11 @@ public class Chapter implements Serializable {
         this.bookCover = bookCover;
     }
 
-    public String getLastModified() {
+    public Timestamp getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(String lastModified) {
+    public void setLastModified(Timestamp lastModified) {
         this.lastModified = lastModified;
     }
 }

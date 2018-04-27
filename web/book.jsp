@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -197,16 +199,18 @@
                 <%
                     for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
                 %>
-                <div>
+                <div style="height: 43px; overflow: hidden">
                     <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
+                        <span class="grey-text right"
+                              style="display: inline-block;margin-right: 20px"><%=sdf.format(chapter.getLastModified())%></span>
                     </a>
                     <%
                         if (chiefEditor.getUsername().equals(session.getAttribute("username"))) {
                     %>
                     <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
                        class="right modify_chapter_icon"
-                       style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
+                       style="position:relative;top:-40px;right:10px;font-size: 20px;line-height: 40px">
                         <i class="material-icons">mode_edit</i>
                     </a>
                     <%}%>

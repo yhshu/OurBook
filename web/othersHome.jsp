@@ -1,5 +1,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -8,6 +9,7 @@
         Book[] books = (Book[]) request.getAttribute("books");
         User[] followees = (User[]) request.getAttribute("followees");
         User[] followers = (User[]) request.getAttribute("followers");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
@@ -103,7 +105,7 @@ border-bottom: 1px solid lightgray">
                             <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
                         </p>
                         <p style="margin: 10px 20px">
-                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                            最后更新： <%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
                         </p>
                     </div>
                 </div>

@@ -202,6 +202,10 @@ public class ChapterDaoImpl implements ChapterDao {
             while (rs.next()) {
                 Chapter chapter = new Chapter(rs.getString("name"), rs.getInt("bookID"),
                         rs.getInt("sequence"), rs.getString("content"));
+                try {
+                    chapter.setLastModified(rs.getTimestamp("last_modified"));
+                } catch (Exception ignored) {
+                }
                 chapters.add(chapter);
             }
             rs.close();
