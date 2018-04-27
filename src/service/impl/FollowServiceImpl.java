@@ -56,9 +56,9 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public Follow findmessagediallog(String followee, String follower) {
-        try{
+        try {
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

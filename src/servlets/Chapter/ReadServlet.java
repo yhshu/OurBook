@@ -2,7 +2,6 @@ package servlets.Chapter;
 
 import model.Book;
 import model.Chapter;
-import model.User;
 import service.BookService;
 import service.impl.BookServiceImpl;
 

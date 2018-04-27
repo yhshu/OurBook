@@ -108,25 +108,26 @@ public class FollowDaoImpl implements FollowDao {
      * @return 用户被其他人关注的列表
      */
     public void addDialog(Follow follow) {
-        try{
-            conn=DBUtil.connectDB();
+        try {
+            conn = DBUtil.connectDB();
             PreparedStatement stm = conn.prepareStatement("INSERT INTO privatedialog(followee,follower,message,time) VALUE(?,?,?,?)");
-            stm.setString(1,follow.getFollowee());
-            stm.setString(2,follow.getFollower());
-            stm.setString(3,follow.getMessage());
-            stm.setDate(4,follow.getTime());
-            try{
+            stm.setString(1, follow.getFollowee());
+            stm.setString(2, follow.getFollower());
+            stm.setString(3, follow.getMessage());
+            stm.setDate(4, follow.getTime());
+            try {
                 stm.execute();
                 System.out.println("添加成功");
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             stm.close();
             conn.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Override
     /**
      * 查找历史的信息
@@ -135,26 +136,26 @@ public class FollowDaoImpl implements FollowDao {
      * @return 用户被其他人关注的列表
      */
     public Follow[] findDialogMessage(Follow follow) {
-    try{
-        conn =DBUtil.connectDB();
-        PreparedStatement stm = conn.prepareStatement("SELECT * FROM privatedialog WHERE followee=? AND follower=? ");
-        ResultSet rs=stm.executeQuery();
-        ArrayList<Follow> follow_message =new  ArrayList<Follow>();
-        while(rs.next()){
-            String followee =  rs.getString(1) ;
-            String follower = rs.getString(2);
-            String messages = rs.getString(3);
-            java.sql.Date time = rs.getDate(4);
-            follow_message.add(new Follow(followee,follower,messages,time));
+        try {
+            conn = DBUtil.connectDB();
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM privatedialog WHERE followee=? AND follower=? ");
+            ResultSet rs = stm.executeQuery();
+            ArrayList<Follow> follow_message = new ArrayList<Follow>();
+            while (rs.next()) {
+                String followee = rs.getString(1);
+                String follower = rs.getString(2);
+                String messages = rs.getString(3);
+                java.sql.Date time = rs.getDate(4);
+                follow_message.add(new Follow(followee, follower, messages, time));
+            }
+            rs.close();
+            conn.close();
+            stm.close();
+            return follow_message.toArray(new Follow[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        rs.close();
-        conn.close();
-        stm.close();
-        return follow_message.toArray(new Follow[0]);
-    }catch(Exception e){
-        e.printStackTrace();
-    }
-        return  null;
+        return null;
     }
 
     @Override

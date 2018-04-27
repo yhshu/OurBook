@@ -2,9 +2,6 @@ package test.dao.impl;
 
 
 import Util.DBUtil;
-import dao.BookDao;
-import dao.impl.BookDaoImpl;
-import model.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

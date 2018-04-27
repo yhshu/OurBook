@@ -35,7 +35,8 @@ public interface FollowService {
      */
     String[] findFollowed(String followee);
 
-    Follow findmessagediallog(String followee,String follower);
+    Follow findmessagediallog(String followee, String follower);
+
     /**
      * 检查是否关注
      *

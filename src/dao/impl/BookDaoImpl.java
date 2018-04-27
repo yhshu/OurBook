@@ -30,15 +30,17 @@ public class BookDaoImpl implements BookDao {
         return null;
     }
 
-    public Comment[] findByBookID(int bookID){
+    public Comment[] findByBookID(int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ?");
-            stm.setInt(2, bookID);
+            stm.setInt(1, bookID);
             Comment[] comments =
-           // Book[] books = getBooks(stm);
-            conn.close();
+                    // Book[] books = getBooks(stm);
+                    conn.close();
             if (books != null && books[0] != null) return books[0];
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -105,19 +107,20 @@ public class BookDaoImpl implements BookDao {
         }
         return new Book[0];
     }
-    private boolean addComment(Comment comment){
-        try{
+
+    private boolean addComment(Comment comment) {
+        try {
             conn = DBUtil.connectDB(); //连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO comment"+
-            "(username,bookID,time,comments,ID) VALUES (?,?,?,?,null)");
-            stm.setString(1,comment.getUsername());
-            stm.setInt(2,comment.getBookID());
-            stm.setDate(3,new Date(Calendar.getInstance().getTime().getTime()));
-            stm.setString(4,comment.getComments());
-            try{
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO comment" +
+                    "(username,bookID,time,comments,ID) VALUES (?,?,?,?,null)");
+            stm.setString(1, comment.getUsername());
+            stm.setInt(2, comment.getBookID());
+            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setString(4, comment.getComments());
+            try {
                 stm.executeQuery();
                 System.out.println("评论添加成功");
-            } catch(Exception e1){
+            } catch (Exception e1) {
                 e1.printStackTrace();
                 System.out.println("评论添加失败");
             }
@@ -238,15 +241,16 @@ public class BookDaoImpl implements BookDao {
         return null;
     }
 
-    private Comment[] getComments(PreparedStatement stm){
-        try{
+    private Comment[] getComments(PreparedStatement stm) {
+        try {
             ResultSet rs = stm.executeQuery();
             ArrayList<Comment> comments = new ArrayList<>();
-            while(rs.next()){
-                Comment comment = new Comment(rs.getString("username"),rs.getInt("bookID"),rs.     )
+            while (rs.next()) {
+                Comment comment = new Comment(rs.getString("username"), rs.getInt("bookID"), rs.)
             }
         }
     }
+
     @Override
     public boolean delete(int bookID) {
         try {

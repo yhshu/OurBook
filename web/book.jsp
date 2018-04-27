@@ -39,7 +39,7 @@
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
-<div class="container row" style="margin-top: 50px">
+<div class="container row" style="margin: 50px 176px;">
     <div style="width:1000px">
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
@@ -271,6 +271,9 @@
                 <%}%>
             </div>
         </div>
+    </div>
+    <div>
+        <h6>评论</h6>
     </div>
 </div>
 
