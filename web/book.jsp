@@ -77,7 +77,8 @@
                     <div id="set_collaborators_modal" class="modal">
                         <div class="modal-content">
                             <h4>设置协作者</h4>
-                            <p>授予协作者编辑本书的权限。</p>
+                            <p>授予协作者编辑本书的权限。
+                                每输入一个用户名，按下 Enter 确认。</p>
                             <%
                                 if (collaborators == null) {// 如果无协作者 %>
                             <div class="chips input-field chips-placeholder">
@@ -265,7 +266,6 @@
                 </div>
                 <%}%>
             </div>
-
         </div>
     </div>
 </div>

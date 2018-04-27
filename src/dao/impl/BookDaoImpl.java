@@ -6,11 +6,9 @@ import model.Book;
 import model.User;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class BookDaoImpl implements BookDao {
     private Connection conn = null;
@@ -306,7 +304,11 @@ public class BookDaoImpl implements BookDao {
                 }
             }
             // 将最后一个逗号修改为分号
-            collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            try {
+                collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            } catch (StringIndexOutOfBoundsException siobe) {
+                return false;
+            }
             PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
             delete_stm.setInt(1, bookID);
             delete_stm.executeUpdate();
