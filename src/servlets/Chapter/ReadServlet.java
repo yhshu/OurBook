@@ -52,6 +52,7 @@ public class ReadServlet extends HttpServlet {
         request.setAttribute("chapters", chapters);
         request.setAttribute("reader", read);
         request.setAttribute("bookID", bookID);
+        request.setAttribute("name", chapter.getName());
         request.setAttribute("sequence", sequence);
         request.setAttribute("editor", book.getChiefEditor());
         // 重定向
