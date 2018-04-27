@@ -9,7 +9,7 @@ public interface ChapterDao {
      * 将新章节插入 chapter 表
      *
      * @param username 用户名
-     * @param chapter 新增章节
+     * @param chapter  新增章节
      */
     boolean add(String username, Chapter chapter);
 
@@ -17,7 +17,7 @@ public interface ChapterDao {
      * 修改章节信息
      *
      * @param username 用户名
-     * @param chapter 新增章节
+     * @param chapter  新增章节
      */
     boolean modify(String username, Chapter chapter);
 

@@ -35,7 +35,8 @@ public class Follow {
         this.message = message;
         this.time = time;
     }
-    public Follow(String message,java.sql.Date time){
+
+    public Follow(String message, java.sql.Date time) {
 
     }
 

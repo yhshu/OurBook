@@ -3,14 +3,13 @@ package dao.impl;
 import Util.DBUtil;
 import dao.BookDao;
 import model.Book;
+import model.Comment;
 import model.User;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class BookDaoImpl implements BookDao {
     private Connection conn = null;
@@ -29,6 +28,20 @@ public class BookDaoImpl implements BookDao {
             System.out.println("BookDao: findByID(" + ID + ")失败");
         }
         return null;
+    }
+
+    public Comment[] findByBookID(int bookID) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ?");
+            stm.setInt(1, bookID);
+            Comment[] comments =
+                    // Book[] books = getBooks(stm);
+                    conn.close();
+            if (books != null && books[0] != null) return books[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -93,6 +106,29 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return new Book[0];
+    }
+
+    private boolean addComment(Comment comment) {
+        try {
+            conn = DBUtil.connectDB(); //连接数据库
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO comment" +
+                    "(username,bookID,time,comments,ID) VALUES (?,?,?,?,null)");
+            stm.setString(1, comment.getUsername());
+            stm.setInt(2, comment.getBookID());
+            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
+            stm.setString(4, comment.getComments());
+            try {
+                stm.executeQuery();
+                System.out.println("评论添加成功");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                System.out.println("评论添加失败");
+            }
+            stm.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -205,6 +241,16 @@ public class BookDaoImpl implements BookDao {
         return null;
     }
 
+    private Comment[] getComments(PreparedStatement stm) {
+        try {
+            ResultSet rs = stm.executeQuery();
+            ArrayList<Comment> comments = new ArrayList<>();
+            while (rs.next()) {
+                Comment comment = new Comment(rs.getString("username"), rs.getInt("bookID"), rs.)
+            }
+        }
+    }
+
     @Override
     public boolean delete(int bookID) {
         try {
@@ -306,7 +352,11 @@ public class BookDaoImpl implements BookDao {
                 }
             }
             // 将最后一个逗号修改为分号
-            collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            try {
+                collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            } catch (StringIndexOutOfBoundsException siobe) {
+                return false;
+            }
             PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
             delete_stm.setInt(1, bookID);
             delete_stm.executeUpdate();
