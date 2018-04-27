@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -87,8 +89,8 @@
                                 // chips 脚本
                                 $('.chips').material_chip();
                                 $('.chips-placeholder').material_chip({
-                                    placeholder: '键入并按回车',
-                                    secondaryPlaceholder: '键入并按回车'
+                                    placeholder: '键入协作者用户名并按回车',
+                                    secondaryPlaceholder: '键入协作者用户名并按回车'
                                 });
                             </script>
                             <%} else { // 如果有协作者 %>
@@ -106,8 +108,8 @@
                             <%}%>
                         </div>
                         <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat"
                                id="collaborator_submit">确认</a>
                         </div>
                     </div>
@@ -199,16 +201,18 @@
                 <%
                     for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
                 %>
-                <div>
+                <div style="height: 43px; overflow: hidden">
                     <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
+                        <span class="grey-text right"
+                              style="display: inline-block;margin-right: 20px"><%=sdf.format(chapter.getLastModified())%></span>
                     </a>
                     <%
                         if (chiefEditor.getUsername().equals(session.getAttribute("username"))) {
                     %>
                     <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
                        class="right modify_chapter_icon"
-                       style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
+                       style="position:relative;top:-40px;right:10px;font-size: 20px;line-height: 40px">
                         <i class="material-icons">mode_edit</i>
                     </a>
                     <%}%>
@@ -340,7 +344,7 @@
             toast("设置协作者成功");
             window.location.href = responseText;
         }).fail(function () {
-            toast("操作异常，请重试");
+            toast("操作异常，请确认输入后是否按回车健");
         })
     });
 </script>

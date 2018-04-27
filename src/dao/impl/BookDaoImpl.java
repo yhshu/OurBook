@@ -184,7 +184,7 @@ public class BookDaoImpl implements BookDao {
                 } catch (Exception ignored) {
                 }
                 try {
-                    book.setLastModified(rs.getDate("last_modified"));
+                    book.setLastModified(rs.getTimestamp("last_modified"));
                 } catch (Exception ignored) {
                 }
                 try {
@@ -279,7 +279,7 @@ public class BookDaoImpl implements BookDao {
                         rs.getString("keywords"),
                         rs.getString("cover"),
                         rs.getInt("chapter_num"),
-                        rs.getDate("last_modified"),
+                        rs.getTimestamp("last_modified"),
                         rs.getInt("clicks"),
                         rs.getInt("favorites")));
             }
