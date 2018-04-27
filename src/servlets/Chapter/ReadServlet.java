@@ -39,15 +39,8 @@ public class ReadServlet extends HttpServlet {
         InputStreamReader isr = new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath(chapter.getContent())), "UTF-8");
         BufferedReader read = new BufferedReader(isr);
         boolean isCollaborator = false;
-        User[] collaborators = bookService.getCollaborators(bookID);
-        if (collaborators != null) {
-            for (User collaborator : collaborators) {
-                if (collaborator.getUsername().equals(session.getAttribute("username"))) {
-                    isCollaborator = true;
-                    break;
-                }
-            }
-        }
+        if (bookService.authority(bookID, (String) session.getAttribute("username")) == 1)
+            isCollaborator = true;
         request.setAttribute("isCollaborator", isCollaborator);
         request.setAttribute("chapters", chapters);
         request.setAttribute("reader", read);

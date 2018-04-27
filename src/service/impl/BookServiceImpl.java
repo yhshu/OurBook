@@ -16,6 +16,9 @@ import java.io.*;
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
+    public static final int chiefEditorAuthority = 2;
+    public static final int collaboratorAuthority = 1;
+    public static final int noAuthority = 0;
 
     @Override
     public boolean addBook(String name, String description, String chiefEditor, String keywords, String cover) {
@@ -127,7 +130,7 @@ public class BookServiceImpl implements BookService {
 
         try {
             // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            chapterDao.modify(username,new Chapter(name, bookID, sequence, db_path));
+            chapterDao.modify(username, new Chapter(name, bookID, sequence, db_path));
             return true;
         } catch (Exception e) {
             System.out.println("BookService: 添加章节失败");
@@ -197,5 +200,21 @@ public class BookServiceImpl implements BookService {
     @Override
     public User[] getCollaborators(int bookID) {
         return bookDao.getCollaborators(bookID);
+    }
+
+    @Override
+    public int authority(int bookID, String username) {
+        String chiefEditorUsername = bookDao.findByID(bookID).getChiefEditor();
+        if (chiefEditorUsername.equals(username))
+            return chiefEditorAuthority;
+        User[] collaborators = bookDao.getCollaborators(bookID);
+        if (collaborators != null) {
+            for (User collaborator : collaborators) {
+                if (collaborator.getUsername().equals(username)) {
+                    return collaboratorAuthority;
+                }
+            }
+        }
+        return noAuthority;
     }
 }
