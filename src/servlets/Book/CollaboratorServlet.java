@@ -21,13 +21,13 @@ public class CollaboratorServlet extends HttpServlet {
         int bookID = Integer.parseInt(request.getParameter("bookID"));
         String username = (String) session.getAttribute("username");
         System.out.println("CollaboratorServlet: " + username + " 正在添加协作者 " + collaborator);
-        try {
-            bookService.setCollaborators(bookID, collaborator, username);
+
+        if (bookService.setCollaborators(bookID, collaborator, username)) {
             response.setContentType("text/plain");
             response.getWriter().write("/book?id=" + bookID);
-        } catch (Exception e) {
-            response.sendError(500);
+            return;
         }
+        response.sendError(500);
     }
 
     @Override

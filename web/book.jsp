@@ -88,8 +88,8 @@
                                 // chips 脚本
                                 $('.chips').material_chip();
                                 $('.chips-placeholder').material_chip({
-                                    placeholder: '键入并按回车',
-                                    secondaryPlaceholder: '键入并按回车'
+                                    placeholder: '键入协作者用户名并按回车',
+                                    secondaryPlaceholder: '键入协作者用户名并按回车'
                                 });
                             </script>
                             <%} else { // 如果有协作者 %>
@@ -107,8 +107,8 @@
                             <%}%>
                         </div>
                         <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat"
                                id="collaborator_submit">确认</a>
                         </div>
                     </div>
@@ -344,7 +344,7 @@
             toast("设置协作者成功");
             window.location.href = responseText;
         }).fail(function () {
-            toast("操作异常，请重试");
+            toast("操作异常，请确认输入后是否按回车健");
         })
     });
 </script>

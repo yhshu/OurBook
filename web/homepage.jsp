@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消
+                        <a class="modal-action modal-close waves-effect waves-green btn-flat">取消
                         </a>
                         <button class="modal-action modal-close waves-effect waves-green btn-flat"
                                 id="submit_personal_info"
