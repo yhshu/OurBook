@@ -66,7 +66,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") AS c ON ID=bookID WHERE "
+                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("time", range) + ") AS c ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
                     " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
@@ -83,7 +83,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") AS f ON ID=bookID WHERE "
+                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("time", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
                     + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
             Book[] books = getBooks(stm);
@@ -253,10 +253,9 @@ public class BookDaoImpl implements BookDao {
     public boolean click(String username, int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,NOW())");
             stm.setString(1, username);
             stm.setInt(2, bookID);
-            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             conn.close();
             return true;

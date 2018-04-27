@@ -9,7 +9,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class UserDaoImpl implements UserDao {
     private Connection conn = null;
@@ -156,10 +155,9 @@ public class UserDaoImpl implements UserDao {
     public boolean addFavorite(String username, int bookID) {
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?,NOW())");
             stm.setString(1, username);
             stm.setInt(2, bookID);
-            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             System.out.println("UserDao: 收藏成功");
             conn.close();
