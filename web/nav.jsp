@@ -3,9 +3,9 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
+    <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text">通知中心
+        <span class="new badge right"><%=session.getAttribute("unreadNotifications")%></span></a></li>
     <li class="divider"></li>
-    <li><a href="${pageContext.request.contextPath}/notifications.jsp" class="blue-text">通知中心
-        <span class="new badge"><%=session.getAttribute("unreadNotifications")%></span></a></li>
     <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">注销</a></li>
 </ul>
 
@@ -108,7 +108,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="newbook.jsp"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
-                <li style="height: 64px">
+                <li style="height: 64px;min-width: 150px">
                     <a class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"
                        data-hover="hover" style="height: 64px">
                         <span style="position:relative;bottom:10px;right:10px;margin-left: 10px">

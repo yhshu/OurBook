@@ -33,7 +33,7 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public boolean add(String username, String message) {
+    public boolean add(String username, String header, String message) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm1 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM notification");
@@ -42,10 +42,11 @@ public class NotificationDaoImpl implements NotificationDao {
             int maxID = rs.getInt("max_ID");
             rs.close();
             stm1.close();
-            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO notification(ID,username,time,message,`read`) VALUES (?,?,NOW(),?,FALSE)");
+            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO notification(ID,username,time,header,message,`read`) VALUES (?,?,NOW(),?,?,FALSE)");
             stm2.setInt(1, maxID + 1);
             stm2.setString(2, username);
-            stm2.setString(3, message);
+            stm2.setString(3, header);
+            stm2.setString(4, message);
             try {
                 stm2.executeUpdate();
                 System.out.println("NotificationDao: 添加成功");
@@ -104,6 +105,7 @@ public class NotificationDaoImpl implements NotificationDao {
             Notification notification = new Notification();
             notification.setUsername(rs.getString("username"));
             notification.setTime(rs.getTimestamp("time"));
+            notification.setHeader(rs.getString("header"));
             notification.setMessage(rs.getString("message"));
             notification.setRead(rs.getBoolean("read"));
             notifications.add(notification);

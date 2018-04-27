@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public class Notification {
 
-    private int ID;             // 编号
     private String username;    // 接收用户名
     private Timestamp time;     // 时间
     private String message;     // 信息
     private boolean read;       // 是否被阅读
+    private String header;      // 标题
 
     public Notification() {
     }
@@ -43,5 +43,13 @@ public class Notification {
 
     public void setRead(boolean read) {
         this.read = read;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 }
