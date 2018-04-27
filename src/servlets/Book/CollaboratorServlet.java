@@ -22,9 +22,10 @@ public class CollaboratorServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         System.out.println("CollaboratorServlet: " + username + " 正在添加协作者 " + collaborator);
         try {
-            bookService.setCollaborators(bookID, collaborator, username);
-            response.setContentType("text/plain");
-            response.getWriter().write("/book?id=" + bookID);
+            if (bookService.setCollaborators(bookID, collaborator, username)) {
+                response.setContentType("text/plain");
+                response.getWriter().write("/book?id=" + bookID);
+            } else throw new Exception();
         } catch (Exception e) {
             response.sendError(500);
         }

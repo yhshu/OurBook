@@ -7,11 +7,9 @@ import model.Comment;
 import model.User;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class BookDaoImpl implements BookDao {
     private Connection conn = null;
@@ -79,7 +77,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") AS c ON ID=bookID WHERE "
+                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("time", range) + ") AS c ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
                     " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
@@ -96,7 +94,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") AS f ON ID=bookID WHERE "
+                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("time", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
                     + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
             Book[] books = getBooks(stm);
@@ -221,7 +219,7 @@ public class BookDaoImpl implements BookDao {
                 } catch (Exception ignored) {
                 }
                 try {
-                    book.setLastModified(rs.getDate("last_modified"));
+                    book.setLastModified(rs.getTimestamp("last_modified"));
                 } catch (Exception ignored) {
                 }
                 try {
@@ -297,10 +295,9 @@ public class BookDaoImpl implements BookDao {
     public boolean click(String username, int bookID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,NOW())");
             stm.setString(1, username);
             stm.setInt(2, bookID);
-            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
             conn.close();
             return true;
@@ -326,7 +323,7 @@ public class BookDaoImpl implements BookDao {
                         rs.getString("keywords"),
                         rs.getString("cover"),
                         rs.getInt("chapter_num"),
-                        rs.getDate("last_modified"),
+                        rs.getTimestamp("last_modified"),
                         rs.getInt("clicks"),
                         rs.getInt("favorites")));
             }
@@ -351,7 +348,11 @@ public class BookDaoImpl implements BookDao {
                 }
             }
             // 将最后一个逗号修改为分号
-            collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            try {
+                collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
+            } catch (StringIndexOutOfBoundsException siobe) {
+                return false;
+            }
             PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
             delete_stm.setInt(1, bookID);
             delete_stm.executeUpdate();

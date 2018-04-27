@@ -1,5 +1,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -9,6 +10,7 @@
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
         User[] followers = (User[]) request.getAttribute("followers");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
@@ -74,7 +76,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消
+                        <a class="modal-action modal-close waves-effect waves-green btn-flat">取消
                         </a>
                         <button class="modal-action modal-close waves-effect waves-green btn-flat"
                                 id="submit_personal_info"
@@ -129,7 +131,7 @@ border-bottom: 1px solid lightgray">
                             <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
                         </p>
                         <p style="margin: 10px 20px">
-                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                            最后更新： <%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
                         </p>
                     </div>
                 </div>
@@ -137,7 +139,7 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div STYLE="width: 253px;float: left"><!--右侧 收藏、关注与书迷-->
+        <div style="width: 253px;float: left"><!--右侧 收藏、关注与书迷-->
             <div class="col card" style="width: 253px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
                 <% if (favorites.length == 0) {%>
@@ -207,7 +209,6 @@ border-bottom: 1px solid lightgray">
             <div id="privatedialog" class="modal" style="min-width:300px">
                 <form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">
                     <div class="modal-content">
-
                     </div>
 
                     <div class="modal-footer">

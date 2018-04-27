@@ -11,7 +11,8 @@
     <div style="margin-left: 4px; margin-top: 10px;">
         <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
                 class="material-icons">arrow_back</i>返回</a>
-        <% if (session.getAttribute("username").equals(request.getAttribute("editor"))) {
+        <% if (session.getAttribute("username").equals(request.getAttribute("editor")) || (boolean) request.getAttribute("isCollaborator")) {
+            // 主编或协作者均拥有编辑和删除权限
         %>
         <a style="margin-left: 72px;"
            href="${pageContext.request.contextPath}/modify?book=<%=request.getAttribute("bookID")%>&sequence=<%=request.getAttribute("sequence")%>">

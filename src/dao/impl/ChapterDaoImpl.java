@@ -5,11 +5,9 @@ import dao.ChapterDao;
 import model.Chapter;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class ChapterDaoImpl implements ChapterDao {
@@ -44,12 +42,11 @@ public class ChapterDaoImpl implements ChapterDao {
             int maxID2 = rs.getInt("max_ID");
             rs.close();
             stm4.close();
-            PreparedStatement stm5 = conn.prepareStatement("INSERT INTO edit VALUES (?,?,?,?,?)");
+            PreparedStatement stm5 = conn.prepareStatement("INSERT INTO edit VALUES (?,NOW(),?,?,?)");
             stm5.setString(1, username);
-            stm5.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
-            stm5.setInt(3, maxID2 + 1);
-            stm5.setString(4, chapter.getContent());
-            stm5.setInt(5, maxID + 1);
+            stm5.setInt(2, maxID2 + 1);
+            stm5.setString(3, chapter.getContent());
+            stm5.setInt(4, maxID + 1);
             stm5.executeUpdate();
             stm5.close();
             conn.close();
@@ -87,12 +84,11 @@ public class ChapterDaoImpl implements ChapterDao {
             int ID = rs.getInt("ID");
             rs.close();
             stm3.close();
-            PreparedStatement stm5 = conn.prepareStatement("INSERT INTO edit VALUES (?,?,?,?,?)");
+            PreparedStatement stm5 = conn.prepareStatement("INSERT INTO edit VALUES (?,NOW(),?,?,?)");
             stm5.setString(1, username);
-            stm5.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
-            stm5.setInt(3, maxID + 1);
-            stm5.setString(4, chapter.getContent());
-            stm5.setInt(5, ID);
+            stm5.setInt(2, maxID + 1);
+            stm5.setString(3, chapter.getContent());
+            stm5.setInt(4, ID);
             stm5.executeUpdate();
             stm5.close();
             conn.close();
@@ -206,6 +202,10 @@ public class ChapterDaoImpl implements ChapterDao {
             while (rs.next()) {
                 Chapter chapter = new Chapter(rs.getString("name"), rs.getInt("bookID"),
                         rs.getInt("sequence"), rs.getString("content"));
+                try {
+                    chapter.setLastModified(rs.getTimestamp("last_modified"));
+                } catch (Exception ignored) {
+                }
                 chapters.add(chapter);
             }
             rs.close();

@@ -161,4 +161,13 @@ public interface BookService {
      * @return 协作者
      */
     User[] getCollaborators(int bookID);
+
+    /**
+     * 查询用户对此书的权限
+     *
+     * @param bookID   书籍
+     * @param username 用户
+     * @return 无权限0，协作者1，主编2
+     */
+    int authority(int bookID, String username);
 }
