@@ -142,7 +142,7 @@
                 margin: 0;
             }
             </style>
-            <%if (session.getAttribute("username").equals(chiefEditor.getUsername())) {%>
+            <%if (session.getAttribute("username").equals(chiefEditor.getUsername()) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编拥有所有权限（添加、编辑、删除），协作者可以添加或编辑%>
             <div style="width: 685px;">
                 <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
                       id="newChapterForm" style="display: inline-block;width: 460px">
@@ -164,32 +164,33 @@
                                 第<%=(int) request.getAttribute("chapterNum") + 1%>章
                             </option>
                         </select>
-                        <label>章节插入位置</label>
+                        <label>新增序号</label>
                     </div>
                 </form>
+                <%if (session.getAttribute("username").equals(chiefEditor.getUsername())) { // 如果当前用户是主编，可删除本书%>
                 <a href='#delete_modal' class="btn red modal-trigger" style="display: inline-block; margin-left:128px;">删除本书</a>
-            </div>
-
-            <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
-                <div class="modal-content">
-                    <h4>确认删除吗？</h4>
-                    <h5>忽略警告，糟糕的事情可能会发生。</h5>
-                    <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
-                    </b>相关的所有信息。</p>
-                    <p>请输入本书名称以确认操作。</p>
-                    <input id="bookname_confirm" type="text" oninput="change_delete_link()">
-                    <label for="bookname_confirm"></label>
+                <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
+                    <div class="modal-content">
+                        <h4>确认删除吗？</h4>
+                        <h5>忽略警告，糟糕的事情可能会发生。</h5>
+                        <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
+                        </b>相关的所有信息。</p>
+                        <p>请输入本书名称以确认操作。</p>
+                        <input id="bookname_confirm" type="text" oninput="change_delete_link()">
+                        <label for="bookname_confirm"></label>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                        <a id="delete_link"
+                           class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
+                           onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
+                        <!-- 请求删除本书-->
+                        <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
+                            <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                    <a id="delete_link"
-                       class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
-                       onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
-                    <!-- 请求删除本书-->
-                    <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
-                        <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
-                    </form>
-                </div>
+                <%}%>
             </div>
             <%}%>
 
@@ -226,7 +227,7 @@
                     </a>
                     <div style="float:left;">
                         <!--用户名与昵称-->
-                        <div style="width: 175px;height:20px">
+                        <div style="width: 175px; height:20px">
                             <h6 style="margin:0;float: left">
                                 <a href="home?user=<%=chiefEditor.getUsername()%>">
                                     <%=chiefEditor.getNickname()%>
@@ -235,6 +236,7 @@
                             <h6 class="grey-text" style="margin: 0 10px;float: left"> @<%=chiefEditor.getUsername()%>
                             </h6>
                         </div>
+                        <p style="margin: 0;"><b>主编</b></p>
                     </div>
                 </div>
                 <%
@@ -258,6 +260,7 @@
                                 @<%=collaborator.getUsername()%>
                             </h6>
                         </div>
+                        <p style="margin: 0;">协作者</p>
                     </div>
                 </div>
                 <%}%>
