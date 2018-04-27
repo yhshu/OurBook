@@ -8,7 +8,7 @@ public class User implements Serializable {
     private String password;
     private String description; // 个人简介
     private String avatar; // 头像
-    private int clicks; //书的总点击量
+    private int clicks; // 书的总点击量
     private int favorites; // 书的总收藏量
     private int followers; // 粉丝数
 

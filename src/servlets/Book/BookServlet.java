@@ -1,6 +1,7 @@
 package servlets.Book;
 
 import model.Book;
+import model.User;
 import service.BookService;
 import service.FollowService;
 import service.UserService;
@@ -39,13 +40,13 @@ public class BookServlet extends HttpServlet {
                 FollowService followService = new FollowServiceImpl();
                 Book book = bookService.find(bookID);
                 String username = (String) session.getAttribute("username");
+                User chiefEditor = userService.find(book.getChiefEditor());
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
-                request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
+                request.setAttribute("chiefEditor", chiefEditor);
                 request.setAttribute("bookID", bookID);
-                request.setAttribute("chapterNum",book.getChapterNum());
+                request.setAttribute("chapterNum", book.getChapterNum());
                 request.setAttribute("bookName", book.getName());
-                request.setAttribute("editor", book.getChiefEditor());
                 request.setAttribute("description", book.getDescription());
                 request.setAttribute("cover", book.getCover());
                 request.setAttribute("chapters", bookService.getChapters(bookID));

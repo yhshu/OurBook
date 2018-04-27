@@ -137,7 +137,7 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div STYLE="width: 253px;float: left"><!--右侧 收藏、关注与书迷-->
+        <div style="width: 253px;float: left"><!--右侧 收藏、关注与书迷-->
             <div class="col card" style="width: 253px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
                 <% if (favorites.length == 0) {%>
@@ -207,7 +207,6 @@ border-bottom: 1px solid lightgray">
             <div id="privatedialog" class="modal" style="min-width:300px">
                 <form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">
                     <div class="modal-content">
-
                     </div>
 
                     <div class="modal-footer">

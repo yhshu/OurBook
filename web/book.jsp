@@ -2,7 +2,8 @@
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
 <%
-
+    User[] collaborators = (User[]) request.getAttribute("collaborators");
+    User chiefEditor = (User) request.getAttribute("chiefEditor");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -32,7 +33,7 @@
             })
         });
     </script>
-    <% User[] collaborators = (User[]) request.getAttribute("collaborators");%>
+
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
@@ -65,7 +66,7 @@
                            id="favorite_icon"><%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
-                    <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {// 如果该书作者是当前用户%>
+                    <%if (chiefEditor.getUsername().equals(session.getAttribute("username"))) { // 如果该书作者是当前用户%>
                     <!--设置协作者 按钮-->
                     <a href="#set_collaborators_modal" class="modal-trigger waves-effect waves-light"
                        data-target="" style="display: inline; font-size: 32px;float: right; margin-right: 20px;"
@@ -111,17 +112,17 @@
                     </div>
                 </div>
                 <div>
-                    <a href="${pageContext.request.contextPath}/home?user=<%=request.getAttribute("editor")%>"
+                    <a href="${pageContext.request.contextPath}/home?user=<%=chiefEditor.getUsername()%>"
                        style="color: gray;margin: 0 0 0 25px; display: inline;">
-                        <%=request.getAttribute("editorNickname")%>
+                        <%=chiefEditor.getNickname()%>
                     </a>
                     <% // 如果不是作者不是当前用户
-                        if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
+                        if (!chiefEditor.getUsername().equals(session.getAttribute("username"))) {%>
                     <a class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
                        id="follow_submit"
                        data-method='<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>'
-                       data-followee='<%=request.getAttribute("editor")%>'>
+                       data-followee='<%=chiefEditor.getUsername()%>'>
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                     </a>
                     <%}%>
@@ -133,87 +134,136 @@
                 </p>
             </div>
         </div>
-    </div>
-
-    <div class="card" style="padding: 20px;width:1000px"><!-- 章节目录 -->
-        <h5 style="margin-left:20px; margin-right: 30px;">章节目录</h5>
-        <style>form {
-            margin: 0;
-        }
-        </style>
-        <%if (session.getAttribute("username").equals(request.getAttribute("editor"))) {%>
-        <div style="width: 960px">
-            <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
-                  id="newChapterForm" style="display: inline-block;width: 800px">
-                <!-- 添加章节 表单 -->
-                <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
-                <input id="sequence" name="sequence" type="hidden"
-                       value="<%=(int)request.getAttribute("chapterNum")+1%>"/>
-                <button class="btn blue"
-                        style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;">添加章节
-                </button>
-                <div class="input-field"
-                     style="width: 300px;display: inline-block;left: 50px;margin: 0;height: 36px">
-                    <select id="select_sequence">
-                        <%for (int i = 1; i <= (int) request.getAttribute("chapterNum"); i++) {%>
-                        <option value="<%=i%>">第<%=i%>章</option>
-                        <%}%>
-                        <option value="<%=(int) request.getAttribute("chapterNum") + 1%>" selected>
-                            第<%=(int) request.getAttribute("chapterNum") + 1%>章
-                        </option>
-                    </select>
-                    <label>选择章节插入位置</label>
-                </div>
-            </form>
-            <a href='#delete_modal' class="btn red modal-trigger right">删除本书</a>
-        </div>
-
-        <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
-            <div class="modal-content">
-                <h4>确认删除吗？</h4>
-                <h5>忽略警告，糟糕的事情可能会发生。</h5>
-                <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
-                </b>相关的所有信息。</p>
-                <p>请输入本书名称以确认操作。</p>
-                <input id="bookname_confirm" type="text" oninput="change_delete_link()">
-                <label for="bookname_confirm"></label>
-            </div>
-            <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                <a id="delete_link"
-                   class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
-                   onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
-                <!-- 请求删除本书-->
-                <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
-                    <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
+    </div><!-- 书籍信息 -->
+    <div class="row" style="width: 1000px"><!--章节目录和编辑者-->
+        <div class="col card" style="padding: 0 20px;width:723px; margin-right:23px;"><!-- 章节目录 -->
+            <h5 style="text-align: center; margin-bottom: 30px;">章节目录</h5>
+            <style>form {
+                margin: 0;
+            }
+            </style>
+            <%if (session.getAttribute("username").equals(chiefEditor.getUsername())) {%>
+            <div style="width: 685px;">
+                <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
+                      id="newChapterForm" style="display: inline-block;width: 460px">
+                    <!-- 添加章节 表单 -->
+                    <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
+                    <input id="sequence" name="sequence" type="hidden"
+                           value="<%=(int)request.getAttribute("chapterNum")+1%>"/>
+                    <button class="btn blue"
+                            style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;">
+                        添加章节
+                    </button>
+                    <div class="input-field"
+                         style="width: 300px;display: inline-block;left: 50px;margin: 0;height: 36px">
+                        <select id="select_sequence">
+                            <%for (int i = 1; i <= (int) request.getAttribute("chapterNum"); i++) {%>
+                            <option value="<%=i%>">第<%=i%>章</option>
+                            <%}%>
+                            <option value="<%=(int) request.getAttribute("chapterNum") + 1%>" selected>
+                                第<%=(int) request.getAttribute("chapterNum") + 1%>章
+                            </option>
+                        </select>
+                        <label>章节插入位置</label>
+                    </div>
                 </form>
+                <a href='#delete_modal' class="btn red modal-trigger" style="display: inline-block; margin-left:128px;">删除本书</a>
             </div>
-        </div>
-        <%}%>
 
-        <div class="collection">
-            <%
-                for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
-            %>
-            <div>
-                <a href="${pageContext.request.contextPath}/read?book=
-<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
-                </a>
-                <%
-                    if (request.getAttribute("editor").equals(session.getAttribute("username"))) {
-                %>
-                <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
-                   class="right modify_chapter_icon"
-                   style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
-                    <i class="material-icons">mode_edit</i>
-                </a>
-                <%}%>
+            <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
+                <div class="modal-content">
+                    <h4>确认删除吗？</h4>
+                    <h5>忽略警告，糟糕的事情可能会发生。</h5>
+                    <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
+                    </b>相关的所有信息。</p>
+                    <p>请输入本书名称以确认操作。</p>
+                    <input id="bookname_confirm" type="text" oninput="change_delete_link()">
+                    <label for="bookname_confirm"></label>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                    <a id="delete_link"
+                       class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
+                       onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
+                    <!-- 请求删除本书-->
+                    <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
+                        <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
+                    </form>
+                </div>
             </div>
             <%}%>
+
+            <div class="collection" style="margin-top: 20px;">
+                <%
+                    for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
+                %>
+                <div>
+                    <a href="${pageContext.request.contextPath}/read?book=
+<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
+                    </a>
+                    <%
+                        if (chiefEditor.getUsername().equals(session.getAttribute("username"))) {
+                    %>
+                    <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+                       class="right modify_chapter_icon"
+                       style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
+                        <i class="material-icons">mode_edit</i>
+                    </a>
+                    <%}%>
+                </div>
+                <%}%>
+            </div>
         </div>
-    </div>
-    <div class="col"><!--编辑者列表，包括主编与协作者-->
-        <h5 style="text-align: center;">协作者</h5>
+
+        <div class="col card" style=" width:253px"><!--编辑者列表，包括主编与协作者-->
+            <h5 style="text-align: center">编辑者</h5>
+            <div style="margin: 10px auto">
+                <!--主编信息-->
+                <div class="row user_<%=chiefEditor.getUsername()%>" style="margin: 15px 5px;">
+                    <a href="home?user=<%=chiefEditor.getUsername()%>"><!--用户头像-->
+                        <img src="<%=chiefEditor.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <div style="float:left;">
+                        <!--用户名与昵称-->
+                        <div style="width: 175px;height:20px">
+                            <h6 style="margin:0;float: left">
+                                <a href="home?user=<%=chiefEditor.getUsername()%>">
+                                    <%=chiefEditor.getNickname()%>
+                                </a>
+                            </h6>
+                            <h6 class="grey-text" style="margin: 0 10px;float: left"> @<%=chiefEditor.getUsername()%>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                <%
+                    if (collaborators != null) // 协作者信息
+                        for (User collaborator : collaborators) {
+                %>
+                <div class="row user_<%=collaborator.getUsername()%>" style="margin: 15px 5px;">
+                    <a href="home?user=<%=collaborator.getUsername()%>"><!--用户头像-->
+                        <img src="<%=collaborator.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <div style="float:left;">
+                        <!--用户名与昵称-->
+                        <div style="width: 175px;height:20px">
+                            <h6 style="margin:0;float: left">
+                                <a href="home?user=<%=collaborator.getUsername()%>">
+                                    <%=collaborator.getNickname()%>
+                                </a>
+                            </h6>
+                            <h6 class="grey-text" style="margin: 0 10px;float: left">
+                                @<%=collaborator.getUsername()%>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+
+        </div>
     </div>
 </div>
 
