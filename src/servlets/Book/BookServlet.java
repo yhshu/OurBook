@@ -43,10 +43,12 @@ public class BookServlet extends HttpServlet {
                 User chiefEditor = userService.find(book.getChiefEditor());
                 User[] collaborators = bookService.getCollaborators(bookID);
                 boolean isCollaborator = false;
-                for (User collaborator : collaborators) {
-                    if (username.equals(collaborator.getUsername())) {
-                        isCollaborator = true;
-                        break;
+                if (collaborators != null) {
+                    for (User collaborator : collaborators) {
+                        if (username.equals(collaborator.getUsername())) {
+                            isCollaborator = true;
+                            break;
+                        }
                     }
                 }
                 boolean isFavorite = userService.isFavorite(username, bookID);

@@ -40,10 +40,12 @@ public class ReadServlet extends HttpServlet {
         BufferedReader read = new BufferedReader(isr);
         boolean isCollaborator = false;
         User[] collaborators = bookService.getCollaborators(bookID);
-        for (User collaborator : collaborators) {
-            if (collaborator.getUsername().equals(session.getAttribute("username"))) {
-                isCollaborator = true;
-                break;
+        if (collaborators != null) {
+            for (User collaborator : collaborators) {
+                if (collaborator.getUsername().equals(session.getAttribute("username"))) {
+                    isCollaborator = true;
+                    break;
+                }
             }
         }
         request.setAttribute("isCollaborator", isCollaborator);
