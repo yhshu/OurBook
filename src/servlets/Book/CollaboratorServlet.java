@@ -29,7 +29,6 @@ public class CollaboratorServlet extends HttpServlet {
         } catch (Exception e) {
             response.sendError(500);
         }
-        response.sendError(500);
     }
 
     @Override
