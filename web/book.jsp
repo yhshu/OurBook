@@ -79,8 +79,8 @@
                     <div id="set_collaborators_modal" class="modal">
                         <div class="modal-content">
                             <h4>设置协作者</h4>
-                            <p>授予协作者编辑本书的权限。
-                                每输入一个用户名，按下 Enter 确认。</p>
+                            <p>授予协作者编辑本书的权限。</p>
+                            <p>每输入一个用户名，按下 Enter 确认。</p>
                             <%
                                 if (collaborators == null) {// 如果无协作者 %>
                             <div class="chips input-field chips-placeholder">
@@ -89,8 +89,8 @@
                                 // chips 脚本
                                 $('.chips').material_chip();
                                 $('.chips-placeholder').material_chip({
-                                    placeholder: '键入协作者用户名并按回车',
-                                    secondaryPlaceholder: '键入协作者用户名并按回车'
+                                    placeholder: '键入并按回车',
+                                    secondaryPlaceholder: '键入并按回车'
                                 });
                             </script>
                             <%} else { // 如果有协作者 %>
@@ -344,7 +344,8 @@
             toast("设置协作者成功");
             window.location.href = responseText;
         }).fail(function () {
-            toast("操作异常，请确认输入后是否按回车健");
+            toast("操作异常，请重试");
+            location.reload();
         })
     });
 </script>
