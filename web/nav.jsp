@@ -104,8 +104,16 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
-                <li><a href="${pageContext.request.contextPath}/notifications"><i class="material-icons edit_icon">notifications</i>
-                    <span class="new badge right"><%=session.getAttribute("unreadNotifications")%></span></a>
+
+                <li><%
+                    if ((int) session.getAttribute("unreadNotifications") == 0) {
+                %>
+                    <a href="${pageContext.request.contextPath}/notifications"><i class="material-icons notification_icon">notifications</i>
+                    </a>
+                    <%} else{%>
+                    <a href="${pageContext.request.contextPath}/notifications"><i class="material-icons notification_icon">notifications_active</i>
+                    </a>
+                    <%}%>
                 </li>
                 <li><a href="create"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->

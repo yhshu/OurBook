@@ -13,6 +13,7 @@
 <script>
     $(document).ready(function () {
         var edit_icon = $('.edit_icon');
+        var notification_icon = $('.notification_icon');
         var modify_chapter_icon = $('.modify_chapter_icon');
         var remove_favorite = $('a .material-icons:contains("favorite")');
         var add_favorite = $('a .material-icons:contains("favorite_border")');
@@ -20,6 +21,8 @@
         var clicks = $('p .material-icons:contains("remove_red_eye")');
         var followers = $('p .material-icons:contains("perm_identity")');
         var settings = $('a .material-icons:contains("settings")');
+        notification_icon.addClass("tooltipped");
+        notification_icon.attr('data-tooltip', '通知');
         edit_icon.addClass("tooltipped");
         edit_icon.attr('data-tooltip', '创建新书');
         modify_chapter_icon.addClass("tooltipped");
