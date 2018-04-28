@@ -91,7 +91,7 @@
                 }).fail(function () {
                     toast('发送失败');
                 })
-            })
+            });
         });
     </script>
 </head>
@@ -172,6 +172,11 @@
         <%}%>
     </div>
     <div id="area3" class="col s12 contained-area">
+        <%
+            if (messageMap.keySet().size() == 0) {%>
+        <h4 class="center-align grey-text" style="margin: 100px">没有私信记录</h4>
+        <%
+        } else {%>
         <ul class="collapsible"><%
             for (User user : messageMap.keySet()) {
                 int unreadNum = 0;
@@ -209,6 +214,7 @@
                 }
             %>
         </ul>
+        <%}%>
     </div>
     <div id="message_modal" class="modal" style="min-width:300px">
         <form id="message_form">
