@@ -6,7 +6,7 @@
     <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text">通知中心
         <span class="new badge right"><%=session.getAttribute("unreadNotifications")%></span></a></li>
     <li class="divider"></li>
-    <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">注销</a></li>
+    <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">退出</a></li>
 </ul>
 
 <ul id="dropdown2" class="dropdown-content dropdown-nested">
@@ -106,6 +106,8 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
+                <li><a href="${pageContext.request.contextPath}/notifications"><i class="material-icons edit_icon">notifications</i></a>
+                </li>
                 <li><a href="newbook.jsp"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
                 <li style="height: 64px;min-width: 150px">
