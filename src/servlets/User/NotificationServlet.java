@@ -21,16 +21,8 @@ public class NotificationServlet extends BaseServlet {
 
     public void read(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            NotificationService notificaService = new NotificaServiceImpl();
-            notificaService.read(Integer.parseInt(request.getParameter("ID")));
-            response.setContentType("text/plain");
-            response.getWriter().write("200 OK");
-        } catch (NullPointerException e) {
-            response.sendError(404);
-        } catch (Exception e) {
-            response.sendError(500);
-        }
+        NotificationService notificaService = new NotificaServiceImpl();
+        notificaService.read(Integer.parseInt(request.getParameter("ID")));
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response)
