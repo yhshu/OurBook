@@ -18,9 +18,9 @@ public interface NotificationDao {
      *
      * @param username 接收者用户名
      * @param header   标题
-     * @param message  信息
+     * @param content  内容
      */
-    boolean add(String username, String header, String message);
+    boolean add(String username, String header, String content);
 
     /**
      * 删除通知
