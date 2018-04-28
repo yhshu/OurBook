@@ -58,7 +58,7 @@ public interface BookDao {
     /**
      * 添加书目
      *
-     * @param book 新增书目
+     * @param bookID 新增书目
      */
     Comment[] findByBookID(int BookID);
 
