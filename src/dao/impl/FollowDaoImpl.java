@@ -8,6 +8,7 @@ import model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -73,8 +74,9 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(1, followee);
             User[] followers = getUsers(stm);
             conn.close();
-            if (followers != null) return followers;
+            return followers;
         } catch (Exception e) {
+            System.out.println("BookDao: 获取关注列表失败:");
             e.printStackTrace();
         }
         return new User[0];
@@ -93,8 +95,9 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(1, follower);
             User[] followees = getUsers(stm);
             conn.close();
-            if (followees != null) return followees;
+            return followees;
         } catch (Exception e) {
+            System.out.println("BookDao: 获取关注列表失败:");
             e.printStackTrace();
         }
         return new User[0];
@@ -176,24 +179,18 @@ public class FollowDaoImpl implements FollowDao {
         return false;
     }
 
-    private User[] getUsers(PreparedStatement stm) {
-        try {
-            ResultSet rs = stm.executeQuery();
-            ArrayList<User> users = new ArrayList<>();
-            while (rs.next()) {
-                User user = new User(rs.getString("username"), rs.getString("nickname"),
-                        null, rs.getString("description"),
-                        rs.getString("avatar"));
-                user.setFollowers(rs.getInt("followers"));
-                users.add(user);
-            }
-            rs.close();
-            stm.close();
-            return users.toArray(new User[0]);
-        } catch (Exception e) {
-            System.out.println("BookDao: 获取关注列表失败:");
-            e.printStackTrace();
+    private User[] getUsers(PreparedStatement stm) throws SQLException {
+        ResultSet rs = stm.executeQuery();
+        ArrayList<User> users = new ArrayList<>();
+        while (rs.next()) {
+            User user = new User(rs.getString("username"), rs.getString("nickname"),
+                    null, rs.getString("description"),
+                    rs.getString("avatar"));
+            user.setFollowers(rs.getInt("followers"));
+            users.add(user);
         }
-        return null;
+        rs.close();
+        stm.close();
+        return users.toArray(new User[0]);
     }
 }

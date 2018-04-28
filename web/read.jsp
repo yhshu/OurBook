@@ -4,6 +4,7 @@
 <html>
 <head>
     <%@ include file="header.jsp" %>
+    <title><%=request.getAttribute("name")%> - OurBook</title>
 </head>
 <body class="lighten-5" style="background-color: #F9F3E9">
 <jsp:include page="nav.jsp"/>

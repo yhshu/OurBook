@@ -1,7 +1,10 @@
 package servlets.User;
 
+import model.Notification;
 import model.User;
+import service.NotificationService;
 import service.UserService;
+import service.impl.NotificaServiceImpl;
 import service.impl.UserServiceImpl;
 import servlets.BaseServlet;
 
@@ -44,6 +47,7 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserService userService = new UserServiceImpl();
+        NotificationService notificationService = new NotificaServiceImpl();
         User user = userService.login(username, password);
         if (user != null) { // 用户名密码匹配
             final int maxAge = 7 * 24 * 60 * 60;
@@ -62,6 +66,7 @@ public class UserServlet extends BaseServlet {
             session.setAttribute("username", username);
             session.setAttribute("nickname", user.getNickname());
             session.setAttribute("avatar", user.getAvatar());
+            session.setAttribute("unreadNotifications", notificationService.getUnread(username).length);
             // 将 JSESSIONID 持久化
             Cookie c_JSESSIONID = new Cookie("JSESSIONID", session.getId());
             c_JSESSIONID.setMaxAge(maxInactiveInterval);
