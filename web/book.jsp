@@ -274,6 +274,15 @@
     </div>
     <div>
         <h6>评论</h6>
+        <div class="row"><!--评论输入框-->
+            <div class="input-field col s12">
+                <textarea id="comment_text" class="materialize-textarea" data-length="140" placeholder="写下你的评论..."></textarea>
+            </div>
+        </div>
+        <button class="btn blue">提交</button>
+        <div><!--本书已有评论-->
+
+        </div>
     </div>
 </div>
 
