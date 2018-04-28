@@ -3,13 +3,11 @@ package dao.impl;
 import Util.DBUtil;
 import dao.BookDao;
 import model.Book;
-import model.Comment;
 import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BookDaoImpl implements BookDao {
@@ -29,20 +27,6 @@ public class BookDaoImpl implements BookDao {
             System.out.println("BookDao: findByID(" + ID + ")失败");
         }
         return null;
-    }
-
-    public Comment[] findByBookID(int bookID) {
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ?");
-            stm.setInt(1, bookID);
-            Comment[] comments = getComments(stm);
-            conn.close();
-            return comments;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Comment[0];
     }
 
     @Override
@@ -107,30 +91,6 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return new Book[0];
-    }
-
-    private boolean addComment(Comment comment) {
-        try {
-            conn = DBUtil.connectDB(); //连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO comment" +
-                    "(username,bookID,time,comments,ID) VALUES (?,?,NOW(),?,null)");
-            stm.setString(1, comment.getUsername());
-            stm.setInt(2, comment.getBookID());
-            stm.setString(3, comment.getComments());
-            try {
-                stm.executeQuery();
-                System.out.println("评论添加成功");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                System.out.println("评论添加失败");
-            }
-            stm.close();
-            conn.close();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     @Override
@@ -241,20 +201,6 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private Comment[] getComments(PreparedStatement stm) throws SQLException {
-        ResultSet rs = stm.executeQuery();
-        ArrayList<Comment> comments = new ArrayList<>();
-        while (rs.next()) {
-            Comment comment = new Comment();
-            comment.setUsername(rs.getString("username"));
-            comment.setBookID(rs.getInt("bookID"));
-            comment.setTime(rs.getTimestamp("time"));
-            comment.setComments(rs.getString("comments"));
-            comments.add(comment);
-        }
-        return comments.toArray(new Comment[0]);
     }
 
     @Override

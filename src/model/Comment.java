@@ -1,63 +1,67 @@
 package model;
 
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Comment {
+public class Comment implements Serializable {
+    private int ID;
     private String username;
     private int bookID;
-    private Data data;
-    private Timestamp time;
-    private String comments;
+    private Timestamp datatime;
+    private String content;
 
-    public Comment(){
-    }
-
-    public Comment(String username, int bookID, Data data, String comments) {
+    public Comment(String username, int bookID, Timestamp datatime, String content) {
         this.username = username;
         this.bookID = bookID;
-        this.data = data;
-        this.comments = comments;
+        this.datatime = datatime;
+        this.content = content;
+    }
+
+    public Comment(int ID, String username, int bookID, Timestamp datatime, String content) {
+        this.ID = ID;
+        this.username = username;
+        this.bookID = bookID;
+        this.datatime = datatime;
+        this.content = content;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public Data getData() {
-        return data;
-    }
-
-    public String getComments() {
-        return comments;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getBookID() {
         return bookID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setBookID(int bookID) {
         this.bookID = bookID;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public Timestamp getDatatime() {
+        return datatime;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setDatatime(Timestamp datatime) {
+        this.datatime = datatime;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public String getContent() {
+        return content;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -1,7 +1,6 @@
 package dao;
 
 import model.Book;
-import model.Comment;
 import model.User;
 
 public interface BookDao {
@@ -58,13 +57,7 @@ public interface BookDao {
     /**
      * 添加书目
      *
-     * @param bookID 新增书目
-     */
-    Comment[] findByBookID(int BookID);
-
-    /**
-     * 根据书ID查找对应的评论
-     * @param book
+     * @param book 新增书目
      */
     void add(Book book);
 

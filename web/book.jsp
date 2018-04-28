@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Chapter" %>
+<%@ page import="model.Comment" %>
 <%@ page import="model.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
+    Comment[] comments = (Comment[]) request.getAttribute("comments");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -274,14 +276,45 @@
     </div>
     <div>
         <h6>评论</h6>
-        <div class="row"><!--评论输入框-->
+        <div class="row" style="width: 1000px;"><!--评论输入框-->
             <div class="input-field col s12">
-                <textarea id="comment_text" class="materialize-textarea" data-length="140" placeholder="写下你的评论..."></textarea>
+                <textarea id="comment_text" class="materialize-textarea" data-length="140"
+                          style="float: left; width: 900px;"
+                          placeholder="写下你的评论..." onclick="showButton()" oninput="enableButton()"></textarea>
+                <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">提交
+                </button>
             </div>
-        </div>
-        <button class="btn blue">提交</button>
-        <div><!--本书已有评论-->
+            <script>
+                function showButton() {
+                    document.getElementById('comment_submit').style.display = "inline";
+                }
 
+                function enableButton() {
+                    $('#content_text').trigger('autoresize');
+                    if ($('#comment_text').val() === '') {
+                        if (!$('#comment_submit').hasClass("disabled"))
+                            $('#comment_submit').addClass(" disabled");
+                    } else {
+                        if ($('#comment_submit').hasClass("disabled"))
+                            $('#comment_submit').removeClass(" disabled");
+                    }
+                }
+            </script>
+        </div>
+
+        <div><!--本书已有评论-->
+            <%
+                if (comments != null) {
+                    for (Comment comment : comments) {
+            %>
+            <div data-commentID="<%=comment.getID()%>">
+                <h6><%=comment.getUsername()%>
+                </h6>
+            </div>
+            <%
+                    }
+                }
+            %>
         </div>
     </div>
 </div>
@@ -360,6 +393,25 @@
             location.reload();
         })
     });
+
+    $('#comment_submit').click(function (event) { // 添加评论按钮
+        var Content = $('#comment_text').val();
+        if (Content === '') {
+            toast("请键入评论");
+            return;
+        }
+        $.post('${pageContext.request.contextPath}/comment', {
+            method: add,
+            bookID:<%=request.getAttribute("bookID")%>,
+            username: <%=session.getAttribute("username")%>,
+            content: Content
+        }, function (responseText) {
+            toast("评论成功");
+            location.reload();
+        }).fail(function () {
+            toast("操作异常，请重试");
+        })
+    })
 </script>
 </body>
 </html>

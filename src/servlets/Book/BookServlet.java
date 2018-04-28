@@ -1,11 +1,14 @@
 package servlets.Book;
 
 import model.Book;
+import model.Comment;
 import model.User;
 import service.BookService;
+import service.CommentService;
 import service.FollowService;
 import service.UserService;
 import service.impl.BookServiceImpl;
+import service.impl.CommentServiceImpl;
 import service.impl.FollowServiceImpl;
 import service.impl.UserServiceImpl;
 
@@ -38,6 +41,8 @@ public class BookServlet extends HttpServlet {
                 BookService bookService = new BookServiceImpl();
                 UserService userService = new UserServiceImpl();
                 FollowService followService = new FollowServiceImpl();
+                CommentService commentService = new CommentServiceImpl();
+
                 Book book = bookService.find(bookID);
                 String username = (String) session.getAttribute("username");
                 User chiefEditor = userService.find(book.getChiefEditor());
@@ -47,6 +52,8 @@ public class BookServlet extends HttpServlet {
                     isCollaborator = true;
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
+                Comment[] comments = commentService.findByBookID(bookID);
+
                 request.setAttribute("chiefEditor", chiefEditor);
                 request.setAttribute("bookID", bookID);
                 request.setAttribute("chapterNum", book.getChapterNum());
@@ -58,6 +65,7 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("isFollowing", isFollowing);
                 request.setAttribute("collaborators", collaborators);
                 request.setAttribute("isCollaborator", isCollaborator);
+                request.setAttribute("comments", comments);
                 bookService.click(username, bookID);
             }
             // 重定向
