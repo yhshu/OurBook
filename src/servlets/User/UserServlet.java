@@ -35,13 +35,13 @@ public class UserServlet extends BaseServlet {
                 notificationService.add(username, "欢迎来到OurBook，" + nickname + "！", "<a href='/index'>OurBook</a>" +
                         "是免费的多人创作社区，你可以在这里与他人共同编辑书籍，你们的作品将被分享给所有人。开始你的<a href='/create'>创作</a>之旅吧！");
                 // 注册成功后，请求重定向，跳转到登录界面
-                response.sendRedirect("/login");
+                response.setContentType("text/plain");
+                response.getWriter().write("/login");
             } else {
-                request.setAttribute("message", "username registered");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
+                response.sendError(403);
             }
         } catch (Exception e) {
-            request.setAttribute("message", "register failed");
+            response.sendError(520);
         }
     }
 

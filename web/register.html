@@ -1,36 +1,22 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.User" %>
-<%@ page import="service.UserService" %>
-<%@ page import="service.impl.UserServiceImpl" %>
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
-    <%@ include file="header.jsp" %>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/materialize.css">
+    <link rel="stylesheet" href="css/materialize_icon.css">
+    <link rel="stylesheet" href="css/myCSS.css">
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="js/jQueryFormPlugin-4.2.2.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/myJS.js"></script>
     <title>OurBook - 发现新的世界</title>
-    <%
-        UserService userService = new UserServiceImpl();
-        User user = userService.find(request.getParameter("username"));
-    %>
 </head>
-<%
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null)
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("username")) {
-                if (session.getAttribute("username") != null) {
-                    response.sendRedirect("/index");
-                    System.out.println("register.jsp: 自动登录成功，跳转到个人主页");
-                }
-                break;
-            }
-        }
-%>
-<body class="white">`
+<body class="white">
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
         <a href="home" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="${pageContext.request.contextPath}/login">登录</a></li>
+            <li><a href="login">登录</a></li>
         </ul>
     </div>
 </nav>
@@ -41,9 +27,7 @@
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
     </div>
     <div class="col s5">
-        <form action="${pageContext.request.contextPath}/UserServlet" method="post" onsubmit="return check()">
-            <input type="hidden" name="method" value="register"/>
-
+        <form id="form" action="UserServlet" method="post">
             <div class="input-field col s12">
                 <input id="username" name="username" type="text" class="validate">
                 <label for="username">用户名</label>
@@ -61,26 +45,31 @@
                 <label for="password_confirm">确认密码</label>
             </div>
             <br><br><br><br><br><br><br><br>
-            <input type="submit" class="blue btn" id="submit" value="加入 OurBook"/>
+            <a class="blue btn" id="submit">加入 OurBook</a>
         </form>
         <script>
-            <%
-            if(request.getAttribute("content")!=null)
-            try {
-                 if(request.getAttribute("content").equals("username registered")){
-                 %>
-            Materialize.toast('该用户名已注册', 2000, 'rounded');
-            <%
-             }else if(request.getAttribute("content").equals("register failed")){
-             %>
-            Materialize.toast('注册失败', 2000, 'rounded');
-            <%}
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-            %>
-        </script>
-        <script>
+            $(document).ready(function () {
+                $('#submit').click(function () {
+                    if (check()) $('#form').submit();
+                });
+
+                $('#form').submit(function (evt) {
+                    evt.preventDefault();
+                    $.get('/UserServlet', {
+                        method: 'register',
+                        username: $('#username').val(),
+                        password: $('#password').val(),
+                        nickname: $('#nickname').val()
+                    }, function (responseText) {
+                        Materialize.toast('注册成功', 2000, 'rounded');
+                        window.location.href = responseText;
+                    }).fail(function (jqXHR) {
+                        if ((jqXHR.status) === 403) Materialize.toast('用户名已被注册', 2000, 'rounded');
+                        else Materialize.toast('未知错误', 2000, 'rounded');
+                    });
+                });
+            });
+
             function check() {
                 var p1 = document.getElementById('password').value;
                 var p2 = document.getElementById('password_confirm').value;

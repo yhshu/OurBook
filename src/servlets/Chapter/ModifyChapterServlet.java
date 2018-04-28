@@ -23,7 +23,7 @@ public class ModifyChapterServlet extends HttpServlet {
         try {
             BookService bookService = new BookServiceImpl();
             int bookID = Integer.parseInt(request.getParameter("book"));
-            if (bookService.authority(bookID, (String) request.getAttribute("username")) > 0) {
+            if (bookService.authority(bookID, (String) request.getSession().getAttribute("username")) > 0) {
                 int sequence = Integer.parseInt(request.getParameter("sequence"));
                 Chapter chapter = bookService.findChapter(bookID, sequence);
                 String path = request.getServletContext().getRealPath(chapter.getContent());

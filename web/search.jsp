@@ -2,6 +2,7 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%--
   Created by IntelliJ IDEA.
   User: Radiance
@@ -12,6 +13,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
+    <%SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");%>
     <title><%=request.getAttribute("keywords")%> - 搜索结果 - OurBook</title>
 </head>
 <body>
@@ -66,7 +68,7 @@
                     <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
                 </p>
                 <p style="color: gray;margin: 0;float: left">
-                    最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                    最后更新： <%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
                 </p>
             </div>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>

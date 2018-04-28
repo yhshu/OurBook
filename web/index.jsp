@@ -1,6 +1,5 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
-<%@ page import="Util.DBUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
@@ -127,5 +126,6 @@
     </div>
 </div>
 <div class="parallax-window" data-parallax="scroll" data-image-src="img/background/twr-img.jpg"></div>
+<%@ include file="footer.html"%>
 </body>
 </html>
