@@ -3,10 +3,8 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
-    <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text">通知中心
-        <span class="new badge right"><%=session.getAttribute("unreadNotifications")%></span></a></li>
     <li class="divider"></li>
-    <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">注销</a></li>
+    <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">退出</a></li>
 </ul>
 
 <ul id="dropdown2" class="dropdown-content dropdown-nested">
@@ -106,6 +104,9 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
+                <li><a href="${pageContext.request.contextPath}/notifications"><i class="material-icons edit_icon">notifications</i>
+                    <span class="new badge right"><%=session.getAttribute("unreadNotifications")%></span></a>
+                </li>
                 <li><a href="create"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
                 <li style="height: 64px;min-width: 150px">
