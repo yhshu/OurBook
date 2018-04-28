@@ -10,7 +10,7 @@
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
         User[] followers = (User[]) request.getAttribute("followers");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>

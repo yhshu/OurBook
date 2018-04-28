@@ -17,7 +17,7 @@ public class NotificationDaoImpl implements NotificationDao {
     public void read(int ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("UPDATE notification SET `read`=FALSE WHERE ID=?");
+            PreparedStatement stm = conn.prepareStatement("UPDATE notification SET `read`=TRUE WHERE ID=?");
             stm.setInt(1, ID);
             try {
                 stm.executeUpdate();
@@ -63,11 +63,11 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public void delete(String ID) {
+    public void delete(int ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("DELETE FROM notification WHERE ID=?");
-            stm.setString(1, ID);
+            stm.setInt(1, ID);
             try {
                 stm.executeUpdate();
                 System.out.println("NotificationDao: 删除成功");
@@ -108,6 +108,7 @@ public class NotificationDaoImpl implements NotificationDao {
             notification.setHeader(rs.getString("header"));
             notification.setMessage(rs.getString("message"));
             notification.setRead(rs.getBoolean("read"));
+            notification.setID(rs.getInt("ID"));
             notifications.add(notification);
         }
         rs.close();

@@ -29,8 +29,11 @@ public class UserServlet extends BaseServlet {
         String password = request.getParameter("password");
         System.out.println("【用户注册】用户名：" + username + "，昵称：" + nickname + "，密码：" + password);
         UserService userService = new UserServiceImpl();
+        NotificationService notificationService = new NotificaServiceImpl();
         try {
             if (userService.register(username, nickname, password)) {
+                notificationService.add(username, "欢迎来到OurBook，" + nickname + "！", "<a href='/index'>OurBook</a>" +
+                        "是免费的多人创作社区，你可以在这里与他人共同编辑书籍，你们的作品将被分享给所有人。开始你的<a href='/create'>创作</a>之旅吧！");
                 // 注册成功后，请求重定向，跳转到登录界面
                 response.sendRedirect("/login");
             } else {
@@ -66,7 +69,6 @@ public class UserServlet extends BaseServlet {
             session.setAttribute("username", username);
             session.setAttribute("nickname", user.getNickname());
             session.setAttribute("avatar", user.getAvatar());
-            session.setAttribute("unreadNotifications", notificationService.getUnread(username).length);
             // 将 JSESSIONID 持久化
             Cookie c_JSESSIONID = new Cookie("JSESSIONID", session.getId());
             c_JSESSIONID.setMaxAge(maxInactiveInterval);

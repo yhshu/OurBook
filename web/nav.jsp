@@ -106,7 +106,7 @@
         </div>
         <div class="col s3">
             <ul class="right hide-on-med-and-down">
-                <li><a href="newbook.jsp"><i class="material-icons edit_icon">mode_edit</i></a></li>
+                <li><a href="create"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
                 <li style="height: 64px;min-width: 150px">
                     <a class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"

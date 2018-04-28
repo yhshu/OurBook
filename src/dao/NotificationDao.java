@@ -27,7 +27,7 @@ public interface NotificationDao {
      *
      * @param ID 通知ID
      */
-    void delete(String ID);
+    void delete(int ID);
 
     /**
      * 获取用户通知

@@ -41,6 +41,6 @@ public interface NotificationService {
      *
      * @param ID 通知ID
      */
-    void delete(String ID);
+    void delete(int ID);
 
 }

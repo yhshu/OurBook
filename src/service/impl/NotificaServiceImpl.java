@@ -30,7 +30,7 @@ public class NotificaServiceImpl implements NotificationService {
     }
 
     @Override
-    public void delete(String ID) {
+    public void delete(int ID) {
         notificationDao.delete(ID);
     }
 }
