@@ -97,9 +97,9 @@
 
         function echo() {
             if (ws != null) {
-                var message = document.getElementById('message').value;
-                log('Sent: ' + message);
-                ws.send(message);
+                var content = document.getElementById('content').value;
+                log('Sent: ' + content);
+                ws.send(content);
             } else {
                 alert('WebSocket connection not established, please connect.');
             }
@@ -113,11 +113,11 @@
             }
         }
 
-        function log(message) {
+        function log(content) {
             var console = document.getElementById('console');
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(message));
+            p.appendChild(document.createTextNode(content));
             console.appendChild(p);
             while (console.childNodes.length > 25) {
                 console.removeChild(console.firstChild);
@@ -170,10 +170,10 @@
             <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
         </div>
         <div>
-            <textarea id="message" style="width: 350px">Here is a message!</textarea>
+            <textarea id="content" style="width: 350px">Here is a content!</textarea>
         </div>
         <div>
-            <button id="echo" onclick="echo();" disabled="disabled">Echo message</button>
+            <button id="echo" onclick="echo();" disabled="disabled">Echo content</button>
         </div>
     </div>
     <div id="console-container">

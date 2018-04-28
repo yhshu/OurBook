@@ -6,7 +6,7 @@ public class Notification {
 
     private String username;    // 接收用户名
     private Timestamp time;     // 时间
-    private String message;     // 信息
+    private String content;     // 信息
     private boolean read;       // 是否被阅读
     private String header;      // 标题
     private int ID;             // 序号
@@ -30,12 +30,12 @@ public class Notification {
         this.time = time;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public boolean isRead() {

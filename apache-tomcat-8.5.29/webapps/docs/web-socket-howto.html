@@ -59,7 +59,7 @@
 
 <p>If the application does not define a <code>MessageHandler.Partial</code> for
    incoming binary messages, any incoming binary messages must be buffered so
-   the entire message can be delivered in a single call to the registered
+   the entire content can be delivered in a single call to the registered
    <code>MessageHandler.Whole</code> for binary messages. The default buffer
    size for binary messages is 8192 bytes. This may be changed for a web
    application by setting the servlet context initialization parameter
@@ -68,7 +68,7 @@
 
 <p>If the application does not define a <code>MessageHandler.Partial</code> for
    incoming text messages, any incoming text messages must be buffered so the
-   entire message can be delivered in a single call to the registered
+   entire content can be delivered in a single call to the registered
    <code>MessageHandler.Whole</code> for text messages. The default buffer size
    for text messages is 8192 bytes. This may be changed for a web application by
    setting the servlet context initialization parameter

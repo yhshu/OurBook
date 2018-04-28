@@ -291,7 +291,7 @@ line will contain a description of the problem that was encountered.  Some
 commands include additional lines of information as described below.</p>
 
 <p><em>Internationalization Note</em> - The Manager application looks up
-its message strings in resource bundles, so it is possible that the strings
+its content strings in resource bundles, so it is possible that the strings
 have been translated for your platform.  The examples below show the English
 version of the messages.</p>
 
@@ -331,7 +331,7 @@ like this:</p>
 <div class="codeBox"><pre><code>OK - Deployed application at context path /foo</code></pre></div>
 
 <p>Otherwise, the response will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Application already exists at path /foo</em>
     <p>The context paths for all currently running web applications must be
@@ -478,7 +478,7 @@ like this:</p>
 <div class="codeBox"><pre><code>OK - Deployed application at context path /foo</code></pre></div>
 
 <p>Otherwise, the response will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Application already exists at path /foo</em>
     <p>The context paths for all currently running web applications must be
@@ -563,7 +563,7 @@ directory or when you have added or updated jar files in the
 <div class="codeBox"><pre><code>OK - Reloaded application at context path /examples</code></pre></div>
 
 <p>Otherwise, the response will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to restart the web application.
@@ -602,7 +602,7 @@ error message.  Possible causes for problems include:</p>
 <p>Lists information about the Tomcat version, OS, and JVM properties.</p>
 
 <p>If an error occurs, the response will start with <code>FAIL</code> and
-include an error message.  Possible causes for problems include:</p>
+include an error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to enumerate the system properties.
@@ -640,7 +640,7 @@ delimited by colon characters (":"), as follows:</p>
 </ul>
 
 <p>If an error occurs, the response will start with <code>FAIL</code> and
-include an error message.  Possible causes for problems include:</p>
+include an error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to enumerate the global JNDI
@@ -706,7 +706,7 @@ users continuously encounter database exceptions.</p>
 <div class="codeBox"><pre><code>OK - Started application at context path /examples</code></pre></div>
 
 <p>Otherwise, the response will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to start the web application.
@@ -741,7 +741,7 @@ stopped will see an HTTP error 404, and this application will show as
 <div class="codeBox"><pre><code>OK - Stopped application at context path /examples</code></pre></div>
 
 <p>Otherwise, the response will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to stop the web application.
@@ -788,7 +788,7 @@ this virtual host.  This command is the logical opposite of the
 <div class="codeBox"><pre><code>OK - Undeployed application at context path /examples</code></pre></div>
 
 <p>Otherwise, the response will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to undeploy the web application.
@@ -841,7 +841,7 @@ thus causing a memory leak, will be listed on a new line. If an application
 has been reloaded several times, it may be listed several times.</p>
 
 <p>If the command does not succeed, the response will start with
-<code>FAIL</code> and include an error message.</p>
+<code>FAIL</code> and include an error content.</p>
 
 </div></div>
 
@@ -982,7 +982,7 @@ configured using the <a href="config/listeners.html#StoreConfig_Lifecycle_Listen
 </p>
 
 <p>If the command does not succeed, the response will start with
-<code>FAIL</code> and include an error message.</p>
+<code>FAIL</code> and include an error content.</p>
 
 </div></div>
 
@@ -1104,7 +1104,7 @@ on each of deployed web applications will be available.</p>
       <li><code>key</code>: (optional) The key into a CompositeData MBean attribute</li>
     </ol>
     <p>
-    If all goes well, then it will say OK, otherwise an error message will
+    If all goes well, then it will say OK, otherwise an error content will
     be shown. For example, let's say we wish to fetch the current heap memory
     data:
     </p>
@@ -1130,7 +1130,7 @@ on each of deployed web applications will be available.</p>
       <li><code>val</code>: The new value </li>
     </ol>
     <p>
-    If all goes ok, then it will say OK, otherwise an error message will be
+    If all goes ok, then it will say OK, otherwise an error content will be
     shown. For example, lets say we wish to turn up debugging on the fly for the
     <code>ErrorReportValve</code>. The following will set debugging to 10.
     </p>

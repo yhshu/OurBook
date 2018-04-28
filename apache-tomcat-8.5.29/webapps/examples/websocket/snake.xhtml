@@ -209,8 +209,8 @@
                 Game.stopGameLoop();
             };
 
-            Game.socket.onmessage = function (message) {
-                var packet = JSON.parse(message.data);
+            Game.socket.onmessage = function (content) {
+                var packet = JSON.parse(content.data);
                 switch (packet.type) {
                     case 'update':
                         for (var i = 0; i < packet.data.length; i++) {
@@ -238,11 +238,11 @@
 
         var Console = {};
 
-        Console.log = (function(message) {
+        Console.log = (function(content) {
             var console = document.getElementById('console');
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
-            p.innerHTML = message;
+            p.innerHTML = content;
             console.appendChild(p);
             while (console.childNodes.length > 25) {
                 console.removeChild(console.firstChild);

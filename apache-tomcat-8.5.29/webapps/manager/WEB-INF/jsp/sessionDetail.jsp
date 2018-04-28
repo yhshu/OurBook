@@ -115,7 +115,7 @@
    </form>
 
    <div class="error"><%= JspHelper.escapeXml(request.getAttribute("error")) %></div>
-   <div class="message"><%= JspHelper.escapeXml(request.getAttribute("message")) %></div>
+   <div class="content"><%= JspHelper.escapeXml(request.getAttribute("content")) %></div>
 
    <table style="text-align: left;" border="1" cellpadding="2" cellspacing="2">
    <% int nAttributes = 0;

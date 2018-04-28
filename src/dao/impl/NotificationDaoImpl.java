@@ -106,7 +106,7 @@ public class NotificationDaoImpl implements NotificationDao {
             notification.setUsername(rs.getString("username"));
             notification.setTime(rs.getTimestamp("time"));
             notification.setHeader(rs.getString("header"));
-            notification.setMessage(rs.getString("message"));
+            notification.setContent(rs.getString("content"));
             notification.setRead(rs.getBoolean("read"));
             notification.setID(rs.getInt("ID"));
             notifications.add(notification);

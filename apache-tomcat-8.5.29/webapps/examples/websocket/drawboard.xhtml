@@ -131,10 +131,10 @@
                 console.setAttribute("id", "console");
                 consoleContainer.appendChild(console);
 
-                return function(message) {
+                return function(content) {
                     var p = document.createElement('p');
                     p.style.wordWrap = "break-word";
-                    p.appendChild(document.createTextNode(message));
+                    p.appendChild(document.createTextNode(content));
                     console.appendChild(p);
                     while (console.childNodes.length > 25) {
                         console.removeChild(console.firstChild);
@@ -163,7 +163,7 @@
                     var functionQueue = [];
 
                     this.callFunction = function(func) {
-                        // If message processing is paused, we push it
+                        // If content processing is paused, we push it
                         // into the queue - otherwise we process it directly.
                         if (pauseProcessing) {
                             functionQueue.push(func);
@@ -344,9 +344,9 @@
 
                     /* Use a pausable event forwarder.
                      * This is needed when we load an Image object with data
-                     * from a previous message, because we must wait until the
+                     * from a previous content, because we must wait until the
                      * Image's load event it raised before we can use it (and
-                     * in the meantime the socket.message event could be
+                     * in the meantime the socket.content event could be
                      * raised).
                      * Therefore we need this pausable event handler to handle
                      * e.g. socket.onmessage and socket.onclose.
@@ -374,19 +374,19 @@
                         });
                     };
 
-                    // Handles an incoming Websocket message.
-                    var handleOnMessage = function(message) {
+                    // Handles an incoming Websocket content.
+                    var handleOnMessage = function(content) {
 
-                        // Split joined message and process them
+                        // Split joined content and process them
                         // individually.
-                        var messages = message.data.split(";");
+                        var messages = content.data.split(";");
                         for (var msgArrIdx = 0; msgArrIdx < messages.length;
                                 msgArrIdx++) {
                             var msg = messages[msgArrIdx];
                             var type = msg.substring(0, 1);
 
                             if (type == "0") {
-                                // Error message.
+                                // Error content.
                                 var error = msg.substring(1);
                                 // Log it to the console and show an alert.
                                 Console.log("Error: " + error);
@@ -395,26 +395,26 @@
                             } else {
                                 if (!isStarted) {
                                     if (type == "2") {
-                                        // Initial message. It contains the
+                                        // Initial content. It contains the
                                         // number of players.
-                                        // After this message we will receive
-                                        // a binary message containing the current
+                                        // After this content we will receive
+                                        // a binary content containing the current
                                         // room image as PNG.
                                         playerCount = parseInt(msg.substring(1));
 
                                         refreshPlayerCount();
 
-                                        // The next message will be a binary
-                                        // message containing the room images
+                                        // The next content will be a binary
+                                        // content containing the room images
                                         // as PNG. Therefore we temporarily swap
-                                        // the message handler.
+                                        // the content handler.
                                         var originalHandler = handleOnMessage;
-                                        handleOnMessage = function(message) {
+                                        handleOnMessage = function(content) {
                                             // First, we restore the original handler.
                                             handleOnMessage = originalHandler;
 
                                             // Read the image.
-                                            var blob = message.data;
+                                            var blob = content.data;
                                             // Create new blob with correct MIME type.
                                             blob = new Blob([blob], {type : "image/png"});
 
@@ -524,9 +524,9 @@
                         }
                     };
 
-                    socket.onmessage = function(message) {
+                    socket.onmessage = function(content) {
                         eventForwarder.callFunction(function() {
-                            handleOnMessage(message);
+                            handleOnMessage(content);
                         });
                     };
 
@@ -657,7 +657,7 @@
                                 var drawType = availableDrawTypes[currentDrawTypeIndex];
 
                                 // If we are drawing a continuous path and the previous mouse coordinates are the same as
-                                // the new ones, there is no need to construct a new draw message as we don't need to
+                                // the new ones, there is no need to construct a new draw content as we don't need to
                                 // "terminate" a path as every path element contains both the start and the end point.
                                 if (!(drawType.continuous && mouseX == currentMouseX && mouseY == currentMouseY)) {
                                     var path = new Path(drawType.id, availableColors[currentColorIndex],
@@ -805,14 +805,14 @@
                     pathsNotHandled.push(container);
 
                     // Send the path to the server.
-                    var message = container.id + "|" + path.type + ","
+                    var content = container.id + "|" + path.type + ","
                             + path.color[0] + "," + path.color[1] + ","
                             + path.color[2] + ","
                             + Math.round(path.color[3] * 255.0) + ","
                             + path.thickness + "," + path.x1 + ","
                             + path.y1 + "," + path.x2 + "," + path.y2;
 
-                    socket.send("1" + message);
+                    socket.send("1" + content);
                 }
 
                 function setThickness(thicknessIndex) {
@@ -882,7 +882,7 @@
             (currently, only a single Room is implemented).
         </p>
         <p>
-            When you open the page, first you will receive a binary websocket message containing
+            When you open the page, first you will receive a binary websocket content containing
             the current room image as PNG image. After that, you will receive string messages
             that contain the drawing actions (line from x1,y1 to x2,y2).<br/>
             <small>Note that it currently only uses simple string messages instead of JSON because

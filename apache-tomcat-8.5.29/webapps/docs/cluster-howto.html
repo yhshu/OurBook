@@ -285,7 +285,7 @@ should be completed:</p>
                  channelSendOptions="6"&gt;</code></pre></div>
     <p>
       The main element, inside this element all cluster details can be configured.
-      The <code>channelSendOptions</code> is the flag that is attached to each message sent by the
+      The <code>channelSendOptions</code> is the flag that is attached to each content sent by the
       SimpleTcpCluster class or any objects that are invoking the SimpleTcpCluster.send method.
       The description of the send flags is available at <a href="http://tomcat.apache.org/tomcat-8.5-doc/api/org/apache/catalina/tribes/Channel.html">
       our javadoc site</a>
@@ -354,7 +354,7 @@ should be completed:</p>
         sub component, <code>Transport</code>.
         Tribes support having a pool of senders, so that messages can be sent in parallel and if using the NIO sender,
         you can send messages concurrently as well.<br>
-        Concurrently means one message to multiple senders at the same time and Parallel means multiple messages to multiple senders
+        Concurrently means one content to multiple senders at the same time and Parallel means multiple messages to multiple senders
         at the same time.
         <br>For more info, Please visit the <a href="config/cluster-sender.html">reference documentation</a>
     </p>
@@ -368,8 +368,8 @@ should be completed:</p>
         Using interceptors, logic can be broken into more manageable pieces of code. The interceptors configured above are:<br>
         TcpFailureDetector - verifies crashed members through TCP, if multicast packets get dropped, this interceptor protects against false positives,
         ie the node marked as crashed even though it still is alive and running.<br>
-        MessageDispatchInterceptor - dispatches messages to a thread (thread pool) to send message asynchronously.<br>
-        ThroughputInterceptor - prints out simple stats on message traffic.<br>
+        MessageDispatchInterceptor - dispatches messages to a thread (thread pool) to send content asynchronously.<br>
+        ThroughputInterceptor - prints out simple stats on content traffic.<br>
         Please note that the order of interceptors is important. The way they are defined in server.xml is the way they are represented in the
         channel stack. Think of it as a linked list, with the head being the first most interceptor and the tail the last.
         <br>For more info, Please visit the <a href="config/cluster-interceptor.html">reference documentation</a>
@@ -537,7 +537,7 @@ should be completed:</p>
 <li><b><code>TomcatA</code> receives a request, invalidate is called on the session (<code>S1</code>)</b>
     <p>The invalidate call is intercepted, and the session is queued with invalidated sessions.
         When the request is complete, instead of sending out the session that has changed, it sends out
-        an "expire" message to TomcatB and TomcatB will invalidate the session as well.
+        an "expire" content to TomcatB and TomcatB will invalidate the session as well.
     </p>
 
 </li>
@@ -561,7 +561,7 @@ should be completed:</p>
 <p><b>Membership</b>
     Clustering membership is established using very simple multicast pings.
     Each Tomcat instance will periodically send out a multicast ping,
-    in the ping message the instance will broad cast its IP and TCP listen port
+    in the ping content the instance will broad cast its IP and TCP listen port
     for replication.
     If an instance has not received such a ping within a given timeframe, the
     member is considered dead. Very simple, and very effective!

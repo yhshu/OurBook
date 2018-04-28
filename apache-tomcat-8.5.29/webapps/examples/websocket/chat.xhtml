@@ -73,8 +73,8 @@
                 Console.log('Info: WebSocket closed.');
             };
 
-            Chat.socket.onmessage = function (message) {
-                Console.log(message.data);
+            Chat.socket.onmessage = function (content) {
+                Console.log(content.data);
             };
         });
 
@@ -87,20 +87,20 @@
         };
 
         Chat.sendMessage = (function() {
-            var message = document.getElementById('chat').value;
-            if (message != '') {
-                Chat.socket.send(message);
+            var content = document.getElementById('chat').value;
+            if (content != '') {
+                Chat.socket.send(content);
                 document.getElementById('chat').value = '';
             }
         });
 
         var Console = {};
 
-        Console.log = (function(message) {
+        Console.log = (function(content) {
             var console = document.getElementById('console');
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
-            p.innerHTML = message;
+            p.innerHTML = content;
             console.appendChild(p);
             while (console.childNodes.length > 25) {
                 console.removeChild(console.firstChild);

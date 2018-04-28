@@ -74,7 +74,7 @@
                     </p>
                 </div>
                 <div class="collapsible-body">
-                    <p><%=notification.getMessage()%>
+                    <p><%=notification.getContent()%>
                     </p>
                     <div style="height: 36px">
                         <a class="btn red right delete" data-id="<%=notification.getID()%>">删除通知</a>
@@ -106,7 +106,7 @@
                     </p>
                 </div>
                 <div class="collapsible-body">
-                    <p><%=notification.getMessage()%>
+                    <p><%=notification.getContent()%>
                     </p>
                     <div style="height: 36px">
                         <a class="btn red right delete" data-id="<%=notification.getID()%>">删除通知</a>

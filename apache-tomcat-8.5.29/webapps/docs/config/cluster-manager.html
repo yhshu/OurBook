@@ -141,7 +141,7 @@
         If set to <code>false</code>, send sessions as split blocks.
         Default value is <code>true</code>.
       </td></tr><tr><td><code class="attributeName">sendAllSessionsSize</code></td><td>
-        The number of sessions in a session block message. This value is
+        The number of sessions in a session block content. This value is
         effective only when <code>sendAllSessions</code> is <code>false</code>.
         Default is <code>1000</code>.
       </td></tr><tr><td><code class="attributeName">sendAllSessionsWaitTime</code></td><td>
@@ -169,13 +169,13 @@
         enabled in which case the default will be
         <code>java\\.lang\\.(?:Boolean|Integer|Long|Number|String)</code>.</p>
       </td></tr><tr><td><code class="attributeName">stateTimestampDrop</code></td><td>
-        When this node sends a <code>GET_ALL_SESSIONS</code> message to other
+        When this node sends a <code>GET_ALL_SESSIONS</code> content to other
         node, all session messages that are received as a response are queued.
         If this attribute is set to <code>true</code>, the received session
         messages (except any <code>GET_ALL_SESSIONS</code> sent by other nodes)
-        are filtered by their timestamp. A message is dropped if it is not a
-        <code>GET_ALL_SESSIONS</code> message and its timestamp is earlier than
-        the timestamp of our <code>GET_ALL_SESSIONS</code> message.
+        are filtered by their timestamp. A content is dropped if it is not a
+        <code>GET_ALL_SESSIONS</code> content and its timestamp is earlier than
+        the timestamp of our <code>GET_ALL_SESSIONS</code> content.
         If set to <code>false</code>, all queued session messages are handled.
         Default is <code>true</code>.
       </td></tr><tr><td><code class="attributeName">warnOnSessionAttributeFilterFailure</code></td><td>
@@ -206,7 +206,7 @@
         sessions where the current node is the primary node for the session are
         considered active sessions.
       </td></tr><tr><td><code class="attributeName">rpcTimeout</code></td><td>
-        Timeout for RPC message used for broadcast and transfer state from
+        Timeout for RPC content used for broadcast and transfer state from
         another map.
         Default value is <code>15000</code> milliseconds.
       </td></tr><tr><td><code class="attributeName">sessionAttributeNameFilter</code></td><td>
@@ -244,7 +244,7 @@
         <code>false</code> unless a <code>SecurityManager</code> is enabled in
         which case the default will be <code>true</code>.</p>
       </td></tr><tr><td><code class="attributeName">accessTimeout</code></td><td>
-        The timeout for a ping message. If a remote map does not respond within
+        The timeout for a ping content. If a remote map does not respond within
         this timeout period, its regarded as disappeared.
         Default value is <code>5000</code> milliseconds.
       </td></tr></table>

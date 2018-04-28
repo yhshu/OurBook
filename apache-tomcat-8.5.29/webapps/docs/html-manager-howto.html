@@ -58,8 +58,8 @@ Tomcat.  This document is for the HTML web interface to the web application
 <p>
 Displays information about the success or failure of the last web application
 manager command you performed. If it succeeded <strong>OK</strong> is displayed
-and may be followed by a success message. If it failed <strong>FAIL</strong>
-is displayed followed by an error message. Common failure messages are
+and may be followed by a success content. If it failed <strong>FAIL</strong>
+is displayed followed by an error content. Common failure messages are
 documented below for each command.  The complete list of failure messages for
 each command can be found in the <a href="manager-howto.html">manager</a> web
 application documentation.
@@ -122,7 +122,7 @@ users continuously encounter database exceptions.</p>
 <div class="codeBox"><pre><code>OK - Started application at context path /examples</code></pre></div>
 
 <p>Otherwise, the Message will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to start the web application.
@@ -157,7 +157,7 @@ stopped will see an HTTP error 404, and this application will show as
 <div class="codeBox"><pre><code>OK - Stopped application at context path /examples</code></pre></div>
 
 <p>Otherwise, the Message will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to stop the web application.
@@ -202,7 +202,7 @@ OK - Reloaded application at context path /examples
 </code></pre></div>
 
 <p>Otherwise, the Message will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to restart the web application.
@@ -252,7 +252,7 @@ in the HTML manager.</p>
 <div class="codeBox"><pre><code>OK - Undeployed application at context path /examples</code></pre></div>
 
 <p>Otherwise, the Message will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Encountered exception</em>
     <p>An exception was encountered trying to undeploy the web application.
@@ -406,7 +406,7 @@ including a Context configuration XML file in
     </li>
 <li><em>Install Upload Failed, Exception:</em>
     <p>The war file upload or install failed with a Java Exception.
-    The exception message will be listed.</p>
+    The exception content will be listed.</p>
     </li>
 </ul>
 
@@ -438,7 +438,7 @@ like this:</p>
 <div class="codeBox"><pre><code>OK - Deployed application at context path /foo</code></pre></div>
 
 <p>Otherwise, the Message will start with <code>FAIL</code> and include an
-error message.  Possible causes for problems include:</p>
+error content.  Possible causes for problems include:</p>
 <ul>
 <li><em>Application already exists at path /foo</em>
     <p>The context paths for all currently running web applications must be

@@ -488,7 +488,7 @@ public class MyBean2 {
     <a href="http://www.oracle.com/technetwork/java/javamail/index.html">Java Mail</a> API
     makes this process relatively straightforward, but requires many
     configuration details that the client application must be aware of
-    (including the name of the SMTP host to be used for message sending).</p>
+    (including the name of the SMTP host to be used for content sending).</p>
 
     <p>Tomcat includes a standard resource factory that will create
     <code>javax.mail.Session</code> session instances for you, already
@@ -539,14 +539,14 @@ public class MyBean2 {
 Context envCtx = (Context) initCtx.lookup("java:comp/env");
 Session session = (Session) envCtx.lookup("mail/Session");
 
-Message message = new MimeMessage(session);
-message.setFrom(new InternetAddress(request.getParameter("from")));
+Message content = new MimeMessage(session);
+content.setFrom(new InternetAddress(request.getParameter("from")));
 InternetAddress to[] = new InternetAddress[1];
 to[0] = new InternetAddress(request.getParameter("to"));
-message.setRecipients(Message.RecipientType.TO, to);
-message.setSubject(request.getParameter("subject"));
-message.setContent(request.getParameter("content"), "text/plain");
-Transport.send(message);</code></pre></div>
+content.setRecipients(Message.RecipientType.TO, to);
+content.setSubject(request.getParameter("subject"));
+content.setContent(request.getParameter("content"), "text/plain");
+Transport.send(content);</code></pre></div>
 
     <p>Note that the application uses the same resource reference name
     that was declared in the web application deployment descriptor.  This
@@ -609,7 +609,7 @@ Transport.send(message);</code></pre></div>
     <p>The <code>/examples</code> application included with Tomcat contains
     an example of utilizing this resource factory.  It is accessed via the
     "JSP Examples" link.  The source code for the servlet that actually
-    sends the mail message is in
+    sends the mail content is in
     <code>/WEB-INF/classes/SendMailServlet.java</code>.</p>
 
     <p><strong>WARNING</strong> - The default configuration assumes that there

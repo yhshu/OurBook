@@ -57,7 +57,7 @@
 </ul>
 
 <div class="error"><%= JspHelper.escapeXml(request.getAttribute("error")) %></div>
-<div class="message"><%= JspHelper.escapeXml(request.getAttribute("message")) %></div>
+<div class="content"><%= JspHelper.escapeXml(request.getAttribute("content")) %></div>
 
 <form action="<%= submitUrl %>" method="post" id="sessionsForm">
     <fieldset><legend>Active HttpSessions informations</legend>
