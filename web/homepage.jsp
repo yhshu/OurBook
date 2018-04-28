@@ -142,11 +142,10 @@ border-bottom: 1px solid lightgray">
             <div class="col card" style="width: 353px;padding-bottom: 10px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
                 <% if (favorites.length == 0) {%>
-                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                    你还没有收藏任何书</h6>
+                <h5 style="text-align: center;margin: 50px 0" class="grey-text">
+                    你还没有收藏任何书</h5>
                 <%
-                } else {%>
-                <%
+                } else {
                     for (Book book : favorites) {
                 %>
                 <div style="margin: 10px;display: grid;grid-template-columns:70px auto 24px;"
@@ -183,10 +182,9 @@ border-bottom: 1px solid lightgray">
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none;font-size: 24px;height: 36px;margin-top: 20px"
                        data-book="<%=book.getID()%>"><i class="material-icons">favorite</i></a>
                 </div>
-                <% }%>
+                <% }
+                }%>
             </div>
-            <% }%>
-
 
             <div class="col card" style="width: 353px"> <!--我的关注-->
                 <h5 style="text-align: center">我的关注</h5>
