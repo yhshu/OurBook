@@ -1246,12 +1246,12 @@
           Description
         </th></tr><tr><td><code class="attributeName">sniParseLimit</code></td><td>
       <p>In order to implement SNI support, Tomcat has to parse the first TLS
-      message received on a new TLS connection (the client hello) to extract the
-      requested server name. The message needs to be buffered so it can then be
+      content received on a new TLS connection (the client hello) to extract the
+      requested server name. The content needs to be buffered so it can then be
       passed to the JSSE implementation for normal TLS processing. In theory,
-      this first message could be very large although in practice it is
-      typically a few hundred bytes. This attribute sets the maximum message
-      size that Tomcat will buffer. If a message exceeds this size, the
+      this first content could be very large although in practice it is
+      typically a few hundred bytes. This attribute sets the maximum content
+      size that Tomcat will buffer. If a content exceeds this size, the
       connection will be configured as if no server name was indicated by the
       client. If not specified a default of <code>65536</code> (64k) will be
       used.</p>

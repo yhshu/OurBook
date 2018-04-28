@@ -25,7 +25,7 @@
             }
         }
 %>
-<body class="white">
+<body class="white">`
 <nav> <!-- 顶部栏 -->
     <div class="nav-wrapper blue">
         <a href="home" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
@@ -65,13 +65,13 @@
         </form>
         <script>
             <%
-            if(request.getAttribute("message")!=null)
+            if(request.getAttribute("content")!=null)
             try {
-                 if(request.getAttribute("message").equals("username registered")){
+                 if(request.getAttribute("content").equals("username registered")){
                  %>
             Materialize.toast('该用户名已注册', 2000, 'rounded');
             <%
-             }else if(request.getAttribute("message").equals("register failed")){
+             }else if(request.getAttribute("content").equals("register failed")){
              %>
             Materialize.toast('注册失败', 2000, 'rounded');
             <%}

@@ -748,7 +748,7 @@ The expiry time can be fine-tuned by adding several
 
     <div class="codeBox"><pre><code>org.apache.catalina.filters.ExpiresFilter.level = FINE    </code></pre></div>
     <p>
-    Sample of initialization log message:
+    Sample of initialization log content:
     </p>
 
     <div class="codeBox"><pre><code>Mar 26, 2010 2:01:41 PM org.apache.catalina.filters.ExpiresFilter init
@@ -760,8 +760,8 @@ FINE: Filter initialized with configuration ExpiresFilter[
     text/css=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]],
     text/javascript=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]]}]</code></pre></div>
     <p>
-    Sample of per-request log message where <code>ExpiresFilter</code> adds an
-    expiration date is below. The message is on one line and is wrapped here
+    Sample of per-request log content where <code>ExpiresFilter</code> adds an
+    expiration date is below. The content is on one line and is wrapped here
     for better readability.
     </p>
 
@@ -769,7 +769,7 @@ FINE: Filter initialized with configuration ExpiresFilter[
 FINE: Request "/tomcat.gif" with response status "200"
  content-type "image/gif", set expiration date 3/26/10 2:19 PM</code></pre></div>
     <p>
-    Sample of per-request log message where <code>ExpiresFilter</code> does not add
+    Sample of per-request log content where <code>ExpiresFilter</code> does not add
     an expiration date:
     </p>
 

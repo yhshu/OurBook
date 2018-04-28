@@ -721,7 +721,7 @@ Example to get all MBeans from a server and store inside an external XML propert
     format="xml"/&gt;
 
   &lt;!-- Print results --&gt;
-  &lt;echo message=
+  &lt;echo content=
     "Number of MBeans in server ${jmx.host}:${jmx.port} is ${mbeans.length}"/&gt;
 &lt;/target&gt;
 &lt;/project&gt;</code></pre></div>
@@ -981,8 +981,8 @@ Wait for server connection and that cluster backup node is accessable
       /&gt;
     &lt;/and&gt;
   &lt;/waitfor&gt;
-  &lt;fail if="server.timeout" message="Server ${url} don't answer inside ${maxwait} sec" /&gt;
-  &lt;echo message="Server ${url} alive" /&gt;
+  &lt;fail if="server.timeout" content="Server ${url} don't answer inside ${maxwait} sec" /&gt;
+  &lt;echo content="Server ${url} alive" /&gt;
 &lt;/target&gt;</code></pre></div>
 
 </div><h3 id="JMXAccessorEqualsCondition:__equals_MBean_Ant_condition">JMXAccessorEqualsCondition:  equals MBean Ant condition</h3><div class="text">
@@ -1077,8 +1077,8 @@ Wait for server connection and that cluster backup node is accessible
       /&gt;
     &lt;/and&gt;
   &lt;/waitfor&gt;
-  &lt;fail if="server.timeout" message="Server ${url} don't answer inside ${maxwait} sec" /&gt;
-  &lt;echo message="Server ${url} alive" /&gt;
+  &lt;fail if="server.timeout" content="Server ${url} don't answer inside ${maxwait} sec" /&gt;
+  &lt;echo content="Server ${url} alive" /&gt;
 &lt;/target&gt;</code></pre></div>
 
 </div><h3 id="Using_the_JMXProxyServlet">Using the JMXProxyServlet</h3><div class="text">

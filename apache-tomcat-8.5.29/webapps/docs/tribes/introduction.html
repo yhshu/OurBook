@@ -46,7 +46,7 @@
     <li>Import: <code>org.apache.catalina.tribes.group.GroupChannel</code></li>
     <li>Create a class that implements: <code>org.apache.catalina.tribes.ChannelListener</code></li>
     <li>Create a class that implements: <code>org.apache.catalina.tribes.MembershipListener</code></li>
-    <li>Simple class to demonstrate how to send a message:
+    <li>Simple class to demonstrate how to send a content:
       <div class="codeBox"><pre><code>//create a channel
 Channel myChannel = new GroupChannel();
 
@@ -61,14 +61,14 @@ myChannel.addChannelListener(msgListener);
 //start the channel
 myChannel.start(Channel.DEFAULT);
 
-//create a message to be sent, message must implement java.io.Serializable
+//create a content to be sent, content must implement java.io.Serializable
 //for performance reasons you probably want them to implement java.io.Externalizable
 Serializable myMsg = new MyMessage();
 
 //retrieve my current members
 Member[] group = myChannel.getMembers();
 
-//send the message
+//send the content
 myChannel.send(group,myMsg,Channel.SEND_OPTIONS_DEFAULT);</code></pre></div>
     </li>
   </ul>
@@ -105,8 +105,8 @@ myChannel.send(group,myMsg,Channel.SEND_OPTIONS_DEFAULT);</code></pre></div>
   <p>
     Tribes allows for guaranteed messaging, and can be customized in many ways. Why is this important?<br>
     Well, you as a developer want to know that the messages you are sending are reaching their destination.
-    More than that, if a message doesn't reach its destination, the application on top of Tribes will be notified
-    that the message was never sent, and what node it failed.
+    More than that, if a content doesn't reach its destination, the application on top of Tribes will be notified
+    that the content was never sent, and what node it failed.
   </p>
 
 </div><h3 id="Why_another_messaging_framework">Why another messaging framework</h3><div class="text">
@@ -118,7 +118,7 @@ myChannel.send(group,myMsg,Channel.SEND_OPTIONS_DEFAULT);</code></pre></div>
     2. The framework was licensed in a way that neither I nor the community could use it<br>
     3. Several features that I needed were missing<br>
     4. Messaging was guaranteed, but no feedback was reported to me<br>
-    5. The semantics of my message delivery had to be configured before runtime<br>
+    5. The semantics of my content delivery had to be configured before runtime<br>
     And the list continues...
   </p>
   <p>
@@ -140,23 +140,23 @@ myChannel.send(group,myMsg,Channel.SEND_OPTIONS_DEFAULT);</code></pre></div>
   </p>
   <p>
     <b>Guaranteed Messaging</b><br>
-    In the default implementation of Tribes uses TCP or UDP for messaging. TCP already has guaranteed message delivery
+    In the default implementation of Tribes uses TCP or UDP for messaging. TCP already has guaranteed content delivery
     and flow control built in. I believe that the performance of Java TCP, will outperform an implementation of
-    Java/UDP/flow-control/message guarantee since the logic happens further down the stack. UDP messaging has been added in for
+    Java/UDP/flow-control/content guarantee since the logic happens further down the stack. UDP messaging has been added in for
     sending messages over UDP instead of TCP when desired. The same guarantee scenarios as described below are still available
-    over UDP, however, when a UDP message is lost, it's considered failed.<br>
+    over UDP, however, when a UDP content is lost, it's considered failed.<br>
     Tribes supports both non-blocking and blocking IO operations. The recommended setting is to use non blocking
     as it promotes better parallelism when sending and receiving messages. The blocking implementation is available
     for those platforms where NIO is still a trouble child.
   </p>
   <p>
     <b>Different Guarantee Levels</b><br>
-    There are three different levels of delivery guarantee when a message is sent.
+    There are three different levels of delivery guarantee when a content is sent.
   </p>
     <ol>
       <li>IO Based send guarantee. - fastest, least reliable<br>
-          This means that Tribes considers the message transfer to be successful
-          if the message was sent to the socket send buffer and accepted.<br>
+          This means that Tribes considers the content transfer to be successful
+          if the content was sent to the socket send buffer and accepted.<br>
           On blocking IO, this would be <code>socket.getOutputStream().write(msg)</code><br>
           On non blocking IO, this would be <code>socketChannel.write()</code>, and the buffer byte buffer gets emptied
           followed by a <code>socketChannel.read()</code> to ensure the channel still open.
@@ -164,50 +164,50 @@ myChannel.send(group,myMsg,Channel.SEND_OPTIONS_DEFAULT);</code></pre></div>
           when using NIO.
       </li>
       <li>ACK based. - recommended, guaranteed delivery<br>
-          When the message has been received on a remote node, an ACK is sent back to the sender,
-          indicating that the message was received successfully.
+          When the content has been received on a remote node, an ACK is sent back to the sender,
+          indicating that the content was received successfully.
       </li>
       <li>SYNC_ACK based. - guaranteed delivery, guaranteed processed, slowest<br>
-          When the message has been received on a remote node, the node will process
-          the message and if the message was processed successfully, an ACK is sent back to the sender
-          indicating that the message was received and processed successfully.
-          If the message was received, but processing it failed, an ACK_FAIL will be sent back
+          When the content has been received on a remote node, the node will process
+          the content and if the content was processed successfully, an ACK is sent back to the sender
+          indicating that the content was received and processed successfully.
+          If the content was received, but processing it failed, an ACK_FAIL will be sent back
           to the sender. This is a unique feature that adds an incredible amount value to the application
-          developer. Most frameworks here will tell you that the message was delivered, and the application
-          developer has to build in logic on whether the message was actually processed properly by the application
+          developer. Most frameworks here will tell you that the content was delivered, and the application
+          developer has to build in logic on whether the content was actually processed properly by the application
           on the remote node. If configured, Tribes will throw an exception when it receives an ACK_FAIL
-          and associate that exception with the member that didn't process the message.
+          and associate that exception with the member that didn't process the content.
       </li>
     </ol>
   <p>
     You can of course write even more sophisticated guarantee levels, and some of them will be mentioned later on
     in the documentation. One mentionable level would be a 2-Phase-Commit, where the remote applications don't receive
-    the message until all nodes have received the message. Sort of like a all-or-nothing protocol.
+    the content until all nodes have received the content. Sort of like a all-or-nothing protocol.
   </p>
   <p>
     <b>Per Message Delivery Attributes</b><br>
     Perhaps the feature that makes Tribes stand out from the crowd of group communication frameworks.
-    Tribes enables you to send to decide what delivery semantics a message transfer should have on a per
-    message basis. Meaning, that your messages are not delivered based on some static configuration
-    that remains fixed after the message framework has been started.<br>
+    Tribes enables you to send to decide what delivery semantics a content transfer should have on a per
+    content basis. Meaning, that your messages are not delivered based on some static configuration
+    that remains fixed after the content framework has been started.<br>
     To give you an example of how powerful this feature is, I'll try to illustrate it with a simple example.
     Imagine you need to send 10 different messages, you could send them the following way:
   </p>
     <div class="codeBox"><pre><code>Message_1 - asynchronous and fast, no guarantee required, fire and forget
 Message_2 - all-or-nothing, either all receivers get it, or none.
 Message_3 - encrypted and SYNC_ACK based
-Message_4 - asynchronous, SYNC_ACK and call back when the message is processed on the remote nodes
-Message_5 - totally ordered, this message should be received in the same order on all nodes that have been
+Message_4 - asynchronous, SYNC_ACK and call back when the content is processed on the remote nodes
+Message_5 - totally ordered, this content should be received in the same order on all nodes that have been
             send totally ordered
 Message_6 - asynchronous and totally ordered
-Message_7 - RPC message, send a message, wait for all remote nodes to reply before returning
-Message_8 - RPC message, wait for the first reply
-Message_9 - RPC message, asynchronous, don't wait for a reply, collect them via a callback
+Message_7 - RPC content, send a content, wait for all remote nodes to reply before returning
+Message_8 - RPC content, wait for the first reply
+Message_9 - RPC content, asynchronous, don't wait for a reply, collect them via a callback
 Message_10- sent to a member that is not part of this group</code></pre></div>
   <p>
     As you can imagine by now, these are just examples. The number of different semantics you can apply on a
-    per-message-basis is almost limitless. Tribes allows you to set up to 28 different on a message
-    and then configure Tribes to what flag results in what action on the message.<br>
+    per-content-basis is almost limitless. Tribes allows you to set up to 28 different on a content
+    and then configure Tribes to what flag results in what action on the content.<br>
     Imagine a shared transactional cache, probably &gt;90% are reads, and the dirty reads should be completely
     unordered and delivered as fast as possible. But transactional writes on the other hand, have to
     be ordered so that no cache gets corrupted. With tribes you would send the write messages totally ordered,
@@ -216,11 +216,11 @@ Message_10- sent to a member that is not part of this group</code></pre></div>
     your experience to think of how this could benefit you in your application.
   </p>
   <p>
-    <b>Interceptor based message processing</b><br>
+    <b>Interceptor based content processing</b><br>
     Tribes uses a customizable interceptor stack to process messages that are sent and received.<br>
     <i>So what, all frameworks have this!</i><br>
-    Yes, but in Tribes interceptors can react to a message based on the per-message-attributes
-    that are sent runtime. Meaning, that if you add a encryption interceptor that encrypts message
+    Yes, but in Tribes interceptors can react to a content based on the per-content-attributes
+    that are sent runtime. Meaning, that if you add a encryption interceptor that encrypts content
     you can decide if this interceptor will encrypt all messages, or only certain messages that are decided
     by the applications running on top of Tribes.<br>
     This is how Tribes is able to send some messages totally ordered and others fire and forget style
@@ -230,10 +230,10 @@ Message_10- sent to a member that is not part of this group</code></pre></div>
   </p>
   <p>
     <b>Threadless Interceptor stack</b>
-    The interceptor don't require any separate threads to perform their message manipulation.<br>
+    The interceptor don't require any separate threads to perform their content manipulation.<br>
     Messages that are sent will piggy back on the thread that is sending them all the way through transmission.
-    The exception is the <code>MessageDispatchInterceptor</code> that will queue up the message
-    and send it on a separate thread for asynchronous message delivery.
+    The exception is the <code>MessageDispatchInterceptor</code> that will queue up the content
+    and send it on a separate thread for asynchronous content delivery.
     Messages received are controlled by a thread pool in the <code>receiver</code> component.<br>
     The channel object can send a <code>heartbeat()</code> through the interceptor stack to allow
     for timeouts, cleanup and other events.<br>
@@ -243,8 +243,8 @@ Message_10- sent to a member that is not part of this group</code></pre></div>
     <b>Parallel Delivery</b><br>
     Tribes support parallel delivery of messages. Meaning that node_A could send three messages to node_B in
     parallel. This feature becomes useful when sending messages with different delivery semantics.
-    Otherwise if Message_1 was sent totally ordered, Message_2 would have to wait for that message to complete.<br>
-    Through NIO, Tribes is also able to send a message to several receivers at the same time on the same thread.
+    Otherwise if Message_1 was sent totally ordered, Message_2 would have to wait for that content to complete.<br>
+    Through NIO, Tribes is also able to send a content to several receivers at the same time on the same thread.
   </p>
   <p>
     <b>Silent Member Messaging</b><br>

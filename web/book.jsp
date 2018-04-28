@@ -5,7 +5,7 @@
 <%
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
 %>
 <%--
   Created by IntelliJ IDEA.
