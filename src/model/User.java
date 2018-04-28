@@ -12,6 +12,9 @@ public class User implements Serializable {
     private int favorites; // 书的总收藏量
     private int followers; // 粉丝数
 
+    public User() {
+    }
+
     public User(String username, String nickname, String password) {
         this.username = username;
         this.nickname = nickname;

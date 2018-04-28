@@ -1,8 +1,11 @@
-package dao;
+package service;
 
 import model.Message;
+import model.User;
 
-public interface MessageDao {
+import java.util.Map;
+
+public interface MessageService {
 
     /**
      * 设置用户收件箱内来自某个用户的私信已读
@@ -19,7 +22,7 @@ public interface MessageDao {
      * @param from    发送者用户名
      * @param content 内容
      */
-    boolean add(String to, String from, String content);
+    boolean send(String to, String from, String content);
 
     /**
      * 删除某条私信
@@ -40,15 +43,15 @@ public interface MessageDao {
      * 获取收件箱所有者的所有私信
      *
      * @param owner 用户名
-     * @return 私信
+     * @return 按私信发送/接收者存储的哈希表
      */
-    Message[] get(String owner);
+    Map<User, Message[]> get(String owner);
 
     /**
-     * 获取收件箱中发送者的数量，仅计未读的私信
+     * 获取收件箱未读私信的数量
      *
      * @param owner 用户名
-     * @return 发送者数量
+     * @return 未读私信的数量
      */
     int getUnreadNumber(String owner);
 

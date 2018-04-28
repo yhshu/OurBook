@@ -75,7 +75,7 @@ public class MessageDaoImpl implements MessageDao {
     }
 
     @Override
-    public void delete(int ID) {
+    public boolean delete(int ID) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("DELETE FROM message WHERE ID=?");
@@ -88,13 +88,15 @@ public class MessageDaoImpl implements MessageDao {
             }
             stm.close();
             conn.close();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void clear(String owner, String target) {
+    public boolean clear(String owner, String target) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("DELETE FROM message WHERE owner=? AND (`from`=? OR `to`=?)");
@@ -109,25 +111,45 @@ public class MessageDaoImpl implements MessageDao {
             }
             stm.close();
             conn.close();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
     public Message[] get(String owner) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM message WHERE owner = ? ORDER BY time DESC");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM message_info WHERE owner = ? ORDER BY time");
             stm.setString(1, owner);
             Message[] messages = getMessages(stm);
             conn.close();
             return messages;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ChapterDao: 按获取私信失败");
+            System.out.println("ChapterDao: 获取私信失败");
         }
         return new Message[0];
+    }
+
+    @Override
+    public int getUnreadNumber(String owner) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) AS count FROM message WHERE owner = ? AND `read`=FALSE");
+            stm.setString(1, owner);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            int result = rs.getInt("count");
+            conn.close();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ChapterDao: 获取未读私信数量失败");
+        }
+        return 0;
     }
 
     private Message[] getMessages(PreparedStatement stm) throws SQLException {
@@ -141,6 +163,13 @@ public class MessageDaoImpl implements MessageDao {
             message.setContent(rs.getString("content"));
             message.setRead(rs.getBoolean("read"));
             message.setID(rs.getInt("ID"));
+            try {
+                message.setToNickname(rs.getString("to_nickname"));
+                message.setToAvatar(rs.getString("to_avatar"));
+                message.setFromNickname(rs.getString("from_nickname"));
+                message.setFromAvatar(rs.getString("from_avatar"));
+            } catch (Exception ignored) {
+            }
             messages.add(message);
         }
         rs.close();

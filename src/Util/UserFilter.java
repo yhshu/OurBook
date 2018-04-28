@@ -1,5 +1,6 @@
 package Util;
 
+import service.impl.MessageServiceImpl;
 import service.impl.NotificaServiceImpl;
 
 import javax.servlet.*;
@@ -36,17 +37,20 @@ public class UserFilter implements Filter {
         // 获取当前请求的URI
         String url = req.getRequestURI();
         // 判断请求的URI是否为不允许过滤的URI
-        if (!url.startsWith("/css") && !url.startsWith("/img") && !url.startsWith("/js") && !url.startsWith("/resources"))
-            req.getSession().setAttribute("unreadNotifications", new NotificaServiceImpl().getUnread(username).length);
-        if (url.contains("/resources/book"))
-            res.sendRedirect(req.getContextPath() + "/login");
-        else {
-            chain.doFilter(request, response);
-            res.setHeader("Cache-Control", "no-store");
-            res.setDateHeader("Expires", 0);
-            res.setHeader("Pragma", "no-cache");
-            res.flushBuffer();
+        if (url.contains("/resources/book")) {
+            res.sendRedirect(req.getContextPath() + "/index");
+            return;
         }
+        // 自动获取通知数
+        if (username != null && !(url.startsWith("/css") || url.startsWith("/img") || url.startsWith("/js") || url.startsWith("/resources")))
+            req.getSession().setAttribute("unreadNotifications",
+                    new NotificaServiceImpl().getUnread(username).length + new MessageServiceImpl().getUnreadNumber(username));
+        chain.doFilter(request, response);
+        res.setHeader("Cache-Control", "no-store");
+        res.setDateHeader("Expires", 0);
+        res.setHeader("Pragma", "no-cache");
+        res.flushBuffer();
+
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
