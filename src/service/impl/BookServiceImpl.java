@@ -69,7 +69,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String username, String name, int bookID, String content, String rootDirectory, int sequence) {
+    public boolean addChapter(String username, String name, int bookID, String content, String rootDir, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -81,13 +81,18 @@ public class BookServiceImpl implements BookService {
         // 将章节内容存放在文件中，并将文件路径插入数据库
         try {
             // 写入文件并获取文件名
-            String filename = FileUtil.write(new File(rootDirectory + "resources/book/" + bookID + "/" +
-                    name + "/" + sequence + ".html"), content);
+            String absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" +
+                    "/" + sequence + ".html"), content);
+            if (absPath == null) {
+                System.out.println("BookService: 写入章节文件失败");
+                return false;
+            }
             System.out.println("BookService: 写入章节文件成功");
             // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            if (filename != null)
-                return chapterDao.add(username, new Chapter(name, bookID, sequence,
-                        filename.replaceFirst(rootDirectory, "")));
+            if (chapterDao.add(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
+                System.out.println("BookService: 添加编辑信息成功");
+                return true;
+            } else System.out.println("BookService: 添加编辑信息失败");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookService: 写入章节文件失败");
@@ -96,7 +101,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean modifyChapter(String username, String name, int bookID, String content, String path, int sequence) {
+    public boolean modifyChapter(String username, String name, int bookID, String content, String rootDir, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -105,30 +110,26 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容URL为空");
             return false;
         }
-        String db_path = "resources/book/" + bookID + "/" + name + ".txt";
-        path += bookID + "/" + name + ".txt";
         // 将章节内容存放在文件中，并将文件路径插入数据库
         try {
-            File file = new File(path);
-            PrintStream printStream = new PrintStream(new FileOutputStream(file), true, "UTF-8");
-            printStream.print(content); // 将章节内容写入文件
-            printStream.close(); // 输出流关闭
+            // 写入文件并获取文件名
+            String absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" +
+                    "/" + sequence + ".html"), content);
+            if (absPath == null) {
+                System.out.println("BookService: 写入章节文件失败");
+                return false;
+            }
             System.out.println("BookService: 写入章节文件成功");
-        } catch (FileNotFoundException e) {
+            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
+            if (chapterDao.modify(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
+                System.out.println("BookService: 添加编辑信息成功");
+                return true;
+            } else System.out.println("BookService: 添加编辑信息失败");
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookService: 写入章节文件失败");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
-
-        try {
-            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            chapterDao.modify(username, new Chapter(name, bookID, sequence, db_path));
-            return true;
-        } catch (Exception e) {
-            System.out.println("BookService: 添加章节失败");
-            e.printStackTrace();
-        }
+        // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
         return false;
     }
 

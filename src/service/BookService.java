@@ -70,15 +70,15 @@ public interface BookService {
     /**
      * 添加章节
      *
-     * @param username      用户名
-     * @param name          章节名
-     * @param bookID        书的编号
-     * @param content       章节内容，将以文件形式存储于 resources/book
-     * @param rootDirectory 服务器根目录
-     * @param sequence      章节号
+     * @param username 用户名
+     * @param name     章节名
+     * @param bookID   书的编号
+     * @param content  章节内容，将以文件形式存储于 resources/book
+     * @param rootDir  服务器根目录
+     * @param sequence 章节号
      * @return 添加到数据库的 sequence
      */
-    boolean addChapter(String username, String name, int bookID, String content, String rootDirectory, int sequence);
+    boolean addChapter(String username, String name, int bookID, String content, String rootDir, int sequence);
 
     /**
      * 修改章节

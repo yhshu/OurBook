@@ -28,8 +28,8 @@ public class ChapterServlet extends BaseServlet {
         // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("book"));
         if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
-            String rootDirectory = this.getServletContext().getRealPath("/");
-            if (bookService.addChapter(username, chapterName, bookID, chapterContent, rootDirectory, sequence)) {
+            String rootDir = this.getServletContext().getRealPath("/");
+            if (bookService.addChapter(username, chapterName, bookID, chapterContent, rootDir, sequence)) {
                 System.out.println("ChapterServlet: 添加章节成功");
                 // 添加章节完成后，请求重定向，查看本书目录
                 response.setContentType("text/plain");
@@ -51,8 +51,8 @@ public class ChapterServlet extends BaseServlet {
         int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
-            String path = this.getServletContext().getRealPath("/resources/book/");
-            if (bookService.modifyChapter(username, chapterName, bookID, chapterContent, path, sequence)) {
+            String rootDir = this.getServletContext().getRealPath("/");
+            if (bookService.modifyChapter(username, chapterName, bookID, chapterContent, rootDir, sequence)) {
                 System.out.println("ChapterServlet: 修改章节成功");
                 // 添加章节完成后，请求重定向，查看本书目录
                 response.setContentType("text/plain");

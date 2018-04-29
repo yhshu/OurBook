@@ -45,6 +45,8 @@ public class FileUtil {
         String name = filename.substring(0, filename.indexOf("."));
         // 文件后缀
         String suffix = filename.substring(filename.lastIndexOf("."));
+        File parentDir = new File(file.getParent());
+        if (!parentDir.exists()) if (!parentDir.mkdir()) return null;
         int i = 1;
         // 若文件名重复，在后缀前添加数字
         while (file.exists()) {
