@@ -34,11 +34,11 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 获取用户失败");
+            return new User[0];
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return new User[0];
     }
 
     @Override
@@ -78,11 +78,11 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 获取用户失败");
+            return false;
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
@@ -124,11 +124,11 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 获取关注列表失败");
+            return null;
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return null;
     }
 
     @Override
@@ -147,11 +147,11 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 修改用户信息失败");
+            return false;
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
@@ -168,11 +168,11 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 收藏失败");
+            return false;
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
@@ -189,11 +189,11 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 取消收藏失败");
+            return false;
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
@@ -210,11 +210,11 @@ public class UserDaoImpl implements UserDao {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
@@ -238,10 +238,10 @@ public class UserDaoImpl implements UserDao {
             return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            return new User[0];
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);
         }
-        return new User[0];
     }
 }

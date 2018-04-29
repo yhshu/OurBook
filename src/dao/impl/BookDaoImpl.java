@@ -265,10 +265,11 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info, favorite WHERE username = ? AND bookid = ID");
             stm.setString(1, username);
             Book[] books = getBooks(stm);
-            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
@@ -342,7 +343,6 @@ public class BookDaoImpl implements BookDao {
             delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
             delete_stm.setInt(1, bookID);
             delete_stm.executeUpdate();
-            delete_stm.close();
             String sql = String.format("INSERT IGNORE INTO writes(bookID, username) VALUES %s", collaborator_sql);
             insert_stm = conn.prepareStatement(sql);
             insert_stm.executeUpdate();

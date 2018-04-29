@@ -55,8 +55,8 @@ public class ChapterDaoImpl implements ChapterDao {
         } catch (Exception e) {
             System.out.println("ChapterDao: 添加章节失败");
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -96,8 +96,8 @@ public class ChapterDaoImpl implements ChapterDao {
         } catch (Exception e) {
             System.out.println("ChapterDao: 修改章节失败");
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override
