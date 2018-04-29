@@ -15,141 +15,135 @@ public class MessageDaoImpl implements MessageDao {
 
     @Override
     public void read(String owner, String from) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("UPDATE message SET `read`=TRUE WHERE owner=? AND `from`=?");
+            stm = conn.prepareStatement("UPDATE message SET `read`=TRUE WHERE owner=? AND `from`=?");
             stm.setString(1, owner);
             stm.setString(2, from);
-            try {
-                stm.executeUpdate();
-                System.out.println("MessageDao: 设置已读成功");
-            } catch (Exception e1) {
-                System.out.println("MessageDao: 设置已读失败");
-            }
-            stm.close();
-            conn.close();
+            stm.executeUpdate();
+            System.out.println("MessageDao: 设置已读成功");
         } catch (Exception e) {
+            System.out.println("MessageDao: 设置已读失败");
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
+
     }
 
     @Override
     public boolean add(String to, String from, String content) {
+        PreparedStatement stm1 = null;
+        PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm1 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM message");
-            ResultSet rs = stm1.executeQuery();
-            rs.next();
-            int maxID = rs.getInt("max_ID");
-            rs.close();
-            stm1.close();
-            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO message(owner, `to`, `from`, time, content,ID,`read`)" +
-                    " values (?,?,?,NOW(),?,?,TRUE)");
-            stm2.setString(1, from);
+            stm1 = conn.prepareStatement("INSERT INTO message(owner, `to`, `from`, time, content,ID,`read`)" +
+                    " values (?,?,?,NOW(),?,NULL,TRUE)");
+            stm1.setString(1, from);
+            stm1.setString(2, to);
+            stm1.setString(3, from);
+            stm1.setString(4, content);
+            stm2 = conn.prepareStatement("INSERT INTO message(owner, `to`, `from`, time, content,ID,`read`)" +
+                    " values (?,?,?,NOW(),?,NULL,FALSE)");
+            stm2.setString(1, to);
             stm2.setString(2, to);
             stm2.setString(3, from);
             stm2.setString(4, content);
-            stm2.setInt(5, maxID + 1);
-            PreparedStatement stm3 = conn.prepareStatement("INSERT INTO message(owner, `to`, `from`, time, content,ID,`read`)" +
-                    " values (?,?,?,NOW(),?,?,FALSE)");
-            stm3.setString(1, to);
-            stm3.setString(2, to);
-            stm3.setString(3, from);
-            stm3.setString(4, content);
-            stm3.setInt(5, maxID + 2);
-            try {
-                stm2.executeUpdate();
-                stm3.executeUpdate();
-                System.out.println("MessageDao: 添加成功");
-            } catch (Exception e1) {
-                System.out.println("MessageDao: 添加失败");
-            }
-            stm2.close();
-            stm3.close();
-            conn.close();
+            stm1.executeUpdate();
+            stm2.executeUpdate();
+            System.out.println("MessageDao: 添加成功");
             return true;
         } catch (Exception e) {
+            System.out.println("MessageDao: 添加失败");
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm1);
+            DBUtil.safeClose(stm2);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public boolean delete(int ID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM message WHERE ID=?");
+            stm = conn.prepareStatement("DELETE FROM message WHERE ID=?");
             stm.setInt(1, ID);
-            try {
-                stm.executeUpdate();
-                System.out.println("MessageDao: 删除成功");
-            } catch (Exception e1) {
-                System.out.println("MessageDao: 取消失败");
-            }
-            stm.close();
-            conn.close();
+            stm.executeUpdate();
+            System.out.println("MessageDao: 删除成功");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("MessageDao: 删除失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public boolean clear(String owner, String target) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM message WHERE owner=? AND (`from`=? OR `to`=?)");
+            stm = conn.prepareStatement("DELETE FROM message WHERE owner=? AND (`from`=? OR `to`=?)");
             stm.setString(1, owner);
             stm.setString(2, target);
             stm.setString(3, target);
-            try {
-                stm.executeUpdate();
-                System.out.println("MessageDao: 清除成功");
-            } catch (Exception e1) {
-                System.out.println("MessageDao: 清除失败");
-            }
-            stm.close();
-            conn.close();
+            stm.executeUpdate();
+            System.out.println("MessageDao: 清除成功");
             return true;
         } catch (Exception e) {
+            System.out.println("MessageDao: 清除失败");
             e.printStackTrace();
+            return false;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
     public Message[] get(String owner) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM message_info WHERE owner = ? ORDER BY time");
+            stm = conn.prepareStatement("SELECT * FROM message_info WHERE owner = ? ORDER BY time");
             stm.setString(1, owner);
-            Message[] messages = getMessages(stm);
-            conn.close();
-            return messages;
+            return getMessages(stm);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 获取私信失败");
+            return new Message[0];
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return new Message[0];
     }
 
     @Override
     public int getUnreadNumber(String owner) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) AS count FROM message WHERE owner = ? AND `read`=FALSE");
+            stm = conn.prepareStatement("SELECT COUNT(*) AS count FROM message WHERE owner = ? AND `read`=FALSE");
             stm.setString(1, owner);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            int result = rs.getInt("count");
-            conn.close();
-            return result;
+            return rs.getInt("count");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 获取未读私信数量失败");
+            return 0;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return 0;
     }
 
     private Message[] getMessages(PreparedStatement stm) throws SQLException {
@@ -173,7 +167,6 @@ public class MessageDaoImpl implements MessageDao {
             messages.add(message);
         }
         rs.close();
-        stm.close();
         return messages.toArray(new Message[0]);
     }
 }
