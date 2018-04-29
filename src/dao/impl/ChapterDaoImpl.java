@@ -16,18 +16,19 @@ public class ChapterDaoImpl implements ChapterDao {
     private Connection conn = null;
 
     @Override
-    public boolean add(Chapter chapter) {
+    public boolean add(String username, Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence+1 WHERE sequence>=? AND OurBook.Chapter.bookID=?");
             stm1.setInt(1, chapter.getSequence());
-            stm1.setInt(2,chapter.getBookID());
+            stm1.setInt(2, chapter.getBookID());
             stm1.executeUpdate();
             stm1.close();
             PreparedStatement stm2 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM chapter");
             ResultSet rs = stm2.executeQuery();
             rs.next();
             int maxID = rs.getInt("max_ID");
+            rs.close();
             stm2.close();
             PreparedStatement stm3 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence,ID)" +
                     " VALUES (?,?,?,?)");
@@ -37,6 +38,20 @@ public class ChapterDaoImpl implements ChapterDao {
             stm3.setInt(4, maxID + 1);
             stm3.executeUpdate();
             stm3.close();
+            PreparedStatement stm4 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM edit");
+            rs = stm4.executeQuery();
+            rs.next();
+            int maxID2 = rs.getInt("max_ID");
+            rs.close();
+            stm4.close();
+            PreparedStatement stm5 = conn.prepareStatement("INSERT INTO edit VALUES (?,?,?,?,?)");
+            stm5.setString(1, username);
+            stm5.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+            stm5.setInt(3, maxID2 + 1);
+            stm5.setString(4, chapter.getContent());
+            stm5.setInt(5, maxID + 1);
+            stm5.executeUpdate();
+            stm5.close();
             conn.close();
             System.out.println("ChapterDao: 添加章节成功");
             return true;
@@ -48,24 +63,43 @@ public class ChapterDaoImpl implements ChapterDao {
     }
 
     @Override
-    public boolean modify(Chapter chapter) {
+    public boolean modify(String username, Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("UPDATE chapter SET name=?" +
+            PreparedStatement stm1 = conn.prepareStatement("UPDATE chapter SET name=?" +
                     "WHERE bookID = ? AND sequence = ?");
-            stm.setString(1, chapter.getName());
-            stm.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
-            stm.setInt(3, chapter.getBookID());
-            try {
-                stm.executeUpdate();
-                stm.close();
-                conn.close();
-                System.out.println("ChapterDao: 修改章节成功");
-                return true;
-            } catch (Exception e1) {
-                System.out.println("ChapterDao: 修改章节失败");
-            }
+            stm1.setString(1, chapter.getName());
+            stm1.setInt(2, chapter.getBookID());
+            stm1.setInt(3, chapter.getSequence());
+            stm1.executeUpdate();
+            stm1.close();
+            PreparedStatement stm2 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM edit");
+            ResultSet rs = stm2.executeQuery();
+            rs.next();
+            int maxID = rs.getInt("max_ID");
+            rs.close();
+            stm2.close();
+            PreparedStatement stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID=? AND sequence=?");
+            stm3.setInt(1, chapter.getBookID());
+            stm3.setInt(2, chapter.getSequence());
+            rs = stm3.executeQuery();
+            rs.next();
+            int ID = rs.getInt("ID");
+            rs.close();
+            stm3.close();
+            PreparedStatement stm5 = conn.prepareStatement("INSERT INTO edit VALUES (?,?,?,?,?)");
+            stm5.setString(1, username);
+            stm5.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+            stm5.setInt(3, maxID + 1);
+            stm5.setString(4, chapter.getContent());
+            stm5.setInt(5, ID);
+            stm5.executeUpdate();
+            stm5.close();
+            conn.close();
+            System.out.println("ChapterDao: 修改章节成功");
+            return true;
         } catch (Exception e) {
+            System.out.println("ChapterDao: 修改章节失败");
             e.printStackTrace();
         }
         return false;

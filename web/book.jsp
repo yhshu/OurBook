@@ -212,6 +212,9 @@
             <%}%>
         </div>
     </div>
+    <div class="col"><!--编辑者列表，包括主编与协作者-->
+        <h5 style="text-align: center;">协作者</h5>
+    </div>
 </div>
 
 <script>

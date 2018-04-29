@@ -8,16 +8,18 @@ public interface ChapterDao {
      * 添加章节
      * 将新章节插入 chapter 表
      *
+     * @param username 用户名
      * @param chapter 新增章节
      */
-    boolean add(Chapter chapter);
+    boolean add(String username, Chapter chapter);
 
     /**
      * 修改章节信息
      *
+     * @param username 用户名
      * @param chapter 新增章节
      */
-    boolean modify(Chapter chapter);
+    boolean modify(String username, Chapter chapter);
 
     /**
      * 根据主键查找章节
