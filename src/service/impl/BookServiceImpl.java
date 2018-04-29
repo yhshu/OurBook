@@ -1,5 +1,6 @@
 package service.impl;
 
+import Util.FileUtil;
 import dao.BookDao;
 import dao.ChapterDao;
 import dao.UserDao;
@@ -68,7 +69,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String username, String name, int bookID, String content, String path, int sequence) {
+    public boolean addChapter(String username, String name, int bookID, String content, String rootDirectory, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -77,29 +78,21 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容为空");
             return false;
         }
-        String db_path = "resources/book/" + bookID + "/" + name + ".html";//TODO 修改
-        path += bookID + "/" + name + ".html";
         // 将章节内容存放在文件中，并将文件路径插入数据库
         try {
-            File file = new File(path);
-            if (!file.getParentFile().exists()) {
-                boolean res = file.getParentFile().mkdirs();
-                if (!res)
-                    System.out.println("BookService: 写入章节文件失败");
-            }
-            PrintStream printStream = new PrintStream(new FileOutputStream(file), true, "UTF-8");
-            printStream.print(content); // 将章节内容写入文件
-            printStream.close(); // 输出流关闭
+            // 写入文件并获取文件名
+            String filename = FileUtil.write(new File(rootDirectory + "resources/book/" + bookID + "/" +
+                    name + "/" + sequence + ".html"), content);
             System.out.println("BookService: 写入章节文件成功");
-        } catch (FileNotFoundException e) {
+            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
+            if (filename != null)
+                return chapterDao.add(username, new Chapter(name, bookID, sequence,
+                        filename.replaceFirst(rootDirectory, "")));
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookService: 写入章节文件失败");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
-
-        // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-        return chapterDao.add(username, new Chapter(name, bookID, sequence, db_path));
+        return false;
     }
 
     @Override

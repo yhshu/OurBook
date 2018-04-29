@@ -283,22 +283,6 @@
                 <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">提交
                 </button>
             </div>
-            <script>
-                function showButton() {
-                    document.getElementById('comment_submit').style.display = "inline";
-                }
-
-                function enableButton() {
-                    $('#content_text').trigger('autoresize');
-                    if ($('#comment_text').val() === '') {
-                        if (!$('#comment_submit').hasClass("disabled"))
-                            $('#comment_submit').addClass(" disabled");
-                    } else {
-                        if ($('#comment_submit').hasClass("disabled"))
-                            $('#comment_submit').removeClass(" disabled");
-                    }
-                }
-            </script>
         </div>
 
         <div><!--本书已有评论-->
@@ -324,6 +308,26 @@
 </div>
 
 <script>
+    var follow_submit = $('#follow_submit');
+    var favorite_submit = $('#favorite_submit');
+    var favorite_icon = $('#favorite_icon');
+    var comment_submit = $('#comment_submit');
+
+    function showButton() {
+        document.getElementById('comment_submit').style.display = "inline";
+    }
+
+    function enableButton() {
+        $('#content_text').trigger('autoresize');
+        if ($('#comment_text').val() === '') {
+            if (!comment_submit.hasClass("disabled"))
+                $('#comment_submit').addClass(" disabled");
+        } else {
+            if (comment_submit.hasClass("disabled"))
+                $('#comment_submit').removeClass(" disabled");
+        }
+    }
+
     function change_delete_link() {
         var val = document.getElementById('bookname_confirm').value;
         var link = $('#delete_link');
@@ -336,21 +340,21 @@
         }
     }
 
-    $('#follow_submit').click(function (event) {
+    follow_submit.click(function (event) {
         event.preventDefault();
         $.get('follow?'
             , {
-                followee: $('#follow_submit').data("followee"),
-                method: $('#follow_submit').data("method")
-            }, function (respondText) {
-                if ($('#follow_submit').data("method") === "remove") {
+                followee: follow_submit.data("followee"),
+                method: follow_submit.data("method")
+            }, function () {
+                if (follow_submit.data("method") === "remove") {
                     toast('取消关注成功');
-                    $('#follow_submit').html("关注");
-                    $('#follow_submit').data("method", "add");
+                    follow_submit.html("关注");
+                    follow_submit.data("method", "add");
                 }
-                else if ($('#follow_submit').data("method") === "add") {
+                else if (follow_submit.data("method") === "add") {
                     toast('关注成功');
-                    $('#follow_submit').html("取消关注");
+                    follow_submit.html("取消关注");
                     $('#follow_submit').data("method", "remove");
                 }
             }).fail(function () { // 服务器响应错误信息
@@ -358,32 +362,32 @@
         })
     });
 
-    $('#favorite_submit').click(function (event) {
+    favorite_submit.click(function (event) {
         event.preventDefault();
         $.get('${pageContext.request.contextPath}/favorite', {
-            method: $('#favorite_submit').data("method"),
+            method: favorite_submit.data("method"),
             book:<%=request.getAttribute("bookID")%>
         }, function () {
-            if ($('#favorite_submit').data("method") === "remove") {
+            if (favorite_submit.data("method") === "remove") {
                 toast('取消收藏成功');
-                $('#favorite_icon').html("favorite_border");
-                $('#favorite_submit').data("method", "add");
-                $('#favorite_icon').attr("data-tooltip", '收藏');
-                $('#favorite_icon').tooltip();
+                favorite_icon.html("favorite_border");
+                favorite_submit.data("method", "add");
+                favorite_icon.attr("data-tooltip", '收藏');
+                favorite_icon.tooltip();
             }
-            else if ($('#favorite_submit').data("method") === "add") {
+            else if (favorite_submit.data("method") === "add") {
                 toast('收藏成功');
-                $('#favorite_icon').html("favorite");
-                $('#favorite_submit').data("method", "remove");
-                $('#favorite_icon').attr("data-tooltip", '取消收藏');
-                $('#favorite_icon').tooltip();
+                favorite_icon.html("favorite");
+                favorite_submit.data("method", "remove");
+                favorite_icon.attr("data-tooltip", '取消收藏');
+                favorite_icon.tooltip();
             }
         }).fail(function () { // 服务器响应错误信息
             toast("操作异常");
         })
     });
 
-    $('#collaborator_submit').click(function (event) {
+    $('#collaborator_submit').click(function () {
         var Collaborator = $('.chip').text().replace(/close/g, " ");
         Collaborator = Collaborator.substring(0, Collaborator.length - 1);
         $.post('${pageContext.request.contextPath}/collaborator', {
@@ -398,7 +402,7 @@
         })
     });
 
-    $('#comment_submit').click(function (event) { // 添加评论按钮
+    comment_submit.click(function () { // 添加评论按钮
         var Content = $('#comment_text').val();
         if (Content === '') {
             toast("请键入评论");
@@ -409,7 +413,7 @@
             bookID: "<%=request.getAttribute("bookID")%>",
             username: "<%=session.getAttribute("username")%>",
             content: Content
-        }, function (responseText) {
+        }, function () {
             toast("评论成功");
             location.reload();
         }).fail(function () {
