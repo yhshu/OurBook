@@ -108,8 +108,13 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename);
-            System.out.println("BookServlet: 添加书目成功");
+            if (bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename))
+                System.out.println("BookServlet: 添加书目成功");
+            else {
+                System.out.println("BookServlet: 添加书目失败");
+                response.sendError(520);
+                return;
+            }
             // 添加成功后，请求重定向，查看本书
             response.setContentType("text/plain");
             response.getWriter().write("/book?id=" + bookDao.maxID());
