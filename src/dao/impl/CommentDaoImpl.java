@@ -15,9 +15,10 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public Comment[] findByBookID(int bookID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ?");
+            stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ?");
             stm.setInt(1, bookID);
             Comment[] comments = getComments(stm);
             stm.close();
@@ -25,15 +26,19 @@ public class CommentDaoImpl implements CommentDao {
             return comments;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return null;
     }
 
     @Override
     public boolean add(String username, int bookID, String content) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO comment(ID, username, bookID, datatime, content) VALUES (null, ?, ?, NOW(), ?)");
+            stm = conn.prepareStatement("INSERT INTO comment(ID, username, bookID, datatime, content) VALUES (null, ?, ?, NOW(), ?)");
             stm.setString(1, username);
             stm.setInt(2, bookID);
             stm.setString(3, content);
@@ -44,20 +49,22 @@ public class CommentDaoImpl implements CommentDao {
                 e1.printStackTrace();
                 System.out.println("CommentDao: 评论添加失败");
             }
-            stm.close();
-            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public boolean delete(int ID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM comment WHERE ID = ?");
+            stm = conn.prepareStatement("DELETE FROM comment WHERE ID = ?");
             stm.setInt(1, ID);
             try {
                 stm.executeUpdate();
@@ -71,6 +78,9 @@ public class CommentDaoImpl implements CommentDao {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }

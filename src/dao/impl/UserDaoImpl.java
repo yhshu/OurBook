@@ -14,10 +14,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User[] search(String keyword) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author WHERE username LIKE ? or nickname LIKE ?");
+            stm = conn.prepareStatement("SELECT * FROM author WHERE username LIKE ? or nickname LIKE ?");
             stm.setString(1, "%" + keyword + "%");
             stm.setString(2, "%" + keyword + "%");
             ResultSet rs = stm.executeQuery();
@@ -29,188 +30,200 @@ public class UserDaoImpl implements UserDao {
                 users.add(user);
             }
             rs.close();
-            stm.close();
-            conn.close();
             return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 获取用户失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new User[0];
     }
 
     @Override
     public void add(User user) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO user(username,nickname,password,avatar) VALUES (?,?,?,?)");
+            stm = conn.prepareStatement("INSERT INTO user(username,nickname,password,avatar) VALUES (?,?,?,?)");
             stm.setString(1, user.getUsername());
             stm.setString(2, user.getNickname());
             stm.setString(3, user.getPassword());
             stm.setString(4, "/resources/avatar/empty-avatar.png");
-            try {
-                stm.executeUpdate();
-                System.out.println("UserDao: 注册成功");
-            } catch (Exception e1) {
-                System.out.println("UserDao: 注册失败");
-            }
-            stm.close();
-            conn.close();
+            stm.executeUpdate();
+            System.out.println("UserDao: 注册成功");
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("UserDao: 注册失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
     }
 
     @Override
     public boolean exist(String username) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
+            stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
             stm.setString(1, username);
-            try {
-                ResultSet rs = stm.executeQuery();
-                if (rs.next()) return true;
-                return false;
-            } catch (Exception e1) {
-                System.out.println("UserDao: 获取用户失败");
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                rs.close();
+                return true;
             }
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("UserDao: 获取用户失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public User find(String username) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
+            stm = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
             stm.setString(1, username);
-            try {
-                ResultSet rs = stm.executeQuery();
-                if (rs.next()) {
-                    User user = new User(rs.getString("username"), rs.getString("nickname"),
-                            rs.getString("password"), rs.getString("description"),
-                            rs.getString("avatar"));
-                    rs.close();
-                    stm.close();
-                    conn.close();
-                    return user;
-                } else return null;
-            } catch (Exception e1) {
-                System.out.println("UserDao: 获取用户失败");
-            }
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                User user = new User(rs.getString("username"), rs.getString("nickname"), rs.getString("password"), rs.getString("description"), rs.getString("avatar"));
+                rs.close();
+                return user;
+            } else return null;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("UserDao: 获取用户失败");
+            return null;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return null;
     }
 
     public String[] findFollowing(String follower) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");
+            stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");
             stm.setString(1, follower);
-            try {
-                ResultSet rs = stm.executeQuery();
-                ArrayList<String> users = new ArrayList<>();
-                while (rs.next()) {
-                    users.add(rs.getString("username"));
-                }
-                rs.close();
-                stm.close();
-                conn.close();
-                return users.toArray(new String[0]);
-            } catch (Exception el) {
-                System.out.println("UserDao: 获取关注列表失败");
+            ResultSet rs = stm.executeQuery();
+            ArrayList<String> users = new ArrayList<>();
+            while (rs.next()) {
+                users.add(rs.getString("username"));
             }
+            rs.close();
+            return users.toArray(new String[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("UserDao: 获取关注列表失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return null;
     }
 
     @Override
     public boolean modify(String username, String nickname, String description, String avatar) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("UPDATE user SET nickname = ?, description = ?, avatar = ? WHERE username = ?");
+            stm = conn.prepareStatement("UPDATE user SET nickname = ?, description = ?, avatar = ? WHERE username = ?");
             stm.setString(1, nickname);
             stm.setString(2, description);
             stm.setString(3, avatar);
             stm.setString(4, username);
             stm.executeUpdate();
             System.out.println("UserDao: 修改用户信息成功");
-            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 修改用户信息失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public boolean addFavorite(String username, int bookID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?,NOW())");
+            stm = conn.prepareStatement("INSERT INTO favorite VALUES (?,?,NOW())");
             stm.setString(1, username);
             stm.setInt(2, bookID);
             stm.executeUpdate();
             System.out.println("UserDao: 收藏成功");
-            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 收藏失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public boolean cancelFavorite(String username, int bookID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM favorite WHERE username = ? AND bookid = ?");
+            stm = conn.prepareStatement("DELETE FROM favorite WHERE username = ? AND bookid = ?");
             stm.setString(1, username);
             stm.setInt(2, bookID);
             stm.executeUpdate();
             System.out.println("UserDao: 取消收藏成功");
-            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 取消收藏失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public boolean isFavorite(String username, int bookID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM favorite WHERE username = ? AND bookid = ?");
+            stm = conn.prepareStatement("SELECT COUNT(*) FROM favorite WHERE username = ? AND bookid = ?");
             stm.setString(1, username);
             stm.setInt(2, bookID);
             ResultSet rs = stm.executeQuery();
             rs.next();
             boolean result = rs.getInt(1) != 0;
-            conn.close();
             return result;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return false;
     }
 
     @Override
     public User[] recommend() {
-        // 推荐 创作章节数最多的5个用户 作为活跃用户
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites * 10 + clicks DESC");
+            stm = conn.prepareStatement("SELECT * FROM author ORDER BY favorites * 10 + clicks DESC");
             int displayUserNum = 5;
             ResultSet rs = stm.executeQuery();
             while (displayUserNum-- > 0 && rs.next()) {
@@ -222,11 +235,12 @@ public class UserDaoImpl implements UserDao {
                 users.add(user);
             }
             rs.close();
-            stm.close();
-            conn.close();
             return users.toArray(new User[0]);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new User[0];
     }

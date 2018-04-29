@@ -39,12 +39,13 @@ public class DBUtil {
         else return "1";
     }
 
-    public static void safeClose(Connection conn){
-        if(conn!=null){
-            try{
+    public static void safeClose(Connection conn) {
+        if (conn != null) {
+            try {
                 conn.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
+                System.out.println("DBUtil: Connection 关闭异常");
             }
         }
     }
@@ -55,6 +56,7 @@ public class DBUtil {
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+                System.out.println("DBUtil: Statement 关闭异常");
             }
         }
     }

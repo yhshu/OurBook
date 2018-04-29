@@ -63,8 +63,7 @@ public class ChapterDaoImpl implements ChapterDao {
     public boolean modify(String username, Chapter chapter) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm1 = conn.prepareStatement("UPDATE chapter SET name=?" +
-                    "WHERE bookID = ? AND sequence = ?");
+            PreparedStatement stm1 = conn.prepareStatement("UPDATE chapter SET name=?" + "WHERE bookID = ? AND sequence = ?");
             stm1.setString(1, chapter.getName());
             stm1.setInt(2, chapter.getBookID());
             stm1.setInt(3, chapter.getSequence());
@@ -76,7 +75,7 @@ public class ChapterDaoImpl implements ChapterDao {
             int maxID = rs.getInt("max_ID");
             rs.close();
             stm2.close();
-            PreparedStatement stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID=? AND sequence=?");
+            PreparedStatement stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
             stm3.setInt(1, chapter.getBookID());
             stm3.setInt(2, chapter.getSequence());
             rs = stm3.executeQuery();
