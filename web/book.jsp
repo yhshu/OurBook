@@ -3,11 +3,13 @@
 <%@ page import="model.Comment" %>
 <%@ page import="model.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Queue" %>
 <%
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
     Comment[] comments = (Comment[]) request.getAttribute("comments");
+    Queue<String> avatars = (Queue<String>) request.getAttribute("avatars");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -292,6 +294,7 @@
                     for (Comment comment : comments) {
             %>
             <div data-commentID="<%=comment.getID()%>">
+                <img src="<%=avatars.poll()%>">
                 <h6><%=comment.getUsername()%>
                 </h6>
             </div>

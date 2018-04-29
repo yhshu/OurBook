@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @WebServlet("/book")
 public class BookServlet extends HttpServlet {
@@ -53,7 +55,10 @@ public class BookServlet extends HttpServlet {
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
                 Comment[] comments = commentService.findByBookID(bookID);
-                for(Comment comment :comments)
+                Queue<String> avatars = new LinkedList<String>();
+                for (Comment comment : comments) {
+                    ((LinkedList<String>) avatars).push(userService.find(comment.getUsername()).getAvatar());
+                }
 
                 request.setAttribute("chiefEditor", chiefEditor);
                 request.setAttribute("bookID", bookID);
@@ -67,6 +72,7 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("collaborators", collaborators);
                 request.setAttribute("isCollaborator", isCollaborator);
                 request.setAttribute("comments", comments);
+                request.setAttribute("avatars", avatars);
                 bookService.click(username, bookID);
             }
             // 重定向
