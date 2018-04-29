@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-cmn-Hans" >
+<html lang="zh-cmn-Hans">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/materialize.css">
@@ -10,6 +10,14 @@
     <script type="text/javascript" src="js/materialize.js"></script>
     <script type="text/javascript" src="js/myJS.js"></script>
     <title>OurBook - 发现新的世界</title>
+
+    <script src="js/parallax.min.js"></script>
+    <style>
+        .parallax-window {
+            min-height: 400px;
+            background: transparent;
+        }
+    </style>
 </head>
 <body class="white">
 <nav> <!-- 顶部栏 -->
@@ -21,7 +29,7 @@
     </div>
 </nav>
 
-<div class="container row" style="height: 390px; margin-top: 20px"><!-- 页面中部 -->
+<div class="container row" style="height: 390px; margin-top: 80px; margin-bottom: 130px;"><!-- 页面中部 -->
     <div class="col s7">
         <h3>为写作团队而生</h3>
         <h5>OurBook 是一个受您工作方式启发的创作社区，帮助您的团队写作、合作与在线出版。</h5>
@@ -86,7 +94,7 @@
         </script>
     </div>
 </div>
-
+<div class="parallax-window" data-parallax="scroll" data-image-src="img/background/twr-img.jpg"></div>
 <footer class="page-footer blue">
     <div class="container">
         <div class="row">

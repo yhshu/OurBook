@@ -6,13 +6,6 @@
 <head>
     <%@ include file="header.jsp" %>
     <title>首页 - OurBook</title>
-    <script src="js/parallax.min.js"></script>
-    <style>
-        .parallax-window {
-            min-height: 400px;
-            background: transparent;
-        }
-    </style>
 </head>
 <%
     if (session.getAttribute("username") == null) {
@@ -125,7 +118,6 @@
         %>
     </div>
 </div>
-<div class="parallax-window" data-parallax="scroll" data-image-src="img/background/twr-img.jpg"></div>
 <%@ include file="footer.html"%>
 </body>
 </html>
