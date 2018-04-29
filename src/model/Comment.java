@@ -4,11 +4,16 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class Comment implements Serializable {
+    // 存于数据库的成员变量
     private int ID;
     private String username;
     private int bookID;
     private Timestamp datatime;
     private String content;
+    // 未存于数据库的成员变量
+    private String nickname;
+    private String avatar;
+
 
     public Comment(String username, int bookID, Timestamp datatime, String content) {
         this.username = username;
@@ -63,5 +68,21 @@ public class Comment implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

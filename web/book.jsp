@@ -3,13 +3,11 @@
 <%@ page import="model.Comment" %>
 <%@ page import="model.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Queue" %>
 <%
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
     Comment[] comments = (Comment[]) request.getAttribute("comments");
-    Queue<String> avatars = (Queue<String>) request.getAttribute("avatars");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -44,7 +42,7 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <div class="container row" style="margin: 50px 176px;">
-    <div style="width:1000px">
+    <div style="width:1000px"><!-- 书籍信息 -->
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
                 if (request.getAttribute("cover") == null || request.getAttribute("cover").equals("")) { // 如果无封面
@@ -134,14 +132,13 @@
                     </a>
                     <%}%>
                 </div>
-
                 <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
                 <p style="margin: 25px 0 0 25px">
                     <%=request.getAttribute("description")%>
                 </p>
             </div>
         </div>
-    </div><!-- 书籍信息 -->
+    </div>
     <div class="row" style="width: 1000px"><!--章节目录和编辑者-->
         <div class="col card" style="padding: 0 20px;width:723px; margin-right:23px;"><!-- 章节目录 -->
             <h5 style="text-align: center; margin-bottom: 30px;">章节目录</h5>
@@ -201,7 +198,7 @@
             </div>
             <%}%>
 
-            <div class="collection" style="margin-top: 20px;">
+            <div class="collection" style="margin-top: 20px;"><!--章节目录中的章节链接-->
                 <%
                     for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
                 %>
@@ -294,8 +291,12 @@
                     for (Comment comment : comments) {
             %>
             <div data-commentID="<%=comment.getID()%>">
-                <img src="<%=avatars.poll()%>">
-                <h6><%=comment.getUsername()%>
+                <img src="<%=comment.getAvatar()%>" style="width: 30px;height: 30px; float: left;">
+                <h6><%=comment.getNickname()%>
+                </h6>
+                <h6 style="float: right;"><%=sdf.format(comment.getDatatime())%>
+                </h6>
+                <h6><%=comment.getContent()%>
                 </h6>
             </div>
             <%
@@ -408,9 +409,9 @@
             return;
         }
         $.post('${pageContext.request.contextPath}/comment', {
-            method: add,
-            bookID:<%=request.getAttribute("bookID")%>,
-            username: <%=session.getAttribute("username")%>,
+            method: "add",
+            bookID: "<%=request.getAttribute("bookID")%>",
+            username: "<%=session.getAttribute("username")%>",
             content: Content
         }, function () {
             toast("评论成功");

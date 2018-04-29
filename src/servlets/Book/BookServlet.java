@@ -55,10 +55,6 @@ public class BookServlet extends HttpServlet {
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
                 Comment[] comments = commentService.findByBookID(bookID);
-                Queue<String> avatars = new LinkedList<String>();
-                for (Comment comment : comments) {
-                    ((LinkedList<String>) avatars).push(userService.find(comment.getUsername()).getAvatar());
-                }
 
                 request.setAttribute("chiefEditor", chiefEditor);
                 request.setAttribute("bookID", bookID);
@@ -72,7 +68,6 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("collaborators", collaborators);
                 request.setAttribute("isCollaborator", isCollaborator);
                 request.setAttribute("comments", comments);
-                request.setAttribute("avatars", avatars);
                 bookService.click(username, bookID);
             }
             // 重定向
