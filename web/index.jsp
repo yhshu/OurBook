@@ -9,7 +9,7 @@
 </head>
 <%
     if (session.getAttribute("username") == null) {
-        response.sendRedirect("/login");
+        response.sendRedirect("/register");
     } else {
         User[] users = (User[]) request.getAttribute("user_recommend");
         Book[] books = (Book[]) request.getAttribute("book_recommend");
@@ -44,19 +44,21 @@
             for (Book book : books) {
         %>
             <div style="margin: 15px auto;display: grid;grid-template-columns: 96px 249px;height: 128px;overflow: hidden">
-                <%
-                    if (book.getCover() == null || book.getCover().equals("")) {
-                        // 如果无封面
-                %>
-                <div style="width: 96px;height: 128px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
-                    <h6 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                        <%=book.getName()%>
-                    </h6>
-                </div>
-                <%} else { // 如果有封面%>
-                <img style="width: 96px;height: 128px;object-fit: cover"
-                     src="<%=book.getCover()%>">
-                <%}%>
+                <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
+                    <%
+                        if (book.getCover() == null || book.getCover().equals("")) {
+                            // 如果无封面
+                    %>
+                    <div style="width: 96px;height: 128px;background-color: #0D47A1;border-radius: 2px 0 0 2px">
+                        <h6 style="color: white;display: block;position: relative;top: 30%;text-align: center">
+                            <%=book.getName()%>
+                        </h6>
+                    </div>
+                    <%} else { // 如果有封面%>
+                    <img style="width: 96px;height: 128px;object-fit: cover"
+                         src="<%=book.getCover()%>">
+                    <%}%>
+                </a>
                 <div style="display: grid;grid-template-rows: 32px 18px auto">
                     <div style="margin: 5px 0 0 15px"><!--书名-->
                         <h6 style="float: left;margin: 0">
@@ -118,6 +120,6 @@
         %>
     </div>
 </div>
-<%@ include file="footer.html"%>
+<%@ include file="footer.html" %>
 </body>
 </html>
