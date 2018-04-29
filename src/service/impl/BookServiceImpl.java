@@ -110,7 +110,7 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         // 通知主编
-        if (notificationDao.notify(book.getChiefEditor(), book.getName() + "已更新",
+        if (notificationDao.notify(book.getChiefEditor(), "你的作品" + book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
                         "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
             System.out.println("BookService: 通知主编成功");
@@ -119,7 +119,7 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         // 通知收藏者
-        if (notificationDao.notifySubscribers(chapter.getBookID(), book.getName() + "已更新",
+        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的" + book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
                         "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
@@ -158,7 +158,7 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         // 通知主编
-        if (notificationDao.notify(book.getChiefEditor(), book.getName() + "已更新",
+        if (notificationDao.notify(book.getChiefEditor(), "你的作品" + book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
                         "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
             System.out.println("BookService: 通知主编成功");
@@ -167,7 +167,7 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         // 通知收藏者
-        if (notificationDao.notifySubscribers(chapter.getBookID(), book.getName() + "已更新",
+        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的" + book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
                         "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
