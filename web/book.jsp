@@ -273,12 +273,12 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="card" style="padding: 20px; width: 1000px;">
         <h6>评论</h6>
-        <div class="row" style="width: 1000px; margin-bottom: 0;"><!--评论输入框-->
+        <div class="row" style="width: 960px; margin-bottom: 0;"><!--评论输入框-->
             <div class="input-field col s12">
                 <textarea id="comment_text" class="materialize-textarea" data-length="140"
-                          style="float: left; width: 900px;"
+                          style="float: left; width: 860px;"
                           placeholder="写下你的评论..." onclick="showButton()" oninput="enableButton()"></textarea>
                 <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">提交
                 </button>
@@ -290,8 +290,8 @@
                 if (comments != null) {
                     for (Comment comment : comments) {
             %>
-            <div id="comment_<%=comment.getID()%>" style="width: 1000px; margin-bottom: 15px;">
-                <div class="row" style="margin-bottom: 0px;">
+            <div id="comment_<%=comment.getID()%>" style="width: 960px; margin-bottom: 15px;">
+                <div class="row" style="margin-bottom: 0;">
                     <span><img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></span>
                     <span><a style="float: left; margin-left: 10px;"
                              href="${pageContext.request.contextPath}/home?username=<%=comment.getUsername()%>"><%=comment.getNickname()%></a></span>
