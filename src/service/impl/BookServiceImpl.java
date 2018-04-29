@@ -3,9 +3,11 @@ package service.impl;
 import Util.FileUtil;
 import dao.BookDao;
 import dao.ChapterDao;
+import dao.NotificationDao;
 import dao.UserDao;
 import dao.impl.BookDaoImpl;
 import dao.impl.ChapterDaoImpl;
+import dao.impl.NotificationDaoImpl;
 import dao.impl.UserDaoImpl;
 import model.Book;
 import model.Chapter;
@@ -17,25 +19,31 @@ import java.io.*;
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
+    private NotificationDao notificationDao = new NotificationDaoImpl();
     public static final int chiefEditorAuthority = 2;
     public static final int collaboratorAuthority = 1;
     public static final int noAuthority = 0;
 
     @Override
-    public boolean addBook(String name, String description, String chiefEditor, String keywords, String cover) {
+    public boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空，添加失败");
             return false;
         }
         if (!keywords.contains(chiefEditor)) keywords += " " + chiefEditor; // 添加主编用户名
         if (!keywords.contains(name)) keywords += " " + name; // 添加书名
-        try {
-            bookDao.add(new Book(name, description, chiefEditor, keywords, cover));
+        int ID = bookDao.add(new Book(name, description, chiefEditor, keywords, cover));
+        if ((ID) != -1)
             System.out.println("BookService: 添加书目成功");
-            return true;
-        } catch (Exception e) {
+        else
             System.out.println("BookService: 添加书目失败");
-        }
+        if (notificationDao.notifyFollowers(chiefEditor, nickname + "创建了一本新书",
+                "你关注的<a href='home?user=" + chiefEditor + "'>" + nickname +
+                        "</a>刚刚创建了<a href='book?id=" + ID + "'>" + name + "</a>，快来看看吧")) {
+            System.out.println("BookService: 通知关注者成功");
+            return true;
+        } else
+            System.out.println("BookService: 通知关注者失败");
         return false;
     }
 

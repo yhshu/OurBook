@@ -94,27 +94,32 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void add(Book book) {
+    public int add(Book book) {
+        PreparedStatement stm1 = null;
+        PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO book " +
+            stm1 = conn.prepareStatement("INSERT INTO book " +
                     "(ID,name,description,chiefEditor,keywords,cover) VALUES (null,?,?,?,?,?)");
-            stm.setString(1, book.getName());
-            stm.setString(2, book.getDescription());
-            stm.setString(3, book.getChiefEditor());
-            stm.setString(4, book.getKeywords());
-            stm.setString(5, book.getCover());
-            try {
-                stm.executeUpdate();
-                System.out.println("BookDao: 添加书目成功");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                System.out.println("BookDao: 添加书目失败");
-            }
-            stm.close();
-            conn.close();
+            stm1.setString(1, book.getName());
+            stm1.setString(2, book.getDescription());
+            stm1.setString(3, book.getChiefEditor());
+            stm1.setString(4, book.getKeywords());
+            stm1.setString(5, book.getCover());
+            stm1.executeUpdate();
+            stm2 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM book");
+            ResultSet rs = stm2.executeQuery();
+            rs.next();
+            int ID = rs.getInt("max_ID");
+            System.out.println("BookDao: 添加书目成功");
+            return ID;
         } catch (Exception e) {
+            System.out.println("BookDao: 添加书目失败");
             e.printStackTrace();
+            return -1;
+        } finally {
+            DBUtil.safeClose(stm1);
+            DBUtil.safeClose(conn);
         }
     }
 

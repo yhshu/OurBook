@@ -58,8 +58,9 @@ public interface BookDao {
      * 添加书目
      *
      * @param book 新增书目
+     * @return 书的ID
      */
-    void add(Book book);
+    int add(Book book);
 
     /**
      * 返回最大的 book 表中最大的 ID

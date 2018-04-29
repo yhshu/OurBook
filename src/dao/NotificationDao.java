@@ -14,13 +14,22 @@ public interface NotificationDao {
     void read(int ID);
 
     /**
-     * 新增通知
+     * 通知单个用户
      *
      * @param username 接收者用户名
      * @param header   标题
      * @param content  内容
      */
-    boolean add(String username, String header, String content);
+    boolean notify(String username, String header, String content);
+
+    /**
+     * 通知关注者
+     *
+     * @param followee 被关注者
+     * @param header   标题
+     * @param content  内容
+     */
+    boolean notifyFollowers(String followee, String header, String content);
 
     /**
      * 删除通知
@@ -37,6 +46,5 @@ public interface NotificationDao {
      * @return 通知
      */
     Notification[] getByUsername(String username, boolean isRead);
-
 
 }

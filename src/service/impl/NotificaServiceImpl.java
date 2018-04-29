@@ -26,7 +26,7 @@ public class NotificaServiceImpl implements NotificationService {
 
     @Override
     public boolean add(String username, String header, String message) {
-        return notificationDao.add(username, header, message);
+        return notificationDao.notify(username, header, message);
     }
 
     @Override

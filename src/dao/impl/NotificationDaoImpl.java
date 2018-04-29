@@ -33,7 +33,7 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public boolean add(String username, String header, String message) {
+    public boolean notify(String username, String header, String content) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm1 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM notification");
@@ -42,11 +42,11 @@ public class NotificationDaoImpl implements NotificationDao {
             int maxID = rs.getInt("max_ID");
             rs.close();
             stm1.close();
-            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO notification(ID,username,time,header,message,`read`) VALUES (?,?,NOW(),?,?,FALSE)");
+            PreparedStatement stm2 = conn.prepareStatement("INSERT INTO notification(ID,username,time,header,content,`read`) VALUES (?,?,NOW(),?,?,FALSE)");
             stm2.setInt(1, maxID + 1);
             stm2.setString(2, username);
             stm2.setString(3, header);
-            stm2.setString(4, message);
+            stm2.setString(4, content);
             try {
                 stm2.executeUpdate();
                 System.out.println("NotificationDao: 添加成功");
@@ -54,6 +54,43 @@ public class NotificationDaoImpl implements NotificationDao {
                 System.out.println("NotificationDao: 添加失败");
             }
             stm2.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean notifyFollowers(String followee, String header, String content) {
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            ArrayList<String> followers = new ArrayList<>();
+
+            // 获取关注者
+            PreparedStatement stm1 = conn.prepareStatement("SELECT follower FROM follow WHERE followee=?");
+            stm1.setString(1, followee);
+            ResultSet rs = stm1.executeQuery();
+            while (rs.next())
+                followers.add(rs.getString("follower"));
+            rs.close();
+            stm1.close();
+
+            // 添加通知
+            for (String follower : followers) {
+                PreparedStatement stm2 = conn.prepareStatement("INSERT INTO notification(ID,username,time,header,content,`read`) VALUES (NULL,?,NOW(),?,?,FALSE)");
+                stm2.setString(1, follower);
+                stm2.setString(2, header);
+                stm2.setString(3, content);
+                try {
+                    stm2.executeUpdate();
+                    System.out.println("NotificationDao: 添加成功");
+                } catch (Exception e1) {
+                    System.out.println("NotificationDao: 添加失败");
+                }
+                stm2.close();
+            }
             conn.close();
             return true;
         } catch (Exception e) {

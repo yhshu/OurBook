@@ -37,6 +37,7 @@ public class AddBookServlet extends HttpServlet {
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
         String editor = (String) session.getAttribute("username");
+        String nickname = (String) session.getAttribute("nickname");
         String bookName = "";
         String bookDescription = "";
         String keywords = "";
@@ -107,7 +108,7 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            bookService.addBook(bookName, bookDescription, editor, keywords, filename);
+            bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename);
             System.out.println("BookServlet: 添加书目成功");
             // 添加成功后，请求重定向，查看本书
             response.setContentType("text/plain");

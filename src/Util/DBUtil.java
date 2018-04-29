@@ -5,6 +5,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBUtil {
     /**
@@ -36,6 +37,26 @@ public class DBUtil {
         else if (range.equalsIgnoreCase("year")) return "DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= date("
                 + field + ")";
         else return "1";
+    }
+
+    public static void safeClose(Connection conn){
+        if(conn!=null){
+            try{
+                conn.close();
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void safeClose(Statement stmt) {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

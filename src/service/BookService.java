@@ -11,10 +11,11 @@ public interface BookService {
      * @param name        书名
      * @param description 书的简介（可选）
      * @param chiefEditor 主编的用户名
+     * @param nickname    主编的昵称
      * @param keywords    书的关键字
      * @return 添加成功 true，添加失败 false
      */
-    boolean addBook(String name, String description, String chiefEditor, String keywords, String cover);
+    boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover);
 
     /**
      * 根据书籍ID查找书籍
