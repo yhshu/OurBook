@@ -62,6 +62,10 @@
                 toast('请输入章节标题');
                 return false;
             }
+            if ($('#chapterContent').characterCounter().val === 0) {
+                toast('请输入章节内容');
+                return false;
+            }
             else return true;
         }
     </script>

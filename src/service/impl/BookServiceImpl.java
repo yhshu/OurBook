@@ -44,9 +44,9 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 创建文件夹失败");
             return false;
         }
-        if (notificationDao.notifyFollowers(chiefEditor, nickname + "创建了一本新书",
-                "你关注的<a href='home?user=" + chiefEditor + "'>" + nickname +
-                        "</a>刚刚创建了<a href='book?id=" + ID + "'>" + book.getName() + "</a>，快来看看吧")) {
+        if (notificationDao.notifyFollowers(chiefEditor, nickname + " 创建了一本新书",
+                "你关注的 <a href='home?user=" + chiefEditor + "'>" + nickname +
+                        "</a> 刚刚创建了 <a href='book?id=" + ID + "'>" + book.getName() + "</a>，快来看看吧")) {
             System.out.println("BookService: 通知关注者成功");
             return true;
         } else
@@ -110,18 +110,18 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         // 通知主编
-        if (notificationDao.notify(book.getChiefEditor(), "你的作品" + book.getName() + "已更新",
+        if (notificationDao.notify(book.getChiefEditor(), "你的作品 " + book.getName() + " 已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
+                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
             System.out.println("BookService: 通知主编成功");
         } else {
             System.out.println("BookService: 通知主编失败");
             return false;
         }
         // 通知收藏者
-        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的" + book.getName() + "已更新",
+        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的 " + book.getName() + " 已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
+                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
         } else {
             System.out.println("BookService: 通知收藏者失败");
@@ -158,18 +158,18 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         // 通知主编
-        if (notificationDao.notify(book.getChiefEditor(), "你的作品" + book.getName() + "已更新",
+        if (notificationDao.notify(book.getChiefEditor(), "你的作品 " + book.getName() + " 已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
+                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
             System.out.println("BookService: 通知主编成功");
         } else {
             System.out.println("BookService: 通知主编失败");
             return false;
         }
         // 通知收藏者
-        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的" + book.getName() + "已更新",
+        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的 " + book.getName() + " 已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
+                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a> ，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
         } else {
             System.out.println("BookService: 通知收藏者失败");

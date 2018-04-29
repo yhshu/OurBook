@@ -77,7 +77,7 @@ public class AddBookServlet extends HttpServlet {
                         File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
 
-                        // 如果文件不是图片 立即删除
+                        // 如果文件不是图片，立即删除
                         try {
                             Image img = ImageIO.read(saveFile);
                             if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {

@@ -27,7 +27,6 @@ public class ChapterServlet extends BaseServlet {
         String name = request.getParameter("chapterName");
         String content = request.getParameter("chapterContent");
         int sequence = Integer.parseInt(request.getParameter("sequence"));
-        // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("book"));
         try {
             if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
@@ -55,18 +54,20 @@ public class ChapterServlet extends BaseServlet {
         // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));
-        if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
-            String rootDir = this.getServletContext().getRealPath("/");
-            if (bookService.modifyChapter(username, nickname, new Chapter(name, bookID, sequence, content), rootDir)) {
-                System.out.println("ChapterServlet: 修改章节成功");
-                // 添加章节完成后，请求重定向，查看本书目录
-                response.setContentType("text/plain");
-                response.getWriter().write("/book?id=" + bookID);
-                return;
-            }
+        try {
+            if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
+                String rootDir = this.getServletContext().getRealPath("/");
+                if (bookService.modifyChapter(username, nickname, new Chapter(name, bookID, sequence, content), rootDir)) {
+                    System.out.println("ChapterServlet: 修改章节成功");
+                    // 添加章节完成后，请求重定向，查看本书目录
+                    response.setContentType("text/plain");
+                    response.getWriter().write("/book?id=" + bookID);
+                }
+            } else throw new Exception();
+        } catch (Exception e) {
+            System.out.println("ChapterServlet: 修改章节失败");
+            response.sendError(500);
         }
-        System.out.println("ChapterServlet: 修改章节失败");
-        response.sendError(500);
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response)
