@@ -22,6 +22,7 @@ public class CommentServlet extends HttpServlet {
                 String username = request.getParameter("username");
                 String content = request.getParameter("content");
                 commentService.add(username, bookID, content);
+                response.getWriter().write("/book?id=" + bookID);
                 break;
             case "delete":
                 int commentID = Integer.parseInt(request.getParameter("commentID"));
