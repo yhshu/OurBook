@@ -67,4 +67,21 @@ public class ChapterServlet extends BaseServlet {
         System.out.println("ChapterServlet: 修改章节失败");
         response.sendError(500);
     }
+
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        BookService bookService = new BookServiceImpl();
+        // 数据库删除章节
+        int bookID = Integer.parseInt(request.getParameter("book"));
+        int sequence = Integer.parseInt(request.getParameter("sequence"));
+        String chapterName = request.getParameter("chapterName");
+        String rootDir = this.getServletContext().getRealPath("/");
+        if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
+            if(bookService.deleteChapter(bookID, sequence,rootDir)) System.out.println("DeleteChapterServlet: 删除章节成功");
+            else System.out.println("DeleteChapterServlet: 删除章节失败");
+        }
+        // 删除后，重定向到本书介绍页
+        response.sendRedirect("/book?id=" + bookID);
+    }
 }

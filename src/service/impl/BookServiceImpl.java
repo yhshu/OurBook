@@ -53,11 +53,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book[] findByKeywords(String keywords) {
-        return bookDao.findByKeywords(keywords.split(" "));
-    }
-
-    @Override
     public Book[] findByKeywords(String keywords, String sort, String range) {
         if (sort.equals("click"))
             return bookDao.findByKeywordsClick(keywords.split(" "), range);
@@ -177,8 +172,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean delete_chapter(int bookID, int sequence) {
-        return chapterDao.delete(bookID, sequence);
+    public boolean deleteChapter(int bookID, int sequence, String rootDir) {
+        String[] paths = chapterDao.delete(bookID, sequence);
+        File chapter;
+        if (paths == null) {
+            System.out.println("DeleteChapterServlet: 删除章节文件失败");
+            return false;
+        }
+        // 删除章节文件
+        for (String path : paths) {
+            try {
+                chapter = new File(rootDir + path);
+                if (chapter.exists() && chapter.isFile())
+                    if (!chapter.delete()) throw new Exception();
+
+            } catch (Exception e) {
+                System.out.println("DeleteChapterServlet: 删除章节文件失败");
+                e.printStackTrace();
+            }
+        }
+        return true;
     }
 
     @Override

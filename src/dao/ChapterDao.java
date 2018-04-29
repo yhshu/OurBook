@@ -47,11 +47,11 @@ public interface ChapterDao {
     Chapter[] findByBookID(int bookID);
 
     /**
-     * 删除某一章节
+     * 删除某一章节，并返回历史文件在服务器上的位置
      *
      * @param bookID   书籍ID
      * @param sequence 章节序号
-     * @return 删除成功返回true；失败返回false
+     * @return 该章节所有历史文件在服务器上的位置
      */
-    boolean delete(int bookID, int sequence);
+    String[] delete(int bookID, int sequence);
 }

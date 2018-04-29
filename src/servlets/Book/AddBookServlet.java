@@ -79,11 +79,14 @@ public class AddBookServlet extends HttpServlet {
                         try {
                             Image img = ImageIO.read(saveFile);
                             if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
+                                if (saveFile.delete()) System.out.println("删除可疑文件成功");
+                                else System.out.println("删除可疑文件失败");
                                 response.sendError(415);
                                 return;
                             }
                         } catch (Exception e) {
-                            saveFile.delete();
+                            if (saveFile.delete()) System.out.println("删除可疑文件成功");
+                            else System.out.println("删除可疑文件失败");
                             response.sendError(415);
                             return;
                         }

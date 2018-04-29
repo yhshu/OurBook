@@ -26,14 +26,6 @@ public interface BookService {
     Book find(int ID);
 
     /**
-     * 根据关键字查找书籍
-     *
-     * @param keywords 书籍关键字
-     * @return 含有关键字的所有书籍
-     */
-    Book[] findByKeywords(String keywords);
-
-    /**
      * 根据关键字查找书籍，并按类型和时间范围排序
      *
      * @param keywords 关键字
@@ -136,9 +128,10 @@ public interface BookService {
      *
      * @param bookID   书目编号
      * @param sequence 章节序号
+     * @param rootDir  服务器根目录
      * @return 删除成功返回true；失败返会false
      */
-    boolean delete_chapter(int bookID, int sequence);
+    boolean deleteChapter(int bookID, int sequence, String rootDir);
 
     /**
      * 首页推荐书目

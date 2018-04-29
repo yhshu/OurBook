@@ -18,6 +18,7 @@ public class ChapterDaoImpl implements ChapterDao {
         PreparedStatement stm1 = null;
         PreparedStatement stm2 = null;
         PreparedStatement stm3 = null;
+        PreparedStatement stm4 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence+1 WHERE sequence>=? AND OurBook.Chapter.bookID=?");
@@ -30,10 +31,18 @@ public class ChapterDaoImpl implements ChapterDao {
             stm2.setInt(2, chapter.getBookID());
             stm2.setInt(3, chapter.getSequence());
             stm2.executeUpdate();
-            stm3 = conn.prepareStatement("INSERT INTO edit(username, time, content) VALUES (?,NOW(),?)");
-            stm3.setString(1, username);
-            stm3.setString(2, chapter.getContent());
-            stm3.executeUpdate();
+            stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID=? AND sequence=?");
+            stm3.setInt(1, chapter.getBookID());
+            stm3.setInt(2, chapter.getSequence());
+            ResultSet rs = stm3.executeQuery();
+            rs.next();
+            int chapterID = rs.getInt("ID");
+            rs.close();
+            stm4 = conn.prepareStatement("INSERT INTO edit(username, time, content,chapterID) VALUES (?,NOW(),?,?)");
+            stm4.setString(1, username);
+            stm4.setString(2, chapter.getContent());
+            stm4.setInt(3, chapterID);
+            stm4.executeUpdate();
             System.out.println("ChapterDao: 添加章节成功");
             return true;
         } catch (Exception e) {
@@ -44,6 +53,7 @@ public class ChapterDaoImpl implements ChapterDao {
             DBUtil.safeClose(stm1);
             DBUtil.safeClose(stm2);
             DBUtil.safeClose(stm3);
+            DBUtil.safeClose(stm4);
             DBUtil.safeClose(conn);
         }
     }
@@ -158,38 +168,48 @@ public class ChapterDaoImpl implements ChapterDao {
     }
 
     @Override
-    public boolean delete(int bookID, int sequence) {
+    public String[] delete(int bookID, int sequence) {
         PreparedStatement stm1 = null;
         PreparedStatement stm2 = null;
+        PreparedStatement stm3 = null;
+        ArrayList<String> result = new ArrayList<>();
         try {
             conn = DBUtil.connectDB();
-            stm1 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?");
+            stm1 = conn.prepareStatement("SELECT e.content as content FROM edit e JOIN chapter c on e.chapterID = c.ID WHERE c.bookID=? AND c.sequence=?");
             stm1.setInt(1, bookID);
             stm1.setInt(2, sequence);
+            ResultSet rs = stm1.executeQuery();
+            while (rs.next())
+                result.add(rs.getString("content"));
+            rs.close();
+            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?");
+            stm2.setInt(1, bookID);
+            stm2.setInt(2, sequence);
             try {
-                stm1.executeUpdate();
+                stm2.executeUpdate();
                 System.out.println("ChapterDao: 删除指定章节成功");
             } catch (Exception e1) {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 删除指定章节失败");
             }
-            stm2 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?");
-            stm2.setInt(1, bookID);
-            stm2.setInt(2, sequence);
+            stm3 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?");
+            stm3.setInt(1, bookID);
+            stm3.setInt(2, sequence);
             try {
-                stm2.executeUpdate();
+                stm3.executeUpdate();
                 System.out.println("ChapterDao: 章节号调整成功");
             } catch (Exception e1) {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 章节号调整失败");
             }
-            return true;
+            return result.toArray(new String[0]);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         } finally {
             DBUtil.safeClose(stm1);
             DBUtil.safeClose(stm2);
+            DBUtil.safeClose(stm3);
             DBUtil.safeClose(conn);
         }
     }

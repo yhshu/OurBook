@@ -59,7 +59,8 @@
         $('.modal').modal();
     });
 </script>
-<form id="delete_chapter" action="${pageContext.request.contextPath}/deleteChapter" method="post">
+<form id="delete_chapter" action="${pageContext.request.contextPath}/ChapterServlet" method="post">
+    <input type="hidden" name="method" value="delete"/>
     <input type="hidden" name="book" value="<%=(int)request.getAttribute("bookID")%>"/>
     <input type="hidden" name="sequence" value="<%=(int)request.getAttribute("sequence")%>">
     <input type="hidden" name="chapterName" value="<%=request.getAttribute("name")%>">
