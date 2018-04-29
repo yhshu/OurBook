@@ -2,7 +2,7 @@
 <html>
 <head>
     <%@ include file="header.jsp" %>
-    <title>添加章节 - OurBook</title>
+    <title><%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节 - OurBook</title>
     <script src="${pageContext.request.contextPath}/js/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({

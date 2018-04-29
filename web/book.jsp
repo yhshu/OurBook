@@ -200,16 +200,30 @@
                     <a href="${pageContext.request.contextPath}/read?book=
 <%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
                         <span class="grey-text right"
-                              style="display: inline-block;margin-right: 20px"><%=sdf.format(chapter.getLastModified())%></span>
+                              style="display: inline-block;margin-right: 45px"><%=sdf.format(chapter.getLastModified())%></span>
                     </a>
                     <%
-                        if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) {
+                        if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
                     %>
+                    <a href="#history_modal_<%=chapter.getSequence()%>" class="right modal-trigger"
+                       style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
+                       data-sequence="<%=chapter.getSequence()%>">
+                        <i class="material-icons">history</i></a>
                     <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
                        class="right modify_chapter_icon"
-                       style="position:relative;top:-40px;right:10px;font-size: 20px;line-height: 40px">
+                       style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px">
                         <i class="material-icons">mode_edit</i>
                     </a>
+                    <!--历史记录 模态框-->
+                    <div id="history_modal_<%=chapter.getSequence()%>" class="modal bottom-sheet">
+                        <div class="modal-content">
+                            <h5>第<%=chapter.getSequence()%>章历史记录</h5>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
+                        </div>
+                    </div>
                     <%}%>
                 </div>
                 <%}%>
