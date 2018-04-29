@@ -48,7 +48,7 @@
 
             $('.unread_messages').click(function () {
                 var user = $(this).data("user");
-                $.get('/notification', {
+                $.get('/message', {
                     method: 'read',
                     from: user
                 });
