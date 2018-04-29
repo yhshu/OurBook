@@ -4,3 +4,4 @@
 .idea/
 *.class
 .DS_Store
+web/META-INF/context.xml

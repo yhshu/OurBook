@@ -26,9 +26,9 @@
         }
     </script>
     <script>
-        function add_home_dialog(){
+        function add_home_dialog() {
             alert("have done");
-            $("private_textarea_dialog").append (request.getParameter ("private_input_dialog"));
+            $("private_textarea_dialog").append(request.getParameter("private_input_dialog"));
             $("private_input_dialog").clear();
         }
     </script>
@@ -199,39 +199,6 @@ border-bottom: 1px solid lightgray">
                 <h5 style="text-align: center;margin: 50px 0;width: 100%" class="grey-text">
                     你还没有关注任何人</h5>
                 <%
-<<<<<<< HEAD
-                } else {%>
-                <div style="margin: 10px auto"><%
-                    for (User user : followees) {
-                %>
-                    <div class="row user_<%=user.getUsername()%>" style="margin: 15px 5px;">
-                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
-                            <img src="<%=user.getAvatar()%>"
-                                 style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
-                        </a>
-                        <div style="float:left;">
-                            <!--用户名与昵称-->
-                            <div style="width: 175px;height:20px">
-                                <h6 style="margin:0;float: left">
-                                    <a href="home?user=<%=user.getUsername()%>">
-                                        <%=user.getNickname()%>
-                                    </a>
-                                </h6>
-                                <h6 class="grey-text" data-target="privatedialog" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
-                                </h6>
-                            </div>
-                            <div style="width: 175px;height:20px">
-                                <p class="grey-text" style="margin:0 10px 0 0;display: inline-block">
-                                    <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
-                                </p>
-                                <a class="btn blue remove_follow right"
-                                   style="-webkit-appearance:none; -moz-appearance:none; height: 20px;
-                                   line-height: 20px;margin: 0 10px;display: inline-block"
-                                   id="remove_follow_<%=user.getUsername()%>" data-user="<%=user.getUsername()%>">
-                                    取消关注</a>
-                            </div>
-                        </div>
-=======
                 } else {
                     for (User user : followees) {%>
                 <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px;"
@@ -263,32 +230,12 @@ border-bottom: 1px solid lightgray">
                            style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
                            data-user="<%=user.getUsername()%>">
                             发送私信</a>
->>>>>>> f4b0ebb7c1c7f4b10e2765afbdfe1473d1836411
                     </div>
                 </div>
                 <%}%>
             </div>
             <%}%>
         </div>
-
-<<<<<<< HEAD
-            <div id="privatedialog" class="modal" style="height: 450px ;min-width:300px"><!--私信模态框-->
-                <!--<form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">-->
-                    <div class="modal-content">
-                        <label for="send_message_from">发送方</label>
-                        <input type="text" name="send_message_from" id="send_message_from" value="" >
-                    </div>
-                    <div class="modal-footer">
-                        <textarea style="height: 200px;weight: 400px" id="private_textarea_dialog" >
-                        </textarea>
-                        <button class="modal-action modal-close waves-effect waves-green btn-flat"
-                                id="submit_private_info"
-                                onclick="add_home_dialog();">                   <!--提交到id="personalInfo"的页面上面-->
-                            提交
-                        </button>
-                    </div>
-                <!--</form>-->
-=======
         <div class="col card" style="width: 353px"> <!--我的书迷-->
             <h5 style="text-align: center">我的书迷</h5>
             <% if (followers.length == 0) {%>
@@ -326,7 +273,6 @@ border-bottom: 1px solid lightgray">
                     </div>
                 </div>
                 <%}%>
->>>>>>> f4b0ebb7c1c7f4b10e2765afbdfe1473d1836411
             </div>
             <%}%>
         </div>
