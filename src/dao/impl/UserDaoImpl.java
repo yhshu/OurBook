@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
             stm.setString(1, user.getUsername());
             stm.setString(2, user.getNickname());
             stm.setString(3, user.getPassword());
-            stm.setString(4, "/resources/avatar/empty-avatar.png");
+            stm.setString(4, "resources/avatar/empty-avatar.png");
             stm.executeUpdate();
             System.out.println("UserDao: 注册成功");
         } catch (Exception e) {

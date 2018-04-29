@@ -13,9 +13,10 @@ public interface BookService {
      * @param chiefEditor 主编的用户名
      * @param nickname    主编的昵称
      * @param keywords    书的关键字
+     * @param rootDir     服务器根目录
      * @return 添加成功 true，添加失败 false
      */
-    boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover);
+    boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover, String rootDir);
 
     /**
      * 根据书籍ID查找书籍
@@ -103,9 +104,10 @@ public interface BookService {
      *
      * @param bookID   书目编号
      * @param username 发起删除请求的用户名
+     * @param rootDir  服务器根目录
      * @return 删除成功返回true；失败返回false
      */
-    boolean delete(int bookID, String username);
+    boolean delete(int bookID, String username, String rootDir);
 
     /**
      * 获取用户收藏的书

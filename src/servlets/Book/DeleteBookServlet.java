@@ -30,21 +30,13 @@ public class DeleteBookServlet extends HttpServlet {
             // 数据库删除
             int bookID = Integer.parseInt(request.getParameter("book"));
             Book book = bookService.find(bookID);
+            String rootDir = this.getServletContext().getRealPath("/");
             if (!session.getAttribute("username").equals(book.getChiefEditor())) {
                 // 验证删除本书的是否是主编
                 throw new Exception("用户不是作者");
             }
-            bookService.delete(bookID, (String) session.getAttribute("username"));
-            // 删除文件
-            File cover = new File(this.getServletContext().getRealPath("/resources/cover/" + bookID + ".jpg")); // cover 是 jpg 文件
-            File bookFolder = new File(this.getServletContext().getRealPath("/resources/book/" + bookID)); // book 是目录
-            if (cover.exists() && cover.isFile())
-                cover.delete();
-            if (bookFolder.exists() && bookFolder.isDirectory()) // TODO 当前无法删除该文件夹
-            {
-                if (FileUtil.deleteDir(bookFolder))
-                    System.out.println("DeleteBookServlet: 删除目录成功 " + bookFolder.getPath());
-            }
+            if (!bookService.delete(bookID, (String) session.getAttribute("username"), rootDir))
+                throw new Exception();
             // 删除本书后，重定向回首页
             response.sendRedirect("/home");
         } catch (NullPointerException e) {

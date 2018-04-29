@@ -228,32 +228,28 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public boolean delete(int bookID) {
-        PreparedStatement delChapter = null;
-        PreparedStatement delClick = null;
-        PreparedStatement delBook = null;
+    public String delete(int bookID) {
+        PreparedStatement stm1 = null;
+        PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            delChapter = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
-            delChapter.setInt(1, bookID);
-            delClick = conn.prepareStatement("DELETE FROM click WHERE bookID = ?");
-            delClick.setInt(1, bookID);
-            delBook = conn.prepareStatement("DELETE FROM book WHERE ID = ?");
-            delBook.setInt(1, bookID);
-
-            delChapter.executeUpdate();
-            delClick.executeUpdate();
-            delBook.executeUpdate();
+            stm1 = conn.prepareStatement("SELECT cover FROM book WHERE ID=?");
+            stm1.setInt(1, bookID);
+            ResultSet rs = stm1.executeQuery();
+            rs.next();
+            String cover = rs.getString("cover");
+            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
+            stm2.setInt(1, bookID);
+            stm2.executeUpdate();
             System.out.println("BookDao: 删除书目成功");
-            return true;
+            return cover;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookDao: 删除书目失败");
-            return false;
+            return null;
         } finally {
-            DBUtil.safeClose(delChapter);
-            DBUtil.safeClose(delBook);
-            DBUtil.safeClose(delClick);
+            DBUtil.safeClose(stm1);
+            DBUtil.safeClose(stm2);
             DBUtil.safeClose(conn);
         }
     }

@@ -64,4 +64,22 @@ public class FileUtil {
         printStream.close();
         return file.getPath();
     }
+
+    /**
+     * 删除文件
+     *
+     * @param filePath  文件绝对路径
+     * @param errorText 删除失败提示
+     * @return 删除成功 true 删除失败 false
+     */
+    public static boolean delete(String filePath, String errorText) {
+        try {
+            if (!new File(filePath).delete()) throw new Exception();
+        } catch (Exception e) {
+            System.out.println(errorText);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

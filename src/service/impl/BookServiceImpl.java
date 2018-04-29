@@ -20,12 +20,12 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
     private NotificationDao notificationDao = new NotificationDaoImpl();
-    public static final int chiefEditorAuthority = 2;
-    public static final int collaboratorAuthority = 1;
-    public static final int noAuthority = 0;
+    private static final int chiefEditorAuthority = 2;
+    private static final int collaboratorAuthority = 1;
+    private static final int noAuthority = 0;
 
     @Override
-    public boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover) {
+    public boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover, String rootDir) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空，添加失败");
             return false;
@@ -33,10 +33,14 @@ public class BookServiceImpl implements BookService {
         if (!keywords.contains(chiefEditor)) keywords += " " + chiefEditor; // 添加主编用户名
         if (!keywords.contains(name)) keywords += " " + name; // 添加书名
         int ID = bookDao.add(new Book(name, description, chiefEditor, keywords, cover));
-        if ((ID) != -1)
-            System.out.println("BookService: 添加书目成功");
-        else
+        if ((ID) == -1) {
             System.out.println("BookService: 添加书目失败");
+            return false;
+        }
+        if (!new File(rootDir + "resources/book/" + ID).mkdir()) {
+            System.out.println("BookService: 创建文件夹失败");
+            return false;
+        }
         if (notificationDao.notifyFollowers(chiefEditor, nickname + "创建了一本新书",
                 "你关注的<a href='home?user=" + chiefEditor + "'>" + nickname +
                         "</a>刚刚创建了<a href='book?id=" + ID + "'>" + name + "</a>，快来看看吧")) {
@@ -54,11 +58,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book[] findByKeywords(String keywords, String sort, String range) {
-        if (sort.equals("click"))
-            return bookDao.findByKeywordsClick(keywords.split(" "), range);
-        else if (sort.equals("fav"))
-            return bookDao.findByKeywordsFav(keywords.split(" "), range);
-        else return bookDao.findByKeywords(keywords.split(""));
+        switch (sort) {
+            case "click":
+                return bookDao.findByKeywordsClick(keywords.split(" "), range);
+            case "fav":
+                return bookDao.findByKeywordsFav(keywords.split(" "), range);
+            default:
+                return bookDao.findByKeywords(keywords.split(""));
+        }
     }
 
     @Override
@@ -148,17 +155,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean delete(int bookID, String username) {
+    public boolean delete(int bookID, String username, String rootDir) {
         if (!bookDao.findByID(bookID).getChiefEditor().equals(username))
             return false;
-        try {
-            bookDao.delete(bookID);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("BookService: 删除书目失败");
+        String cover = bookDao.delete(bookID);
+        if (cover == null) {
+            System.out.println("BookService: 删除书籍失败");
+            return false;
         }
-        return false;
+        return FileUtil.delete(rootDir + "resources/book/" + bookID, "ChapterServlet: 删除章节文件失败")
+                && FileUtil.delete(rootDir + cover, "ChapterServlet: 删除封面失败");
     }
 
     @Override
@@ -174,22 +180,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean deleteChapter(int bookID, int sequence, String rootDir) {
         String[] paths = chapterDao.delete(bookID, sequence);
-        File chapter;
         if (paths == null) {
-            System.out.println("DeleteChapterServlet: 删除章节文件失败");
+            System.out.println("ChapterServlet: 删除章节文件失败");
             return false;
         }
         // 删除章节文件
         for (String path : paths) {
-            try {
-                chapter = new File(rootDir + path);
-                if (chapter.exists() && chapter.isFile())
-                    if (!chapter.delete()) throw new Exception();
-
-            } catch (Exception e) {
-                System.out.println("DeleteChapterServlet: 删除章节文件失败");
-                e.printStackTrace();
-            }
+            FileUtil.delete(rootDir + path, "ChapterServlet: 删除章节文件失败");
         }
         return true;
     }

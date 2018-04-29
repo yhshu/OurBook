@@ -42,6 +42,7 @@ public class AddBookServlet extends HttpServlet {
         String bookDescription = "";
         String keywords = "";
         String filename = null;
+        String rootDir = this.getServletContext().getRealPath("/");
         String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"}; //图片格式
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
@@ -71,7 +72,7 @@ public class AddBookServlet extends HttpServlet {
                             return;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = "/resources/cover/" + (bookDao.maxID() + 1) + extension;
+                        filename = "resources/cover/" + (bookDao.maxID() + 1) + extension;
                         File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
 
@@ -111,7 +112,7 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            if (bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename))
+            if (bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename, rootDir))
                 System.out.println("BookServlet: 添加书目成功");
             else {
                 System.out.println("BookServlet: 添加书目失败");
