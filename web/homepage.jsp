@@ -290,8 +290,8 @@ border-bottom: 1px solid lightgray">
             </form>
         </div>
     </div>
-    <%@ include file="footer.html" %>
 </div>
+<%@ include file="footer.html" %>
 
 <script>
     $(document).ready(function () {
