@@ -4,6 +4,13 @@
 <head>
     <%@ include file="header.jsp" %>
     <title>登录 - OurBook</title>
+    <script type="text/javascript">
+        function changeimg(){
+            var myimg = document.getElementById ("code");
+            now = new  Date();
+            myimg.src="makeCertpic.jsp?code="+now.getTime();
+        }
+    </script>
 </head>
 <%
     Cookie[] cookies = request.getCookies();
@@ -38,6 +45,14 @@
                         <label for="password">密码</label>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="input-field s12">
+                        <input type="text" id="checkcode" name="checkcode"  class="validate">
+                        <label for="password">验证码</label>
+                    </div>
+                    <img id="code" src="makeCertpic.jsp"><a href="javascript:changeimg()">看不清，换一张</a>
+                </div>
+
                 <br>
                 <a class="black-text">新用户？</a><a href="${pageContext.request.contextPath}/register">注册</a>
                 <button type="submit" class="waves-effect waves-light btn right blue">登 录
