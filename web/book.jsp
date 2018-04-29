@@ -273,12 +273,12 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="card" style="padding: 20px; width: 1000px;">
         <h6>评论</h6>
-        <div class="row" style="width: 1000px; margin-bottom: 0;"><!--评论输入框-->
+        <div class="row" style="width: 960px; margin-bottom: 0;"><!--评论输入框-->
             <div class="input-field col s12">
                 <textarea id="comment_text" class="materialize-textarea" data-length="140"
-                          style="float: left; width: 900px;"
+                          style="float: left; width: 860px;"
                           placeholder="写下你的评论..." onclick="showButton()" oninput="enableButton()"></textarea>
                 <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">提交
                 </button>
@@ -290,20 +290,33 @@
                 if (comments != null) {
                     for (Comment comment : comments) {
             %>
-            <div data-commentID="<%=comment.getID()%>" style="width: 1000px; margin-bottom: 15px;">
-                <div class="row" style="margin-bottom: 0px;">
+            <div id="comment_<%=comment.getID()%>" style="width: 960px; margin-bottom: 15px;">
+                <div class="row" style="margin-bottom: 0;">
                     <span><img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></span>
                     <span><a style="float: left; margin-left: 10px;"
                              href="${pageContext.request.contextPath}/home?username=<%=comment.getUsername()%>"><%=comment.getNickname()%></a></span>
-                    <span><a class="black-text" style=" float: right;"><%=sdf.format(comment.getDatatime())%></a></span>
+                    <span><a class="black-text" style=" float: right;"><%=sdf.format(comment.getDatetime())%></a></span>
                 </div>
                 <div class="row" style="margin: 0;">
                     <h6><%=comment.getContent()%>
                     </h6>
                 </div>
-                <%if (session.getAttribute("username").equals(comment.getUsername())) {%>
-                <div>
-
+                <%if (session.getAttribute("username").equals(comment.getUsername())) { // 如果本条评论是当前用户发出的，可删除本条评论%>
+                <div class="row" style="margin: 0;">
+                    <a href="#comment_delete_confirm" class="grey-text modal-trigger delete_comment_request"
+                       data-commentID="<%=comment.getID()%>"> <i
+                            class="material-icons">delete_forever</i>
+                        删除</a>
+                </div>
+                <div id="comment_delete_confirm" class="modal"><!--删除评论 确认模态框-->
+                    <div class="modal-content">
+                        <h6>你确定删除这条评论吗？</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                        <a href="#!"
+                           class="modal-action modal-close waves-effect waves-green btn-flat deleteComment">确定</a>
+                    </div>
                 </div>
                 <%}%>
             </div>
@@ -350,22 +363,21 @@
 
     follow_submit.click(function (event) {
         event.preventDefault();
-        $.get('follow?'
-            , {
-                followee: follow_submit.data("followee"),
-                method: follow_submit.data("method")
-            }, function () {
-                if (follow_submit.data("method") === "remove") {
-                    toast('取消关注成功');
-                    follow_submit.html("关注");
-                    follow_submit.data("method", "add");
-                }
-                else if (follow_submit.data("method") === "add") {
-                    toast('关注成功');
-                    follow_submit.html("取消关注");
-                    $('#follow_submit').data("method", "remove");
-                }
-            }).fail(function () { // 服务器响应错误信息
+        $.get('follow?', {
+            followee: follow_submit.data("followee"),
+            method: follow_submit.data("method")
+        }, function () {
+            if (follow_submit.data("method") === "remove") {
+                toast('取消关注成功');
+                follow_submit.html("关注");
+                follow_submit.data("method", "add");
+            }
+            else if (follow_submit.data("method") === "add") {
+                toast('关注成功');
+                follow_submit.html("取消关注");
+                $('#follow_submit').data("method", "remove");
+            }
+        }).fail(function () { // 服务器响应错误信息
             toast("操作异常");
         })
     });
@@ -431,7 +443,26 @@
         }).fail(function () {
             toast("操作异常，请重试");
         })
-    })
+    });
+
+    var delete_comment_id;
+    $('.delete_comment_request').click(function () { // 页面上的删除评论按钮
+        delete_comment_id = $(this).data('commentid');
+    });
+
+    $('.deleteComment').click(function (event) { // 删除评论模态框的确认按钮
+        event.preventDefault();
+        var CommentID = delete_comment_id;
+        $.post('${pageContext.request.contextPath}/comment', {
+            method: "delete",
+            commentID: CommentID
+        }, function () {
+            toast("已删除评论");
+            $('#comment_' + CommentID).remove();
+        }).fail(function () {
+            toast("操作异常，请重试");
+        })
+    });
 </script>
 </body>
 </html>

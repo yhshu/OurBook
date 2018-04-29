@@ -8,25 +8,25 @@ public class Comment implements Serializable {
     private int ID;
     private String username;
     private int bookID;
-    private Timestamp datatime;
+    private Timestamp datetime;
     private String content;
     // 未存于数据库的成员变量
     private String nickname;
     private String avatar;
 
 
-    public Comment(String username, int bookID, Timestamp datatime, String content) {
+    public Comment(String username, int bookID, Timestamp datetime, String content) {
         this.username = username;
         this.bookID = bookID;
-        this.datatime = datatime;
+        this.datetime = datetime;
         this.content = content;
     }
 
-    public Comment(int ID, String username, int bookID, Timestamp datatime, String content) {
+    public Comment(int ID, String username, int bookID, Timestamp datetime, String content) {
         this.ID = ID;
         this.username = username;
         this.bookID = bookID;
-        this.datatime = datatime;
+        this.datetime = datetime;
         this.content = content;
     }
 
@@ -54,12 +54,12 @@ public class Comment implements Serializable {
         this.bookID = bookID;
     }
 
-    public Timestamp getDatatime() {
-        return datatime;
+    public Timestamp getDatetime() {
+        return datetime;
     }
 
-    public void setDatatime(Timestamp datatime) {
-        this.datatime = datatime;
+    public void setDatetime(Timestamp datetime) {
+        this.datetime = datetime;
     }
 
     public String getContent() {
