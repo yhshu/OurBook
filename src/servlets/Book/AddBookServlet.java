@@ -44,52 +44,23 @@ public class AddBookServlet extends HttpServlet {
         String keywords = "";
         String filename = null;
         String rootDir = this.getServletContext().getRealPath("/");
-        String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"}; //图片格式
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
                 DiskFileItemFactory disk = new DiskFileItemFactory();
                 disk.setSizeThreshold(20 * 1024);      // 设置内存可存字节数
                 disk.setRepository(disk.getRepository());  // 设置临时文件目录
                 ServletFileUpload up = new ServletFileUpload(disk);
-                int maxsize = 2 * 1024 * 1024;
                 List list = up.parseRequest(request); // 获取上传列表
                 for (Object aList : list) {
                     FileItem fm = (FileItem) aList; // 遍历列表
                     if (!fm.isFormField()) { // 是文件
-                        String filePath = fm.getName();  // 获取文件全路径名
-                        if (filePath.equals("")) break;
-                        boolean isImage = false;
-                        for (String ext : allowedExt) {
-                            if (fm.getContentType().contains(ext)) {
-                                isImage = true;
-                                break;
-                            }
-                        }
-                        if (!isImage) {
-                            response.sendError(415);
-                            return;
-                        } else if (fm.getSize() > maxsize) {
-                            response.sendError(403, "12");
-                            return;
-                        }
-                        String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = "resources/cover/" + (bookDao.maxID() + 1) + extension;
-                        File saveFile = new File(this.getServletContext().getRealPath(filename));
-                        fm.write(saveFile); // 向文件中写入数据
-
-                        // 如果文件不是图片，立即删除
-                        try {
-                            Image img = ImageIO.read(saveFile);
-                            if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
-                                if (saveFile.delete()) System.out.println("删除可疑文件成功");
-                                else System.out.println("删除可疑文件失败");
-                                response.sendError(415);
-                                return;
-                            }
-                        } catch (Exception e) {
-                            if (saveFile.delete()) System.out.println("删除可疑文件成功");
-                            else System.out.println("删除可疑文件失败");
-                            response.sendError(415);
+                        String extension = fm.getName().substring(fm.getName().lastIndexOf("."));
+                        String serverPath = this.getServletContext().getRealPath("resources/cover/");  // 获取文件全路径名
+                        String filePath = serverPath + session.getAttribute("username") + extension;
+                        filename = "resources/cover/" + session.getAttribute("username") + extension;
+                        int status = FileUtil.uploadImage(fm, filePath);
+                        if (status != 200) {
+                            response.sendError(status);
                             return;
                         }
                     } else { // 是表单元素

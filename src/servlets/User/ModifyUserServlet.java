@@ -1,17 +1,20 @@
 package servlets.User;
 
+import Util.FileUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import service.UserService;
 import service.impl.UserServiceImpl;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +30,7 @@ public class ModifyUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        String nickname = "", description = "", message = "", filename = "";
+        String nickname = "", description = "", filename = null;
         UserService userService = new UserServiceImpl();
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
@@ -35,28 +38,30 @@ public class ModifyUserServlet extends HttpServlet {
                 disk.setSizeThreshold(20 * 1024);      // 设置内存可存字节数
                 disk.setRepository(disk.getRepository());  // 设置临时文件目录
                 ServletFileUpload up = new ServletFileUpload(disk);
-                int maxsize = 2 * 1024 * 1024;
                 List list = up.parseRequest(request);   // 获取上传列表
                 for (Object aList : list) {
                     FileItem fm = (FileItem) aList; // 遍历列表
                     if (!fm.isFormField()) {
-                        String filePath = fm.getName();  // 获取文件全路径名
-                        if (filePath.equals("")) break;
-                        if (fm.getSize() > maxsize) {
-                            message = "文件太大了，不要超过2MB";
-                            break;
+                        if (fm.getName() == null || fm.getName().equals("")) break;
+                        String serverPath = this.getServletContext().getRealPath("resources/avatar/");  // 获取文件全路径名
+                        String extension = fm.getName().substring(fm.getName().lastIndexOf("."));
+                        String filePath = serverPath + session.getAttribute("username") + extension;
+                        filename = "resources/avatar/" + session.getAttribute("username") + extension;
+                        int status = FileUtil.uploadImage(fm, filePath);
+                        if (status != 200) {
+                            response.sendError(status);
+                            return;
                         }
-                        String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = "/resources/avatar/" + session.getAttribute("username") + extension;
-                        File saveFile = new File(this.getServletContext().getRealPath(filename));
-                        fm.write(saveFile); // 向文件中写入数据
-                        message = "文件上传成功！";
                     } else {
                         String foename = fm.getFieldName(); // 获取表单元素名
                         String con = fm.getString("UTF-8");
                         //表单元素
                         switch (foename) {
                             case "new_nickname":
+                                if (con == null || con.trim().equals("") || !FileUtil.isLetterDigitOrChinese(con.trim())) {
+                                    response.sendError(400);
+                                    return;
+                                }
                                 nickname = con;
                                 break;
                             case "new_description":
@@ -65,17 +70,18 @@ public class ModifyUserServlet extends HttpServlet {
                         }
                     }
                 }
-                if (filename.equals("")) filename = (String) session.getAttribute("avatar");
+                if (filename == null) filename = (String) request.getSession().getAttribute("avatar");
                 userService.modify(username, nickname, description, filename);
                 session.setAttribute("avatar", filename);
                 session.setAttribute("nickname", nickname);
             }
             System.out.println("ModifyUserServlet: 修改用户信息成功");
-            request.setAttribute("result", message);
-            response.sendRedirect("/home");
+            response.setContentType("text/plain");
+            response.getWriter().write("/home");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("BookServlet: 添加书目失败");
+            System.out.println("ModifyUserServlet: 修改用户信息失败");
+            response.sendError(520);
         }
     }
 }

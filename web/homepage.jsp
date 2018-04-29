@@ -24,12 +24,13 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-    </script>
-    <script>
-        function add_home_dialog() {
-            alert("have done");
-            $("private_textarea_dialog").append(request.getParameter("private_input_dialog"));
-            $("private_input_dialog").clear();
+
+        function check_input() {
+            if (!$.trim($('#new_nickname').val()).length) {
+                toast('用户名不能为空');
+                return false;
+            }
+            return true;
         }
     </script>
 </head>
@@ -66,7 +67,7 @@
 
             <div id="personalInfo" class="modal" style="min-width:300px"> <!--修改个人信息 模态框-->
                 <form action="${pageContext.request.contextPath}/modifyUser" method="post"
-                      enctype="multipart/form-data">
+                      enctype="multipart/form-data" id="info_form">
                     <div class="modal-content">
                         <h4>修改个人信息</h4>
                         <label for="new_nickname">昵称</label>
@@ -86,8 +87,7 @@
                         <a class="modal-action modal-close waves-effect waves-green btn-flat">取消
                         </a>
                         <button class="modal-action modal-close waves-effect waves-green btn-flat"
-                                id="submit_personal_info"
-                                onclick="document.getElementById('personalInfo').submit();">
+                                id="info_submit">
                             提交
                         </button>
                     </div>
@@ -276,28 +276,28 @@ border-bottom: 1px solid lightgray">
             </div>
             <%}%>
         </div>
-
-        <div id="message_modal" class="modal" style="min-width:300px">
-            <form id="message_form">
-                <input id="target_username" type="hidden">
-                <div class="modal-content">
-                    <div class="input-field">
-                        <input id="content" type="text" class="validate" data-length="300">
-                        <label for="content">发送内容</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat"
-                       onclick="$('#message_form').submit();">
-                        提交
-                    </a>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 <%@ include file="footer.html" %>
+
+<div id="message_modal" class="modal" style="min-width:300px">
+    <form id="message_form">
+        <input id="target_username" type="hidden">
+        <div class="modal-content">
+            <div class="input-field">
+                <input id="content" type="text" class="validate" data-length="300">
+                <label for="content">发送内容</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-green btn-flat"
+               onclick="$('#message_form').submit();">
+                提交
+            </a>
+        </div>
+    </form>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -347,7 +347,34 @@ border-bottom: 1px solid lightgray">
             }).fail(function () {
                 toast('发送失败');
             })
-        })
+        });
+
+        $('#info_form').submit(function (evt) {
+            evt.preventDefault();
+            if (check_input()) {
+                var data = new FormData($('#info_form')[0]);
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/modifyUser',
+                    type: 'POST',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    data: data,
+                    success: function (text) {
+                        toast("更新个人信息成功");
+                        window.location.href = text;
+                    }
+                }).fail(function (jqXHR) {
+                    if ((jqXHR.status) === 403) toast("头像不能超过2MB");
+                    else if (jqXHR.status === 415) toast("头像必须是图片");
+                    else if (jqXHR.status === 400) toast("用户名只能包括汉字、字母或数字");
+                    else toast('未知错误');
+                });
+            }
+        });
+
     });
 
 </script>

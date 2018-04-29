@@ -1,11 +1,19 @@
 package Util;
 
+import org.apache.commons.fileupload.FileItem;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServlet;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
 public class FileUtil {
+
+    private static final String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"};
+
     public static boolean deleteDir(String path) {
         File dir = new File(path);
         if (dir.isDirectory()) {
@@ -82,5 +90,42 @@ public class FileUtil {
             return false;
         }
         return true;
+    }
+
+    public static int uploadImage(FileItem fm, String filePath) {
+        int maxsize = 2 * 1024 * 1024;
+        boolean isImage = false;
+        for (String ext : FileUtil.allowedExt) {
+            if (fm.getContentType().contains(ext)) {
+                isImage = true;
+                break;
+            }
+        }
+        if (!isImage) {
+            return 415;
+        }
+        if (fm.getSize() > maxsize) {
+            return 403;
+        }
+        File saveFile = new File(filePath);
+        try {
+            fm.write(saveFile); // 向文件中写入数据
+        } catch (Exception e) {
+            return 520;
+        }
+        // 如果文件不是图片，立即删除
+        try {
+            Image img = ImageIO.read(saveFile);
+            if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
+                if (saveFile.delete()) System.out.println("删除可疑文件成功");
+                else System.out.println("删除可疑文件失败");
+                return 415;
+            }
+        } catch (Exception e) {
+            if (saveFile.delete()) System.out.println("删除可疑文件成功");
+            else System.out.println("删除可疑文件失败");
+            return 415;
+        }
+        return 200;
     }
 }
