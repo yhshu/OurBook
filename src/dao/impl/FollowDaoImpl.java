@@ -2,7 +2,6 @@ package dao.impl;
 
 import Util.DBUtil;
 import dao.FollowDao;
-import model.Follow;
 import model.User;
 
 import java.sql.Connection;
@@ -21,12 +20,12 @@ public class FollowDaoImpl implements FollowDao {
      *添加关注的人的，只能一个一个添加，用按钮形式<关注>
      */
     @Override
-    public void add(Follow follow) {
+    public void add(String follower,String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO follow(follower,followee) VALUES (?,?)");
-            stm.setString(1, follow.getFollower());
-            stm.setString(2, follow.getFollowee());
+            stm.setString(1, follower);
+            stm.setString(2, followee);
             try {
                 stm.executeUpdate();
                 System.out.println("FollowDao: 添加成功");
@@ -44,12 +43,12 @@ public class FollowDaoImpl implements FollowDao {
      *取消关注的人，只能一个一个删除，用按钮形式<取消关注>
      */
     @Override
-    public void del(Follow follow) {
+    public void del(String follower,String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE followee=? and follower=?");
-            stm.setString(1, follow.getFollowee());
-            stm.setString(2, follow.getFollower());
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE follower=? and followee=?");
+            stm.setString(1, follower);
+            stm.setString(2, followee);
             try {
                 stm.executeUpdate();
                 System.out.println("UserDao: 取消成功");

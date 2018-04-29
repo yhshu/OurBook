@@ -79,7 +79,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String username, String nickname, String name, int bookID, String bookName, String content, String rootDir, int sequence) {
+    public boolean addChapter(String username, String nickname, String name, int bookID, String content, String rootDir, int sequence) {
+        Book book = bookDao.findByID(bookID);
+        if (book == null) {
+            System.out.println("BookService: 书籍不存在");
+            return false;
+        }
+
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -98,10 +104,19 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 添加编辑信息失败");
             return false;
         }
-
-        if (notificationDao.notifySubscribers(bookID, bookName + "已更新",
+        // 通知主编
+        if (notificationDao.notify(book.getChiefEditor(), book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + bookName + "</a>，快来看看吧")) {
+                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>。")) {
+            System.out.println("BookService: 通知主编成功");
+        } else {
+            System.out.println("BookService: 通知主编失败");
+            return false;
+        }
+        // 通知收藏者
+        if (notificationDao.notifySubscribers(bookID, book.getName() + "已更新",
+                "<a href='home?user=" + username + "'>" + nickname +
+                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
         } else {
             System.out.println("BookService: 通知收藏者失败");
@@ -111,7 +126,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean modifyChapter(String username, String nickname, String name, int bookID, String bookName, String content, String rootDir, int sequence) {
+    public boolean modifyChapter(String username, String nickname, String name, int bookID, String content, String rootDir, int sequence) {
+        Book book = bookDao.findByID(bookID);
+        if (book == null) {
+            System.out.println("BookService: 书籍不存在");
+            return false;
+        }
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -131,10 +151,19 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 添加编辑信息失败");
             return false;
         }
-        // 通知收藏者
-        if (notificationDao.notifySubscribers(bookID, bookName + "已更新",
+        // 通知主编
+        if (notificationDao.notify(book.getChiefEditor(), book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + bookName + "</a>，快来看看吧")) {
+                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>。")) {
+            System.out.println("BookService: 通知主编成功");
+        } else {
+            System.out.println("BookService: 通知主编失败");
+            return false;
+        }
+        // 通知收藏者
+        if (notificationDao.notifySubscribers(bookID, book.getName() + "已更新",
+                "<a href='home?user=" + username + "'>" + nickname +
+                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
         } else {
             System.out.println("BookService: 通知收藏者失败");

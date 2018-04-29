@@ -68,13 +68,12 @@ public interface BookService {
      * @param nickname 用户昵称
      * @param name     章节名
      * @param bookID   书的编号
-     * @param bookName 书名
      * @param content  章节内容，将以文件形式存储于 resources/book
      * @param rootDir  服务器根目录
      * @param sequence 章节号
      * @return 添加到数据库的 sequence
      */
-    boolean addChapter(String username, String nickname, String name, int bookID, String bookName, String content, String rootDir, int sequence);
+    boolean addChapter(String username, String nickname, String name, int bookID, String content, String rootDir, int sequence);
 
     /**
      * 修改章节
@@ -83,13 +82,12 @@ public interface BookService {
      * @param nickname 用户昵称
      * @param name     章节名
      * @param bookID   书的编号
-     * @param bookName 书名
      * @param content  章节内容，将以文件形式存储于 resources/book
      * @param path     由 Servlet 传递的文件路径
      * @param sequence 章节号
      * @return 成功 true 失败 false
      */
-    boolean modifyChapter(String username, String nickname, String name, int bookID, String bookName, String content, String path, int sequence);
+    boolean modifyChapter(String username, String nickname, String name, int bookID, String content, String path, int sequence);
 
     /**
      * 通过关键字查找章节

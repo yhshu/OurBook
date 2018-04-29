@@ -1,22 +1,23 @@
 package dao;
 
-import model.Follow;
 import model.User;
 
 public interface FollowDao {
     /**
      * 添加新关注的用户
      *
-     * @param username 新关注用户
+     * @param follower 关注用户
+     * @param followee 被关注用户
      */
-    void add(Follow username);
+    void add(String follower, String followee);
 
     /**
      * 取消关注
      *
-     * @param follow 被取消的用户
+     * @param follower 关注用户
+     * @param followee 被关注用户
      */
-    void del(Follow follow);
+    void del(String follower, String followee);
 
     /**
      * 查找某用户的关注列表

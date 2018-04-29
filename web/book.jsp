@@ -23,12 +23,6 @@
     <title><%=request.getAttribute("bookName")%> - OurBook</title>
 
     <script type="text/javascript">
-        function change() {
-            var btn = document.getElementById("btn");
-            btn.value = "已关注";
-            btn.disabled = true;
-        }
-
         $(document).ready(function () {
             $('.modal').modal();
             $('select').material_select();
@@ -103,8 +97,8 @@
                                 $('.chips-initial').material_chip({
                                     data: [
                                             <%for(User collaborator:collaborators){%>{
-                                            tag: '<%=collaborator.getUsername()%>',
-                                        }, <%}%>],
+                                            tag: '<%=collaborator.getUsername()%>'
+                                        }, <%}%>]
                                 });
                             </script>
                             <%}%>
@@ -209,7 +203,7 @@
                               style="display: inline-block;margin-right: 20px"><%=sdf.format(chapter.getLastModified())%></span>
                     </a>
                     <%
-                        if (chiefEditor.getUsername().equals(session.getAttribute("username"))) {
+                        if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) {
                     %>
                     <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
                        class="right modify_chapter_icon"
@@ -313,8 +307,8 @@
                         <h6>你确定删除这条评论吗？</h6>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                        <a href="#!"
+                        <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                        <a href=""
                            class="modal-action modal-close waves-effect waves-green btn-flat deleteComment">确定</a>
                     </div>
                 </div>

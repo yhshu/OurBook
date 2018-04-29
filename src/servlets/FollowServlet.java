@@ -33,7 +33,7 @@ public class FollowServlet extends HttpServlet {
             String method = request.getParameter("method");
             // 进行关注
             if (method.equals("add")) {
-                followservice.addFollow(followee, follower);
+                followservice.follow(followee, follower);
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 关注成功");
                 // 关注成功后，发送响应
@@ -42,7 +42,10 @@ public class FollowServlet extends HttpServlet {
             }
             // 取消关注
             else if (method.equals("remove")) {
-                followservice.delFollow(followee, follower);
+                if (!followservice.unFollow(followee, follower)) {
+                    response.sendError(404);
+                    return;
+                }
                 System.out.println("followee: " + followee + "; " + "follower: " + follower);
                 System.out.println("FollowServlet: 取消关注成功");
                 // 取消成功，发送响应

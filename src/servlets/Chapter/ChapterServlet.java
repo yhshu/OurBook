@@ -31,7 +31,7 @@ public class ChapterServlet extends BaseServlet {
         String bookName = bookService.find(bookID).getName();
         if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
             String rootDir = this.getServletContext().getRealPath("/");
-            if (bookService.addChapter(username, nickname, chapterName, bookID, bookName, chapterContent, rootDir, sequence)) {
+            if (bookService.addChapter(username, nickname, chapterName, bookID, chapterContent, rootDir, sequence)) {
                 System.out.println("ChapterServlet: 添加章节成功");
                 // 添加章节完成后，请求重定向，查看本书目录
                 response.setContentType("text/plain");
@@ -56,7 +56,7 @@ public class ChapterServlet extends BaseServlet {
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
             String rootDir = this.getServletContext().getRealPath("/");
-            if (bookService.modifyChapter(username, nickname, chapterName, bookID, bookName, chapterContent, rootDir, sequence)) {
+            if (bookService.modifyChapter(username, nickname, chapterName, bookID, chapterContent, rootDir, sequence)) {
                 System.out.println("ChapterServlet: 修改章节成功");
                 // 添加章节完成后，请求重定向，查看本书目录
                 response.setContentType("text/plain");

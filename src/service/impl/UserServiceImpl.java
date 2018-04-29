@@ -21,11 +21,6 @@ public class UserServiceImpl implements UserService {
         return userDao.find(username);
     }
 
-    public boolean findExist(String username) {
-        // 用户名存在true，不存在false
-        return userDao.find(username).getUsername().isEmpty();
-    }
-
     @Override
     public boolean register(String userName, String nickname, String password) {
         User user = userDao.find(userName);

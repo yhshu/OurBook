@@ -2,7 +2,6 @@ package service.impl;
 
 import dao.FollowDao;
 import dao.impl.FollowDaoImpl;
-import model.Follow;
 import service.FollowService;
 
 /**
@@ -13,13 +12,13 @@ public class FollowServiceImpl implements FollowService {
     private FollowDao followDao = new FollowDaoImpl();
 
     @Override
-    public boolean addFollow(String followee, String follower) {
+    public boolean follow(String followee, String follower) {
         if (followee == null || follower == null) {
             System.out.println("follow 为空");
             return false;
         }
         try {
-            followDao.add(new Follow(followee, follower));
+            followDao.add(follower, followee);
             System.out.println("FollowService: 添加关注成功");
             return true;
         } catch (Exception e) {
@@ -29,13 +28,13 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public boolean delFollow(String followee, String follower) {
+    public boolean unFollow(String followee, String follower) {
         if (followee.equals("") || follower.equals("")) {
             System.out.println("follow为空");
             return false;
         }
         try {
-            followDao.del(new Follow(followee, follower));
+            followDao.del(follower, followee);
             System.out.println("FollowService: 取消关注成功");
             return true;
         } catch (Exception e) {
@@ -52,16 +51,6 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public String[] findFollowed(String followee) {
         return new String[0];
-    }
-
-    @Override
-    public Follow findmessagediallog(String followee, String follower) {
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
