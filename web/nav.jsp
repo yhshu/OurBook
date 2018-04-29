@@ -108,9 +108,9 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="create"><i class="material-icons edit_icon">mode_edit</i></a></li>
                 <!-- 右上角下拉列表 -->
-                <li style="height: 64px">
+                <li style="height: 64px;min-width: 160px">
                     <a class="dropdown-button" data-activates="dropdown1" data-beloworigin="true"
-                       data-hover="hover" data-constrainWidth="false" data-alignment="right" style="height: 64px">
+                       data-hover="hover" data-alignment="right" style="height: 64px">
                         <span style="position:relative;bottom:10px;right:10px;margin-left: 10px">
                             <%=session.getAttribute("nickname")%>
                         </span>

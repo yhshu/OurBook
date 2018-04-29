@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 public class FileUtil {
-    public static boolean deleteDir(File dir) {
+    public static boolean deleteDir(String path) {
+        File dir = new File(path);
         if (dir.isDirectory()) {
             String[] children = dir.list(); // 递归删除目录中的子目录下
             if (children != null) {
-                for (String aChildren : children) {
-                    boolean success = deleteDir(new File(dir, aChildren));
+                for (String child : children) {
+                    boolean success = deleteDir(path + "/" + child);
                     if (!success) {
                         return false;
                     }
@@ -74,10 +75,10 @@ public class FileUtil {
      */
     public static boolean delete(String filePath, String errorText) {
         try {
+            System.gc();
             if (!new File(filePath).delete()) throw new Exception();
         } catch (Exception e) {
             System.out.println(errorText);
-            e.printStackTrace();
             return false;
         }
         return true;

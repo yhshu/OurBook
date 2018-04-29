@@ -22,6 +22,14 @@ public class Chapter implements Serializable {
         this.content = content;
     }
 
+    public Chapter(String name, int bookID, int sequence, String content, String editorUsername) {
+        this.name = name;
+        this.bookID = bookID;
+        this.sequence = sequence;
+        this.content = content;
+        this.editorUsername = editorUsername;
+    }
+
     public String getName() {
         return name;
     }

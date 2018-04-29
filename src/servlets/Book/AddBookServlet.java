@@ -3,6 +3,7 @@ package servlets.Book;
 import Util.FileUtil;
 import dao.BookDao;
 import dao.impl.BookDaoImpl;
+import model.Book;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -39,7 +40,7 @@ public class AddBookServlet extends HttpServlet {
         String editor = (String) session.getAttribute("username");
         String nickname = (String) session.getAttribute("nickname");
         String bookName = "";
-        String bookDescription = "";
+        String description = "";
         String keywords = "";
         String filename = null;
         String rootDir = this.getServletContext().getRealPath("/");
@@ -106,13 +107,13 @@ public class AddBookServlet extends HttpServlet {
                                 keywords = con;
                                 break;
                             case "bookDescription":
-                                bookDescription = con;
+                                description = con;
                                 break;
                         }
                     }
                 }
             }
-            if (bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename, rootDir))
+            if (bookService.addBook(editor, nickname, new Book(bookName, description, editor, keywords, filename), rootDir))
                 System.out.println("BookServlet: 添加书目成功");
             else {
                 System.out.println("BookServlet: 添加书目失败");

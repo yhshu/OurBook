@@ -1,6 +1,5 @@
 package servlets.Book;
 
-import Util.FileUtil;
 import model.Book;
 import service.BookService;
 import service.impl.BookServiceImpl;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/deleteBook")
@@ -36,7 +34,7 @@ public class DeleteBookServlet extends HttpServlet {
                 throw new Exception("用户不是作者");
             }
             if (!bookService.delete(bookID, (String) session.getAttribute("username"), rootDir))
-                throw new Exception();
+                throw new Exception("删除书籍失败");
             // 删除本书后，重定向回首页
             response.sendRedirect("/home");
         } catch (NullPointerException e) {

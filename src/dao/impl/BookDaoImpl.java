@@ -238,7 +238,7 @@ public class BookDaoImpl implements BookDao {
             ResultSet rs = stm1.executeQuery();
             rs.next();
             String cover = rs.getString("cover");
-            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
+            stm2 = conn.prepareStatement("DELETE FROM book WHERE ID = ?");
             stm2.setInt(1, bookID);
             stm2.executeUpdate();
             System.out.println("BookDao: 删除书目成功");

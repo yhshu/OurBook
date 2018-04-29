@@ -25,14 +25,17 @@ public class BookServiceImpl implements BookService {
     private static final int noAuthority = 0;
 
     @Override
-    public boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover, String rootDir) {
-        if (name == null || name.length() == 0) {
+    public boolean addBook(String chiefEditor, String nickname, Book book, String rootDir) {
+        if (book.getName() == null || book.getName().length() == 0) {
             System.out.println("BookService: 书名为空，添加失败");
             return false;
         }
+        String keywords = book.getKeywords();
         if (!keywords.contains(chiefEditor)) keywords += " " + chiefEditor; // 添加主编用户名
-        if (!keywords.contains(name)) keywords += " " + name; // 添加书名
-        int ID = bookDao.add(new Book(name, description, chiefEditor, keywords, cover));
+        if (!keywords.contains(book.getName())) keywords += " " + book.getName(); // 添加书名
+        book.setKeywords(keywords);
+
+        int ID = bookDao.add(book);
         if ((ID) == -1) {
             System.out.println("BookService: 添加书目失败");
             return false;
@@ -43,7 +46,7 @@ public class BookServiceImpl implements BookService {
         }
         if (notificationDao.notifyFollowers(chiefEditor, nickname + "创建了一本新书",
                 "你关注的<a href='home?user=" + chiefEditor + "'>" + nickname +
-                        "</a>刚刚创建了<a href='book?id=" + ID + "'>" + name + "</a>，快来看看吧")) {
+                        "</a>刚刚创建了<a href='book?id=" + ID + "'>" + book.getName() + "</a>，快来看看吧")) {
             System.out.println("BookService: 通知关注者成功");
             return true;
         } else
@@ -79,26 +82,28 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String username, String nickname, String name, int bookID, String content, String rootDir, int sequence) {
-        Book book = bookDao.findByID(bookID);
+    public boolean addChapter(String username, String nickname, Chapter chapter, String rootDir) {
+        Book book = bookDao.findByID(chapter.getBookID());
         if (book == null) {
             System.out.println("BookService: 书籍不存在");
             return false;
         }
 
-        if (name == null || name.length() == 0) {
-            System.out.println("BookService: 书名为空");
+        if (chapter.getName() == null || chapter.getName().length() == 0) {
+            System.out.println("BookService: 章节名为空");
             return false;
         }
-        if (content == null || content.length() == 0) {
+
+        if (chapter.getContent() == null || chapter.getContent().length() == 0) {
             System.out.println("BookService: 内容为空");
             return false;
         }
         // 将章节内容存放在文件中
-        String absPath = writeChapterToFile(rootDir, bookID, sequence, content);
+        String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
+        chapter.setContent(absPath.replaceFirst(rootDir, ""));
 
-        if (chapterDao.add(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
+        if (chapterDao.add(username, chapter)) {
             System.out.println("BookService: 添加编辑信息成功");
         } else {
             System.out.println("BookService: 添加编辑信息失败");
@@ -107,16 +112,16 @@ public class BookServiceImpl implements BookService {
         // 通知主编
         if (notificationDao.notify(book.getChiefEditor(), book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>。")) {
+                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
             System.out.println("BookService: 通知主编成功");
         } else {
             System.out.println("BookService: 通知主编失败");
             return false;
         }
         // 通知收藏者
-        if (notificationDao.notifySubscribers(bookID, book.getName() + "已更新",
+        if (notificationDao.notifySubscribers(chapter.getBookID(), book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>，快来看看吧！")) {
+                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
         } else {
             System.out.println("BookService: 通知收藏者失败");
@@ -126,26 +131,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean modifyChapter(String username, String nickname, String name, int bookID, String content, String rootDir, int sequence) {
-        Book book = bookDao.findByID(bookID);
+    public boolean modifyChapter(String username, String nickname, Chapter chapter, String rootDir) {
+        Book book = bookDao.findByID(chapter.getBookID());
         if (book == null) {
             System.out.println("BookService: 书籍不存在");
             return false;
         }
-        if (name == null || name.length() == 0) {
+        if (chapter.getName() == null || chapter.getName().length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
         }
-        if (content == null || content.length() == 0) {
+        if (chapter.getContent() == null || chapter.getContent().length() == 0) {
             System.out.println("BookService: 内容URL为空");
             return false;
         }
         // 将章节内容存放在文件中
-        String absPath = writeChapterToFile(rootDir, bookID, sequence, content);
+        String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
+        chapter.setContent(absPath.replaceFirst(rootDir, ""));
 
         // 添加编辑信息
-        if (chapterDao.modify(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
+        if (chapterDao.modify(username, chapter)) {
             System.out.println("BookService: 添加编辑信息成功");
         } else {
             System.out.println("BookService: 添加编辑信息失败");
@@ -154,16 +160,16 @@ public class BookServiceImpl implements BookService {
         // 通知主编
         if (notificationDao.notify(book.getChiefEditor(), book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>。")) {
+                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
             System.out.println("BookService: 通知主编成功");
         } else {
             System.out.println("BookService: 通知主编失败");
             return false;
         }
         // 通知收藏者
-        if (notificationDao.notifySubscribers(bookID, book.getName() + "已更新",
+        if (notificationDao.notifySubscribers(chapter.getBookID(), book.getName() + "已更新",
                 "<a href='home?user=" + username + "'>" + nickname +
-                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + book.getName() + "</a>，快来看看吧！")) {
+                        "</a>刚刚更新了<a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
             System.out.println("BookService: 通知收藏者成功");
         } else {
             System.out.println("BookService: 通知收藏者失败");
@@ -188,12 +194,11 @@ public class BookServiceImpl implements BookService {
         if (!bookDao.findByID(bookID).getChiefEditor().equals(username))
             return false;
         String cover = bookDao.delete(bookID);
-        if (cover == null) {
-            System.out.println("BookService: 删除书籍失败");
-            return false;
-        }
-        return FileUtil.delete(rootDir + "resources/book/" + bookID, "ChapterServlet: 删除章节文件失败")
-                && FileUtil.delete(rootDir + cover, "ChapterServlet: 删除封面失败");
+        boolean delCover = true;
+        if (cover != null)
+            delCover = FileUtil.delete(rootDir + cover, "ChapterServlet: 删除封面失败");
+        boolean delDir = FileUtil.deleteDir(rootDir + "resources/book/" + bookID);
+        return delDir && delCover;
     }
 
     @Override

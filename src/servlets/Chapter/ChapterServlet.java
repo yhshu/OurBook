@@ -1,5 +1,6 @@
 package servlets.Chapter;
 
+import model.Chapter;
 import service.BookService;
 import service.impl.BookServiceImpl;
 import servlets.BaseServlet;
@@ -23,15 +24,14 @@ public class ChapterServlet extends BaseServlet {
         BookService bookService = new BookServiceImpl();
         String username = (String) request.getSession().getAttribute("username");
         String nickname = (String) request.getSession().getAttribute("nickname");
-        String chapterName = request.getParameter("chapterName");
-        String chapterContent = request.getParameter("chapterContent");
+        String name = request.getParameter("chapterName");
+        String content = request.getParameter("chapterContent");
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("book"));
-        String bookName = bookService.find(bookID).getName();
         if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
             String rootDir = this.getServletContext().getRealPath("/");
-            if (bookService.addChapter(username, nickname, chapterName, bookID, chapterContent, rootDir, sequence)) {
+            if (bookService.addChapter(username, nickname, new Chapter(name, bookID, sequence, content, username), rootDir)) {
                 System.out.println("ChapterServlet: 添加章节成功");
                 // 添加章节完成后，请求重定向，查看本书目录
                 response.setContentType("text/plain");
@@ -48,15 +48,14 @@ public class ChapterServlet extends BaseServlet {
         BookService bookService = new BookServiceImpl();
         String username = (String) request.getSession().getAttribute("username");
         String nickname = (String) request.getSession().getAttribute("nickname");
-        String chapterName = request.getParameter("chapterName");
-        String chapterContent = request.getParameter("chapterContent");
+        String name = request.getParameter("chapterName");
+        String content = request.getParameter("chapterContent");
         // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("book"));
-        String bookName = bookService.find(bookID).getName();
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
             String rootDir = this.getServletContext().getRealPath("/");
-            if (bookService.modifyChapter(username, nickname, chapterName, bookID, chapterContent, rootDir, sequence)) {
+            if (bookService.modifyChapter(username, nickname, new Chapter(name, bookID, sequence, content), rootDir)) {
                 System.out.println("ChapterServlet: 修改章节成功");
                 // 添加章节完成后，请求重定向，查看本书目录
                 response.setContentType("text/plain");
