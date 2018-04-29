@@ -58,7 +58,7 @@ public class FileUtil {
             file = new File(newFilename);
             i++;
         }
-        if (!file.createNewFile())  //新建文件
+        if (!file.createNewFile())  // 新建文件
             return null;
         PrintStream printStream = new PrintStream(new FileOutputStream(file), true, "UTF-8");
         printStream.print(content);

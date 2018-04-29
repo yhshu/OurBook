@@ -3,7 +3,7 @@
     <Resource
             name="jdbc/ourbook" auth="Container"
             type="javax.sql.DataSource"
-            maxTotal="100" maxIdle="30" maxWaitMillis="10000" initialSize="1"
+            maxTotal="100" maxIdle="30" maxWaitMillis="10000" initialSize="5"
             url="jdbc:mysql://sh-cdb-7p5q57hl.sql.tencentcdb.com:63280/ourbook"
             driverClassName="com.mysql.jdbc.Driver"
             username="root" password="root3306"

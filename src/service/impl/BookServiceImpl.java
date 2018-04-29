@@ -178,7 +178,6 @@ public class BookServiceImpl implements BookService {
         return true;
     }
 
-
     @Override
     public Chapter[] getChapters(int bookID) {
         return chapterDao.findByBookID(bookID);
@@ -268,8 +267,7 @@ public class BookServiceImpl implements BookService {
         String absPath = null;
         try {
             // 写入文件并获取文件名
-            absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" +
-                    "/" + sequence + ".html"), content);
+            absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" + "/" + sequence + ".html"), content);
         } catch (Exception e) {
             e.printStackTrace();
         }

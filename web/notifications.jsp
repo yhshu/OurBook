@@ -124,7 +124,7 @@
     <div id="area1" class="col s12 contained-area">
         <%
             if (unread.length == 0) {%>
-        <h4 class="center-align grey-text" style="margin: 100px">没有未读通知</h4>
+        <h4 class="center-align grey-text" style="margin: 100px">暂无未读通知</h4>
         <%
         } else {%>
         <ul class="collapsible"><%
@@ -154,7 +154,7 @@
     </div>
     <div id="area2" class="col s12 contained-area">
         <h4 class="center-align grey-text" id="no_read"
-            style="margin: 100px;<%=(read.length == 0)?"":"display:none"%>">没有已读通知</h4>
+            style="margin: 100px;<%=(read.length == 0)?"":"display:none"%>">暂无已读通知</h4>
         <ul class="collapsible <%=(read.length == 0)?"hide":""%>" id="read"><%
             for (Notification notification : read) {
         %>
@@ -190,7 +190,7 @@
     <div id="area3" class="col s12 contained-area">
         <%
             if (messageMap.keySet().size() == 0) {%>
-        <h4 class="center-align grey-text" style="margin: 100px">没有私信记录</h4>
+        <h4 class="center-align grey-text" style="margin: 100px">暂无私信记录</h4>
         <%
         } else {%>
         <ul class="collapsible"><%

@@ -21,6 +21,7 @@
         var clicks = $('p .material-icons:contains("remove_red_eye")');
         var followers = $('p .material-icons:contains("perm_identity")');
         var settings = $('a .material-icons:contains("settings")');
+        var history = $('i.material-icons:contains("history")');
         notification_icon.addClass("tooltipped");
         notification_icon.attr('data-tooltip', '通知');
         edit_icon.addClass("tooltipped");
@@ -39,6 +40,8 @@
         followers.attr("data-tooltip", '书迷数');
         settings.addClass("tooltipped");
         settings.attr("data-tooltip", '设置');
+        history.addClass("tooltipped");
+        history.attr("data-tooltip", '查看历史');
         $('.tooltipped').tooltip({position: 'bottom'});
     });
 
