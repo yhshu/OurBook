@@ -33,4 +33,9 @@ public class NotificaServiceImpl implements NotificationService {
     public void delete(int ID) {
         notificationDao.delete(ID);
     }
+
+    @Override
+    public void clearRead(String username) {
+        notificationDao.clearRead(username);
+    }
 }

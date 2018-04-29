@@ -43,15 +43,26 @@
                 $.get('/notification', {
                     method: 'read',
                     ID: ID
-                })
+                });
             });
 
             $('.unread_messages').click(function () {
                 var user = $(this).data("user");
-                $.get('/message', {
+                $.get('/notification', {
                     method: 'read',
                     from: user
-                })
+                });
+            });
+
+            $('.clear_read').click(function () {
+                $.get('/notification', {
+                    method: 'clearRead'
+                }, function () {
+                    $('#no_read').show();
+                    $('#read').hide();
+                }).fail(function () {
+                    toast('清空失败');
+                });
             });
 
             $('.delete').click(function () {
@@ -61,7 +72,7 @@
                     ID: ID
                 }, function () {
                     $('.li_' + ID).remove();
-                })
+                });
             });
 
             $('.clear_messages').click(function () {
@@ -73,7 +84,7 @@
                     $('.li_' + user).remove();
                 }).fail(function () {
                     toast('清除失败');
-                })
+                });
             });
 
             $('.modal-trigger').click(function () {
@@ -90,7 +101,7 @@
                     toast('发送成功');
                 }).fail(function () {
                     toast('发送失败');
-                })
+                });
             });
         });
     </script>
@@ -103,7 +114,8 @@
             <li class="tab col s4"><a class="active" href="#area1">未读通知<span class="badge" style="line-height: 48px">
                     <%=unread.length%>
                 </span></a></li>
-            <li class="tab col s4"><a href="#area2">已读通知<span class="badge" style="line-height: 48px">
+            <li class="tab col s4"><a href="#area2">已读通知
+                <span class="badge" style="line-height: 48px">
                     <%=read.length%>
                 </span></a></li>
             <li class="tab col s4"><a href="#area3">私信</a></li>
@@ -141,12 +153,9 @@
         <%}%>
     </div>
     <div id="area2" class="col s12 contained-area">
-        <%
-            if (read.length == 0) {%>
-        <h4 class="center-align grey-text" style="margin: 100px">没有已读通知</h4>
-        <%
-        } else {%>
-        <ul class="collapsible"><%
+        <h4 class="center-align grey-text" id="no_read"
+            style="margin: 100px;<%=(read.length == 0)?"":"display:none"%>">没有已读通知</h4>
+        <ul class="collapsible <%=(read.length == 0)?"hide":""%>" id="read"><%
             for (Notification notification : read) {
         %>
             <li class="li_<%=notification.getID()%>">
@@ -168,8 +177,15 @@
             <%
                 }
             %>
+            <li class="clear_read">
+                <div class="collapsible-header red waves-effect waves-light"
+                     style="border: 0;padding: 10px !important;">
+                    <h6 style="text-align: center;width: 100%;cursor: pointer" class="white-text">
+                        清空已读通知
+                    </h6>
+                </div>
+            </li>
         </ul>
-        <%}%>
     </div>
     <div id="area3" class="col s12 contained-area">
         <%

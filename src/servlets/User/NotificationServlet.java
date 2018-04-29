@@ -39,4 +39,18 @@ public class NotificationServlet extends BaseServlet {
         }
     }
 
+    public void clearRead(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            NotificationService notificationService = new NotificaServiceImpl();
+            notificationService.clearRead((String) request.getSession().getAttribute("username"));
+            response.setContentType("text/plain");
+            response.getWriter().write("200 OK");
+        } catch (NullPointerException e) {
+            response.sendError(404);
+        } catch (Exception e) {
+            response.sendError(500);
+        }
+    }
+
 }

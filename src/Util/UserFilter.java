@@ -42,9 +42,16 @@ public class UserFilter implements Filter {
             return;
         }
         // 自动获取通知数
-        if (username != null && !(url.startsWith("/css") || url.startsWith("/img") || url.startsWith("/js") || url.startsWith("/resources")))
-            req.getSession().setAttribute("unreadNotifications",
-                    new NotificaServiceImpl().getUnread(username).length + new MessageServiceImpl().getUnreadNumber(username));
+        if (!(url.startsWith("/css") || url.startsWith("/img") ||
+                url.startsWith("/js") || url.startsWith("/resources"))) {
+            if (username != null) {
+                req.getSession().setAttribute("unreadNotifications",
+                        new NotificaServiceImpl().getUnread(username).length + new MessageServiceImpl().getUnreadNumber(username));
+            } else if (!(url.startsWith("/register") || (url.startsWith("/login") || (url.startsWith("/UserServlet"))))) {
+                res.sendRedirect("/register");
+                return;
+            }
+        }
         chain.doFilter(request, response);
         res.setHeader("Cache-Control", "no-store");
         res.setDateHeader("Expires", 0);

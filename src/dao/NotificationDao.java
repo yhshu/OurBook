@@ -32,6 +32,15 @@ public interface NotificationDao {
     boolean notifyFollowers(String followee, String header, String content);
 
     /**
+     * 通知收藏着
+     *
+     * @param bookID  书ID
+     * @param header  标题
+     * @param content 内容
+     */
+    boolean notifySubscribers(int bookID, String header, String content);
+
+    /**
      * 删除通知
      *
      * @param ID 通知ID
@@ -46,5 +55,12 @@ public interface NotificationDao {
      * @return 通知
      */
     Notification[] getByUsername(String username, boolean isRead);
+
+    /**
+     * 清空已读通知
+     *
+     * @param username 用户名
+     */
+    void clearRead(String username);
 
 }

@@ -43,4 +43,11 @@ public interface NotificationService {
      */
     void delete(int ID);
 
+    /**
+     * 清空已读通知
+     *
+     * @param username 用户名
+     */
+    void clearRead(String username);
+
 }

@@ -77,7 +77,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String username, String name, int bookID, String content, String rootDir, int sequence) {
+    public boolean addChapter(String username, String nickname, String name, int bookID, String bookName, String content, String rootDir, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -86,30 +86,30 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容为空");
             return false;
         }
-        // 将章节内容存放在文件中，并将文件路径插入数据库
-        try {
-            // 写入文件并获取文件名
-            String absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" +
-                    "/" + sequence + ".html"), content);
-            if (absPath == null) {
-                System.out.println("BookService: 写入章节文件失败");
-                return false;
-            }
-            System.out.println("BookService: 写入章节文件成功");
-            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            if (chapterDao.add(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
-                System.out.println("BookService: 添加编辑信息成功");
-                return true;
-            } else System.out.println("BookService: 添加编辑信息失败");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("BookService: 写入章节文件失败");
+        // 将章节内容存放在文件中
+        String absPath = writeChapterToFile(rootDir, bookID, sequence, content);
+        if (absPath == null) return false;
+
+        if (chapterDao.add(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
+            System.out.println("BookService: 添加编辑信息成功");
+        } else {
+            System.out.println("BookService: 添加编辑信息失败");
+            return false;
         }
-        return false;
+
+        if (notificationDao.notifySubscribers(bookID, bookName + "已更新",
+                "<a href='home?user=" + username + "'>" + nickname +
+                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + bookName + "</a>，快来看看吧")) {
+            System.out.println("BookService: 通知收藏者成功");
+        } else {
+            System.out.println("BookService: 通知收藏者失败");
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean modifyChapter(String username, String name, int bookID, String content, String rootDir, int sequence) {
+    public boolean modifyChapter(String username, String nickname, String name, int bookID, String bookName, String content, String rootDir, int sequence) {
         if (name == null || name.length() == 0) {
             System.out.println("BookService: 书名为空");
             return false;
@@ -118,27 +118,27 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容URL为空");
             return false;
         }
-        // 将章节内容存放在文件中，并将文件路径插入数据库
-        try {
-            // 写入文件并获取文件名
-            String absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" +
-                    "/" + sequence + ".html"), content);
-            if (absPath == null) {
-                System.out.println("BookService: 写入章节文件失败");
-                return false;
-            }
-            System.out.println("BookService: 写入章节文件成功");
-            // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-            if (chapterDao.modify(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
-                System.out.println("BookService: 添加编辑信息成功");
-                return true;
-            } else System.out.println("BookService: 添加编辑信息失败");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("BookService: 写入章节文件失败");
+        // 将章节内容存放在文件中
+        String absPath = writeChapterToFile(rootDir, bookID, sequence, content);
+        if (absPath == null) return false;
+
+        // 添加编辑信息
+        if (chapterDao.modify(username, new Chapter(name, bookID, sequence, absPath.replaceFirst(rootDir, "")))) {
+            System.out.println("BookService: 添加编辑信息成功");
+        } else {
+            System.out.println("BookService: 添加编辑信息失败");
+            return false;
         }
-        // 修改 book 表中的 chapter_num，并将新章节插入 chapter 表
-        return false;
+        // 通知收藏者
+        if (notificationDao.notifySubscribers(bookID, bookName + "已更新",
+                "<a href='home?user=" + username + "'>" + nickname +
+                        "</a>刚刚更新了<a href='book?id=" + bookID + "'>" + bookName + "</a>，快来看看吧")) {
+            System.out.println("BookService: 通知收藏者成功");
+        } else {
+            System.out.println("BookService: 通知收藏者失败");
+            return false;
+        }
+        return true;
     }
 
 
@@ -218,5 +218,22 @@ public class BookServiceImpl implements BookService {
             }
         }
         return noAuthority;
+    }
+
+    private static String writeChapterToFile(String rootDir, int bookID, int sequence, String content) {
+        String absPath = null;
+        try {
+            // 写入文件并获取文件名
+            absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" +
+                    "/" + sequence + ".html"), content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (absPath == null) {
+            System.out.println("BookService: 写入章节文件失败");
+        } else {
+            System.out.println("BookService: 写入章节文件成功");
+        }
+        return absPath;
     }
 }
