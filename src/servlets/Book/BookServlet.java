@@ -53,6 +53,7 @@ public class BookServlet extends HttpServlet {
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
                 Comment[] comments = commentService.findByBookID(bookID);
+                for(Comment comment :comments)
 
                 request.setAttribute("chiefEditor", chiefEditor);
                 request.setAttribute("bookID", bookID);
