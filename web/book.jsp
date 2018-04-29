@@ -275,7 +275,7 @@
     </div>
     <div>
         <h6>评论</h6>
-        <div class="row" style="width: 1000px;"><!--评论输入框-->
+        <div class="row" style="width: 1000px; margin-bottom: 0;"><!--评论输入框-->
             <div class="input-field col s12">
                 <textarea id="comment_text" class="materialize-textarea" data-length="140"
                           style="float: left; width: 900px;"
@@ -290,14 +290,22 @@
                 if (comments != null) {
                     for (Comment comment : comments) {
             %>
-            <div data-commentID="<%=comment.getID()%>">
-                <img src="<%=comment.getAvatar()%>" style="width: 30px;height: 30px; float: left;">
-                <h6><%=comment.getNickname()%>
-                </h6>
-                <h6 style="float: right;"><%=sdf.format(comment.getDatatime())%>
-                </h6>
-                <h6><%=comment.getContent()%>
-                </h6>
+            <div data-commentID="<%=comment.getID()%>" style="width: 1000px; margin-bottom: 15px;">
+                <div class="row" style="margin-bottom: 0px;">
+                    <span><img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></span>
+                    <span><a style="float: left; margin-left: 10px;"
+                             href="${pageContext.request.contextPath}/home?username=<%=comment.getUsername()%>"><%=comment.getNickname()%></a></span>
+                    <span><a class="black-text" style=" float: right;"><%=sdf.format(comment.getDatatime())%></a></span>
+                </div>
+                <div class="row" style="margin: 0;">
+                    <h6><%=comment.getContent()%>
+                    </h6>
+                </div>
+                <%if (session.getAttribute("username").equals(comment.getUsername())) {%>
+                <div>
+
+                </div>
+                <%}%>
             </div>
             <%
                     }
@@ -404,6 +412,10 @@
 
     comment_submit.click(function () { // 添加评论按钮
         var Content = $('#comment_text').val();
+        if (Content.length > 140) {
+            toast("超出长度限制");
+            return;
+        }
         if (Content === '') {
             toast("请键入评论");
             return;
