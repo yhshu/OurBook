@@ -82,7 +82,7 @@
         </th></tr><tr><td><strong><code class="attributeName">className</code></strong></td><td>
        Required, as there is no default
      </td></tr><tr><td><code class="attributeName">optionFlag</code></td><td>
-       If you want the interceptor to trigger on certain message depending on the message's option flag,
+       If you want the interceptor to trigger on certain content depending on the content's option flag,
        you can setup the interceptors flag here.
        The default value is <code>0</code>, meaning this interceptor will trigger on all messages.
      </td></tr></table>
@@ -113,11 +113,11 @@
        The default and hard coded value is <code>8 (org.apache.catalina.tribes.Channel.SEND_OPTIONS_ASYNCHRONOUS)</code>.
        The dispatcher will trigger on this value only, as it is predefined by Tribes.
      </td></tr><tr><td><code class="attributeName">alwaysSend</code></td><td>
-       What behavior should be executed when the dispatch queue is full. If <code>true</code> (default), then the message is
+       What behavior should be executed when the dispatch queue is full. If <code>true</code> (default), then the content is
        is sent synchronously, if <code>false</code> an error is thrown.
      </td></tr><tr><td><code class="attributeName">maxQueueSize</code></td><td>
        Size in bytes of the dispatch queue, the default value is <code> 1024*1024*64 (64MB)</code> sets the maximum queue size for the dispatch queue
-       if the queue fills up, one can trigger the behavior, if <code>alwaysSend</code> is set to true, the message will be sent synchronously
+       if the queue fills up, one can trigger the behavior, if <code>alwaysSend</code> is set to true, the content will be sent synchronously
        if the flag is false, an error is thrown
      </td></tr><tr><td><code class="attributeName">maxThreads</code></td><td>
        The maximum number of threads in this pool, default is 10.
@@ -136,9 +136,9 @@
        Specifies the timeout, in milliseconds, to use when attempting a TCP connection
        to the suspect node. Default is 1000.
      </td></tr><tr><td><code class="attributeName">performSendTest</code></td><td>
-       If true is set, send a test message to the suspect node. Default is true.
+       If true is set, send a test content to the suspect node. Default is true.
      </td></tr><tr><td><code class="attributeName">performReadTest</code></td><td>
-       If true is set, read the response of the test message that sent. Default is false.
+       If true is set, read the response of the test content that sent. Default is false.
        <strong>Note: </strong>if <code>performSendTest</code> is false, this attribute will have no effect.
      </td></tr><tr><td><code class="attributeName">readTestTimeout</code></td><td>
        Specifies the timeout, in milliseconds, to use when performing a read test
@@ -157,12 +157,12 @@
         </th><th style="width: 85%;">
           Description
         </th></tr><tr><td><code class="attributeName">interval</code></td><td>
-       If useThread == true, defines the interval of sending a ping message.
+       If useThread == true, defines the interval of sending a ping content.
        default is 1000 ms.
      </td></tr><tr><td><code class="attributeName">useThread</code></td><td>
-       Flag of whether to start a thread for sending a ping message.
-       If set to true, this interceptor will start a local thread for sending a ping message.
-       if set to false, channel heartbeat will send a ping message.
+       Flag of whether to start a thread for sending a ping content.
+       If set to true, this interceptor will start a local thread for sending a ping content.
+       if set to false, channel heartbeat will send a ping content.
        default is false.
      </td></tr></table>
   </div></div>

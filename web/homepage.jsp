@@ -1,5 +1,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -9,6 +10,7 @@
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
         User[] followers = (User[]) request.getAttribute("followers");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
@@ -35,18 +37,18 @@
 <body class="grey lighten-4">
 <%@ include file="nav.jsp" %>
 <div class="container" style="margin-top: 23px;">
-    <div class="row" style="width: 900px;margin: 0 auto">
+    <div class="row" style="width: 1000px;margin: 0 auto">
         <div class="card row" style="padding: 20px">
             <img src="<%=request.getAttribute("avatar")%>"
                  style="width:160px;height: 160px;border-radius: 5%;float: left;object-fit: cover;margin-right: 20px">
-            <div style="float:left;width:680px">
+            <div style="float:left;width:780px">
                 <!--用户的用户名与昵称-->
                 <h4 style="margin: 0;float: left"><%=request.getAttribute("nickname")%>
                 </h4>
                 <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
                 </h5>
-                <a class="modal-trigger waves-effect waves-light"
-                   data-target="personalInfo" style="display: inline; font-size: 32px;float: right">
+                <a class="modal-trigger waves-effect waves-light right"
+                   data-target="personalInfo" style="display: inline; font-size: 32px">
                     <i class="material-icons small grey-text">settings</i></a>
             </div>
             <h6 style="float: left"><!--用户的一句话描述--><%
@@ -81,7 +83,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消
+                        <a class="modal-action modal-close waves-effect waves-green btn-flat">取消
                         </a>
                         <button class="modal-action modal-close waves-effect waves-green btn-flat"
                                 id="submit_personal_info"
@@ -93,7 +95,7 @@
             </div>
         </div>
     </div>
-    <div class="row" style="width: 900px">
+    <div class="row" style="width: 1000px">
         <div class="col card" style="width:623px; margin-right:23px;">
             <h5 style="text-align: center">我写的书</h5>
             <div style="margin-top: 20px"> <!-- 我写的书 目录-->
@@ -130,13 +132,12 @@ border-bottom: 1px solid lightgray">
                            href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                             <%=book.getName()%>
                         </a>
-
                         <p class="grey-text" style="margin: 0 20px">
                             <i class="material-icons">remove_red_eye </i> <%=book.getClicks()%>
                             <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
                         </p>
                         <p style="margin: 10px 20px">
-                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                            最后更新： <%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
                         </p>
                     </div>
                 </div>
@@ -144,36 +145,61 @@ border-bottom: 1px solid lightgray">
             </div>
         </div>
 
-        <div STYLE="width: 253px;float: left"><!--右侧 收藏、关注与书迷-->
-            <div class="col card" style="width: 253px"> <!--收藏列表-->
+        <div style="width: 353px;float: left"><!--右侧 收藏、关注与书迷-->
+            <div class="col card" style="width: 353px;padding-bottom: 10px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
                 <% if (favorites.length == 0) {%>
-                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                    你还没有收藏任何书</h6>
+                <h5 style="text-align: center;margin: 50px 0" class="grey-text">
+                    你还没有收藏任何书</h5>
                 <%
-                } else {%>
-                <div style="margin: 10px auto;display: grid;grid-template-columns: 100px 120px;"><%
+                } else {
                     for (Book book : favorites) {
                 %>
-                    <a href="book?id=<%=book.getID()%>" class="black-text book_<%=book.getID()%>"
-                       style="text-align: center;line-height: 31px">
-                        <%=book.getName()%>
+                <div style="margin: 10px;display: grid;grid-template-columns:70px auto 24px;"
+                     class="book_<%=book.getID()%>">
+                    <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
+                        <%
+                            if (book.getCover() == null || book.getCover().equals("")) {
+                        %>
+                        <div style="width: 60px;height: 80px;background-color: #0D47A1" class="left">
+                            <p style="color: white;text-align: center">
+                                <%=book.getName()%>
+                            </p>
+                        </div>
+                        <%
+                        } else {
+                        %>
+                        <img style="width: 60px;height: 80px;object-fit: cover"
+                             src="<%=book.getCover()%>">
+                        <%}%>
                     </a>
-                    <a href="" class="btn pink remove_favorite book_<%=book.getID()%>"
-                       style="display: inline; -webkit-appearance:none; -moz-appearance:none;
-                    height: 21px;line-height: 21px;margin: 5px 10px" id="remove_favorite_<%=book.getID()%>"
-                       data-book="<%=book.getID()%>">取消收藏</a>
-                    <% }%>
+                    <div>
+                        <a href="book?id=<%=book.getID()%>" class="black-text" style="margin: 5px 0">
+                            <%=book.getName()%>
+                        </a>
+                        <p class="grey-text" style="margin: 5px 0">
+                            <i class="material-icons">remove_red_eye </i> <%=book.getClicks()%>
+                            <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
+                        </p>
+                        <p class="grey-text" style="margin: 5px 0">
+                            最后更新：<%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
+                        </p>
+                    </div>
+                    <a href="" class="remove_favorite pink-text"
+                       style="display: inline; -webkit-appearance:none; -moz-appearance:none;font-size: 24px;height: 36px;margin-top: 20px"
+                       data-book="<%=book.getID()%>"><i class="material-icons">favorite</i></a>
                 </div>
-                <% }%>
+                <% }
+                }%>
             </div>
 
-            <div class="col card" style="width: 253px"> <!--我的关注-->
+            <div class="col card" style="width: 353px"> <!--我的关注-->
                 <h5 style="text-align: center">我的关注</h5>
                 <% if (followees.length == 0) {%>
-                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                    你还没有关注任何人</h6>
+                <h5 style="text-align: center;margin: 50px 0;width: 100%" class="grey-text">
+                    你还没有关注任何人</h5>
                 <%
+<<<<<<< HEAD
                 } else {%>
                 <div style="margin: 10px auto"><%
                     for (User user : followees) {
@@ -205,12 +231,47 @@ border-bottom: 1px solid lightgray">
                                     取消关注</a>
                             </div>
                         </div>
+=======
+                } else {
+                    for (User user : followees) {%>
+                <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px;"
+                     class="user_<%=user.getUsername()%>">
+                    <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                        <img src="<%=user.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <!--用户名与昵称-->
+                    <div>
+                        <h6 style="margin:0;display: inline">
+                            <a href="home?user=<%=user.getUsername()%>">
+                                <%=user.getNickname()%>
+                            </a>
+                        </h6>
+                        <h6 class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
+                            @<%=user.getUsername()%>
+                        </h6>
+                        <p class="grey-text" style="margin: 0">
+                            <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                        </p>
                     </div>
-                    <%}%>
+                    <div>
+                        <a class="btn blue remove_follow"
+                           style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
+                           data-user="<%=user.getUsername()%>">
+                            取消关注</a>
+                        <a class="btn modal-trigger" href="#message_modal"
+                           style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
+                           data-user="<%=user.getUsername()%>">
+                            发送私信</a>
+>>>>>>> f4b0ebb7c1c7f4b10e2765afbdfe1473d1836411
+                    </div>
                 </div>
                 <%}%>
             </div>
+            <%}%>
+        </div>
 
+<<<<<<< HEAD
             <div id="privatedialog" class="modal" style="height: 450px ;min-width:300px"><!--私信模态框-->
                 <!--<form action="${pageContext.request.contextPath}/..." method="post" enctype="multipart/form-data">-->
                     <div class="modal-content">
@@ -227,44 +288,70 @@ border-bottom: 1px solid lightgray">
                         </button>
                     </div>
                 <!--</form>-->
-            </div>
-
-            <div class="col card" style="width: 253px"> <!--我的书迷-->
-                <h5 style="text-align: center">我的书迷</h5>
-                <% if (followers.length == 0) {%>
-                <h6 style="text-align: center;margin-top: 100px;width: 200px;margin-left:16px;" class="grey-text">
-                    你还没有任何书迷</h6>
-                <%
-                } else {%>
-                <div style="margin: 10px auto"><%
-                    for (User user : followers) {
-                %>
-                    <div class="row" style="margin: 25px 5px;">
-                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
-                            <img src="<%=user.getAvatar()%>"
-                                 style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
-                        </a>
-                        <div style="float:left;">
-                            <!--用户名与昵称-->
-                            <h6 style="margin:0;float: left">
-                                <a href="home?user=<%=user.getUsername()%>">
-                                    <%=user.getNickname()%>
-                                </a>
-                            </h6>
-                            <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
-                            </h6>
-                            <p class="grey-text" style="margin: 22px 0 0 0">
-                                <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
-                            </p>
-                        </div>
+=======
+        <div class="col card" style="width: 353px"> <!--我的书迷-->
+            <h5 style="text-align: center">我的书迷</h5>
+            <% if (followers.length == 0) {%>
+            <h5 style="text-align: center;margin: 50px 0;width: 100%" class="grey-text">
+                你还没有任何书迷</h5>
+            <%
+            } else {%>
+            <div style="margin: 10px auto"><%
+                for (User user : followers) {
+            %>
+                <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px">
+                    <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                        <img src="<%=user.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <!--用户名与昵称-->
+                    <div>
+                        <h6 style="margin:0;display: inline">
+                            <a href="home?user=<%=user.getUsername()%>">
+                                <%=user.getNickname()%>
+                            </a>
+                        </h6>
+                        <h6 class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
+                            @<%=user.getUsername()%>
+                        </h6>
+                        <p class="grey-text" style="margin: 0">
+                            <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                        </p>
                     </div>
-                    <%}%>
+                    <div>
+                        <a class="btn modal-trigger" href="#message_modal"
+                           style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
+                           data-user="<%=user.getUsername()%>">
+                            发送私信</a>
+                    </div>
                 </div>
                 <%}%>
+>>>>>>> f4b0ebb7c1c7f4b10e2765afbdfe1473d1836411
             </div>
+            <%}%>
+        </div>
+
+        <div id="message_modal" class="modal" style="min-width:300px">
+            <form id="message_form">
+                <input id="target_username" type="hidden">
+                <div class="modal-content">
+                    <div class="input-field">
+                        <input id="content" type="text" class="validate" data-length="300">
+                        <label for="content">发送内容</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat"
+                       onclick="$('#message_form').submit();">
+                        提交
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+<%@ include file="footer.html" %>
 
 <script>
     $(document).ready(function () {
@@ -298,6 +385,23 @@ border-bottom: 1px solid lightgray">
                 toast("操作异常");
             })
         });
+
+        $('.modal-trigger').click(function () {
+            $('#target_username').val($(this).data('user'));
+        });
+
+        $('#message_form').submit(function (evt) {
+            evt.preventDefault();
+            $.post('/message', {
+                method: 'send',
+                to: $('#target_username').val(),
+                content: $('#content').val()
+            }, function () {
+                toast('发送成功');
+            }).fail(function () {
+                toast('发送失败');
+            })
+        })
     });
 
 </script>

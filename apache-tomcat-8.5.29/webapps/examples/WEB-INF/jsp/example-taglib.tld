@@ -72,7 +72,7 @@
     <tag-class>examples.LogTag</tag-class>
     <body-content>TAGDEPENDENT</body-content>
     <description>
-      Perform a server side action; Log the message.
+      Perform a server side action; Log the content.
     </description>
     <attribute>
       <name>toBrowser</name>

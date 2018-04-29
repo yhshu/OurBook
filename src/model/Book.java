@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Book implements Serializable {
     private int ID;
@@ -10,7 +10,7 @@ public class Book implements Serializable {
     private String chiefEditor;
     private String keywords;
     private String cover;
-    private Date lastModified;
+    private Timestamp lastModified;
     private int chapterNum;
     private int clicks;
     private int favorites;
@@ -38,7 +38,7 @@ public class Book implements Serializable {
         this.chapterNum = chapterNum;
     }
 
-    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum, Date lastModified, int clicks, int favorites) {
+    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum, Timestamp lastModified, int clicks, int favorites) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;
@@ -124,11 +124,11 @@ public class Book implements Serializable {
         this.favorites = favorites;
     }
 
-    public Date getLastModified() {
+    public Timestamp getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Date lastModified) {
+    public void setLastModified(Timestamp lastModified) {
         this.lastModified = lastModified;
     }
 }

@@ -1,8 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Chapter" %>
+<%@ page import="model.Comment" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%
-
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
+    User[] collaborators = (User[]) request.getAttribute("collaborators");
+    User chiefEditor = (User) request.getAttribute("chiefEditor");
+    Comment[] comments = (Comment[]) request.getAttribute("comments");
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -18,12 +23,6 @@
     <title><%=request.getAttribute("bookName")%> - OurBook</title>
 
     <script type="text/javascript">
-        function change() {
-            var btn = document.getElementById("btn");
-            btn.value = "已关注";
-            btn.disabled = true;
-        }
-
         $(document).ready(function () {
             $('.modal').modal();
             $('select').material_select();
@@ -32,12 +31,12 @@
             })
         });
     </script>
-    <% User[] collaborators = (User[]) request.getAttribute("collaborators");%>
+
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
-<div class="container row" style="margin-top: 50px">
-    <div style="width:1000px">
+<div class="container row" style="margin: 50px 176px;">
+    <div style="width:1000px"><!-- 书籍信息 -->
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto" class="card">
             <%
                 if (request.getAttribute("cover") == null || request.getAttribute("cover").equals("")) { // 如果无封面
@@ -65,7 +64,7 @@
                            id="favorite_icon"><%=(boolean) request.getAttribute("isFavorite") ? "favorite" : "favorite_border"%>
                         </i>
                     </a>
-                    <%if (request.getAttribute("editor").equals(session.getAttribute("username"))) {// 如果该书作者是当前用户%>
+                    <%if (chiefEditor.getUsername().equals(session.getAttribute("username"))) { // 如果该书作者是当前用户%>
                     <!--设置协作者 按钮-->
                     <a href="#set_collaborators_modal" class="modal-trigger waves-effect waves-light"
                        data-target="" style="display: inline; font-size: 32px;float: right; margin-right: 20px;"
@@ -77,6 +76,7 @@
                         <div class="modal-content">
                             <h4>设置协作者</h4>
                             <p>授予协作者编辑本书的权限。</p>
+                            <p>每输入一个用户名，按下 Enter 确认。</p>
                             <%
                                 if (collaborators == null) {// 如果无协作者 %>
                             <div class="chips input-field chips-placeholder">
@@ -97,36 +97,35 @@
                                 $('.chips-initial').material_chip({
                                     data: [
                                             <%for(User collaborator:collaborators){%>{
-                                            tag: '<%=collaborator.getUsername()%>',
-                                        }, <%}%>],
+                                            tag: '<%=collaborator.getUsername()%>'
+                                        }, <%}%>]
                                 });
                             </script>
                             <%}%>
                         </div>
                         <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat"
                                id="collaborator_submit">确认</a>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <a href="${pageContext.request.contextPath}/home?user=<%=request.getAttribute("editor")%>"
+                    <a href="${pageContext.request.contextPath}/home?user=<%=chiefEditor.getUsername()%>"
                        style="color: gray;margin: 0 0 0 25px; display: inline;">
-                        <%=request.getAttribute("editorNickname")%>
+                        <%=chiefEditor.getNickname()%>
                     </a>
                     <% // 如果不是作者不是当前用户
-                        if (!request.getAttribute("editor").equals(session.getAttribute("username"))) {%>
+                        if (!chiefEditor.getUsername().equals(session.getAttribute("username"))) {%>
                     <a class="pink btn-small"
                        style="margin-left: 10px; display: inline; -webkit-appearance:none; -moz-appearance:none;"
                        id="follow_submit"
                        data-method='<%=(boolean)request.getAttribute("isFollowing")?"remove":"add"%>'
-                       data-followee='<%=request.getAttribute("editor")%>'>
+                       data-followee='<%=chiefEditor.getUsername()%>'>
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                     </a>
                     <%}%>
                 </div>
-
                 <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
                 <p style="margin: 25px 0 0 25px">
                     <%=request.getAttribute("description")%>
@@ -134,90 +133,216 @@
             </div>
         </div>
     </div>
-
-    <div class="card" style="padding: 20px;width:1000px"><!-- 章节目录 -->
-        <h5 style="margin-left:20px; margin-right: 30px;">章节目录</h5>
-        <style>form {
-            margin: 0;
-        }
-        </style>
-        <%if (session.getAttribute("username").equals(request.getAttribute("editor"))) {%>
-        <div style="width: 960px">
-            <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
-                  id="newChapterForm" style="display: inline-block;width: 800px">
-                <!-- 添加章节 表单 -->
-                <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
-                <input id="sequence" name="sequence" type="hidden"
-                       value="<%=(int)request.getAttribute("chapterNum")+1%>"/>
-                <button class="btn blue"
-                        style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;">添加章节
-                </button>
-                <div class="input-field"
-                     style="width: 300px;display: inline-block;left: 50px;margin: 0;height: 36px">
-                    <select id="select_sequence">
-                        <%for (int i = 1; i <= (int) request.getAttribute("chapterNum"); i++) {%>
-                        <option value="<%=i%>">第<%=i%>章</option>
-                        <%}%>
-                        <option value="<%=(int) request.getAttribute("chapterNum") + 1%>" selected>
-                            第<%=(int) request.getAttribute("chapterNum") + 1%>章
-                        </option>
-                    </select>
-                    <label>选择章节插入位置</label>
-                </div>
-            </form>
-            <a href='#delete_modal' class="btn red modal-trigger right">删除本书</a>
-        </div>
-
-        <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
-            <div class="modal-content">
-                <h4>确认删除吗？</h4>
-                <h5>忽略警告，糟糕的事情可能会发生。</h5>
-                <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
-                </b>相关的所有信息。</p>
-                <p>请输入本书名称以确认操作。</p>
-                <input id="bookname_confirm" type="text" oninput="change_delete_link()">
-                <label for="bookname_confirm"></label>
-            </div>
-            <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                <a id="delete_link"
-                   class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
-                   onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
-                <!-- 请求删除本书-->
-                <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
-                    <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
+    <div class="row" style="width: 1000px"><!--章节目录和编辑者-->
+        <div class="col card" style="padding: 0 20px;width:723px; margin-right:23px;"><!-- 章节目录 -->
+            <h5 style="text-align: center; margin-bottom: 30px;">章节目录</h5>
+            <style>form {
+                margin: 0;
+            }
+            </style>
+            <%if (session.getAttribute("username").equals(chiefEditor.getUsername()) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编拥有所有权限（添加、编辑、删除），协作者可以添加或编辑%>
+            <div style="width: 685px;">
+                <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
+                      id="newChapterForm" style="display: inline-block;width: 460px">
+                    <!-- 添加章节 表单 -->
+                    <input name="book" type="hidden" value="<%=request.getAttribute("bookID")%>"/>
+                    <input id="sequence" name="sequence" type="hidden"
+                           value="<%=(int)request.getAttribute("chapterNum")+1%>"/>
+                    <button class="btn blue"
+                            style="display: inline;margin-right: 10px; -webkit-appearance:none ; -moz-appearance:none;">
+                        添加章节
+                    </button>
+                    <div class="input-field"
+                         style="width: 300px;display: inline-block;left: 50px;margin: 0;height: 36px">
+                        <select id="select_sequence">
+                            <%for (int i = 1; i <= (int) request.getAttribute("chapterNum"); i++) {%>
+                            <option value="<%=i%>">第<%=i%>章</option>
+                            <%}%>
+                            <option value="<%=(int) request.getAttribute("chapterNum") + 1%>" selected>
+                                第<%=(int) request.getAttribute("chapterNum") + 1%>章
+                            </option>
+                        </select>
+                        <label>新增序号</label>
+                    </div>
                 </form>
-            </div>
-        </div>
-        <%}%>
-
-        <div class="collection">
-            <%
-                for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
-            %>
-            <div>
-                <a href="${pageContext.request.contextPath}/read?book=
-<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
-                </a>
-                <%
-                    if (request.getAttribute("editor").equals(session.getAttribute("username"))) {
-                %>
-                <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
-                   class="right modify_chapter_icon"
-                   style="position:relative;top:-43px;right:10px;font-size: 24px;line-height: 43px;height: 0">
-                    <i class="material-icons">mode_edit</i>
-                </a>
+                <%if (session.getAttribute("username").equals(chiefEditor.getUsername())) { // 如果当前用户是主编，可删除本书%>
+                <a href='#delete_modal' class="btn red modal-trigger" style="display: inline-block; margin-left:128px;">删除本书</a>
+                <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
+                    <div class="modal-content">
+                        <h4>确认删除吗？</h4>
+                        <h5>忽略警告，糟糕的事情可能会发生。</h5>
+                        <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
+                        </b>相关的所有信息。</p>
+                        <p>请输入本书名称以确认操作。</p>
+                        <input id="bookname_confirm" type="text" oninput="change_delete_link()">
+                        <label for="bookname_confirm"></label>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                        <a id="delete_link"
+                           class="modal-action modal-close waves-effect waves-green btn-flat red-text disabled"
+                           onclick="document.getElementById('deleteBookForm').submit();">我理解后果，删除本书</a>
+                        <!-- 请求删除本书-->
+                        <form action="${pageContext.request.contextPath}/deleteBook" method="get" id="deleteBookForm">
+                            <input type="hidden" name="book" value="<%=request.getAttribute("bookID")%>"/>
+                        </form>
+                    </div>
+                </div>
                 <%}%>
             </div>
             <%}%>
+
+            <div class="collection" style="margin-top: 20px;"><!--章节目录中的章节链接-->
+                <%
+                    for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
+                %>
+                <div style="height: 43px; overflow: hidden">
+                    <a href="${pageContext.request.contextPath}/read?book=
+<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
+                        <span class="grey-text right"
+                              style="display: inline-block;margin-right: 20px"><%=sdf.format(chapter.getLastModified())%></span>
+                    </a>
+                    <%
+                        if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) {
+                    %>
+                    <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+                       class="right modify_chapter_icon"
+                       style="position:relative;top:-40px;right:10px;font-size: 20px;line-height: 40px">
+                        <i class="material-icons">mode_edit</i>
+                    </a>
+                    <%}%>
+                </div>
+                <%}%>
+            </div>
+        </div>
+
+        <div class="col card" style=" width:253px"><!--编辑者列表，包括主编与协作者-->
+            <h5 style="text-align: center">编辑者</h5>
+            <div style="margin: 10px auto">
+                <!--主编信息-->
+                <div class="row user_<%=chiefEditor.getUsername()%>" style="margin: 15px 5px;">
+                    <a href="home?user=<%=chiefEditor.getUsername()%>"><!--用户头像-->
+                        <img src="<%=chiefEditor.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <div style="float:left;">
+                        <!--用户名与昵称-->
+                        <div style="width: 175px; height:20px">
+                            <h6 style="margin:0;float: left">
+                                <a href="home?user=<%=chiefEditor.getUsername()%>">
+                                    <%=chiefEditor.getNickname()%>
+                                </a>
+                            </h6>
+                            <h6 class="grey-text" style="margin: 0 10px;float: left"> @<%=chiefEditor.getUsername()%>
+                            </h6>
+                        </div>
+                        <p style="margin: 0;"><b>主编</b></p>
+                    </div>
+                </div>
+                <%
+                    if (collaborators != null) // 协作者信息
+                        for (User collaborator : collaborators) {
+                %>
+                <div class="row user_<%=collaborator.getUsername()%>" style="margin: 15px 5px;">
+                    <a href="home?user=<%=collaborator.getUsername()%>"><!--用户头像-->
+                        <img src="<%=collaborator.getAvatar()%>"
+                             style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                    </a>
+                    <div style="float:left;">
+                        <!--用户名与昵称-->
+                        <div style="width: 175px;height:20px">
+                            <h6 style="margin:0;float: left">
+                                <a href="home?user=<%=collaborator.getUsername()%>">
+                                    <%=collaborator.getNickname()%>
+                                </a>
+                            </h6>
+                            <h6 class="grey-text" style="margin: 0 10px;float: left">
+                                @<%=collaborator.getUsername()%>
+                            </h6>
+                        </div>
+                        <p style="margin: 0;">协作者</p>
+                    </div>
+                </div>
+                <%}%>
+            </div>
         </div>
     </div>
-    <div class="col"><!--编辑者列表，包括主编与协作者-->
-        <h5 style="text-align: center;">协作者</h5>
+    <div class="card" style="padding: 20px; width: 1000px;">
+        <h6>评论</h6>
+        <div class="row" style="width: 960px; margin-bottom: 0;"><!--评论输入框-->
+            <div class="input-field col s12">
+                <textarea id="comment_text" class="materialize-textarea" data-length="140"
+                          style="float: left; width: 860px;"
+                          placeholder="写下你的评论..." onclick="showButton()" oninput="enableButton()"></textarea>
+                <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">提交
+                </button>
+            </div>
+        </div>
+
+        <div><!--本书已有评论-->
+            <%
+                if (comments != null) {
+                    for (Comment comment : comments) {
+            %>
+            <div id="comment_<%=comment.getID()%>" style="width: 960px; margin-bottom: 15px;">
+                <div class="row" style="margin-bottom: 0;">
+                    <span><img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></span>
+                    <span><a style="float: left; margin-left: 10px;"
+                             href="${pageContext.request.contextPath}/home?username=<%=comment.getUsername()%>"><%=comment.getNickname()%></a></span>
+                    <span><a class="black-text" style=" float: right;"><%=sdf.format(comment.getDatetime())%></a></span>
+                </div>
+                <div class="row" style="margin: 0;">
+                    <h6><%=comment.getContent()%>
+                    </h6>
+                </div>
+                <%if (session.getAttribute("username").equals(comment.getUsername())) { // 如果本条评论是当前用户发出的，可删除本条评论%>
+                <div class="row" style="margin: 0;">
+                    <a href="#comment_delete_confirm" class="grey-text modal-trigger delete_comment_request"
+                       data-commentID="<%=comment.getID()%>"> <i
+                            class="material-icons">delete_forever</i>
+                        删除</a>
+                </div>
+                <div id="comment_delete_confirm" class="modal"><!--删除评论 确认模态框-->
+                    <div class="modal-content">
+                        <h6>你确定删除这条评论吗？</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                        <a href=""
+                           class="modal-action modal-close waves-effect waves-green btn-flat deleteComment">确定</a>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+            <%
+                    }
+                }
+            %>
+        </div>
     </div>
 </div>
 
 <script>
+    var follow_submit = $('#follow_submit');
+    var favorite_submit = $('#favorite_submit');
+    var favorite_icon = $('#favorite_icon');
+    var comment_submit = $('#comment_submit');
+
+    function showButton() {
+        document.getElementById('comment_submit').style.display = "inline";
+    }
+
+    function enableButton() {
+        $('#content_text').trigger('autoresize');
+        if ($('#comment_text').val() === '') {
+            if (!comment_submit.hasClass("disabled"))
+                $('#comment_submit').addClass(" disabled");
+        } else {
+            if (comment_submit.hasClass("disabled"))
+                $('#comment_submit').removeClass(" disabled");
+        }
+    }
+
     function change_delete_link() {
         var val = document.getElementById('bookname_confirm').value;
         var link = $('#delete_link');
@@ -230,54 +355,53 @@
         }
     }
 
-    $('#follow_submit').click(function (event) {
+    follow_submit.click(function (event) {
         event.preventDefault();
-        $.get('follow?'
-            , {
-                followee: $('#follow_submit').data("followee"),
-                method: $('#follow_submit').data("method")
-            }, function (respondText) {
-                if ($('#follow_submit').data("method") === "remove") {
-                    toast('取消关注成功');
-                    $('#follow_submit').html("关注");
-                    $('#follow_submit').data("method", "add");
-                }
-                else if ($('#follow_submit').data("method") === "add") {
-                    toast('关注成功');
-                    $('#follow_submit').html("取消关注");
-                    $('#follow_submit').data("method", "remove");
-                }
-            }).fail(function () { // 服务器响应错误信息
-            toast("操作异常");
-        })
-    });
-
-    $('#favorite_submit').click(function (event) {
-        event.preventDefault();
-        $.get('${pageContext.request.contextPath}/favorite', {
-            method: $('#favorite_submit').data("method"),
-            book:<%=request.getAttribute("bookID")%>
+        $.get('follow?', {
+            followee: follow_submit.data("followee"),
+            method: follow_submit.data("method")
         }, function () {
-            if ($('#favorite_submit').data("method") === "remove") {
-                toast('取消收藏成功');
-                $('#favorite_icon').html("favorite_border");
-                $('#favorite_submit').data("method", "add");
-                $('#favorite_icon').attr("data-tooltip", '收藏');
-                $('#favorite_icon').tooltip();
+            if (follow_submit.data("method") === "remove") {
+                toast('取消关注成功');
+                follow_submit.html("关注");
+                follow_submit.data("method", "add");
             }
-            else if ($('#favorite_submit').data("method") === "add") {
-                toast('收藏成功');
-                $('#favorite_icon').html("favorite");
-                $('#favorite_submit').data("method", "remove");
-                $('#favorite_icon').attr("data-tooltip", '取消收藏');
-                $('#favorite_icon').tooltip();
+            else if (follow_submit.data("method") === "add") {
+                toast('关注成功');
+                follow_submit.html("取消关注");
+                $('#follow_submit').data("method", "remove");
             }
         }).fail(function () { // 服务器响应错误信息
             toast("操作异常");
         })
     });
 
-    $('#collaborator_submit').click(function (event) {
+    favorite_submit.click(function (event) {
+        event.preventDefault();
+        $.get('${pageContext.request.contextPath}/favorite', {
+            method: favorite_submit.data("method"),
+            book:<%=request.getAttribute("bookID")%>
+        }, function () {
+            if (favorite_submit.data("method") === "remove") {
+                toast('取消收藏成功');
+                favorite_icon.html("favorite_border");
+                favorite_submit.data("method", "add");
+                favorite_icon.attr("data-tooltip", '收藏');
+                favorite_icon.tooltip();
+            }
+            else if (favorite_submit.data("method") === "add") {
+                toast('收藏成功');
+                favorite_icon.html("favorite");
+                favorite_submit.data("method", "remove");
+                favorite_icon.attr("data-tooltip", '取消收藏');
+                favorite_icon.tooltip();
+            }
+        }).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
+    });
+
+    $('#collaborator_submit').click(function () {
         var Collaborator = $('.chip').text().replace(/close/g, " ");
         Collaborator = Collaborator.substring(0, Collaborator.length - 1);
         $.post('${pageContext.request.contextPath}/collaborator', {
@@ -286,6 +410,49 @@
         }, function (responseText) {
             toast("设置协作者成功");
             window.location.href = responseText;
+        }).fail(function () {
+            toast("操作异常，请重试");
+            location.reload();
+        })
+    });
+
+    comment_submit.click(function () { // 添加评论按钮
+        var Content = $('#comment_text').val();
+        if (Content.length > 140) {
+            toast("超出长度限制");
+            return;
+        }
+        if (Content === '') {
+            toast("请键入评论");
+            return;
+        }
+        $.post('${pageContext.request.contextPath}/comment', {
+            method: "add",
+            bookID: "<%=request.getAttribute("bookID")%>",
+            username: "<%=session.getAttribute("username")%>",
+            content: Content
+        }, function () {
+            toast("评论成功");
+            location.reload();
+        }).fail(function () {
+            toast("操作异常，请重试");
+        })
+    });
+
+    var delete_comment_id;
+    $('.delete_comment_request').click(function () { // 页面上的删除评论按钮
+        delete_comment_id = $(this).data('commentid');
+    });
+
+    $('.deleteComment').click(function (event) { // 删除评论模态框的确认按钮
+        event.preventDefault();
+        var CommentID = delete_comment_id;
+        $.post('${pageContext.request.contextPath}/comment', {
+            method: "delete",
+            commentID: CommentID
+        }, function () {
+            toast("已删除评论");
+            $('#comment_' + CommentID).remove();
         }).fail(function () {
             toast("操作异常，请重试");
         })

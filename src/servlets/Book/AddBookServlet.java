@@ -37,10 +37,12 @@ public class AddBookServlet extends HttpServlet {
         BookService bookService = new BookServiceImpl();
         BookDao bookDao = new BookDaoImpl();
         String editor = (String) session.getAttribute("username");
+        String nickname = (String) session.getAttribute("nickname");
         String bookName = "";
         String bookDescription = "";
         String keywords = "";
         String filename = null;
+        String rootDir = this.getServletContext().getRealPath("/");
         String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"}; //图片格式
         try {
             if (ServletFileUpload.isMultipartContent(request)) {  // 判断获取的是不是文件
@@ -70,7 +72,7 @@ public class AddBookServlet extends HttpServlet {
                             return;
                         }
                         String extension = filePath.substring(filePath.lastIndexOf("."));
-                        filename = "/resources/cover/" + (bookDao.maxID() + 1) + extension;
+                        filename = "resources/cover/" + (bookDao.maxID() + 1) + extension;
                         File saveFile = new File(this.getServletContext().getRealPath(filename));
                         fm.write(saveFile); // 向文件中写入数据
 
@@ -78,11 +80,14 @@ public class AddBookServlet extends HttpServlet {
                         try {
                             Image img = ImageIO.read(saveFile);
                             if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
+                                if (saveFile.delete()) System.out.println("删除可疑文件成功");
+                                else System.out.println("删除可疑文件失败");
                                 response.sendError(415);
                                 return;
                             }
                         } catch (Exception e) {
-                            saveFile.delete();
+                            if (saveFile.delete()) System.out.println("删除可疑文件成功");
+                            else System.out.println("删除可疑文件失败");
                             response.sendError(415);
                             return;
                         }
@@ -107,8 +112,13 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            bookService.addBook(bookName, bookDescription, editor, keywords, filename);
-            System.out.println("BookServlet: 添加书目成功");
+            if (bookService.addBook(bookName, bookDescription, editor, nickname, keywords, filename, rootDir))
+                System.out.println("BookServlet: 添加书目成功");
+            else {
+                System.out.println("BookServlet: 添加书目失败");
+                response.sendError(520);
+                return;
+            }
             // 添加成功后，请求重定向，查看本书
             response.setContentType("text/plain");
             response.getWriter().write("/book?id=" + bookDao.maxID());

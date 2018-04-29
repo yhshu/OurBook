@@ -11,10 +11,12 @@ public interface BookService {
      * @param name        书名
      * @param description 书的简介（可选）
      * @param chiefEditor 主编的用户名
+     * @param nickname    主编的昵称
      * @param keywords    书的关键字
+     * @param rootDir     服务器根目录
      * @return 添加成功 true，添加失败 false
      */
-    boolean addBook(String name, String description, String chiefEditor, String keywords, String cover);
+    boolean addBook(String name, String description, String chiefEditor, String nickname, String keywords, String cover, String rootDir);
 
     /**
      * 根据书籍ID查找书籍
@@ -23,14 +25,6 @@ public interface BookService {
      * @return 书籍
      */
     Book find(int ID);
-
-    /**
-     * 根据关键字查找书籍
-     *
-     * @param keywords 书籍关键字
-     * @return 含有关键字的所有书籍
-     */
-    Book[] findByKeywords(String keywords);
 
     /**
      * 根据关键字查找书籍，并按类型和时间范围排序
@@ -71,19 +65,21 @@ public interface BookService {
      * 添加章节
      *
      * @param username 用户名
+     * @param nickname 用户昵称
      * @param name     章节名
      * @param bookID   书的编号
      * @param content  章节内容，将以文件形式存储于 resources/book
-     * @param path     由 Servlet 传递的文件路径
+     * @param rootDir  服务器根目录
      * @param sequence 章节号
      * @return 添加到数据库的 sequence
      */
-    boolean addChapter(String username, String name, int bookID, String content, String path, int sequence);
+    boolean addChapter(String username, String nickname, String name, int bookID, String content, String rootDir, int sequence);
 
     /**
      * 修改章节
      *
      * @param username 用户名
+     * @param nickname 用户昵称
      * @param name     章节名
      * @param bookID   书的编号
      * @param content  章节内容，将以文件形式存储于 resources/book
@@ -91,7 +87,7 @@ public interface BookService {
      * @param sequence 章节号
      * @return 成功 true 失败 false
      */
-    boolean modifyChapter(String username, String name, int bookID, String content, String path, int sequence);
+    boolean modifyChapter(String username, String nickname, String name, int bookID, String content, String path, int sequence);
 
     /**
      * 通过关键字查找章节
@@ -106,9 +102,10 @@ public interface BookService {
      *
      * @param bookID   书目编号
      * @param username 发起删除请求的用户名
+     * @param rootDir  服务器根目录
      * @return 删除成功返回true；失败返回false
      */
-    boolean delete(int bookID, String username);
+    boolean delete(int bookID, String username, String rootDir);
 
     /**
      * 获取用户收藏的书
@@ -131,9 +128,10 @@ public interface BookService {
      *
      * @param bookID   书目编号
      * @param sequence 章节序号
+     * @param rootDir  服务器根目录
      * @return 删除成功返回true；失败返会false
      */
-    boolean delete_chapter(int bookID, int sequence);
+    boolean deleteChapter(int bookID, int sequence, String rootDir);
 
     /**
      * 首页推荐书目
@@ -161,4 +159,13 @@ public interface BookService {
      * @return 协作者
      */
     User[] getCollaborators(int bookID);
+
+    /**
+     * 查询用户对此书的权限
+     *
+     * @param bookID   书籍
+     * @param username 用户
+     * @return 无权限0，协作者1，主编2
+     */
+    int authority(int bookID, String username);
 }

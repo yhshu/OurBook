@@ -4,6 +4,7 @@
 <html>
 <head>
     <%@ include file="header.jsp" %>
+    <title><%=request.getAttribute("name")%> - OurBook</title>
 </head>
 <body class="lighten-5" style="background-color: #F9F3E9">
 <jsp:include page="nav.jsp"/>
@@ -11,7 +12,8 @@
     <div style="margin-left: 4px; margin-top: 10px;">
         <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
                 class="material-icons">arrow_back</i>返回</a>
-        <% if (session.getAttribute("username").equals(request.getAttribute("editor"))) {
+        <% if (session.getAttribute("username").equals(request.getAttribute("editor")) || (boolean) request.getAttribute("isCollaborator")) {
+            // 主编或协作者均拥有编辑和删除权限
         %>
         <a style="margin-left: 72px;"
            href="${pageContext.request.contextPath}/modify?book=<%=request.getAttribute("bookID")%>&sequence=<%=request.getAttribute("sequence")%>">
@@ -57,7 +59,8 @@
         $('.modal').modal();
     });
 </script>
-<form id="delete_chapter" action="${pageContext.request.contextPath}/deleteChapter" method="post">
+<form id="delete_chapter" action="${pageContext.request.contextPath}/ChapterServlet" method="post">
+    <input type="hidden" name="method" value="delete"/>
     <input type="hidden" name="book" value="<%=(int)request.getAttribute("bookID")%>"/>
     <input type="hidden" name="sequence" value="<%=(int)request.getAttribute("sequence")%>">
     <input type="hidden" name="chapterName" value="<%=request.getAttribute("name")%>">

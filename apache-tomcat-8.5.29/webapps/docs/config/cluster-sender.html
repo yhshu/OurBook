@@ -44,14 +44,14 @@
   <p>
   In the default <code>transport</code> implementation, <code>org.apache.catalina.tribes.transport.nio.PooledParallelSender</code>,
   Apache Tribes implements what we like to call "Concurrent Parallel Delivery".
-  This means that we can send a message to more than one destination at the same time(parallel), and
+  This means that we can send a content to more than one destination at the same time(parallel), and
   deliver two messages to the same destination at the same time(concurrent). Combine these two and we have
   "Concurrent Parallel Delivery".
   </p>
   <p>
-  When is this useful? The simplest example we can think of is when part of your code is sending a 10MB message,
-  like a war file being deployed, and you need to push through a small 10KB message, say a session being replicated,
-  you don't have to wait for the 10MB message to finish, as a separate thread will push in the small message
+  When is this useful? The simplest example we can think of is when part of your code is sending a 10MB content,
+  like a war file being deployed, and you need to push through a small 10KB content, say a session being replicated,
+  you don't have to wait for the 10MB content to finish, as a separate thread will push in the small content
   transmission at the same time. Currently there is no interrupt, pause or priority mechanism available, but check back soon.
   </p>
 </div><h3 id="Nested_Elements">Nested Elements</h3><div class="text">
@@ -107,14 +107,14 @@
        The default value is <code>-1</code>, which is unlimited.
       </td></tr><tr><td><code class="attributeName">timeout</code></td><td>
         Sets the SO_TIMEOUT option on the socket. The value is in milliseconds and the default value is <code>3000</code>
-        milliseconds.(3 seconds) This timeout starts when a message send attempt is starting, until the transfer has been completed.
-        For the NIO sockets, this will mean, that the caller can guarantee that we will not attempt sending the message
+        milliseconds.(3 seconds) This timeout starts when a content send attempt is starting, until the transfer has been completed.
+        For the NIO sockets, this will mean, that the caller can guarantee that we will not attempt sending the content
         longer than this timeout value. For the blocking IO implementation, this translated directly to the soTimeout.<br>
         A timeout will not spawn a retry attempt, in order to guarantee the return of the application thread.
       </td></tr><tr><td><code class="attributeName">maxRetryAttempts</code></td><td>
-        How many times do we retry a failed message, that received a IOException at the socket level.
-        The default value is <code>1</code>, meaning we will retry a message that has failed once.
-        In other words, we will attempt a message send no more than twice. One is the original send, and one is the
+        How many times do we retry a failed content, that received a IOException at the socket level.
+        The default value is <code>1</code>, meaning we will retry a content that has failed once.
+        In other words, we will attempt a content send no more than twice. One is the original send, and one is the
         <code>maxRetryAttempts</code>.
       </td></tr><tr><td><code class="attributeName">ooBInline</code></td><td>
         Boolean value for the socket OOBINLINE option. Possible values are <code>true</code> or <code>false</code>.
@@ -140,7 +140,7 @@
        Boolean value, default value is <code>true</code>.
        If set to true, the sender will throw a <code>org.apache.catalina.tribes.RemoteProcessException</code>
        when we receive a negative ack from the remote member.
-       Set to false, and Tribes will treat a positive ack the same way as a negative ack, that the message was received.
+       Set to false, and Tribes will treat a positive ack the same way as a negative ack, that the content was received.
       </td></tr></table>
   </div></div>
   <div class="subsection"><h4 id="Common_PooledSender_Attributes">Common PooledSender Attributes</h4><div class="text">

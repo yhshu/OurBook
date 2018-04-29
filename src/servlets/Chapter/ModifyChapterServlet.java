@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,28 +18,31 @@ import java.nio.file.Paths;
 @WebServlet("/modify")
 public class ModifyChapterServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         try {
             BookService bookService = new BookServiceImpl();
-            int bookID = Integer.parseInt(req.getParameter("book"));
-            int sequence = Integer.parseInt(req.getParameter("sequence"));
-            Chapter chapter = bookService.findChapter(bookID, sequence);
-            String path = req.getServletContext().getRealPath(chapter.getContent());
-            byte[] encoded = Files.readAllBytes(Paths.get(path));
-            String name = chapter.getName();
-            String content = new String(encoded, "UTF-8");
-            req.setAttribute("name", name);
-            req.setAttribute("content", content);
-            req.setAttribute("method", "modify");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/writeChapter.jsp");
-            requestDispatcher.forward(req, resp);
+            int bookID = Integer.parseInt(request.getParameter("book"));
+            if (bookService.authority(bookID, (String) request.getSession().getAttribute("username")) > 0) {
+                int sequence = Integer.parseInt(request.getParameter("sequence"));
+                Chapter chapter = bookService.findChapter(bookID, sequence);
+                String path = request.getServletContext().getRealPath(chapter.getContent());
+                byte[] encoded = Files.readAllBytes(Paths.get(path));
+                String name = chapter.getName();
+                String content = new String(encoded, "UTF-8");
+                request.setAttribute("name", name);
+                request.setAttribute("content", content);
+                request.setAttribute("method", "modify");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/writeChapter.jsp");
+                requestDispatcher.forward(request, response);
+            }
         } catch (Exception e) {
-            resp.sendError(500);
+            response.sendError(500);
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 }

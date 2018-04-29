@@ -5,159 +5,182 @@ import dao.BookDao;
 import model.Book;
 import model.User;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class BookDaoImpl implements BookDao {
     private Connection conn = null;
 
     @Override
     public Book findByID(int ID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
+            stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
             stm.setInt(1, ID);
             Book[] books = getBooks(stm);
-            conn.close();
-            if (books != null && books[0] != null) return books[0];
+            if (books != null && books[0] != null)
+                return books[0];
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookDao: findByID(" + ID + ")失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return null;
     }
 
     @Override
     public Book[] findByName(String name) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE name = ?");
+            stm = conn.prepareStatement("SELECT * FROM book_info WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
-            conn.close();
-            if (books != null) return books;
+            if (books != null)
+                return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
 
     @Override
     public Book[] findByKeywords(String[] keywords) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE "
-                    + DBUtil.keywordsMatchCondition("keywords", keywords));
+            stm = conn.prepareStatement("SELECT * FROM book_info WHERE " + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] books = getBooks(stm);
-            conn.close();
-            if (books != null) return books;
+            if (books != null)
+                return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
 
     @Override
     public Book[] findByKeywordsClick(String[] keywords, String range) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("date", range) + ") AS c ON ID=bookID WHERE "
+            stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("time", range) + ") AS c ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
                     " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
-            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
 
     @Override
     public Book[] findByKeywordsFav(String[] keywords, String range) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("date", range) + ") AS f ON ID=bookID WHERE "
+            stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+                    "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("time", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
                     + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
             Book[] books = getBooks(stm);
-            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
 
     @Override
-    public void add(Book book) {
+    public int add(Book book) {
+        PreparedStatement stm1 = null;
+        PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO book " +
+            stm1 = conn.prepareStatement("INSERT INTO book " +
                     "(ID,name,description,chiefEditor,keywords,cover) VALUES (null,?,?,?,?,?)");
-            stm.setString(1, book.getName());
-            stm.setString(2, book.getDescription());
-            stm.setString(3, book.getChiefEditor());
-            stm.setString(4, book.getKeywords());
-            stm.setString(5, book.getCover());
-            try {
-                stm.executeUpdate();
-                System.out.println("BookDao: 添加书目成功");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                System.out.println("BookDao: 添加书目失败");
-            }
-            stm.close();
-            conn.close();
+            stm1.setString(1, book.getName());
+            stm1.setString(2, book.getDescription());
+            stm1.setString(3, book.getChiefEditor());
+            stm1.setString(4, book.getKeywords());
+            stm1.setString(5, book.getCover());
+            stm1.executeUpdate();
+            stm2 = conn.prepareStatement("SELECT MAX(ID) as max_ID FROM book");
+            ResultSet rs = stm2.executeQuery();
+            rs.next();
+            int ID = rs.getInt("max_ID");
+            rs.close();
+            System.out.println("BookDao: 添加书目成功");
+            return ID;
         } catch (Exception e) {
+            System.out.println("BookDao: 添加书目失败");
             e.printStackTrace();
+            return -1;
+        } finally {
+            DBUtil.safeClose(stm1);
+            DBUtil.safeClose(stm2);
+            DBUtil.safeClose(conn);
         }
     }
 
     @Override
     public int maxID() {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT MAX(ID) AS max_id FROM book");
-            ResultSet rs;
-            try {
-                rs = stm.executeQuery();
-                int ret = -1;
-                while (rs.next())
-                    ret = rs.getInt("max_id");
-                rs.close();
-                stm.close();
-                conn.close();
-                System.out.println("BookDao: 查询最大ID成功");
-                return ret;
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                System.out.println("BookDao: 查询最大ID失败");
-            }
-        } catch (Exception e) {
+            stm = conn.prepareStatement("SELECT MAX(ID) AS max_id FROM book");
+            ResultSet rs = stm.executeQuery();
+            int ret = -1;
+            while (rs.next())
+                ret = rs.getInt("max_id");
+            rs.close();
+            System.out.println("BookDao: 查询最大ID成功");
+            return ret;
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
+            System.out.println("BookDao: 查询最大ID失败");
+            return -1;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return -1;
     }
 
-
     public Book[] findByUserID(String chiefEditorID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info WHERE chiefEditor = ?");
+            stm = conn.prepareStatement("SELECT * FROM book_info WHERE chiefEditor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
-            conn.close();
             if (books != null)
                 return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
@@ -186,7 +209,7 @@ public class BookDaoImpl implements BookDao {
                 } catch (Exception ignored) {
                 }
                 try {
-                    book.setLastModified(rs.getDate("last_modified"));
+                    book.setLastModified(rs.getTimestamp("last_modified"));
                 } catch (Exception ignored) {
                 }
                 try {
@@ -196,42 +219,39 @@ public class BookDaoImpl implements BookDao {
                 books.add(book);
             }
             rs.close();
-            stm.close();
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             System.out.println("BookDao: 获取书目失败:");
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
-    public boolean delete(int bookID) {
+    public String delete(int bookID) {
+        PreparedStatement stm1 = null;
+        PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement delChapter = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
-            delChapter.setInt(1, bookID);
-            PreparedStatement delClick = conn.prepareStatement("DELETE FROM click WHERE bookID = ?");
-            delClick.setInt(1, bookID);
-            PreparedStatement delBook = conn.prepareStatement("DELETE FROM book WHERE ID = ?");
-            delBook.setInt(1, bookID);
-            try {
-                delChapter.executeUpdate();
-                delClick.executeUpdate();
-                delBook.executeUpdate();
-                System.out.println("BookDao: 删除书目成功");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                System.out.println("BookDao: 删除书目失败");
-            }
-            delChapter.close();
-            delBook.close();
-            conn.close();
-            return true;
+            stm1 = conn.prepareStatement("SELECT cover FROM book WHERE ID=?");
+            stm1.setInt(1, bookID);
+            ResultSet rs = stm1.executeQuery();
+            rs.next();
+            String cover = rs.getString("cover");
+            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ?");
+            stm2.setInt(1, bookID);
+            stm2.executeUpdate();
+            System.out.println("BookDao: 删除书目成功");
+            return cover;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("BookDao: 删除书目失败");
+            return null;
+        } finally {
+            DBUtil.safeClose(stm1);
+            DBUtil.safeClose(stm2);
+            DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
@@ -241,37 +261,41 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info, favorite WHERE username = ? AND bookid = ID");
             stm.setString(1, username);
             Book[] books = getBooks(stm);
-            conn.close();
             if (books != null) return books;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.safeClose(conn);
         }
         return new Book[0];
     }
 
     @Override
     public boolean click(String username, int bookID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,?)");
+            stm = conn.prepareStatement("INSERT INTO click VALUES (?,?,NOW())");
             stm.setString(1, username);
             stm.setInt(2, bookID);
-            stm.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
             stm.executeUpdate();
-            conn.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
     public Book[] recommend() {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
             ArrayList<Book> books = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites * 10 + clicks DESC");
+            stm = conn.prepareStatement("SELECT * FROM book_info ORDER BY favorites * 10 + clicks DESC");
             int displayBookNum = 10;
             ResultSet rs = stm.executeQuery();
             while (displayBookNum-- > 0 && rs.next()) {
@@ -282,22 +306,25 @@ public class BookDaoImpl implements BookDao {
                         rs.getString("keywords"),
                         rs.getString("cover"),
                         rs.getInt("chapter_num"),
-                        rs.getDate("last_modified"),
+                        rs.getTimestamp("last_modified"),
                         rs.getInt("clicks"),
                         rs.getInt("favorites")));
             }
             rs.close();
-            stm.close();
-            conn.close();
             return books.toArray(new Book[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return new Book[0];
     }
 
     @Override
     public boolean setCollaborators(int bookID, String[] collaborators) {
+        PreparedStatement delete_stm = null;
+        PreparedStatement insert_stm = null;
         try {
             conn = DBUtil.connectDB();
             StringBuilder collaborator_sql = new StringBuilder();
@@ -308,31 +335,36 @@ public class BookDaoImpl implements BookDao {
             }
             // 将最后一个逗号修改为分号
             collaborator_sql.setCharAt(collaborator_sql.length() - 1, ';');
-            PreparedStatement delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
+
+            delete_stm = conn.prepareStatement("DELETE FROM writes WHERE bookID = ?");
             delete_stm.setInt(1, bookID);
             delete_stm.executeUpdate();
-            delete_stm.close();
-
             String sql = String.format("INSERT IGNORE INTO writes(bookID, username) VALUES %s", collaborator_sql);
-            PreparedStatement stm = conn.prepareStatement(sql);
-            stm.executeUpdate();
-            stm.close();
+            insert_stm = conn.prepareStatement(sql);
+            insert_stm.executeUpdate();
             System.out.println("BookDao: 设置协作者成功");
-            conn.close();
             return true;
+        } catch (StringIndexOutOfBoundsException siobe) {
+            siobe.printStackTrace();
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("BookDao: 设置协作者失败");
+            return false;
+        } finally {
+            DBUtil.safeClose(delete_stm);
+            DBUtil.safeClose(insert_stm);
+            DBUtil.safeClose(conn);
         }
-        return false;
     }
 
     @Override
     public User[] getCollaborators(int bookID) {
+        PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB();
             ArrayList<User> users = new ArrayList<>();
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM writes,user WHERE writes.username = user.username AND writes.bookID = ?");
+            stm = conn.prepareStatement("SELECT * FROM writes,user WHERE writes.username = user.username AND writes.bookID = ?");
             stm.setInt(1, bookID);
             ResultSet rs = stm.executeQuery();
             boolean exist = false;
@@ -342,12 +374,14 @@ public class BookDaoImpl implements BookDao {
                 users.add(user);
             }
             rs.close();
-            stm.close();
-            conn.close();
             return (exist) ? users.toArray(new User[0]) : null;
         } catch (Exception e) {
+            System.out.println("BookDao: 获取协作者失败");
             e.printStackTrace();
+            return null;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
-        return null;
     }
 }

@@ -1,10 +1,14 @@
 package servlets.Book;
 
 import model.Book;
+import model.Comment;
+import model.User;
 import service.BookService;
+import service.CommentService;
 import service.FollowService;
 import service.UserService;
 import service.impl.BookServiceImpl;
+import service.impl.CommentServiceImpl;
 import service.impl.FollowServiceImpl;
 import service.impl.UserServiceImpl;
 
@@ -37,21 +41,31 @@ public class BookServlet extends HttpServlet {
                 BookService bookService = new BookServiceImpl();
                 UserService userService = new UserServiceImpl();
                 FollowService followService = new FollowServiceImpl();
+                CommentService commentService = new CommentServiceImpl();
+
                 Book book = bookService.find(bookID);
                 String username = (String) session.getAttribute("username");
+                User chiefEditor = userService.find(book.getChiefEditor());
+                User[] collaborators = bookService.getCollaborators(bookID);
+                boolean isCollaborator = false;
+                if (bookService.authority(bookID, username) == 1)
+                    isCollaborator = true;
                 boolean isFavorite = userService.isFavorite(username, bookID);
                 boolean isFollowing = followService.isFollowing(username, book.getChiefEditor());
-                request.setAttribute("editorNickname", userService.find(book.getChiefEditor()).getNickname());
+                Comment[] comments = commentService.findByBookID(bookID);
+
+                request.setAttribute("chiefEditor", chiefEditor);
                 request.setAttribute("bookID", bookID);
-                request.setAttribute("chapterNum",book.getChapterNum());
+                request.setAttribute("chapterNum", book.getChapterNum());
                 request.setAttribute("bookName", book.getName());
-                request.setAttribute("editor", book.getChiefEditor());
                 request.setAttribute("description", book.getDescription());
                 request.setAttribute("cover", book.getCover());
                 request.setAttribute("chapters", bookService.getChapters(bookID));
                 request.setAttribute("isFavorite", isFavorite);
                 request.setAttribute("isFollowing", isFollowing);
-                request.setAttribute("collaborators", bookService.getCollaborators(bookID));
+                request.setAttribute("collaborators", collaborators);
+                request.setAttribute("isCollaborator", isCollaborator);
+                request.setAttribute("comments", comments);
                 bookService.click(username, bookID);
             }
             // 重定向

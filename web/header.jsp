@@ -12,22 +12,33 @@
 
 <script>
     $(document).ready(function () {
-        $('.edit_icon').addClass("tooltipped");
-        $('.edit_icon').attr('data-tooltip', '创建新书');
-        $('.modify_chapter_icon').addClass("tooltipped");
-        $('.modify_chapter_icon').attr('data-tooltip', '修改章节');
-        $('a .material-icons:contains("favorite")').addClass("tooltipped");
-        $('a .material-icons:contains("favorite")').attr("data-tooltip", '取消收藏');
-        $('a .material-icons:contains("favorite_border")').addClass("tooltipped");
-        $('a .material-icons:contains("favorite_border")').attr("data-tooltip", '收藏');
-        $('p .material-icons:contains("favorite")').addClass("tooltipped");
-        $('p .material-icons:contains("favorite")').attr("data-tooltip", '收藏量');
-        $('p .material-icons:contains("remove_red_eye")').addClass("tooltipped");
-        $('p .material-icons:contains("remove_red_eye")').attr("data-tooltip", '点击量');
-        $('p .material-icons:contains("perm_identity")').addClass("tooltipped");
-        $('p .material-icons:contains("perm_identity")').attr("data-tooltip", '书迷数');
-        $('a .material-icons:contains("settings")').addClass("tooltipped");
-        $('a .material-icons:contains("settings")').attr("data-tooltip", '设置');
+        var edit_icon = $('.edit_icon');
+        var notification_icon = $('.notification_icon');
+        var modify_chapter_icon = $('.modify_chapter_icon');
+        var remove_favorite = $('a .material-icons:contains("favorite")');
+        var add_favorite = $('a .material-icons:contains("favorite_border")');
+        var favorites = $('p .material-icons:contains("favorite")');
+        var clicks = $('p .material-icons:contains("remove_red_eye")');
+        var followers = $('p .material-icons:contains("perm_identity")');
+        var settings = $('a .material-icons:contains("settings")');
+        notification_icon.addClass("tooltipped");
+        notification_icon.attr('data-tooltip', '通知');
+        edit_icon.addClass("tooltipped");
+        edit_icon.attr('data-tooltip', '创建新书');
+        modify_chapter_icon.addClass("tooltipped");
+        modify_chapter_icon.attr('data-tooltip', '修改章节');
+        remove_favorite.addClass("tooltipped");
+        remove_favorite.attr("data-tooltip", '取消收藏');
+        add_favorite.addClass("tooltipped");
+        add_favorite.attr("data-tooltip", '收藏');
+        favorites.addClass("tooltipped");
+        favorites.attr("data-tooltip", '收藏量');
+        clicks.addClass("tooltipped");
+        clicks.attr("data-tooltip", '点击量');
+        followers.addClass("tooltipped");
+        followers.attr("data-tooltip", '书迷数');
+        settings.addClass("tooltipped");
+        settings.attr("data-tooltip", '设置');
         $('.tooltipped').tooltip({position: 'bottom'});
     });
 

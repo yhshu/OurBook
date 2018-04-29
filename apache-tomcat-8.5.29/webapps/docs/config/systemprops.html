@@ -390,8 +390,8 @@
     </td></tr><tr><td><code class="propertyName">org.apache.juli.logging. UserDataHelper.SUPPRESSION_TIME</code></td><td>
       <p>When using <code>INFO_THEN_DEBUG</code> for
          <code>org.apache.juli.logging.UserDataHelper.CONFIG</code> this system
-         property controls how long messages are logged at DEBUG after a message
-         has been logged at INFO. Once this period has elapsed, the next message
+         property controls how long messages are logged at DEBUG after a content
+         has been logged at INFO. Once this period has elapsed, the next content
          will be logged at INFO followed by a new suppression period where
          messages are logged at DEBUG and so on. The value is measured
          in seconds.</p>
@@ -446,11 +446,11 @@
          seconds.</p>
     </td></tr><tr><td><code class="propertyName">org.apache.tomcat. websocket.DISABLE_BUILTIN_EXTENSIONS</code></td><td>
       <p>If <code>true</code>, disable all built-in extensions provided by the
-         server, such as message compression.</p>
+         server, such as content compression.</p>
       <p>The default value is <code>false</code>.</p>
     </td></tr><tr><td><code class="propertyName">org.apache.tomcat. websocket.STREAMS_DROP_EMPTY_MESSAGES</code></td><td>
       <p>If <code>true</code>, streams provided to the user (writer and output
-      stream) will not send an empty message when flushing and there is no
+      stream) will not send an empty content when flushing and there is no
       data to flush, or when it is closed without having been used (for
       example if an error occurs).</p>
       <p>The default value is <code>false</code>.</p>
@@ -464,9 +464,9 @@
           Description
         </th></tr><tr><td><code class="propertyName">org.apache.coyote. USE_CUSTOM_STATUS_MSG_IN_HEADER</code></td><td><p>If this is
       <code>true</code>, custom HTTP status messages will be used within HTTP
-      headers. If a custom message is specified that is not valid for use in an
-      HTTP header (as defined by RFC2616) then the custom message will be
-      ignored and the default message used.</p>
+      headers. If a custom content is specified that is not valid for use in an
+      HTTP header (as defined by RFC2616) then the custom content will be
+      ignored and the default content used.</p>
       <p>If not specified, the default value of <code>false</code> will be used.</p>
       <p><strong>Note:</strong> This option is deprecated and will be removed
       in Tomcat 9. The reason phrase will not be sent.</p>

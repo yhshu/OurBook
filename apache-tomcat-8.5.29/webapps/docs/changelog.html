@@ -21,7 +21,7 @@
         is specified). (remm)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=62117">62117</a>: Improve error message in <code>catalina.sh</code> when
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=62117">62117</a>: Improve error content in <code>catalina.sh</code> when
         calling <code>kill -0 &lt;pid&gt;</code> fails. Based on a suggestion
         from Mark Morschhaeuser. (markt)
       </li>
@@ -147,7 +147,7 @@
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=62024">62024</a>: When closing a connection with an abnormal close,
-        close the socket immediately rather than waiting for a close message
+        close the socket immediately rather than waiting for a close content
         from the client that may never arrive. (markt)
       </li>
     </ul>
@@ -304,7 +304,7 @@
         Fix NIO2 handshaking with a full input buffer. (remm)
       </li>
       <li><img alt="Add: " class="icon" src="./images/add.gif">
-        Return a simple, plain text error message if a client attempts to make a
+        Return a simple, plain text error content if a client attempts to make a
         plain text HTTP connection to a TLS enabled NIO or NIO2 Connector.
         (markt)
       </li>
@@ -449,7 +449,7 @@
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         Improve concurrency by reducing the scope of the synchronisation for
-        <code>javax.security.auth.message.config.AuthConfigFactory</code> in the
+        <code>javax.security.auth.content.config.AuthConfigFactory</code> in the
         JASPIC API implementation. Based on a patch by Pavan Kumar. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -861,7 +861,7 @@
         to the application. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Improve the warning message when JSSE and OpenSSL configuration styles
+        Improve the warning content when JSSE and OpenSSL configuration styles
         are mixed on the same <code>SSLHostConfig</code>. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -915,18 +915,18 @@
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         To avoid unexpected session timeout notification from backup session,
         update the access time when receiving the map member notification
-        message. (kfujino)
+        content. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Add member info to the log message when the failure detection check
+        Add member info to the log content when the failure detection check
         fails in <code>TcpFailureDetector</code>. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         Avoid Ping timeout until the added map member by receiving
-        <code>MSG_START</code> message is completely started. (kfujino)
+        <code>MSG_START</code> content is completely started. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        When sending a channel message, make sure that the Sender has connected.
+        When sending a channel content, make sure that the Sender has connected.
         (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -1053,7 +1053,7 @@
         packed WAR file. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=61253">61253</a>: Add warn message when Digester.updateAttributes
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=61253">61253</a>: Add warn content when Digester.updateAttributes
         throws an exception instead of ignoring it. (csutherl)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -1277,8 +1277,8 @@
         by Tetradeus. (violetagg)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=61180">61180</a>: Log a warning message rather than an information
-        message if it takes more than 100ms to initialised a
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=61180">61180</a>: Log a warning content rather than an information
+        content if it takes more than 100ms to initialised a
         <code>SecureRandom</code> instance for a web application to use to
         generate session identifiers. Patch provided by Piotr Chlebda. (markt)
       </li>
@@ -1331,7 +1331,7 @@
   <div class="subsection"><h4 id="Tomcat_8.5.16_(markt)/Jasper">Jasper</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=44787">44787</a>: Improve error message when JSP compiler configuration
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=44787">44787</a>: Improve error content when JSP compiler configuration
         options are not valid. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -1344,7 +1344,7 @@
   <div class="subsection"><h4 id="Tomcat_8.5.16_(markt)/WebSocket">WebSocket</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Correct the log message when a <code>MessageHandler</code> for
+        Correct the log content when a <code>MessageHandler</code> for
         <code>PongMessage</code> does not implement
         <code>MessageHandler.Whole</code>. (rjung)
       </li>
@@ -1570,7 +1570,7 @@
   <div class="subsection"><h4 id="Tomcat_8.5.14_(markt)/Catalina">Catalina</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59825">59825</a>: Log a message that lists the components in the
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59825">59825</a>: Log a content that lists the components in the
         processing chain that do not support async processing when a call to
         <code>ServletRequest.startAsync()</code> fails. (markt)
       </li>
@@ -1927,7 +1927,7 @@
         client hello messages. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59807">59807</a>: Provide a better error message when there is no
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59807">59807</a>: Provide a better error content when there is no
         <strong>SSLHostConfig</strong> defined with a <code>hostName</code> that
         matches the <code>defaultSSLHostConfigName</code> for the associated
         <strong>Connector</strong>. (markt)
@@ -2028,11 +2028,11 @@
   <div class="subsection"><h4 id="Tomcat_8.5.12_(markt)/Tribes">Tribes</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Add: " class="icon" src="./images/add.gif">
-        Add log message that PING message has received beyond the timeout
+        Add log content that PING content has received beyond the timeout
         period. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        When a PING message that beyond the time-out period has been received,
+        When a PING content that beyond the time-out period has been received,
         make sure that valid member is added to the map membership. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -2164,7 +2164,7 @@
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=60451">60451</a>: Correctly handle HTTP/2 header values that contain
         characters with unicode code points in the range 128 to 255. Reject
-        with a clear error message HTTP/2 header values that contain characters
+        with a clear error content HTTP/2 header values that contain characters
         with unicode code points above 255. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -2406,7 +2406,7 @@
   <div class="subsection"><h4 id="Tomcat_8.5.9_(markt)/Tribes">Tribes</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Reduce the warning logs for a message received from a different domain
+        Reduce the warning logs for a content received from a different domain
         in order to avoid excessive log outputs. (kfujino)
       </li>
     </ul>
@@ -2490,7 +2490,7 @@
         AJP/1.3 connectors can be created. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Include the Context name in the log message when an item cannot be
+        Include the Context name in the log content when an item cannot be
         added to the cache. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -2618,7 +2618,7 @@
   <div class="subsection"><h4 id="Tomcat_8.5.7_(markt)/Tribes">Tribes</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        When the proxy node sends a backup retrieve message, ensure that using
+        When the proxy node sends a backup retrieve content, ensure that using
         the <code>channelSendOptions</code> that has been set rather than the
         default <code>channelSendOptions</code>. (kfujino)
       </li>
@@ -2997,7 +2997,7 @@
         (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59950">59950</a>: Correct log message when reporting that the current
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59950">59950</a>: Correct log content when reporting that the current
         number of HTTP/2 streams for a connection could not be pruned to below
         the limit. (markt)
       </li>
@@ -3067,7 +3067,7 @@
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59908">59908</a>: Ensure that a reason phrase is included in the close
-        message if a session is closed due to a timeout. (markt)
+        content if a session is closed due to a timeout. (markt)
       </li>
     </ul>
   </div></div>
@@ -3130,7 +3130,7 @@
         disabled. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Add log message of when returning the connection that has been marked
+        Add log content of when returning the connection that has been marked
         suspect. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -3320,10 +3320,10 @@
   <div class="subsection"><h4 id="Tomcat_8.5.4_(markt)/Tribes">Tribes</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Add: " class="icon" src="./images/add.gif">
-        Add log message when the ping has timed-out. (kfujino)
+        Add log content when the ping has timed-out. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        If the ping message has been received at the
+        If the ping content has been received at the
         <code>AbstractReplicatedMap#leftOver</code> method, ensure that notify
         the member is alive than ignore it. (kfujino)
       </li>
@@ -3393,7 +3393,7 @@
         (remm)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Fix error message when failed to register MBean. (kfujino)
+        Fix error content when failed to register MBean. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59655">59655</a>: Configure the cookie name validation to use RFC6265 rules by default to
@@ -3456,7 +3456,7 @@
         pinned in memory. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59654">59654</a>: Improve error message when attempting to use a TLD
+        <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=59654">59654</a>: Improve error content when attempting to use a TLD
         file from an invalid location. Patch provided by Huxing Zhang. (markt)
       </li>
     </ul>
@@ -3570,7 +3570,7 @@
         from the standard JAR scanning by default. (violetagg)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Clarify in the log message that specifying both urlPatterns and value
+        Clarify in the log content that specifying both urlPatterns and value
         attributes in WebServlet and WebFilter annotations is not allowed.
         (violetagg)
       </li>
@@ -3873,8 +3873,8 @@
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         In ping processing in the replication map, send not the
-        <code>INIT</code> message but the newly introduced <code>PING</code>
-        message. (kfujino)
+        <code>INIT</code> content but the newly introduced <code>PING</code>
+        content. (kfujino)
       </li>
     </ul>
   </div></div>
@@ -4447,20 +4447,20 @@
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=57489">57489</a>: Ensure <code>onClose()</code> is called when a
-        WebSocket connection is closed even if the sending of the close message
+        WebSocket connection is closed even if the sending of the close content
         fails. Includes test cases by Barry Coughlan. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         <a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=58624">58624</a>: Correct a potential deadlock if the WebSocket
-        connection is closed when a message write is in progress. (markt)
+        connection is closed when a content write is in progress. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         Fix a timing issue on session close that could result in an exception
-        being thrown for an incomplete message even through the message was
+        being thrown for an incomplete content even through the content was
         completed. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Correctly handle compression of partial messages when the final message
+        Correctly handle compression of partial messages when the final content
         fragment has a zero length payload. (markt)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
@@ -4532,7 +4532,7 @@
   <div class="subsection"><h4 id="Tomcat_8.5.0_(markt)/Tribes">Tribes</h4><div class="text">
     <ul class="changelog">
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
-        Clarify the handling of Copy message and Copy nodes. (kfujino)
+        Clarify the handling of Copy content and Copy nodes. (kfujino)
       </li>
       <li><img alt="Fix: " class="icon" src="./images/fix.gif">
         Ensure that the static member is registered to the add suspect list even

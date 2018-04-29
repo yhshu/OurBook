@@ -1,5 +1,6 @@
 <%@ page import="model.Book" %>
 <%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -8,28 +9,70 @@
         Book[] books = (Book[]) request.getAttribute("books");
         User[] followees = (User[]) request.getAttribute("followees");
         User[] followers = (User[]) request.getAttribute("followers");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+        $(document).ready(function () {
+            $('.modal').modal(); // 模态框
 
-                reader.onload = function (e) {
-                    $('#preview')
-                        .attr('src', e.target.result);
-                };
+            $('#follow_submit').click(function (event) {
+                event.preventDefault();
+                $.get('${pageContext.request.contextPath}/follow?followee=<%=request.getAttribute("username")%>&method=' + $('#follow_submit').data("method"), {}, function (respondText) {
+                    if ($('#follow_submit').data("method") === "remove") {
+                        toast('取消关注成功');
+                        $('#follow_submit').html("关注");
+                        $('#follow_submit').data("method", "add");
+                    }
+                    else if ($('#follow_submit').data("method") === "add") {
+                        toast('关注成功');
+                        $('#follow_submit').html("取消关注");
+                        $('#follow_submit').data("method", "remove");
+                    }
+                }).fail(function () { // 服务器响应错误信息
+                    toast("操作异常");
+                });
+            });
 
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
+            $('#message_form').submit(function (evt) {
+                evt.preventDefault();
+                $.post('/message', {
+                    method: 'send',
+                    to: '<%=request.getAttribute("username")%>',
+                    content: $('#content').val()
+                }, function () {
+                    toast('发送成功');
+                }).fail(function () {
+                    toast('发送失败');
+                })
+            });
+        });
     </script>
 </head>
 
 <body class="grey lighten-4">
 <%@ include file="nav.jsp" %>
 <div class="container" style="margin-top: 23px;">
+
+    <div id="message_modal" class="modal" style="min-width:300px">
+        <form id="message_form">
+            <input id="target_username" type="hidden">
+            <div class="modal-content">
+                <div class="input-field">
+                    <input id="content" type="text" class="validate" data-length="300">
+                    <label for="content">发送内容</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                <a class="modal-action modal-close waves-effect waves-green btn-flat"
+                   onclick="$('#message_form').submit();">
+                    提交
+                </a>
+            </div>
+        </form>
+    </div>
+
     <div class="row" style="width: 900px;margin: 0 auto">
         <div class="card row" style="padding: 20px">
             <img src="<%=request.getAttribute("avatar")%>"
@@ -40,12 +83,14 @@
                 </h4>
                 <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
                 </h5>
-                <a href="" class="pink btn-small"
+                <a href="" class="pink btn"
                    style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;" href=""
                    id="follow_submit"
                    data-method="<%=(boolean)request.getAttribute("isFollowing") ? "remove" : "add" %>">
                     <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                 </a>
+                <a class="btn modal-trigger" href="#message_modal"
+                   style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;">发送私信</a>
             </div>
             <!--用户的一句话描述--><%
             String description = (String) request.getAttribute("description");
@@ -103,7 +148,7 @@ border-bottom: 1px solid lightgray">
                             <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
                         </p>
                         <p style="margin: 10px 20px">
-                            最后更新： <%=book.getLastModified() != null ? book.getLastModified() : "暂无"%>
+                            最后更新： <%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
                         </p>
                     </div>
                 </div>
@@ -185,29 +230,5 @@ border-bottom: 1px solid lightgray">
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('.modal').modal(); // 模态框
-    });
-
-    $('#follow_submit').click(function (event) {
-        event.preventDefault();
-        $.get('${pageContext.request.contextPath}/follow?followee=<%=request.getAttribute("username")%>&method=' + $('#follow_submit').data("method"), {}, function (respondText) {
-            if ($('#follow_submit').data("method") === "remove") {
-                toast('取消关注成功');
-                $('#follow_submit').html("关注");
-                $('#follow_submit').data("method", "add");
-            }
-            else if ($('#follow_submit').data("method") === "add") {
-                toast('关注成功');
-                $('#follow_submit').html("取消关注");
-                $('#follow_submit').data("method", "remove");
-            }
-        }).fail(function () { // 服务器响应错误信息
-            toast("操作异常");
-        })
-    });
-</script>
 </body>
 </html>

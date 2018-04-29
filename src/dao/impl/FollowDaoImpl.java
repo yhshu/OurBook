@@ -2,12 +2,12 @@ package dao.impl;
 
 import Util.DBUtil;
 import dao.FollowDao;
-import model.Follow;
 import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -20,12 +20,12 @@ public class FollowDaoImpl implements FollowDao {
      *添加关注的人的，只能一个一个添加，用按钮形式<关注>
      */
     @Override
-    public void add(Follow follow) {
+    public void add(String follower,String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO follow(follower,followee) VALUES (?,?)");
-            stm.setString(1, follow.getFollower());
-            stm.setString(2, follow.getFollowee());
+            stm.setString(1, follower);
+            stm.setString(2, followee);
             try {
                 stm.executeUpdate();
                 System.out.println("FollowDao: 添加成功");
@@ -43,12 +43,12 @@ public class FollowDaoImpl implements FollowDao {
      *取消关注的人，只能一个一个删除，用按钮形式<取消关注>
      */
     @Override
-    public void del(Follow follow) {
+    public void del(String follower,String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE followee=? and follower=?");
-            stm.setString(1, follow.getFollowee());
-            stm.setString(2, follow.getFollower());
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE follower=? and followee=?");
+            stm.setString(1, follower);
+            stm.setString(2, followee);
             try {
                 stm.executeUpdate();
                 System.out.println("UserDao: 取消成功");
@@ -73,8 +73,9 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(1, followee);
             User[] followers = getUsers(stm);
             conn.close();
-            if (followers != null) return followers;
+            return followers;
         } catch (Exception e) {
+            System.out.println("BookDao: 获取关注列表失败:");
             e.printStackTrace();
         }
         return new User[0];
@@ -93,68 +94,12 @@ public class FollowDaoImpl implements FollowDao {
             stm.setString(1, follower);
             User[] followees = getUsers(stm);
             conn.close();
-            if (followees != null) return followees;
+            return followees;
         } catch (Exception e) {
+            System.out.println("BookDao: 获取关注列表失败:");
             e.printStackTrace();
         }
         return new User[0];
-    }
-
-    @Override
-    /**
-     * 添加信息
-     *
-     * @param follow 查找的主码
-     * @return 用户被其他人关注的列表
-     */
-    public void addDialog(Follow follow) {
-        try{
-            conn=DBUtil.connectDB();
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO privatedialog(followee,follower,message,time) VALUE(?,?,?,?)");
-            stm.setString(1,follow.getFollowee());
-            stm.setString(2,follow.getFollower());
-            stm.setString(3,follow.getMessage());
-            stm.setDate(4,follow.getTime());
-            try{
-                stm.execute();
-                System.out.println("添加成功");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            stm.close();
-            conn.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @Override
-    /**
-     * 查找历史的信息
-     *
-     * @param follower 用户编号  知道followee的名字，用作follower来搜索
-     * @return 用户被其他人关注的列表
-     */
-    public Follow[] findDialogMessage(Follow follow) {
-    try{
-        conn =DBUtil.connectDB();
-        PreparedStatement stm = conn.prepareStatement("SELECT * FROM privatedialog WHERE followee=? AND follower=? ");
-        ResultSet rs=stm.executeQuery();
-        ArrayList<Follow> follow_message =new  ArrayList<Follow>();
-        while(rs.next()){
-            String followee =  rs.getString(1) ;
-            String follower = rs.getString(2);
-            String messages = rs.getString(3);
-            java.sql.Date time = rs.getDate(4);
-            follow_message.add(new Follow(followee,follower,messages,time));
-        }
-        rs.close();
-        conn.close();
-        stm.close();
-        return follow_message.toArray(new Follow[0]);
-    }catch(Exception e){
-        e.printStackTrace();
-    }
-        return  null;
     }
 
     @Override
@@ -175,24 +120,18 @@ public class FollowDaoImpl implements FollowDao {
         return false;
     }
 
-    private User[] getUsers(PreparedStatement stm) {
-        try {
-            ResultSet rs = stm.executeQuery();
-            ArrayList<User> users = new ArrayList<>();
-            while (rs.next()) {
-                User user = new User(rs.getString("username"), rs.getString("nickname"),
-                        null, rs.getString("description"),
-                        rs.getString("avatar"));
-                user.setFollowers(rs.getInt("followers"));
-                users.add(user);
-            }
-            rs.close();
-            stm.close();
-            return users.toArray(new User[0]);
-        } catch (Exception e) {
-            System.out.println("BookDao: 获取关注列表失败:");
-            e.printStackTrace();
+    private User[] getUsers(PreparedStatement stm) throws SQLException {
+        ResultSet rs = stm.executeQuery();
+        ArrayList<User> users = new ArrayList<>();
+        while (rs.next()) {
+            User user = new User(rs.getString("username"), rs.getString("nickname"),
+                    null, rs.getString("description"),
+                    rs.getString("avatar"));
+            user.setFollowers(rs.getInt("followers"));
+            users.add(user);
         }
-        return null;
+        rs.close();
+        stm.close();
+        return users.toArray(new User[0]);
     }
 }

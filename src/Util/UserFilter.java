@@ -1,5 +1,8 @@
 package Util;
 
+import service.impl.MessageServiceImpl;
+import service.impl.NotificaServiceImpl;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,19 +33,31 @@ public class UserFilter implements Filter {
         // 获取Session
         HttpSession session = req.getSession();
         // 获取Session中存储的对象
-        Object o = session.getAttribute("username");
+        String username = (String) session.getAttribute("username");
         // 获取当前请求的URI
         String url = req.getRequestURI();
         // 判断请求的URI是否为不允许过滤的URI
-        if (url.contains("/resources/book"))
-            res.sendRedirect(req.getContextPath() + "/login");
-        else {
-            chain.doFilter(request, response);
-            res.setHeader("Cache-Control", "no-store");
-            res.setDateHeader("Expires", 0);
-            res.setHeader("Pragma", "no-cache");
-            res.flushBuffer();
+        if (url.contains("/resources/book")) {
+            res.sendRedirect(req.getContextPath() + "/index");
+            return;
         }
+        // 自动获取通知数
+        if (!(url.startsWith("/css") || url.startsWith("/img") ||
+                url.startsWith("/js") || url.startsWith("/resources"))) {
+            if (username != null) {
+                req.getSession().setAttribute("unreadNotifications",
+                        new NotificaServiceImpl().getUnread(username).length + new MessageServiceImpl().getUnreadNumber(username));
+            } else if (!(url.startsWith("/register") || (url.startsWith("/login") || (url.startsWith("/UserServlet"))))) {
+                res.sendRedirect("/register");
+                return;
+            }
+        }
+        chain.doFilter(request, response);
+        res.setHeader("Cache-Control", "no-store");
+        res.setDateHeader("Expires", 0);
+        res.setHeader("Pragma", "no-cache");
+        res.flushBuffer();
+
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {

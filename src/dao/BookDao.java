@@ -58,8 +58,9 @@ public interface BookDao {
      * 添加书目
      *
      * @param book 新增书目
+     * @return 书的ID
      */
-    void add(Book book);
+    int add(Book book);
 
     /**
      * 返回最大的 book 表中最大的 ID
@@ -70,12 +71,12 @@ public interface BookDao {
     int maxID();
 
     /**
-     * 删除一本书及其所有章节
+     * 删除一本书及其所有章节，并返回封面地址
      *
      * @param bookID 书目编号
-     * @return 删除成功返回true，失败返回false
+     * @return 书籍封面地址
      */
-    boolean delete(int bookID);
+    String delete(int bookID);
 
     /**
      * 获取用户收藏的书
