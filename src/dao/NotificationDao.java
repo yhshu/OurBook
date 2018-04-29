@@ -2,8 +2,6 @@ package dao;
 
 import model.Notification;
 
-import java.sql.Timestamp;
-
 public interface NotificationDao {
 
     /**

@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 @WebServlet("/book")
 public class BookServlet extends HttpServlet {

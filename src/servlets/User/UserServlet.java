@@ -1,6 +1,5 @@
 package servlets.User;
 
-import model.Notification;
 import model.User;
 import service.NotificationService;
 import service.UserService;
