@@ -54,10 +54,10 @@ public class AddBookServlet extends HttpServlet {
                 for (Object aList : list) {
                     FileItem fm = (FileItem) aList; // 遍历列表
                     if (!fm.isFormField()) { // 是文件
+                        if (fm.getName() == null || fm.getName().equals("")) break;
                         String extension = fm.getName().substring(fm.getName().lastIndexOf("."));
-                        String serverPath = this.getServletContext().getRealPath("resources/cover/");  // 获取文件全路径名
-                        String filePath = serverPath + session.getAttribute("username") + extension;
-                        filename = "resources/cover/" + session.getAttribute("username") + extension;
+                        filename = "resources/cover/" + (bookDao.maxID() + 1) + extension;
+                        String filePath = this.getServletContext().getRealPath(filename);
                         int status = FileUtil.uploadImage(fm, filePath);
                         if (status != 200) {
                             response.sendError(status);
@@ -68,7 +68,7 @@ public class AddBookServlet extends HttpServlet {
                         String con = fm.getString("UTF-8");
                         switch (foename) {
                             case "bookName":
-                                if (con == null || con.trim().equals("") || !FileUtil.isLetterDigitOrChinese(con.trim())) {
+                                if (con == null || con.trim().equals("")) {
                                     response.sendError(400);
                                     return;
                                 }
@@ -84,7 +84,8 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             }
-            if (bookService.addBook(editor, nickname, new Book(bookName, description, editor, keywords, filename), rootDir))
+            if (bookService.addBook(editor, nickname,
+                    new Book(bookName, description, editor, keywords, filename), rootDir))
                 System.out.println("BookServlet: 添加书目成功");
             else {
                 System.out.println("BookServlet: 添加书目失败");

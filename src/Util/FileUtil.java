@@ -92,9 +92,17 @@ public class FileUtil {
         return true;
     }
 
+    /**
+     * 上传图片，能够检查出后缀名被修改的文件并删除
+     *
+     * @param fm       客户端发送的文件
+     * @param filePath 文件将要存储在服务器上的路径
+     * @return
+     */
     public static int uploadImage(FileItem fm, String filePath) {
         int maxsize = 2 * 1024 * 1024;
         boolean isImage = false;
+        // 先检查后缀
         for (String ext : FileUtil.allowedExt) {
             if (fm.getContentType().contains(ext)) {
                 isImage = true;
@@ -107,13 +115,14 @@ public class FileUtil {
         if (fm.getSize() > maxsize) {
             return 403;
         }
+        // 向文件中写入数据
         File saveFile = new File(filePath);
         try {
-            fm.write(saveFile); // 向文件中写入数据
+            fm.write(saveFile);
         } catch (Exception e) {
             return 520;
         }
-        // 如果文件不是图片，立即删除
+        // 再检查文件后缀名是否被修改，如果是，立即删除
         try {
             Image img = ImageIO.read(saveFile);
             if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {

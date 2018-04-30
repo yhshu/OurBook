@@ -14,7 +14,7 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("register.html");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/register.html");
         requestDispatcher.forward(request, response);
     }
 

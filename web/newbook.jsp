@@ -50,9 +50,9 @@
                             window.location.href = respondText;
                         }
                     }).fail(function (jqXHR) {
-                        if((jqXHR.status)===403) toast("封面不能超过2MB");
-                        else if(jqXHR.status===415) toast("封面必须是图片");
-                        else if(jqXHR.status===400) toast("书名只能包括汉字、字母或数字");
+                        if ((jqXHR.status) === 403) toast("封面不能超过2MB");
+                        else if (jqXHR.status === 415) toast("封面必须是图片");
+                        else if (jqXHR.status === 400) toast("书名只能包括汉字、字母或数字");
                         else toast('未知错误');
                     });
                 }
@@ -62,40 +62,44 @@
 </head>
 
 <body>
-<%@ include file="nav.jsp" %>
-<div class="container" style="margin-top: 20px">
-    <div class="col card" style="width: 600px; padding: 20px; margin:15px 18.5% ;">
-        <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data" id='form'>
-            <div style="border-bottom: 1px solid lightgray">
-                <h4><i class="material-icons">book</i>创建一本书</h4>
-            </div>
-            <div style="padding: 0 20px">
-                <div class="input-field col s12">
-                    <input id="bookName" name="bookName" type="text" class="validate" data-length="40"/>
-                    <label for="bookName">书名</label>
+<jsp:include page="nav.jsp"/>
+<main>
+    <div class="container" style="margin-top: 20px">
+        <div class="col card" style="width: 600px; padding: 20px; margin:15px 18.5% ;">
+            <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data"
+                  id='form'>
+                <div style="border-bottom: 1px solid lightgray">
+                    <h4><i class="material-icons">book</i>创建一本书</h4>
                 </div>
-                <div class="input-field col s12">
+                <div style="padding: 0 20px">
+                    <div class="input-field col s12">
+                        <input id="bookName" name="bookName" type="text" class="validate" data-length="40"/>
+                        <label for="bookName">书名</label>
+                    </div>
+                    <div class="input-field col s12">
                 <textarea id="bookDescription" name="bookDescription" type="text" class="materialize-textarea"
                           data-length="100"></textarea>
-                    <label for="bookDescription">简介（可选）</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="keywords" name="keywords" type="text" class="validate" data-length="40">
-                    <label for="keywords">关键词</label>
-                </div>
-                <div style="padding:10px 60px">
-                    <input id="cover" type='file' name="cover" onchange="readURL(this);" style="display: none"/>
-                    <img id="preview" src="img/icon/plus-icon.png" alt="your image"
-                         style="display: inline-block;width: 240px;background-color: #f6f6f6;object-fit: cover"/>
-                    <label for="cover" class="blue btn" style="margin-left:60px;float: right;
+                        <label for="bookDescription">简介（可选）</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="keywords" name="keywords" type="text" class="validate" data-length="40">
+                        <label for="keywords">关键词</label>
+                    </div>
+                    <div style="padding:10px 60px">
+                        <input id="cover" type='file' name="cover" onchange="readURL(this);" style="display: none"/>
+                        <img id="preview" src="img/icon/plus-icon.png" alt="your image"
+                             style="display: inline-block;width: 240px;background-color: #f6f6f6;object-fit: cover"/>
+                        <label for="cover" class="blue btn" style="margin-left:60px;float: right;
                      display: inline-block">上传封面</label>
+                    </div>
+                    <div style="margin: 20px">
+                        <input type="submit" class="blue btn" value="创建书籍" style="margin: auto; display: block"/>
+                    </div>
                 </div>
-                <div style="margin: 20px">
-                    <input type="submit" class="blue btn" value="创建书籍" style="margin: auto; display: block"/>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+</main>
+<%@ include file="footer.html" %>
 </body>
 </html>

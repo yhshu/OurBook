@@ -8,6 +8,7 @@
 </head>
 <body class="lighten-5" style="background-color: #F9F3E9">
 <jsp:include page="nav.jsp"/>
+<main>
 <div id="side" style=" margin-top: 3px; padding-left: 7px; float: left; width: 300px;">
     <div style="margin-left: 4px; margin-top: 10px;">
         <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
@@ -54,6 +55,7 @@
         }
     %>
 </div>
+</main>
 <script>
     $(document).ready(function () {
         $('.modal').modal();
@@ -77,5 +79,6 @@
            onclick="document.getElementById('delete_chapter').submit();">确认</a>
     </div>
 </div>
+<%@include file="footer.html"%>
 </body>
 </html>

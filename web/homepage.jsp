@@ -36,8 +36,9 @@
 </head>
 
 <body class="grey lighten-4">
-<%@ include file="nav.jsp" %>
-<div class="container" style="margin-top: 23px;">
+<jsp:include page="nav.jsp"/>
+<main>
+<div class="container row" style="margin-top: 23px;">
     <div class="row" style="width: 1000px;margin: 0 auto">
         <div class="card row" style="padding: 20px">
             <img src="<%=request.getAttribute("avatar")%>"
@@ -86,10 +87,9 @@
                     <div class="modal-footer">
                         <a class="modal-action modal-close waves-effect waves-green btn-flat">取消
                         </a>
-                        <button class="modal-action modal-close waves-effect waves-green btn-flat"
-                                id="info_submit">
+                        <a class="waves-effect waves-green btn-flat" id="info_submit">
                             提交
-                        </button>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -144,7 +144,6 @@ border-bottom: 1px solid lightgray">
                 <%}%>
             </div>
         </div>
-
         <div style="width: 353px;float: left"><!--右侧 收藏、关注与书迷-->
             <div class="col card" style="width: 353px;padding-bottom: 10px"> <!--收藏列表-->
                 <h5 style="text-align: center">我的收藏</h5>
@@ -232,9 +231,11 @@ border-bottom: 1px solid lightgray">
                             发送私信</a>
                     </div>
                 </div>
-                <%}%>
+                <%
+                        }
+                    }
+                %>
             </div>
-            <%}%>
         </div>
         <div class="col card" style="width: 353px"> <!--我的书迷-->
             <h5 style="text-align: center">我的书迷</h5>
@@ -278,8 +279,6 @@ border-bottom: 1px solid lightgray">
         </div>
     </div>
 </div>
-<%@ include file="footer.html" %>
-
 <div id="message_modal" class="modal" style="min-width:300px">
     <form id="message_form">
         <input id="target_username" type="hidden">
@@ -298,7 +297,7 @@ border-bottom: 1px solid lightgray">
         </div>
     </form>
 </div>
-
+</main>
 <script>
     $(document).ready(function () {
         $('.modal').modal(); // 模态框
@@ -349,34 +348,40 @@ border-bottom: 1px solid lightgray">
             })
         });
 
-        $('#info_form').submit(function (evt) {
-            evt.preventDefault();
+        $('#info_submit').click(function (evt) {
             if (check_input()) {
-                var data = new FormData($('#info_form')[0]);
-                $.ajax({
-                    url: '${pageContext.request.contextPath}/modifyUser',
-                    type: 'POST',
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    enctype: 'multipart/form-data',
-                    data: data,
-                    success: function (text) {
-                        toast("更新个人信息成功");
-                        window.location.href = text;
-                    }
-                }).fail(function (jqXHR) {
-                    if ((jqXHR.status) === 403) toast("头像不能超过2MB");
-                    else if (jqXHR.status === 415) toast("头像必须是图片");
-                    else if (jqXHR.status === 400) toast("用户名只能包括汉字、字母或数字");
-                    else toast('未知错误');
-                });
+                $('#info_form').submit();
             }
         });
 
-    });
+        $('#info_form').submit(function (evt) {
+            evt.preventDefault();
+            var data = new FormData($('#info_form')[0]);
+            $.ajax({
+                url: '${pageContext.request.contextPath}/modifyUser',
+                type: 'POST',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                enctype: 'multipart/form-data',
+                data: data,
+                success: function (text) {
+                    toast("更新个人信息成功");
+                    window.location.href = text;
+                }
+            }).fail(function (jqXHR) {
+                if ((jqXHR.status) === 403) toast("头像不能超过2MB");
+                else if (jqXHR.status === 415) toast("头像必须是图片");
+                else if (jqXHR.status === 400) toast("用户名只能包括汉字、字母或数字");
+                else toast('未知错误');
+            });
+        });
+
+    })
+    ;
 
 </script>
+<%@ include file="footer.html" %>
 </body>
 </html>

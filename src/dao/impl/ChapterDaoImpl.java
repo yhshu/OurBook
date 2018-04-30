@@ -63,27 +63,21 @@ public class ChapterDaoImpl implements ChapterDao {
     public boolean modify(String username, Chapter chapter) {
         PreparedStatement stm1 = null;
         PreparedStatement stm2 = null;
-        PreparedStatement stm3 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET name = ? WHERE bookID = ? AND sequence = ?");
-            stm1.setString(1, chapter.getName());
-            stm1.setInt(2, chapter.getBookID());
-            stm1.setInt(3, chapter.getSequence());
-            stm1.executeUpdate();
-            stm2 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
-            stm2.setInt(1, chapter.getBookID());
-            stm2.setInt(2, chapter.getSequence());
-            ResultSet rs = stm2.executeQuery();
+            stm1 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
+            stm1.setInt(1, chapter.getBookID());
+            stm1.setInt(2, chapter.getSequence());
+            ResultSet rs = stm1.executeQuery();
             rs.next();
             int chapterID = rs.getInt("ID");
             rs.close();
-            stm3 = conn.prepareStatement("INSERT INTO edit(username, time, name, content,chapterID) VALUES (?, NOW(), ?, ?, ?)");
-            stm3.setString(1, username);
-            stm3.setString(2, chapter.getName());
-            stm3.setString(3, chapter.getContent());
-            stm3.setInt(4, chapterID);
-            stm3.executeUpdate();
+            stm2 = conn.prepareStatement("INSERT INTO edit(username, time, name, content,chapterID) VALUES (?, NOW(), ?, ?, ?)");
+            stm2.setString(1, username);
+            stm2.setString(2, chapter.getName());
+            stm2.setString(3, chapter.getContent());
+            stm2.setInt(4, chapterID);
+            stm2.executeUpdate();
             System.out.println("ChapterDao: 修改章节成功");
             return true;
         } catch (Exception e) {
@@ -93,7 +87,6 @@ public class ChapterDaoImpl implements ChapterDao {
         } finally {
             DBUtil.safeClose(stm1);
             DBUtil.safeClose(stm2);
-            DBUtil.safeClose(stm3);
             DBUtil.safeClose(conn);
         }
     }

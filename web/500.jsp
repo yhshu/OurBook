@@ -25,11 +25,14 @@
         </div>
     </div>
 </nav>
-<div class="container">
-    <h1 class="center-align">500</h1>
-    <h3 class="center-align">Internal Server Error</h3>
-    <br><br>
-    <div class="center-align"><a class="grey-text center-align" href="index.jsp">返回首页</a></div>
-</div>
+<main>
+    <div class="container">
+        <h1 class="center-align">500</h1>
+        <h3 class="center-align">Internal Server Error</h3>
+        <br><br>
+        <div class="center-align"><a class="grey-text center-align" href="index.jsp">返回首页</a></div>
+    </div>
+</main>
+<%@ include file="footer.html" %>
 </body>
 </html>
