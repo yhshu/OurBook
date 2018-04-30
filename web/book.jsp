@@ -1,13 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="model.Chapter" %>
 <%@ page import="model.Comment" %>
+<%@ page import="model.Edit" %>
 <%@ page import="model.User" %>
+<%@ page import="service.BookService" %>
+<%@ page import="service.impl.BookServiceImpl" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
     SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
     Comment[] comments = (Comment[]) request.getAttribute("comments");
+    BookService bookService = new BookServiceImpl();
 %>
 <%--
   Created by IntelliJ IDEA.
@@ -21,6 +25,20 @@
 <head>
     <%@ include file="header.jsp" %>
     <title><%=request.getAttribute("bookName")%> - OurBook</title>
+<<<<<<< HEAD
+=======
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.modal').modal();
+            $('select').material_select();
+            $('#select_sequence').change(function () {
+                $('#sequence').val($('#select_sequence').val());
+            })
+        });
+    </script>
+
+>>>>>>> 2a5a59ade462477312fb0e5182985c912eecc5d3
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
@@ -198,7 +216,7 @@
                             if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
                         %>
                         <!--历史记录 按钮-->
-                        <a href="#history_modal" class="right modal-trigger history_request"
+                        <a href="#history_modal_<%=chapter.getSequence()%>" class="right modal-trigger history_request"
                            style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
                            data-sequence="<%=chapter.getSequence()%>">
                             <i class="material-icons">history</i></a>
@@ -209,11 +227,37 @@
                             <i class="material-icons">mode_edit</i>
                         </a>
                         <!--历史记录 模态框-->
-                        <div id="history_modal" class="modal bottom-sheet">
+                        <div id="history_modal_<%=chapter.getSequence()%>" class="modal bottom-sheet">
                             <div class="modal-content">
-                                <h5 id="history_title">历史记录</h5>
-                                <div id="history_content">
-                                    正在加载...
+                                <h5>第<%=" " + chapter.getSequence() + " "%>章历史记录</h5>
+                                <div>
+                                    <table class="bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>编辑者</th>
+                                            <th>历史提交</th>
+                                            <th>修改时间</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <%
+                                            Edit[] history = bookService.getHistory((int) request.getAttribute("bookID"), chapter.getSequence());
+                                            for (Edit edit : history) {
+
+                                        %>
+                                        <tr>
+                                            <td><a href="<%=edit.getEditorUsername()%>"><%=edit.getEditorNickname()%>
+                                            </a>
+                                            </td>
+                                            <td><a href=""><%=edit.getName()%><!--历史章节链接-->
+                                            </a>
+                                            </td>
+                                            <td><%=sdf.format(edit.getModifiedTime())%>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -294,8 +338,7 @@
 
             <div><!--本书已有评论-->
                 <%
-                    if (comments != null) {
-                        for (Comment comment : comments) {%>
+                    if (comments != null) { for (Comment comment : comments) {%>
                 <div id="comment_<%=comment.getID()%>" style="width: 960px; margin-bottom: 15px;">
                     <div class="row" style="margin-bottom: 0;">
                         <span><a href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>"><img
@@ -524,8 +567,6 @@
             toast("操作异常，请重试");
         })
     }
-
-    //$('.modal').modal();
 </script>
 </body>
 </html>
