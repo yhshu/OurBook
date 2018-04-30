@@ -3,6 +3,7 @@ package model;
 import java.sql.Timestamp;
 
 public class Edit {
+    private int ID; // 序号
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
     private int sequence; // 章节序号
@@ -11,6 +12,22 @@ public class Edit {
     private Timestamp modifiedTime;  // 最后修改时间
     private String editorUsername; // 作者用户名
     private String editorNickname; // 作者昵称
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getChapterID() {
+        return chapterID;
+    }
+
+    public void setChapterID(int chapterID) {
+        this.chapterID = chapterID;
+    }
 
     public String getName() {
         return name;

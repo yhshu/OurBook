@@ -249,11 +249,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Edit[] getHistory(int bookID, int sequence) {
-        Edit[] history = chapterDao.getHistory(bookID, sequence);
-        if (history == null) return null;
-        for (Edit edit : history)
-            edit.setEditorNickname(userDao.find(edit.getEditorUsername()).getNickname());
-        return history;
+        return chapterDao.getHistory(bookID, sequence);
+    }
+
+    @Override
+    public Edit getEdit(int ID) {
+        return chapterDao.getEdit(ID);
     }
 
     private static String writeChapterToFile(String rootDir, int bookID, int sequence, String content) {

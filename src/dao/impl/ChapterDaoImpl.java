@@ -207,18 +207,47 @@ public class ChapterDaoImpl implements ChapterDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<Edit> edits = new ArrayList<>();
-            stm = conn.prepareStatement("SELECT * FROM ourbook.edit,ourbook.chapter_info WHERE chapter_info.bookID = ? AND chapter_info.sequence = ? AND chapter_info.ID = edit.chapterID");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.edit_info,ourbook.chapter_info WHERE chapter_info.bookID = ? AND chapter_info.sequence = ? AND chapter_info.ID = edit_info.chapterID");
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
-            ResultSet rs = stm.getResultSet();
+            ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Edit edit = new Edit(rs.getString("name"), rs.getInt("chapterID"), rs.getString("content"), rs.getTimestamp("time"), rs.getString("username"));
+                edit.setEditorNickname(rs.getString("editor_nickname"));
+                edit.setID(rs.getInt("ID"));
+                edit.setSequence(rs.getInt("sequence"));
+                edit.setBookID(rs.getInt("bookID"));
                 edits.add(edit);
             }
             return edits.toArray(new Edit[0]);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 获取章节历史记录失败");
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
+        }
+        return null;
+    }
+
+    @Override
+    public Edit getEdit(int ID) {
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.connectDB();
+            stm = conn.prepareStatement("SELECT * FROM ourbook.edit_info WHERE ID =?");
+            stm.setInt(1, ID);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            Edit edit = new Edit(rs.getString("name"), rs.getInt("chapterID"), rs.getString("content"), rs.getTimestamp("time"), rs.getString("username"));
+            edit.setEditorNickname(rs.getString("editor_nickname"));
+            edit.setID(rs.getInt("ID"));
+            edit.setSequence(rs.getInt("sequence"));
+            edit.setBookID(rs.getInt("bookID"));
+            return edit;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ChapterDao: 获取历史失败");
         } finally {
             DBUtil.safeClose(stm);
             DBUtil.safeClose(conn);

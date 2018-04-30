@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.Chapter" %>
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="model.Edit" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd  HH:mm");%>
 <html>
 <head>
     <%@ include file="header.jsp" %>
@@ -14,7 +15,7 @@
         <div style="margin-left: 4px; margin-top: 10px;">
             <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
                     class="material-icons">arrow_back</i>返回</a>
-            <% if (session.getAttribute("username").equals(request.getAttribute("editor")) || (boolean) request.getAttribute("isCollaborator")) {
+            <% if (session.getAttribute("username").equals(request.getAttribute("chiefEditor")) || (boolean) request.getAttribute("isCollaborator")) {
                 // 主编或协作者均拥有编辑和删除权限
             %>
             <a style="margin-left: 72px;"
@@ -25,23 +26,38 @@
             <%}%>
         </div>
         <ul style="margin-top: 2px;">
-            <!-- 本书的所有章节目录-->
+            <!-- 本章节的所有历史-->
             <%
                 Edit[] edits = (Edit[]) request.getAttribute("edits");
                 for (Edit edit : edits) {
             %>
             <li style="padding: 5px">
-                <a class="black-text"
-                   href="${pageContext.request.contextPath}/old?ID=<%=edit.getID()%>
+                <a class="black-text" style="margin-right: 20px"
+                   href="${pageContext.request.contextPath}/old?id=<%=edit.getID()%>">
+                    <%=edit.getName()%>
                 </a>
+                <a class="grey-text" href="${pageContext.request.contextPath}/home?user=<%=edit.getEditorUsername()%>"
+                style="margin: 0 10px">
+                    <%=edit.getEditorNickname()%>
+                </a>
+                <p class="grey-text" style="display: inline-block;margin: 0 10px"><%=sdf.format(edit.getModifiedTime())%>
+                </p>
             </li>
             <%
                 }%>
         </ul>
     </div>
     <div id="main" style=" margin-top: 3px; padding-left: 5px; float:left; width: 74.6%; ">
-        <h4 style="padding: 5px 20px;"><%=request.getAttribute("name")%>
-        </h4>
+        <div>
+            <h4 style="padding: 5px 20px;display: inline-block"><%=request.getAttribute("name")%>
+            </h4>
+            <h6 class="grey-text"
+                style="display: inline-block;margin: 0 10px"><%=request.getAttribute("editorNickname")%>
+            </h6>
+            <h6 class="grey-text"
+                style="display: inline-block;margin: 0 10px"><%=sdf.format(request.getAttribute("time"))%>
+            </h6>
+        </div>
         <%
             try {
                 BufferedReader br = (BufferedReader) request.getAttribute("reader");
