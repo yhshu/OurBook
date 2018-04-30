@@ -21,16 +21,6 @@
 <head>
     <%@ include file="header.jsp" %>
     <title><%=request.getAttribute("bookName")%> - OurBook</title>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('select').material_select();
-            $('#select_sequence').change(function () {
-                $('#sequence').val($('#select_sequence').val());
-            })
-        });
-    </script>
-
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
@@ -351,6 +341,22 @@
 </main>
 <%@include file="footer.html" %>
 <script>
+    $(document).ready(function () {
+        $('select').material_select();
+        $('#select_sequence').change(function () {
+            $('#sequence').val($('#select_sequence').val());
+        })
+    });
+    $('#set_collaborators_modal').modal();
+
+    $('#history_modal').modal({
+        ready: function (modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+            modal_render(trigger);
+            $('#history_title').html(historyTitle);
+            $('#history_content').html(historyContent);
+        }
+    });
+
     var follow_submit = $('#follow_submit');
     var favorite_submit = $('#favorite_submit');
     var favorite_icon = $('#favorite_icon');
@@ -509,22 +515,15 @@
                 "        <tbody>";
             for (var i = 0; i < history.length; i++) {
                 var cur = history[i];
-                historyContent += "<tr><td>" + cur.nickname + "</td><td>" + cur.editorNickname + "</td><td>" + cur.modifiedTime + "</td><td><a href=\"" + cur.content + "\"><i class=\"material-icons\">link</i></a></td>";
+                historyContent += "<tr><td>" + cur.editorNickname + "</td><td>" + cur.name + "</td><td>" + cur.modifiedTime + "</td><td><a href=\"old?id=" + cur.ID + "\"><i class=\"material-icons\">link</i></a></td>";
             }
             historyContent += "   </tbody>\n" +
                 "      </table>";
+            $('#history_content').html(historyContent);
         }).fail(function () {
             toast("操作异常，请重试");
         })
-    };
-
-    $('#history_modal').modal({
-        ready: function (modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
-            modal_render(trigger);
-            $('#history_title').html(historyTitle);
-            $('#history_content').html(historyContent);
-        }
-    });
+    }
 
     //$('.modal').modal();
 </script>
