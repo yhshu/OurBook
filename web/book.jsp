@@ -221,7 +221,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">确定</a>
                             </div>
                         </div>
                         <%}%>
@@ -354,7 +354,7 @@
     $('#set_collaborators_modal').modal();
 
     $('#history_modal').modal({
-        ready: function (modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+        ready: function (modal, trigger) {
             modal_render(trigger);
             $('#history_title').html(historyTitle);
             $('#history_content').html(historyContent);
@@ -495,10 +495,13 @@
             toast("操作异常，请重试");
         })
     });
+
+    // 历史记录模态框 全局变量
     var historyTitle;
     var historyContent;
 
-    function modal_render(trigger) { // 查看历史记录按钮，点击后渲染模态框
+    // 历史记录模态框加载后的渲染函数
+    function modal_render(trigger) {
         var Sequence = trigger.data('sequence');
         $.get('${pageContext.request.contextPath}/history', {
             book_id:<%=request.getAttribute("bookID")%>,
@@ -510,10 +513,10 @@
             historyContent = " <table class=\"bordered\">\n" +
                 "        <thead>\n" +
                 "          <tr>\n" +
-                "              <th>改动记录</th>\n" +
+                "              <th>提交记录</th>\n" +
                 "              <th>编辑者</th>\n" +
-                "              <th>修改时间</th>\n" +
-                "              <th>改动说明</th>\n" +
+                "              <th>时间</th>\n" +
+                "              <th>提交说明</th>\n" +
                 "          </tr>\n" +
                 "        </thead>\n" +
                 "        <tbody>";
@@ -534,7 +537,6 @@
         })
     }
 
-    //$('.modal').modal();
 </script>
 </body>
 </html>
