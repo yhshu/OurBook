@@ -4,7 +4,7 @@
 <%@ page import="model.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd  HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
     Comment[] comments = (Comment[]) request.getAttribute("comments");

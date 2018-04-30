@@ -170,4 +170,12 @@ public interface BookService {
      * @return 历史记录
      */
     Edit[] getHistory(int bookID, int sequence);
+
+    /**
+     * 查找某个历史记录
+     *
+     * @param ID 记录ID
+     * @return 历史记录
+     */
+    Edit getEdit(int ID);
 }
