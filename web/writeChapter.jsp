@@ -54,8 +54,7 @@
                     });
                 }
             })
-        })
-        ;
+        });
 
         function check_input() {
             if (!$.trim($('#chapterName').val()).length) {

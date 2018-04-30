@@ -53,7 +53,7 @@ public class FileUtil {
     public static String write(File file, String content) throws IOException {
         // 文件的完整名称
         String filename = file.getPath();
-        // 无后缀文件名
+        // 无后缀的文件名
         String name = filename.substring(0, filename.indexOf("."));
         // 文件后缀
         String suffix = filename.substring(filename.lastIndexOf("."));

@@ -101,7 +101,7 @@ public class BookServiceImpl implements BookService {
         // 将章节内容存放在文件中
         String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
-        chapter.setContent(absPath.replaceFirst(rootDir, ""));
+        chapter.setContent(absPath.replace(rootDir, ""));
 
         if (chapterDao.add(username, chapter)) {
             System.out.println("BookService: 添加编辑信息成功");
@@ -148,7 +148,7 @@ public class BookServiceImpl implements BookService {
         // 将章节内容存放在文件中
         String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
-        chapter.setContent(absPath.replaceFirst(rootDir, ""));
+        chapter.setContent(absPath.replace(rootDir, ""));
 
         // 添加编辑信息
         if (chapterDao.modify(username, chapter)) {
@@ -267,7 +267,7 @@ public class BookServiceImpl implements BookService {
         String absPath = null;
         try {
             // 写入文件并获取文件名
-            absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" + "/" + sequence + ".html"), content);
+            absPath = FileUtil.write(new File(rootDir + "resources/book/" + bookID + "/" + sequence + ".html"), content);
         } catch (Exception e) {
             e.printStackTrace();
         }
