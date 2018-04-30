@@ -85,7 +85,7 @@
                         <div><!--作者-->
                             <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
                                style="color: gray;margin: 0 0 0 15px; display: inline-block;">
-                                <%=book.getChiefEditor()%>
+                                <%=book.getChiefEditorNickname()%>
                             </a>
                             <p class="grey-text" style="margin: 0 15px; display: inline-block">
                                 <i class="material-icons">remove_red_eye </i> <%=book.getClicks()%>

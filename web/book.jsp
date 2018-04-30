@@ -237,20 +237,18 @@
                             <img src="<%=chiefEditor.getAvatar()%>"
                                  style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
                         </a>
-                        <div style="float:left;">
+                        <div class="left">
                             <!--用户名与昵称-->
-                            <div style="width: 175px; height:20px">
-                                <h6 style="margin:0;float: left">
+                                <p style="margin:0 5px">
                                     <a href="home?user=<%=chiefEditor.getUsername()%>">
                                         <%=chiefEditor.getNickname()%>
                                     </a>
-                                </h6>
-                                <h6 class="grey-text" style="margin: 0 10px;float: left">
+                                </p>
+                                <p class="grey-text" style="margin: 0 5px">
                                     @<%=chiefEditor.getUsername()%>
-                                </h6>
-                            </div>
-                            <p style="margin: 0;">主&nbsp;&nbsp;&nbsp;编</p>
+                                </p>
                         </div>
+                        <p class="right" style="margin: 10px;">主&nbsp;&nbsp;&nbsp;编</p>
                     </div>
                     <% if (collaborators != null) // 协作者信息
                         for (User collaborator : collaborators) {
@@ -260,20 +258,18 @@
                             <img src="<%=collaborator.getAvatar()%>"
                                  style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
                         </a>
-                        <div style="float:left;">
                             <!--用户名与昵称-->
-                            <div style="width: 175px;height:20px">
-                                <h6 style="margin:0;float: left">
+                            <div class="left">
+                                <p style="margin: 0 5px">
                                     <a href="home?user=<%=collaborator.getUsername()%>">
                                         <%=collaborator.getNickname()%>
                                     </a>
-                                </h6>
-                                <h6 class="grey-text" style="margin: 0 10px;float: left">
+                                </p>
+                                <p class="grey-text" style="margin: 0 5px">
                                     @<%=collaborator.getUsername()%>
-                                </h6>
+                                </p>
                             </div>
-                            <p style="margin: 0;">协作者</p>
-                        </div>
+                            <p class="right" style="margin: 10px;">协作者</p>
                     </div>
                     <%}%>
                 </div>

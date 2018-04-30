@@ -8,6 +8,7 @@ public class Book implements Serializable {
     private String name;
     private String description;
     private String chiefEditor;
+    private String chiefEditorNickname;
     private String keywords;
     private String cover;
     private Timestamp lastModified;
@@ -38,7 +39,7 @@ public class Book implements Serializable {
         this.chapterNum = chapterNum;
     }
 
-    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum, Timestamp lastModified, int clicks, int favorites) {
+    public Book(int ID, String name, String description, String chiefEditor, String keywords, String cover, int chapterNum, Timestamp lastModified, int clicks, int favorites, String chiefEditorNickname) {
         // 查找数据库后构造
         this.name = name;
         this.description = description;
@@ -50,6 +51,7 @@ public class Book implements Serializable {
         this.lastModified = lastModified;
         this.clicks = clicks;
         this.favorites = favorites;
+        this.chiefEditorNickname = chiefEditorNickname;
     }
 
     public String getName() {
@@ -130,5 +132,13 @@ public class Book implements Serializable {
 
     public void setLastModified(Timestamp lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public String getChiefEditorNickname() {
+        return chiefEditorNickname;
+    }
+
+    public void setChiefEditorNickname(String chiefEditorNickname) {
+        this.chiefEditorNickname = chiefEditorNickname;
     }
 }

@@ -216,6 +216,10 @@ public class BookDaoImpl implements BookDao {
                     book.setChapterNum(rs.getInt("chapter_num"));
                 } catch (Exception ignored) {
                 }
+                try {
+                    book.setChiefEditorNickname(rs.getString("chiefEditorNickname"));
+                } catch (Exception ignored) {
+                }
                 books.add(book);
             }
             rs.close();
@@ -308,7 +312,8 @@ public class BookDaoImpl implements BookDao {
                         rs.getInt("chapter_num"),
                         rs.getTimestamp("last_modified"),
                         rs.getInt("clicks"),
-                        rs.getInt("favorites")));
+                        rs.getInt("favorites"),
+                        rs.getString("chiefEditorNickname")));
             }
             rs.close();
             return books.toArray(new Book[0]);
