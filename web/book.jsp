@@ -25,9 +25,6 @@
 <head>
     <%@ include file="header.jsp" %>
     <title><%=request.getAttribute("bookName")%> - OurBook</title>
-<<<<<<< HEAD
-=======
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('.modal').modal();
@@ -37,8 +34,6 @@
             })
         });
     </script>
-
->>>>>>> 2a5a59ade462477312fb0e5182985c912eecc5d3
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
