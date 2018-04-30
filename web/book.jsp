@@ -510,19 +510,20 @@
             historyContent = " <table class=\"bordered\">\n" +
                 "        <thead>\n" +
                 "          <tr>\n" +
+                "              <th>改动记录</th>\n" +
                 "              <th>编辑者</th>\n" +
-                "              <th>章节标题</th>\n" +
                 "              <th>修改时间</th>\n" +
-                "              <th>查看</th>\n" +
+                "              <th>改动说明</th>\n" +
                 "          </tr>\n" +
                 "        </thead>\n" +
                 "        <tbody>";
             for (var i = 0; i < history.length; i++) {
                 var cur = history[i];
                 historyContent += "<tr>" +
+                    "<td>" + "<a href=\"old?id=" + cur.ID + "\">" + cur.name + "</a></td>" +
                     "<td>" + "<a href= \"home?user=" + cur.editorUsername + "\">" + cur.editorNickname + "</a></td>" +
-                    "<td>" + cur.name + "</td><td>" + cur.modifiedTime + "</td>" +
-                    "<td><a href=\"old?id=" + cur.ID + "\"><i class=\"material-icons\">link</i></a></td>";
+                    "<td>" + cur.modifiedTime + "</td>" +
+                    "<td>" + cur.description + "</td>";
             }
             historyContent += "   </tbody>\n" +
                 "      </table>";
