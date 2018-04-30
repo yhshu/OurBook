@@ -2,6 +2,7 @@ package servlets.Book;
 
 import model.Book;
 import model.Comment;
+import model.Edit;
 import model.User;
 import service.BookService;
 import service.CommentService;
