@@ -128,7 +128,7 @@
                         <%}%>
                     </div>
                     <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
-                    <p style="margin: 25px 0 0 25px">
+                    <p style="margin: 25px 25px 0 25px">
                         <%=request.getAttribute("description")%>
                     </p>
                 </div>
@@ -199,29 +199,42 @@
                     <%
                         for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
                     %>
-                    <a class="right modal-trigger history_request"
-                       style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
-                       data-sequence="<%=chapter.getSequence()%>">
-                        <i class="material-icons">history</i></a>
-                    <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
-                       class="right modify_chapter_icon"
-                       style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px">
-                        <i class="material-icons">mode_edit</i>
-                    </a>
+                    <div style="height: 43px; overflow: hidden">
+                        <a href="${pageContext.request.contextPath}/read?book=
+<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
+                            <span class="grey-text right"
+                                  style="display: inline-block;margin-right: 45px"><%=sdf.format(chapter.getLastModified())%></span>
+                        </a>
+                        <%
+                            if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
+                        %>
+                        <!--历史记录 按钮-->
+                        <a class="right modal-trigger history_request"
+                           style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
+                           data-sequence="<%=chapter.getSequence()%>">
+                            <i class="material-icons">history</i></a>
+                        <!--编辑章节 按钮-->
+                        <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+                           class="right modify_chapter_icon"
+                           style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px">
+                            <i class="material-icons">mode_edit</i>
+                        </a>
+                        <!--历史记录 模态框-->
+                        <div id="history_modal" class="modal bottom-sheet">
+                            <div class="modal-content">
+                                <h5 id="history_title"></h5>
+                                <div id="history_content"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
                     <%}%>
                 </div>
-
-                <!--历史记录 模态框-->
-                <div id="history_modal" class="modal bottom-sheet">
-                    <div class="modal-content">
-                        <h5 id="history_title"></h5>
-                        <div id="history_content"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
-                    </div>
-                </div>
             </div>
+
 
             <div class="col card" style=" width:253px"><!--编辑者列表，包括主编与协作者-->
                 <h5 style="text-align: center">编辑者</h5>
@@ -274,14 +287,16 @@
                 </div>
             </div>
         </div>
-        <div class="card" style="padding: 20px; width: 1000px;">
+
+        <div class="card" style="padding: 20px; width: 1000px;"><!--评论-->
             <h6>评论</h6>
             <div class="row" style="width: 960px; margin-bottom: 0;"><!--评论输入框-->
                 <div class="input-field col s12">
                 <textarea id="comment_text" class="materialize-textarea" data-length="140"
                           style="float: left; width: 860px;"
                           placeholder="写下你的评论..." onclick="showButton()" oninput="enableButton()"></textarea>
-                    <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">提交
+                    <button class="btn blue disabled" style="display: none; margin-left: 16px;" id="comment_submit">
+                        提交
                     </button>
                 </div>
             </div>

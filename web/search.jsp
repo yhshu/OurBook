@@ -16,7 +16,7 @@
     <%SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");%>
     <title><%=request.getAttribute("keywords")%> - 搜索结果 - OurBook</title>
 </head>
-<body>
+<body style="margin-bottom: 100px;">
 <jsp:include page="nav.jsp"/>
 <main>
 <div class="container row" style="margin-top: 140px">

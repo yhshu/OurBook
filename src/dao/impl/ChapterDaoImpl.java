@@ -26,10 +26,9 @@ public class ChapterDaoImpl implements ChapterDao {
             stm1.setInt(1, chapter.getSequence());
             stm1.setInt(2, chapter.getBookID());
             stm1.executeUpdate();
-            stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence) VALUES (?,?,?)");
-            stm2.setString(1, chapter.getName());
-            stm2.setInt(2, chapter.getBookID());
-            stm2.setInt(3, chapter.getSequence());
+            stm2 = conn.prepareStatement("INSERT INTO ourbook.chapter (bookID,sequence) VALUES (?,?)");
+            stm2.setInt(1, chapter.getBookID());
+            stm2.setInt(2, chapter.getSequence());
             stm2.executeUpdate();
             stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
             stm3.setInt(1, chapter.getBookID());
@@ -38,7 +37,7 @@ public class ChapterDaoImpl implements ChapterDao {
             rs.next();
             int chapterID = rs.getInt("ID");
             rs.close();
-            stm4 = conn.prepareStatement("INSERT INTO edit(username, time, name,content,chapterID) VALUES (?, NOW(), ?, ?, ?)"); // 编辑记录
+            stm4 = conn.prepareStatement("INSERT INTO ourbook.edit(username, time, name, content, chapterID) VALUES (?, NOW(), ?, ?, ?)"); // 编辑记录
             stm4.setString(1, username);
             stm4.setString(2, chapter.getName());
             stm4.setString(3, chapter.getContent());
@@ -72,7 +71,7 @@ public class ChapterDaoImpl implements ChapterDao {
             rs.next();
             int chapterID = rs.getInt("ID");
             rs.close();
-            stm2 = conn.prepareStatement("INSERT INTO edit(username, time, name, content,chapterID) VALUES (?, NOW(), ?, ?, ?)");
+            stm2 = conn.prepareStatement("INSERT INTO ourbook.edit(username, time, name, content, chapterID) VALUES (?, NOW(), ?, ?, ?)");
             stm2.setString(1, username);
             stm2.setString(2, chapter.getName());
             stm2.setString(3, chapter.getContent());
@@ -174,7 +173,7 @@ public class ChapterDaoImpl implements ChapterDao {
             while (rs.next())
                 result.add(rs.getString("content"));
             rs.close();
-            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?"); // 删除章节
+            stm2 = conn.prepareStatement("DELETE FROM ourbook.chapter WHERE bookID = ? and sequence = ?"); // 删除章节
             stm2.setInt(1, bookID);
             stm2.setInt(2, sequence);
             try {
@@ -184,7 +183,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 删除指定章节失败");
             }
-            stm3 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?"); // 调整章节号
+            stm3 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?"); // 调整章节号
             stm3.setInt(1, bookID);
             stm3.setInt(2, sequence);
             stm3.executeUpdate();

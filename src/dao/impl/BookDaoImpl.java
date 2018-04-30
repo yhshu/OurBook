@@ -20,7 +20,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM book_info WHERE ID = ?");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info WHERE ID = ?");
             stm.setInt(1, ID);
             Book[] books = getBooks(stm);
             if (books != null && books[0] != null)
@@ -40,7 +40,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM book_info WHERE name = ?");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info WHERE name = ?");
             stm.setString(1, name);
             Book[] books = getBooks(stm);
             if (books != null)
@@ -59,7 +59,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM book_info WHERE " + DBUtil.keywordsMatchCondition("keywords", keywords));
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info WHERE " + DBUtil.keywordsMatchCondition("keywords", keywords));
             Book[] books = getBooks(stm);
             if (books != null)
                 return books;
@@ -77,8 +77,8 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
-                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("time", range) + ") AS c ON ID=bookID WHERE "
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info LEFT JOIN " +
+                    "(SELECT * FROM click WHERE " + DBUtil.timeLimit("time", range) + ") AS c ON ID = bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
                     " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
@@ -97,7 +97,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM book_info LEFT JOIN " +
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info LEFT JOIN " +
                     "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("time", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
                     + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
@@ -118,7 +118,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm1 = conn.prepareStatement("INSERT INTO book " +
+            stm1 = conn.prepareStatement("INSERT INTO ourbook.book " +
                     "(ID,name,description,chiefEditor,keywords,cover) VALUES (null,?,?,?,?,?)");
             stm1.setString(1, book.getName());
             stm1.setString(2, book.getDescription());
@@ -171,7 +171,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM book_info WHERE chiefEditor = ?");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info WHERE chiefEditor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
             if (books != null)
