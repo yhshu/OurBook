@@ -220,9 +220,6 @@
                                     正在加载...
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">确定</a>
-                            </div>
                         </div>
                         <%}%>
                     </div>
@@ -252,7 +249,7 @@
                                     @<%=chiefEditor.getUsername()%>
                                 </h6>
                             </div>
-                            <p style="margin: 0;"><b>主编</b></p>
+                            <p style="margin: 0;">主&nbsp;&nbsp;&nbsp;编</p>
                         </div>
                     </div>
                     <% if (collaborators != null) // 协作者信息
