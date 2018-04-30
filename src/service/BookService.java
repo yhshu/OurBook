@@ -63,24 +63,26 @@ public interface BookService {
     /**
      * 添加章节
      *
-     * @param username 用户名
-     * @param nickname 用户昵称
-     * @param chapter  章节
-     * @param rootDir  服务器根目录
+     * @param username    用户名
+     * @param nickname    用户昵称
+     * @param chapter     章节
+     * @param rootDir     服务器根目录
+     * @param description 添加说明
      * @return 成功 true 失败 false
      */
-    boolean addChapter(String username, String nickname, Chapter chapter, String rootDir);
+    boolean addChapter(String username, String nickname, Chapter chapter, String description, String rootDir);
 
     /**
      * 修改章节
      *
-     * @param username 用户名
-     * @param nickname 用户昵称
-     * @param chapter  章节
-     * @param rootDir  服务器根目录
+     * @param username    用户名
+     * @param nickname    用户昵称
+     * @param chapter     章节
+     * @param rootDir     服务器根目录
+     * @param description 改动说明
      * @return 成功 true 失败 false
      */
-    boolean modifyChapter(String username, String nickname, Chapter chapter, String rootDir);
+    boolean modifyChapter(String username, String nickname, Chapter chapter, String description, String rootDir);
 
     /**
      * 通过关键字查找章节

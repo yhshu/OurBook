@@ -2,7 +2,7 @@
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="model.Edit" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<% SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd  HH:mm");%>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd");%>
 <html>
 <head>
     <%@ include file="header.jsp" %>
@@ -16,13 +16,11 @@
             <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
                     class="material-icons">arrow_back</i>返回</a>
             <% if (session.getAttribute("username").equals(request.getAttribute("chiefEditor")) || (boolean) request.getAttribute("isCollaborator")) {
-                // 主编或协作者均拥有编辑和删除权限
+                // 主编或协作者均拥有编辑权限
             %>
-            <a style="margin-left: 72px;"
+            <a style="margin-right: 20px; float: right"
                href="${pageContext.request.contextPath}/modify?book=<%=request.getAttribute("bookID")%>&sequence=<%=request.getAttribute("sequence")%>">
                 <i class="material-icons">edit</i>编辑</a>
-            <a style="margin-left: 72px;" class="modal-trigger" href="#delete_confirm"><i
-                    class="material-icons">delete_forever</i>删除</a>
             <%}%>
         </div>
         <ul style="margin-top: 2px;">
@@ -31,16 +29,19 @@
                 Edit[] edits = (Edit[]) request.getAttribute("edits");
                 for (Edit edit : edits) {
             %>
-            <li style="padding: 5px">
-                <a class="black-text" style="margin-right: 20px"
+            <li style="padding: 20px">
+                <a class="black-text" style="display:inline-block;width: 30%"
                    href="${pageContext.request.contextPath}/old?id=<%=edit.getID()%>">
                     <%=edit.getName()%>
                 </a>
                 <a class="grey-text" href="${pageContext.request.contextPath}/home?user=<%=edit.getEditorUsername()%>"
-                style="margin: 0 10px">
+                   style="display:inline-block;width: 30%">
                     <%=edit.getEditorNickname()%>
                 </a>
-                <p class="grey-text" style="display: inline-block;margin: 0 10px"><%=sdf.format(edit.getModifiedTime())%>
+                <p class="grey-text" style="display: inline-block;margin: 0;width: 30%;text-align: center">
+                    <%=sdf.format(edit.getModifiedTime())%>
+                </p>
+                <p class="grey-text" style="margin: 10px 0"><%=edit.getDescription() != null ? edit.getDescription() : ""%>
                 </p>
             </li>
             <%

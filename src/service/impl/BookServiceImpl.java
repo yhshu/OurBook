@@ -20,7 +20,6 @@ import java.io.File;
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
-    private UserDao userDao = new UserDaoImpl();
     private NotificationDao notificationDao = new NotificationDaoImpl();
     private static final int chiefEditorAuthority = 2;
     private static final int collaboratorAuthority = 1;
@@ -84,7 +83,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addChapter(String username, String nickname, Chapter chapter, String rootDir) {
+    public boolean addChapter(String username, String nickname, Chapter chapter, String description, String rootDir) {
         Book book = bookDao.findByID(chapter.getBookID());
         if (book == null) {
             System.out.println("BookService: 书籍不存在");
@@ -104,7 +103,7 @@ public class BookServiceImpl implements BookService {
         String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
         chapter.setContent(absPath.replace(rootDir, ""));
-        if (chapterDao.add(username, chapter)) {
+        if (chapterDao.add(username, chapter, description)) {
             System.out.println("BookService: 添加编辑信息成功");
         } else {
             System.out.println("BookService: 添加编辑信息失败");
@@ -118,7 +117,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean modifyChapter(String username, String nickname, Chapter chapter, String rootDir) {
+    public boolean modifyChapter(String username, String nickname, Chapter chapter, String description, String rootDir) {
         Book book = bookDao.findByID(chapter.getBookID());
         if (book == null) {
             System.out.println("BookService: 书籍不存在");
@@ -137,7 +136,7 @@ public class BookServiceImpl implements BookService {
         if (absPath == null) return false;
         chapter.setContent(absPath.replace(rootDir, ""));
         // 添加编辑信息
-        if (chapterDao.modify(username, chapter)) {
+        if (chapterDao.modify(username, chapter, description)) {
             System.out.println("BookService: 添加编辑信息成功");
         } else {
             System.out.println("BookService: 添加编辑信息失败");

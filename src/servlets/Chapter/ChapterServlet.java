@@ -26,12 +26,13 @@ public class ChapterServlet extends BaseServlet {
         String nickname = (String) request.getSession().getAttribute("nickname");
         String name = request.getParameter("chapterName");
         String content = request.getParameter("chapterContent");
+        String description = request.getParameter("description");
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         int bookID = Integer.parseInt(request.getParameter("book"));
         try {
             if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
                 String rootDir = this.getServletContext().getRealPath("/");
-                if (bookService.addChapter(username, nickname, new Chapter(name, bookID, sequence, content, username), rootDir)) {
+                if (bookService.addChapter(username, nickname, new Chapter(name, bookID, sequence, content, username), description, rootDir)) {
                     System.out.println("ChapterServlet: 添加章节成功");
                     // 添加章节完成后，请求重定向，查看本章节
                     response.setContentType("text/plain");
@@ -51,12 +52,13 @@ public class ChapterServlet extends BaseServlet {
         String nickname = (String) request.getSession().getAttribute("nickname");
         String name = request.getParameter("chapterName");
         String content = request.getParameter("chapterContent");
+        String description = request.getParameter("description");
         int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         try {
             if (bookService.authority(bookID, (String) session.getAttribute("username")) > 0) {
                 String rootDir = this.getServletContext().getRealPath("/");
-                if (bookService.modifyChapter(username, nickname, new Chapter(name, bookID, sequence, content), rootDir)) {
+                if (bookService.modifyChapter(username, nickname, new Chapter(name, bookID, sequence, content), description, rootDir)) {
                     System.out.println("ChapterServlet: 修改章节成功");
                     // 添加章节完成后，请求重定向，查看本章节
                     response.setContentType("text/plain");
