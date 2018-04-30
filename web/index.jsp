@@ -35,9 +35,11 @@
             <a href="${pageContext.request.contextPath}/create" class="nav-item waves-effect">
                 <i class="material-icons">mode_edit</i>创作新书</a>
             <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect">
-                <i class="material-icons">notifications</i>通知中心
+                <i class="material-icons"><%=((int) session.getAttribute("unreadNotifications") > 0) ? "notifications_active" : "notifications_none"%>
+                </i>通知中心
+                <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
                 <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
-                </span></a>
+                </span><%}%></a>
         </div>
         <img src="img/ads/index_ads.png" style=" display:inline;width: 1000px;height: 350px; "/>
     </div>

@@ -1,14 +1,15 @@
-body{
+body {
     background: #f6f6f6;
-     display: flex;
-     min-height: 100vh;
-     flex-direction: column;
- }
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
 main {
     flex: 1 0 auto;
 }
 
-p{
+p {
     text-overflow: ellipsis;
 }
 
@@ -28,25 +29,31 @@ p{
     overflow-y: visible;
 }
 
-p{
+p {
     cursor: default;
 }
-h6{
+
+h6 {
     cursor: default;
 }
-h5{
+
+h5 {
     cursor: default;
 }
-h4{
+
+h4 {
     cursor: default;
 }
-h3{
+
+h3 {
     cursor: default;
 }
-h2{
+
+h2 {
     cursor: default;
 }
-h1{
+
+h1 {
     cursor: default;
 }
 
@@ -142,4 +149,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
     line-height: inherit;
     vertical-align: middle;
     transform: translateY(-.1em);
+}
+
+
+span.badge.new {
+    background-color: #ffa726;
 }

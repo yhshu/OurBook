@@ -10,7 +10,7 @@
         Book[] favorites = (Book[]) request.getAttribute("favorites");
         User[] followees = (User[]) request.getAttribute("followees");
         User[] followers = (User[]) request.getAttribute("followers");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d");
     %>
     <title><%=request.getAttribute("nickname")%> - OurBook</title>
     <script>
@@ -228,7 +228,7 @@ border-bottom: 1px solid lightgray">
                         <a class="btn modal-trigger" href="#message_modal"
                            style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
                            data-user="<%=user.getUsername()%>">
-                            发送私信</a>
+                            &nbsp;&nbsp;私&nbsp;&nbsp;信&nbsp; &nbsp;</a>
                     </div>
                 </div>
                 <%
@@ -270,7 +270,7 @@ border-bottom: 1px solid lightgray">
                         <a class="btn modal-trigger" href="#message_modal"
                            style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
                            data-user="<%=user.getUsername()%>">
-                            发送私信</a>
+                            &nbsp;&nbsp;私&nbsp;&nbsp;信&nbsp; &nbsp;</a>
                     </div>
                 </div>
                 <%}%>

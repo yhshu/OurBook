@@ -13,7 +13,7 @@
 <%
     if (session.getAttribute("username") == null)
         response.sendRedirect("/login");
-    SimpleDateFormat sdf = new SimpleDateFormat("M.dd  HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("M.d  HH:mm");
     Notification[] unread = (Notification[]) request.getAttribute("unread");
     Notification[] read = (Notification[]) request.getAttribute("read");
     Map<User, Message[]> messageMap = (Map<User, Message[]>) request.getAttribute("messages");
@@ -153,18 +153,18 @@
                 for (Notification notification : unread) {
             %>
                 <li class="li_<%=notification.getID()%>">
-                    <div class="collapsible-header unread" style="padding:10px 30px"
+                    <div class="collapsible-header unread" style="padding:0px 30px"
                          data-id="<%=notification.getID()%>">
-                        <h5 style="margin: 10px 20px 0 0"><%=notification.getHeader()%>
-                        </h5>
+                        <h6 style="margin: 15px 20px 0 0"><%=notification.getHeader()%>
+                        </h6>
                         <p class="grey-text">
                             <%=sdf.format(notification.getTime())%>
                         </p>
                     </div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-body" style="padding: 0 30px;">
                         <p><%=notification.getContent()%>
                         </p>
-                        <div style="height: 36px">
+                        <div style="height: 45px">
                             <a class="btn red right delete_unread" data-id="<%=notification.getID()%>">删除通知</a>
                         </div>
                     </div>
@@ -181,17 +181,17 @@
                 for (Notification notification : read) {
             %>
                 <li class="li_<%=notification.getID()%>">
-                    <div class="collapsible-header" style="padding:10px 30px" data-id="<%=notification.getID()%>">
-                        <h5 style="margin: 10px 20px 0 0"><%=notification.getHeader()%>
-                        </h5>
+                    <div class="collapsible-header" style="padding:0 30px;" data-id="<%=notification.getID()%>">
+                        <h6 style="margin: 15px 20px 0 0"><%=notification.getHeader()%>
+                        </h6>
                         <p class="grey-text">
                             <%=sdf.format(notification.getTime())%>
                         </p>
                     </div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-body" style="padding: 0 30px;">
                         <p><%=notification.getContent()%>
                         </p>
-                        <div style="height: 36px">
+                        <div style="height: 45px">
                             <a class="btn red right delete_read" data-id="<%=notification.getID()%>">删除通知</a>
                         </div>
                     </div>
@@ -227,9 +227,10 @@
                              style="height: 52px; width: 52px;display: inline-block;margin-right: 20px;border-radius: 5%">
                         <h5 style="margin: 10px 20px 0 0"><%=user.getNickname()%>
                         </h5>
-                        <span class="new badge" style="margin: 15px 0!important;"><%=unreadNum%></span>
+                        <%if (unreadNum > 0) {%>
+                        <span class="new badge" style="margin: 15px 0!important;"><%=unreadNum%></span><%}%>
                     </div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-body" style="padding: 5px 30px 10px;">
                         <%for (Message message : messageMap.get(user)) {%>
                         <p class="grey-text" style="display: inline-block; margin:10px 20px 5px 0">
                             <%=sdf.format(message.getTime())%>
@@ -243,7 +244,7 @@
                         <%}%>
                         <div style="height: 36px;margin-top: 20px">
                             <a class="btn modal-trigger" href="#message_modal"
-                               data-user="<%=user.getUsername()%>">发送私信</a>
+                               data-user="<%=user.getUsername()%>">回复</a>
                             <a class="btn red right clear_messages" data-user="<%=user.getUsername()%>">清除记录</a>
                         </div>
                     </div>

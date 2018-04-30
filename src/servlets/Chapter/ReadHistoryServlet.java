@@ -32,7 +32,7 @@ public class ReadHistoryServlet extends HttpServlet {
         Edit edit = bookService.getEdit(ID);
         int bookID = edit.getBookID();
         int sequence = edit.getSequence();
-        Edit[] edits = bookService.getHistory(bookID,sequence);
+        Edit[] edits = bookService.getHistory(bookID, sequence);
         Book book = bookService.find(bookID);
         // 生成 reader
         InputStreamReader isr = new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath(edit.getContent())), "UTF-8");
@@ -46,8 +46,8 @@ public class ReadHistoryServlet extends HttpServlet {
         request.setAttribute("bookID", bookID);
         request.setAttribute("name", edit.getName());
         request.setAttribute("sequence", sequence);
-        request.setAttribute("time",edit.getModifiedTime());
-        request.setAttribute("chiefEditor",book.getChiefEditor());
+        request.setAttribute("time", edit.getModifiedTime());
+        request.setAttribute("chiefEditor", book.getChiefEditor());
         request.setAttribute("editorUsername", edit.getEditorUsername());
         request.setAttribute("editorNickname", edit.getEditorNickname());
         // 重定向

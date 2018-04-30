@@ -2,7 +2,7 @@
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="model.Edit" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<% SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd");%>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d");%>
 <html>
 <head>
     <%@ include file="header.jsp" %>
@@ -29,19 +29,20 @@
                 Edit[] edits = (Edit[]) request.getAttribute("edits");
                 for (Edit edit : edits) {
             %>
-            <li style="padding: 20px">
-                <a class="black-text" style="display:inline-block;width: 30%"
+            <li style="padding: 10px">
+                <a class="black-text" style="display:inline-block;width: 35%"
                    href="${pageContext.request.contextPath}/old?id=<%=edit.getID()%>">
                     <%=edit.getName()%>
                 </a>
                 <a class="grey-text" href="${pageContext.request.contextPath}/home?user=<%=edit.getEditorUsername()%>"
-                   style="display:inline-block;width: 30%">
+                   style="display:inline-block;width: 25%;text-align: center">
                     <%=edit.getEditorNickname()%>
                 </a>
-                <p class="grey-text" style="display: inline-block;margin: 0;width: 30%;text-align: center">
+                <p class="grey-text" style="display: inline-block;margin: 0;width: 35%;text-align: right">
                     <%=sdf.format(edit.getModifiedTime())%>
                 </p>
-                <p class="grey-text" style="margin: 10px 0"><%=edit.getDescription() != null ? edit.getDescription() : ""%>
+                <p class="grey-text" style="margin: 10px 0 ;word-wrap:break-word;">
+                    <%=edit.getDescription() != null ? edit.getDescription() : ""%>
                 </p>
             </li>
             <%

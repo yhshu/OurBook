@@ -31,7 +31,7 @@
                 <label for="chapterName">章节标题</label>
             </div>
             <div class="input-field col s12">
-                <input id="description" name="description" type="text" class="validate" data-length="300"/>
+                <input id="description" name="description" type="text" class="validate" data-length="100"/>
                 <label for="description"><%=request.getAttribute("method").equals("add") ? "添加" : "改动"%>说明</label>
             </div>
             <textarea id="chapterContent" name="chapterContent"><%=request.getAttribute("content")%></textarea>

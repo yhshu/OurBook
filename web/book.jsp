@@ -4,7 +4,7 @@
 <%@ page import="model.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
-    SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd  HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("yy.M.d  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
     Comment[] comments = (Comment[]) request.getAttribute("comments");
@@ -21,16 +21,6 @@
 <head>
     <%@ include file="header.jsp" %>
     <title><%=request.getAttribute("bookName")%> - OurBook</title>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('select').material_select();
-            $('#select_sequence').change(function () {
-                $('#sequence').val($('#select_sequence').val());
-            })
-        });
-    </script>
-
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
@@ -140,7 +130,11 @@
                     margin: 0;
                 }
                 </style>
-                <%if (session.getAttribute("username").equals(chiefEditor.getUsername()) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编拥有所有权限（添加、编辑、删除），协作者可以添加或编辑%>
+                <%
+                    // 主编拥有所有权限（添加、编辑、删除），协作者可以添加或编辑
+                    if (session.getAttribute("username").equals(chiefEditor.getUsername()) ||
+                            ((boolean) request.getAttribute("isCollaborator"))) {
+                %>
                 <div style="width: 685px;">
                     <form action="${pageContext.request.contextPath}/write" accept-charset="UTF-8" method="get"
                           id="newChapterForm" style="display: inline-block;width: 460px">
@@ -227,7 +221,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">确定</a>
                             </div>
                         </div>
                         <%}%>
@@ -351,6 +345,22 @@
 </main>
 <%@include file="footer.html" %>
 <script>
+    $(document).ready(function () {
+        $('select').material_select();
+        $('#select_sequence').change(function () {
+            $('#sequence').val($('#select_sequence').val());
+        })
+    });
+    $('#set_collaborators_modal').modal();
+
+    $('#history_modal').modal({
+        ready: function (modal, trigger) {
+            modal_render(trigger);
+            $('#history_title').html(historyTitle);
+            $('#history_content').html(historyContent);
+        }
+    });
+
     var follow_submit = $('#follow_submit');
     var favorite_submit = $('#favorite_submit');
     var favorite_icon = $('#favorite_icon');
@@ -485,10 +495,13 @@
             toast("操作异常，请重试");
         })
     });
+
+    // 历史记录模态框 全局变量
     var historyTitle;
     var historyContent;
 
-    function modal_render(trigger) { // 查看历史记录按钮，点击后渲染模态框
+    // 历史记录模态框加载后的渲染函数
+    function modal_render(trigger) {
         var Sequence = trigger.data('sequence');
         $.get('${pageContext.request.contextPath}/history', {
             book_id:<%=request.getAttribute("bookID")%>,
@@ -496,37 +509,34 @@
         }, function (responseText) { // 将历史记录渲染到模态框
             var history = JSON.parse(responseText);
             console.log(history);
-            historyTitle = "第 " + Sequence + " 章历史记录";
+            historyTitle = "第 " + Sequence + " 章 历史记录";
             historyContent = " <table class=\"bordered\">\n" +
                 "        <thead>\n" +
                 "          <tr>\n" +
+                "              <th>提交记录</th>\n" +
                 "              <th>编辑者</th>\n" +
-                "              <th>章节标题</th>\n" +
-                "              <th>修改时间</th>\n" +
-                "              <th>查看</th>\n" +
+                "              <th>时间</th>\n" +
+                "              <th>提交说明</th>\n" +
                 "          </tr>\n" +
                 "        </thead>\n" +
                 "        <tbody>";
             for (var i = 0; i < history.length; i++) {
                 var cur = history[i];
-                historyContent += "<tr><td>" + cur.nickname + "</td><td>" + cur.editorNickname + "</td><td>" + cur.modifiedTime + "</td><td><a href=\"" + cur.content + "\"><i class=\"material-icons\">link</i></a></td>";
+                historyContent += "<tr>" +
+                    "<td>" + "<a href=\"old?id=" + cur.ID + "\">" + cur.name + "</a></td>" +
+                    "<td>" + "<a href= \"home?user=" + cur.editorUsername + "\">" + cur.editorNickname + "</a></td>" +
+                    "<td>" + cur.modifiedTime + "</td>" +
+                    "<td>" + cur.description + "</td>";
             }
             historyContent += "   </tbody>\n" +
                 "      </table>";
+            $('#history_title').html(historyTitle);
+            $('#history_content').html(historyContent);
         }).fail(function () {
             toast("操作异常，请重试");
         })
-    };
+    }
 
-    $('#history_modal').modal({
-        ready: function (modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
-            modal_render(trigger);
-            $('#history_title').html(historyTitle);
-            $('#history_content').html(historyContent);
-        }
-    });
-
-    //$('.modal').modal();
 </script>
 </body>
 </html>

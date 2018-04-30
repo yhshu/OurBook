@@ -4,7 +4,9 @@
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
     <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text">通知中心
-        <span class="new badge right"><%=session.getAttribute("unreadNotifications")%></span></a></li>
+        <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
+        <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
+                </span><%}%></a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">退出</a></li>
 </ul>
