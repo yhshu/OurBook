@@ -169,7 +169,7 @@
                 <a href='#delete_modal' class="btn red modal-trigger" style="display: inline-block; margin-left:128px;">删除本书</a>
                 <div id="delete_modal" class="modal"><!-- 删除本书 模态框 -->
                     <div class="modal-content">
-                        <h4>确认删除吗？</h4>
+                        <h4><i class="material-icons">warning</i>确认删除吗？</h4>
                         <h5>忽略警告，糟糕的事情可能会发生。</h5>
                         <p>该操作是不可撤销的。这将永久地删除与<b><%=' ' + (String) request.getAttribute("bookName") + ' '%>
                         </b>相关的所有信息。</p>

@@ -68,7 +68,8 @@
 <!--删除章节模态框-->
 <div id="delete_confirm" class="modal">
     <div class="modal-content">
-        <h5>确认删除本章？</h5>
+        <h5><i class="material-icons">warning</i>确认删除本章？</h5>
+        <h6>本章的所有编辑记录将被同时永久删除。</h6>
     </div>
     <div class="modal-footer">
         <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>

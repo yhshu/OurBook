@@ -2,6 +2,7 @@ package dao;
 
 
 import model.Chapter;
+import model.Edit;
 
 public interface ChapterDao {
     /**
@@ -54,4 +55,13 @@ public interface ChapterDao {
      * @return 该章节所有历史文件在服务器上的位置
      */
     String[] delete(int bookID, int sequence);
+
+    /**
+     * 查找章节的历史记录
+     *
+     * @param bookID   书籍ID
+     * @param sequence 章节序号
+     * @return 历史记录
+     */
+    Edit getHistory(int bookID, int sequence);
 }

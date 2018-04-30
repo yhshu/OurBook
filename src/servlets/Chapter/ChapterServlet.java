@@ -33,9 +33,9 @@ public class ChapterServlet extends BaseServlet {
                 String rootDir = this.getServletContext().getRealPath("/");
                 if (bookService.addChapter(username, nickname, new Chapter(name, bookID, sequence, content, username), rootDir)) {
                     System.out.println("ChapterServlet: 添加章节成功");
-                    // 添加章节完成后，请求重定向，查看本书目录
+                    // 添加章节完成后，请求重定向，查看本章节
                     response.setContentType("text/plain");
-                    response.getWriter().write("/book?id=" + bookID);
+                    response.getWriter().write("/read?book=" + bookID + "&sequence=" + sequence);
                 }
             } else throw new Exception();
         } catch (Exception e) {
@@ -51,7 +51,6 @@ public class ChapterServlet extends BaseServlet {
         String nickname = (String) request.getSession().getAttribute("nickname");
         String name = request.getParameter("chapterName");
         String content = request.getParameter("chapterContent");
-        // 由 book.jsp 获取 bookID
         int bookID = Integer.parseInt(request.getParameter("book"));
         int sequence = Integer.parseInt(request.getParameter("sequence"));
         try {
@@ -59,9 +58,9 @@ public class ChapterServlet extends BaseServlet {
                 String rootDir = this.getServletContext().getRealPath("/");
                 if (bookService.modifyChapter(username, nickname, new Chapter(name, bookID, sequence, content), rootDir)) {
                     System.out.println("ChapterServlet: 修改章节成功");
-                    // 添加章节完成后，请求重定向，查看本书目录
+                    // 添加章节完成后，请求重定向，查看本章节
                     response.setContentType("text/plain");
-                    response.getWriter().write("/book?id=" + bookID);
+                    response.getWriter().write("/read?book=" + bookID + "&sequence=" + sequence);
                 }
             } else throw new Exception();
         } catch (Exception e) {

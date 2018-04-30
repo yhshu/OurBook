@@ -3,6 +3,7 @@ package dao.impl;
 import Util.DBUtil;
 import dao.ChapterDao;
 import model.Chapter;
+import model.Edit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,27 +22,27 @@ public class ChapterDaoImpl implements ChapterDao {
         PreparedStatement stm4 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence+1 WHERE sequence>=? AND OurBook.Chapter.bookID=?");
+            stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET sequence = sequence + 1 WHERE sequence >= ? AND OurBook.Chapter.bookID = ?"); // 重新设置章节序号
             stm1.setInt(1, chapter.getSequence());
             stm1.setInt(2, chapter.getBookID());
             stm1.executeUpdate();
-            stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence)" +
-                    " VALUES (?,?,?)");
+            stm2 = conn.prepareStatement("INSERT INTO chapter (name,bookID,sequence) VALUES (?,?,?)");
             stm2.setString(1, chapter.getName());
             stm2.setInt(2, chapter.getBookID());
             stm2.setInt(3, chapter.getSequence());
             stm2.executeUpdate();
-            stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID=? AND sequence=?");
+            stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
             stm3.setInt(1, chapter.getBookID());
             stm3.setInt(2, chapter.getSequence());
             ResultSet rs = stm3.executeQuery();
             rs.next();
             int chapterID = rs.getInt("ID");
             rs.close();
-            stm4 = conn.prepareStatement("INSERT INTO edit(username, time, content,chapterID) VALUES (?,NOW(),?,?)");
+            stm4 = conn.prepareStatement("INSERT INTO edit(username, time, name,content,chapterID) VALUES (?, NOW(), ?, ?, ?)"); // 编辑记录
             stm4.setString(1, username);
-            stm4.setString(2, chapter.getContent());
-            stm4.setInt(3, chapterID);
+            stm4.setString(2, chapter.getName());
+            stm4.setString(3, chapter.getContent());
+            stm4.setInt(4, chapterID);
             stm4.executeUpdate();
             System.out.println("ChapterDao: 添加章节成功");
             return true;
@@ -65,23 +66,23 @@ public class ChapterDaoImpl implements ChapterDao {
         PreparedStatement stm3 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm1 = conn.prepareStatement("UPDATE chapter SET name=?" +
-                    "WHERE bookID = ? AND sequence = ?");
+            stm1 = conn.prepareStatement("UPDATE ourbook.chapter SET name = ? WHERE bookID = ? AND sequence = ?");
             stm1.setString(1, chapter.getName());
             stm1.setInt(2, chapter.getBookID());
             stm1.setInt(3, chapter.getSequence());
             stm1.executeUpdate();
-            stm2 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID=? AND sequence=?");
+            stm2 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
             stm2.setInt(1, chapter.getBookID());
             stm2.setInt(2, chapter.getSequence());
             ResultSet rs = stm2.executeQuery();
             rs.next();
             int chapterID = rs.getInt("ID");
             rs.close();
-            stm3 = conn.prepareStatement("INSERT INTO edit(username, time, content,chapterID) VALUES (?,NOW(),?,?)");
+            stm3 = conn.prepareStatement("INSERT INTO edit(username, time, name, content,chapterID) VALUES (?, NOW(), ?, ?, ?)");
             stm3.setString(1, username);
-            stm3.setString(2, chapter.getContent());
-            stm3.setInt(3, chapterID);
+            stm3.setString(2, chapter.getName());
+            stm3.setString(3, chapter.getContent());
+            stm3.setInt(4, chapterID);
             stm3.executeUpdate();
             System.out.println("ChapterDao: 修改章节成功");
             return true;
@@ -102,7 +103,7 @@ public class ChapterDaoImpl implements ChapterDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM chapter_info WHERE bookID = ? AND sequence = ?");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.chapter_info WHERE bookID = ? AND sequence = ?");
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
             Chapter[] chapters = getChapters(stm);
@@ -128,8 +129,7 @@ public class ChapterDaoImpl implements ChapterDao {
             ResultSet rs = stm.executeQuery();
             ArrayList<Chapter> chapters = new ArrayList<>();
             while (rs.next()) {
-                Chapter chapter = new Chapter(rs.getString("chapter.name"), rs.getInt("bookID"),
-                        rs.getInt("sequence"), rs.getString("content"));
+                Chapter chapter = new Chapter(rs.getString("chapter.name"), rs.getInt("bookID"), rs.getInt("sequence"), rs.getString("content"));
                 chapter.setBookName(rs.getString("book.name"));
                 chapter.setEditorNickname(rs.getString("nickname"));
                 chapter.setEditorUsername(rs.getString("username"));
@@ -174,14 +174,14 @@ public class ChapterDaoImpl implements ChapterDao {
         ArrayList<String> result = new ArrayList<>();
         try {
             conn = DBUtil.connectDB();
-            stm1 = conn.prepareStatement("SELECT e.content as content FROM edit e JOIN chapter c on e.chapterID = c.ID WHERE c.bookID=? AND c.sequence=?");
+            stm1 = conn.prepareStatement("SELECT e.content as content FROM edit e JOIN chapter c on e.chapterID = c.ID WHERE c.bookID = ? AND c.sequence = ?"); // 获取历史文件的路径，准备删除
             stm1.setInt(1, bookID);
             stm1.setInt(2, sequence);
             ResultSet rs = stm1.executeQuery();
             while (rs.next())
                 result.add(rs.getString("content"));
             rs.close();
-            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?");
+            stm2 = conn.prepareStatement("DELETE FROM chapter WHERE bookID = ? and sequence = ?"); // 删除章节
             stm2.setInt(1, bookID);
             stm2.setInt(2, sequence);
             try {
@@ -191,7 +191,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 e1.printStackTrace();
                 System.out.println("ChapterDao: 删除指定章节失败");
             }
-            stm3 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?");
+            stm3 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?"); // 调整章节号
             stm3.setInt(1, bookID);
             stm3.setInt(2, sequence);
             try {
@@ -211,6 +211,17 @@ public class ChapterDaoImpl implements ChapterDao {
             DBUtil.safeClose(stm3);
             DBUtil.safeClose(conn);
         }
+    }
+
+    @Override
+    public Edit getHistory(int bookID, int sequence) {
+        try {
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return null;
     }
 
     private Chapter[] getChapters(PreparedStatement stm) {
