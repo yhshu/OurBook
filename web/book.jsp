@@ -58,7 +58,7 @@
                                 <%=request.getAttribute("bookName")%>
                             </a>
                         </h5>
-                        <a href="" class="pink-text"
+                        <a href="#" class="pink-text"
                            style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px" id="favorite_submit"
                            data-method="<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>">
                             <i class="material-icons"
@@ -209,7 +209,7 @@
                             if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
                         %>
                         <!--历史记录 按钮-->
-                        <a class="right modal-trigger history_request"
+                        <a href="#" class="right modal-trigger history_request"
                            style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
                            data-sequence="<%=chapter.getSequence()%>">
                             <i class="material-icons">history</i></a>
@@ -333,8 +333,8 @@
                             <h6>你确定删除这条评论吗？</h6>
                         </div>
                         <div class="modal-footer">
-                            <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                            <a href=""
+                            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                            <a href="#"
                                class="modal-action modal-close waves-effect waves-green btn-flat deleteComment">确定</a>
                         </div>
                     </div>

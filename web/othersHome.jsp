@@ -84,8 +84,8 @@
                     </h4>
                     <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
                     </h5>
-                    <a href="" class="pink btn"
-                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;" href=""
+                    <a href="#" class="pink btn"
+                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;"
                        id="follow_submit"
                        data-method="<%=(boolean)request.getAttribute("isFollowing") ? "remove" : "add" %>">
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
