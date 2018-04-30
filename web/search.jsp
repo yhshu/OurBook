@@ -27,64 +27,102 @@
             int i = 0;
             Book[] books = (Book[]) request.getAttribute("books");
             Book[] favorites = (Book[]) request.getAttribute("favorites");
+            int pageNumber=0;
+            for(Book book2:books) pageNumber++;
+            int sum=pageNumber;
+            int count = 2;//每页显示的条数 
+            int maxPage=0;//最大页数
+            int number=0;//当前页码
+            String strNumber=request.getParameter("pageNumber");
+            if(strNumber==null||strNumber.equals("0")){//表明在QueryString中没有pageNum这一个参数，此时显示第一页的数据
+                number=1;
+            }else{
+                number = Integer.parseInt(strNumber);//取的待显示页码，将字符串转换成整数
+            }
             if (books.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
     <%
-    } else for (Book book : books) {
-        boolean favorite = false;
-        for (Book book1 : favorites)
-            if (book1.getID() == book.getID())
-                favorite = true;
+    } else
+      if(sum%2==0){
+        maxPage=sum/2;
+        }else{
+        maxPage=sum/2+1;
+        }
+        int start = (number-1)*count;//开始记录数
+        int end = number*count;//结束记录数
+        if(end>sum-1){
+            end = sum;//防止越界
+        }
+    %>
+    <td colspan="11">共<%=maxPage %>页&nbsp;
+        共<%=sum %>有条记录&nbsp;
+        当前是第<%=number %>页&nbsp;
+        <a href="search.jsp?pageNumber=<%=number-1 %>">上一页</a>&nbsp;
+        <a href="search.jsp?pageNumber=<%=number+1 %>">下一页</a>
+    </td>
+    <%
+      for(int m=start;m<end;m++){
+          boolean favorite = false;
+          for (Book book1 : favorites)
+              if (book1.getID() == books[m].getID())
+                  favorite = true;
+   //  for (Book book : books) {
+
+  //      boolean favorite = false;
+   //     for (Book book1 : favorites)
+   //         if (book1.getID() == book.getID())
+   //             favorite = true;
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
-        <%if (book.getCover() == null || book.getCover().equals("")) {%>
-        <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>" style="border-radius: 2px 0 0 2px">
+        <%if (books[m].getCover() == null || books[m].getCover().equals("")) {%>
+        <a href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>" style="border-radius: 2px 0 0 2px">
             <div style="width: 192px;height: 256px;float:left;background-color: #0D47A1; border-radius: 2px 0 0 2px">
                 <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                    <%=book.getName()%>
+                    <%=books[m].getName()%>
                 </h4>
             </div>
         </a>
         <%} else {%>
-        <a href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
+        <a href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>">
             <img style="width: 192px;height: 256px;border-radius: 2px 0 0 2px;object-fit: cover"
-                 src="<%=book.getCover()%>">
+                 src="<%=books[m].getCover()%>">
         </a>
         <%}%>
         <div style="display: grid;grid-template-rows: 66px 40px 1px auto">
             <div>
                 <h5 style="margin: 25px 0 0 25px;display: inline-block">
-                    <a style="color: black" href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
-                        <%=book.getName()%>
+                    <a style="color: black" href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>">
+                        <%=books[m].getName()%>
                     </a>
                 </h5>
             </div>
             <div>
-                <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
+                <a href="${pageContext.request.contextPath}/home?user=<%=books[m].getChiefEditor()%>"
                    style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
                 </a>
                 <p class="grey-text" style="margin: 0 25px; float: left;">
-                    <i class="material-icons">remove_red_eye </i> <%=book.getClicks()%>
-                    <i class="material-icons" style="margin-left: 10px">favorite </i> <%=book.getFavorites()%>
+                    <i class="material-icons">remove_red_eye </i> <%=books[m].getClicks()%>
+                    <i class="material-icons" style="margin-left: 10px">favorite </i> <%=books[m].getFavorites()%>
                 </p>
                 <p style="color: gray;margin: 0;float: left">
-                    最后更新： <%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
+                    最后更新： <%=books[m].getLastModified() != null ? sdf.format(books[m].getLastModified()) : "暂无"%>
                 </p>
             </div>
             <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
             <p style="margin: 25px;overflow: auto">
-                <%=book.getDescription()%>
+                <%=books[m].getDescription()%>
             </p>
         </div>
         <a href="#"
            class="btn-large btn-floating halfway-fab waves-effect waves-light pink favorite_submit"
            style="position: relative;margin-bottom: -100px;left:772px;bottom:176px"
-           data-method="<%=favorite ? "remove" : "add"%>" data-book="<%=book.getID()%>">
-            <i class="material-icons" id="book_icon_<%=book.getID()%>"
+           data-method="<%=favorite ? "remove" : "add"%>" data-book="<%=books[m].getID()%>">
+            <i class="material-icons" id="book_icon_<%=books[m].getID()%>"
                style="margin-top:3px"><%=favorite ? "favorite" : "favorite_border"%>
             </i>
         </a>
+
     </div>
     <%
                 i++;
