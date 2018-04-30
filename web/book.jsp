@@ -222,8 +222,10 @@
                         <!--历史记录 模态框-->
                         <div id="history_modal" class="modal bottom-sheet">
                             <div class="modal-content">
-                                <h5 id="history_title"></h5>
-                                <div id="history_content"></div>
+                                <h5 id="history_title">历史记录</h5>
+                                <div id="history_content">
+                                    正在加载...
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
@@ -492,17 +494,26 @@
             sequence: Sequence
         }, function (responseText) { // 将历史记录渲染到模态框
             var history = JSON.parse(responseText);
+            console.log(history);
             $('#history_title').html("第 " + Sequence + " 章历史记录");
             var historyContent;
             for (var i = 0; i < history.length; i++) {
                 var cur = history[i];
-                historyContent += cur.name;
+                historyContent;
             }
-            $('#history_content').html = historyContent;
+            $('#history_content').html(historyContent);
         }).fail(function () {
             toast("操作异常，请重试");
         })
-    })
+    });
+
+    $('#history_modal').modal()
+    {
+        ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+            alert("Ready");
+            console.log(modal, trigger);
+        }
+    }
 </script>
 </body>
 </html>
