@@ -199,37 +199,27 @@
                     <%
                         for (Chapter chapter : (Chapter[]) request.getAttribute("chapters")) {
                     %>
-                    <div style="height: 43px; overflow: hidden">
-                        <a href="${pageContext.request.contextPath}/read?book=
-<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>" class="collection-item black-text"><%=chapter.getName()%>
-                            <span class="grey-text right"
-                                  style="display: inline-block;margin-right: 45px"><%=sdf.format(chapter.getLastModified())%></span>
-                        </a>
-                        <%
-                            if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
-                        %>
-                        <a href="#history_modal_<%=chapter.getSequence()%>" class="right modal-trigger"
-                           style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
-                           data-sequence="<%=chapter.getSequence()%>">
-                            <i class="material-icons">history</i></a>
-                        <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
-                           class="right modify_chapter_icon"
-                           style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px">
-                            <i class="material-icons">mode_edit</i>
-                        </a>
-                        <!--历史记录 模态框-->
-                        <div id="history_modal_<%=chapter.getSequence()%>" class="modal bottom-sheet">
-                            <div class="modal-content">
-                                <h5>第<%=chapter.getSequence()%>章历史记录</h5>
-
-                            </div>
-                            <div class="modal-footer">
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
-                            </div>
-                        </div>
-                        <%}%>
-                    </div>
+                    <a class="right modal-trigger history_request"
+                       style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
+                       data-sequence="<%=chapter.getSequence()%>">
+                        <i class="material-icons">history</i></a>
+                    <a href="modify?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"
+                       class="right modify_chapter_icon"
+                       style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px">
+                        <i class="material-icons">mode_edit</i>
+                    </a>
                     <%}%>
+                </div>
+
+                <!--历史记录 模态框-->
+                <div id="history_modal" class="modal bottom-sheet">
+                    <div class="modal-content">
+                        <h5 id="history_title"></h5>
+                        <div id="history_content"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
+                    </div>
                 </div>
             </div>
 
@@ -257,9 +247,8 @@
                             <p style="margin: 0;"><b>主编</b></p>
                         </div>
                     </div>
-                    <%
-                        if (collaborators != null) // 协作者信息
-                            for (User collaborator : collaborators) {
+                    <% if (collaborators != null) // 协作者信息
+                        for (User collaborator : collaborators) {
                     %>
                     <div class="row user_<%=collaborator.getUsername()%>" style="margin: 15px 5px;">
                         <a href="home?user=<%=collaborator.getUsername()%>"><!--用户头像-->
@@ -300,24 +289,24 @@
             <div><!--本书已有评论-->
                 <%
                     if (comments != null) {
-                        for (Comment comment : comments) {
-                %>
+                        for (Comment comment : comments) {%>
                 <div id="comment_<%=comment.getID()%>" style="width: 960px; margin-bottom: 15px;">
                     <div class="row" style="margin-bottom: 0;">
-                        <a style="float: left"
-                           href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>">
-                            <img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></a>
+                        <span><a href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>"><img
+                                src="<%=comment.getAvatar()%>"
+                                style="width: 24px;height: 24px; float: left;"></a></span>
                         <span><a style="float: left; margin-left: 10px;"
-                                 href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>">
-                            <%=comment.getNickname()%></a></span>
-                        <span><a class="black-text"
+                                 href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>"><%=comment.getNickname()%></a></span>
+                        <span><a class="grey-text"
                                  style=" float: right;"><%=sdf.format(comment.getDatetime())%></a></span>
                     </div>
                     <div class="row" style="margin: 0;">
                         <h6><%=comment.getContent()%>
                         </h6>
                     </div>
-                    <%if (session.getAttribute("username").equals(comment.getUsername())) { // 如果本条评论是当前用户发出的，可删除本条评论%>
+                    <%
+                        if (session.getAttribute("username").equals(comment.getUsername())) { // 如果本条评论是当前用户发出的，可删除本条评论
+                    %>
                     <div class="row" style="margin: 0;">
                         <a href="#comment_delete_confirm" class="grey-text modal-trigger delete_comment_request"
                            data-commentID="<%=comment.getID()%>"> <i
@@ -480,6 +469,22 @@
             toast("操作异常，请重试");
         })
     });
+
+    $('.history_request').click(function () { // 查看历史记录按钮，点击后渲染模态框
+        var Sequence = $(this).data('sequence');
+        $.get('${pageContext.request.contextPath}/history', {
+            book_id:<%=request.getAttribute("bookID")%>,
+            sequence: Sequence
+        }, function (responseText) { // 将历史记录渲染到模态框
+            var history = JSON.parse(responseText);
+            $('#history_title').text = "第 " + Sequence + " 章历史记录";
+            for (var i = 0; i < history.length; i++) {
+
+            }
+        }).fail(function () {
+            toast("操作异常，请重试");
+        })
+    })
 </script>
 </body>
 </html>

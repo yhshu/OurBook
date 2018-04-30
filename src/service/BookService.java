@@ -2,6 +2,7 @@ package service;
 
 import model.Book;
 import model.Chapter;
+import model.Edit;
 import model.User;
 
 public interface BookService {
@@ -160,4 +161,13 @@ public interface BookService {
      * @return 无权限0，协作者1，主编2
      */
     int authority(int bookID, String username);
+
+    /**
+     * 查找章节的历史记录
+     *
+     * @param bookID   书籍ID
+     * @param sequence 章节序号
+     * @return 历史记录
+     */
+    Edit[] getHistory(int bookID, int sequence);
 }
