@@ -387,14 +387,6 @@
     });
     $('#set_collaborators_modal').modal();
 
-    $('#history_modal').modal({
-        ready: function (modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
-            modal_render(trigger);
-            $('#history_title').html(historyTitle);
-            $('#history_content').html(historyContent);
-        }
-    });
-
     var follow_submit = $('#follow_submit');
     var favorite_submit = $('#favorite_submit');
     var favorite_icon = $('#favorite_icon');
@@ -529,39 +521,6 @@
             toast("操作异常，请重试");
         })
     });
-    var historyTitle;
-    var historyContent;
-
-    function modal_render(trigger) { // 查看历史记录按钮，点击后渲染模态框
-        var Sequence = trigger.data('sequence');
-        $.get('${pageContext.request.contextPath}/history', {
-            book_id:<%=request.getAttribute("bookID")%>,
-            sequence: Sequence
-        }, function (responseText) { // 将历史记录渲染到模态框
-            var history = JSON.parse(responseText);
-            console.log(history);
-            historyTitle = "第 " + Sequence + " 章历史记录";
-            historyContent = " <table class=\"bordered\">\n" +
-                "        <thead>\n" +
-                "          <tr>\n" +
-                "              <th>编辑者</th>\n" +
-                "              <th>章节标题</th>\n" +
-                "              <th>修改时间</th>\n" +
-                "              <th>查看</th>\n" +
-                "          </tr>\n" +
-                "        </thead>\n" +
-                "        <tbody>";
-            for (var i = 0; i < history.length; i++) {
-                var cur = history[i];
-                historyContent += "<tr><td>" + cur.editorNickname + "</td><td>" + cur.name + "</td><td>" + cur.modifiedTime + "</td><td><a href=\"old?id=" + cur.ID + "\"><i class=\"material-icons\">link</i></a></td>";
-            }
-            historyContent += "   </tbody>\n" +
-                "      </table>";
-            $('#history_content').html(historyContent);
-        }).fail(function () {
-            toast("操作异常，请重试");
-        })
-    }
 </script>
 </body>
 </html>
