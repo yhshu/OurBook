@@ -24,7 +24,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.modal').modal();
             $('select').material_select();
             $('#select_sequence').change(function () {
                 $('#sequence').val($('#select_sequence').val());
@@ -222,8 +221,10 @@
                         <!--历史记录 模态框-->
                         <div id="history_modal" class="modal bottom-sheet">
                             <div class="modal-content">
-                                <h5 id="history_title"></h5>
-                                <div id="history_content"></div>
+                                <h5 id="history_title">历史记录</h5>
+                                <div id="history_content">
+                                    正在加载...
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
@@ -484,24 +485,48 @@
             toast("操作异常，请重试");
         })
     });
+    var historyTitle;
+    var historyContent;
 
-    $('.history_request').click(function () { // 查看历史记录按钮，点击后渲染模态框
-        var Sequence = $(this).data('sequence');
+    function modal_render(trigger) { // 查看历史记录按钮，点击后渲染模态框
+        var Sequence = trigger.data('sequence');
         $.get('${pageContext.request.contextPath}/history', {
             book_id:<%=request.getAttribute("bookID")%>,
             sequence: Sequence
         }, function (responseText) { // 将历史记录渲染到模态框
             var history = JSON.parse(responseText);
-            $('#history_title').text = "第 " + Sequence + " 章历史记录";
-            var historyContent;
+            console.log(history);
+            historyTitle = "第 " + Sequence + " 章历史记录";
+            historyContent = " <table class=\"bordered\">\n" +
+                "        <thead>\n" +
+                "          <tr>\n" +
+                "              <th>编辑者</th>\n" +
+                "              <th>章节标题</th>\n" +
+                "              <th>修改时间</th>\n" +
+                "              <th>查看</th>\n" +
+                "          </tr>\n" +
+                "        </thead>\n" +
+                "        <tbody>";
             for (var i = 0; i < history.length; i++) {
-                historyContent.append(history[i]);
+                var cur = history[i];
+                historyContent += "<tr><td>" + cur.nickname + "</td><td>" + cur.editorNickname + "</td><td>" + cur.modifiedTime + "</td><td><a href=\"" + cur.content + "\"><i class=\"material-icons\">link</i></a></td>";
             }
-            $('#history_content').html = historyContent;
+            historyContent += "   </tbody>\n" +
+                "      </table>";
         }).fail(function () {
             toast("操作异常，请重试");
         })
-    })
+    };
+
+    $('#history_modal').modal({
+        ready: function (modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+            modal_render(trigger);
+            $('#history_title').html(historyTitle);
+            $('#history_content').html(historyContent);
+        }
+    });
+
+    //$('.modal').modal();
 </script>
 </body>
 </html>
