@@ -9,52 +9,52 @@
 <body class="lighten-5" style="background-color: #F9F3E9">
 <jsp:include page="nav.jsp"/>
 <main>
-<div id="side" style=" margin-top: 3px; padding-left: 7px; float: left; width: 300px;">
-    <div style="margin-left: 4px; margin-top: 10px;">
-        <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
-                class="material-icons">arrow_back</i>返回</a>
-        <% if (session.getAttribute("username").equals(request.getAttribute("editor")) || (boolean) request.getAttribute("isCollaborator")) {
-            // 主编或协作者均拥有编辑和删除权限
-        %>
-        <a style="margin-left: 72px;"
-           href="${pageContext.request.contextPath}/modify?book=<%=request.getAttribute("bookID")%>&sequence=<%=request.getAttribute("sequence")%>">
-            <i class="material-icons">edit</i>编辑</a>
-        <a style="margin-left: 72px;" class="modal-trigger" href="#delete_confirm"><i
-                class="material-icons">delete_forever</i>删除</a>
-        <%}%>
+    <div id="side" style=" margin-top: 3px; padding-left: 7px; float: left; width: 300px;">
+        <div style="margin-left: 4px; margin-top: 10px;">
+            <a href="${pageContext.request.contextPath}/book?id=<%=request.getAttribute("bookID")%>"><i
+                    class="material-icons">arrow_back</i>返回</a>
+            <% if (session.getAttribute("username").equals(request.getAttribute("editor")) || (boolean) request.getAttribute("isCollaborator")) {
+                // 主编或协作者均拥有编辑和删除权限
+            %>
+            <a style="margin-left: 72px;"
+               href="${pageContext.request.contextPath}/modify?book=<%=request.getAttribute("bookID")%>&sequence=<%=request.getAttribute("sequence")%>">
+                <i class="material-icons">edit</i>编辑</a>
+            <a style="margin-left: 72px;" class="modal-trigger" href="#delete_confirm"><i
+                    class="material-icons">delete_forever</i>删除</a>
+            <%}%>
+        </div>
+        <ul style="margin-top: 2px;">
+            <!-- 本书的所有章节目录-->
+            <%
+                Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
+                for (Chapter chapter : chapters) {
+            %>
+            <li style="padding: 5px">
+                <a class="black-text"
+                   href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"><%=chapter.getName()%>
+                </a>
+            </li>
+            <%
+                }%>
+        </ul>
     </div>
-    <ul style="margin-top: 2px;">
-        <!-- 本书的所有章节目录-->
+    <div id="main" style=" margin-top: 3px; padding-left: 5px; float:left; width: 74.6%; ">
+        <h4 style="padding: 5px 20px;"><%=request.getAttribute("name")%>
+        </h4>
         <%
-            Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
-            for (Chapter chapter : chapters) {
-        %>
-        <li style="padding: 5px">
-            <a class="black-text"
-               href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>"><%=chapter.getName()%>
-            </a>
-        </li>
+            try {
+                BufferedReader br = (BufferedReader) request.getAttribute("reader");
+                String line;
+                while ((line = br.readLine()) != null) {%>
+        <p style="padding: 0 10px;"><%=line%>
+        </p>
         <%
-            }%>
-    </ul>
-</div>
-<div id="main" style=" margin-top: 3px; padding-left: 5px; float:left; width: 74.6%; ">
-    <h4 style="padding: 5px 20px;"><%=request.getAttribute("name")%>
-    </h4>
-    <%
-        try {
-            BufferedReader br = (BufferedReader) request.getAttribute("reader");
-            String line;
-            while ((line = br.readLine()) != null) {%>
-    <p style="padding: 0 10px;"><%=line%>
-    </p>
-    <%
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    %>
-</div>
+        %>
+    </div>
 </main>
 <script>
     $(document).ready(function () {
@@ -79,6 +79,5 @@
            onclick="document.getElementById('delete_chapter').submit();">确认</a>
     </div>
 </div>
-<%@include file="footer.html"%>
 </body>
 </html>
