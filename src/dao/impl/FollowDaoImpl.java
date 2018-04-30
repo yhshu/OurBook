@@ -20,7 +20,7 @@ public class FollowDaoImpl implements FollowDao {
      *添加关注的人的，只能一个一个添加，用按钮形式<关注>
      */
     @Override
-    public void add(String follower,String followee) {
+    public void add(String follower, String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("INSERT INTO follow(follower,followee) VALUES (?,?)");
@@ -43,7 +43,7 @@ public class FollowDaoImpl implements FollowDao {
      *取消关注的人，只能一个一个删除，用按钮形式<取消关注>
      */
     @Override
-    public void del(String follower,String followee) {
+    public void del(String follower, String followee) {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             PreparedStatement stm = conn.prepareStatement("DELETE FROM follow WHERE follower=? and followee=?");

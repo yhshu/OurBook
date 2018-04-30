@@ -10,15 +10,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import service.BookService;
 import service.impl.BookServiceImpl;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 

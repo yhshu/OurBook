@@ -3,7 +3,6 @@ package Util;
 import org.apache.commons.fileupload.FileItem;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServlet;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
