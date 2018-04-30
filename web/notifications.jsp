@@ -1,8 +1,8 @@
-<%@ page import="model.Notification" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="model.Message" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="model.User" %><%--
+<%@ page import="model.Notification" %>
+<%@ page import="model.User" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Map" %><%--
   Created by IntelliJ IDEA.
   User: Radiance
   Date: 4/27/18
@@ -180,7 +180,7 @@
             <li class="clear_read">
                 <div class="collapsible-header red waves-effect waves-light"
                      style="border: 0;padding: 10px !important;">
-                    <h6 style="text-align: center;width: 100%;cursor: pointer" class="white-text">
+                    <h6 style="text-align: center;width: 100%;cursor: pointer; margin: 0;" class="white-text">
                         清空已读通知
                     </h6>
                 </div>

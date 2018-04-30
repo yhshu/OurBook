@@ -194,16 +194,12 @@ public class ChapterDaoImpl implements ChapterDao {
             stm3 = conn.prepareStatement("UPDATE chapter SET sequence = sequence - 1 WHERE bookID = ? and sequence > ?"); // 调整章节号
             stm3.setInt(1, bookID);
             stm3.setInt(2, sequence);
-            try {
-                stm3.executeUpdate();
-                System.out.println("ChapterDao: 章节号调整成功");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                System.out.println("ChapterDao: 章节号调整失败");
-            }
+            stm3.executeUpdate();
+            System.out.println("ChapterDao: 章节号调整成功");
             return result.toArray(new String[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ChapterDao: 章节号调整失败");
             return null;
         } finally {
             DBUtil.safeClose(stm1);
@@ -214,12 +210,26 @@ public class ChapterDaoImpl implements ChapterDao {
     }
 
     @Override
-    public Edit getHistory(int bookID, int sequence) {
+    public Edit[] getHistory(int bookID, int sequence) {
+        PreparedStatement stm = null;
         try {
+            conn = DBUtil.connectDB();
+            ArrayList<Edit> edits = new ArrayList<>();
+            stm = conn.prepareStatement("SELECT * FROM ourbook.edit,ourbook.chapter_info WHERE chapter_info.bookID = ? AND chapter_info.sequence = ? AND chapter_info.ID = edit.chapterID");
+            stm.setInt(1, bookID);
+            stm.setInt(2, sequence);
+            ResultSet rs = stm.getResultSet();
+            while (rs.next()) {
+                Edit edit = new Edit(rs.getString("name"), rs.getInt("chapterID"), rs.getString("content"), rs.getTimestamp("time"), rs.getString("username"));
+                edits.add(edit);
+            }
+            return edits.toArray(new Edit[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ChapterDao: 获取章节历史记录失败");
         } finally {
-
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
         }
         return null;
     }

@@ -63,5 +63,5 @@ public interface ChapterDao {
      * @param sequence 章节序号
      * @return 历史记录
      */
-    Edit getHistory(int bookID, int sequence);
+    Edit[] getHistory(int bookID, int sequence);
 }

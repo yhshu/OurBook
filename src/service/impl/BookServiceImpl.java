@@ -11,6 +11,7 @@ import dao.impl.NotificationDaoImpl;
 import dao.impl.UserDaoImpl;
 import model.Book;
 import model.Chapter;
+import model.Edit;
 import model.User;
 import service.BookService;
 
@@ -19,6 +20,7 @@ import java.io.File;
 public class BookServiceImpl implements BookService {
     private BookDao bookDao = new BookDaoImpl();
     private ChapterDao chapterDao = new ChapterDaoImpl();
+    private UserDao userDao = new UserDaoImpl();
     private NotificationDao notificationDao = new NotificationDaoImpl();
     private static final int chiefEditorAuthority = 2;
     private static final int collaboratorAuthority = 1;
@@ -261,6 +263,15 @@ public class BookServiceImpl implements BookService {
             }
         }
         return noAuthority;
+    }
+
+    @Override
+    public Edit[] getHistory(int bookID, int sequence) {
+        Edit[] history = chapterDao.getHistory(bookID, sequence);
+        if (history == null) return null;
+        for (Edit edit : history)
+            edit.setEditorNickname(userDao.find(edit.getEditorUsername()).getNickname());
+        return history;
     }
 
     private static String writeChapterToFile(String rootDir, int bookID, int sequence, String content) {

@@ -6,6 +6,7 @@ public class Edit {
     private String name; // 章节名称
     private int bookID; // 所属书目的编号
     private int sequence; // 章节序号
+    private int chapterID;
     private String content; // 章节文件路径
     private Timestamp modifiedTime;  // 最后修改时间
     private String editorUsername; // 作者用户名
@@ -65,5 +66,13 @@ public class Edit {
 
     public void setEditorNickname(String editorNickname) {
         this.editorNickname = editorNickname;
+    }
+
+    public Edit(String name, int chapterID, String content, Timestamp modifiedTime, String editorUsername) {
+        this.name = name;
+        this.chapterID = chapterID;
+        this.content = content;
+        this.modifiedTime = modifiedTime;
+        this.editorUsername = editorUsername;
     }
 }

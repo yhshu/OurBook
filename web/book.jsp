@@ -205,7 +205,7 @@
                     <%
                         if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
                     %>
-                    <a href="#history_modal_<%=chapter.getSequence()%>" class="right modal-trigger"
+                    <a class="right modal-trigger history_request"
                        style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
                        data-sequence="<%=chapter.getSequence()%>">
                         <i class="material-icons">history</i></a>
@@ -214,19 +214,19 @@
                        style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px">
                         <i class="material-icons">mode_edit</i>
                     </a>
-                    <!--历史记录 模态框-->
-                    <div id="history_modal_<%=chapter.getSequence()%>" class="modal bottom-sheet">
-                        <div class="modal-content">
-                            <h5>第<%=chapter.getSequence()%>章历史记录</h5>
-
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
-                        </div>
-                    </div>
                     <%}%>
                 </div>
                 <%}%>
+                <!--历史记录 模态框-->
+                <div id="history_modal" class="modal bottom-sheet">
+                    <div class="modal-content">
+                        <h5 id="history_title"></h5>
+                        <div id="history_content"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">好</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -471,6 +471,22 @@
             toast("操作异常，请重试");
         })
     });
+
+    $('.history_request').click(function () { // 查看历史记录按钮，点击后渲染模态框
+        var Sequence = $(this).data('sequence');
+        $.get('${pageContext.request.contextPath}/history', {
+            book_id:<%=request.getAttribute("bookID")%>,
+            sequence: Sequence
+        }, function (responseText) { // 将历史记录渲染到模态框
+            var history = JSON.parse(responseText);
+            $('#history_title').text = "第 " + Sequence + " 章历史记录";
+            for (var i = 0; i < history.length; i++) {
+
+            }
+        }).fail(function () {
+            toast("操作异常，请重试");
+        })
+    })
 </script>
 </body>
 </html>
