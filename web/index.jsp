@@ -130,14 +130,10 @@
                 }
             %>
         </div>
-
-            <img src="img/ads/bubble.png" style="width:20px;height:20px;">
-
-        <span style="font-size:20px">
-                                    为您推荐
-                        </span>
-        <a href="https://www.amazon.cn/dp/B00QJDOLIO/459-3755434-3588139?_encoding=UTF8&pf_rd_i=desktop&pf_rd_m=A1AJ19PSB66TGU&pf_rd_p=ce9fc27b-a4fd-4da7-bb9a-95ad1b6617a0&pf_rd_r=ZHRCQCYMBYSFT98K4WE5&pf_rd_s=Tcg-slide-1&pf_rd_t=36701&ref_=p-Tcg-slide-1--2efc1934-96f8-455f-bc30-b0debca468f9"target="_blank">
-        <img src="img/ads/kindle.png" style=" width: 262px; margin-left: 25px;"/>
+        <span style="font-size:20px;margin-left: 25px;">为您推荐</span>
+        <a href="https://www.amazon.cn/dp/B00QJDOLIO/459-3755434-3588139?_encoding=UTF8&pf_rd_i=desktop&pf_rd_m=A1AJ19PSB66TGU&pf_rd_p=ce9fc27b-a4fd-4da7-bb9a-95ad1b6617a0&pf_rd_r=ZHRCQCYMBYSFT98K4WE5&pf_rd_s=Tcg-slide-1&pf_rd_t=36701&ref_=p-Tcg-slide-1--2efc1934-96f8-455f-bc30-b0debca468f9"
+           target="_blank">
+            <img src="img/ads/kindle.png" style=" width: 262px; margin-left: 25px;"/>
         </a>
 </main>
 <%@ include file="footer.html" %>
