@@ -207,7 +207,7 @@ public class ChapterDaoImpl implements ChapterDao {
         try {
             conn = DBUtil.connectDB();
             ArrayList<Edit> edits = new ArrayList<>();
-            stm = conn.prepareStatement("SELECT * FROM ourbook.edit,ourbook.chapter_info WHERE chapter_info.bookID = ? AND chapter_info.sequence = ? AND chapter_info.ID = edit.chapterID");
+            stm = conn.prepareStatement("SELECT e.content,e.name,e.username,e.chapterID,e.time FROM ourbook.edit e,ourbook.chapter_info c WHERE c.bookID = ? AND c.sequence = ? AND c.ID = e.chapterID");
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
             ResultSet rs = stm.getResultSet();
@@ -215,6 +215,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 Edit edit = new Edit(rs.getString("name"), rs.getInt("chapterID"), rs.getString("content"), rs.getTimestamp("time"), rs.getString("username"));
                 edits.add(edit);
             }
+            rs.close();
             return edits.toArray(new Edit[0]);
         } catch (Exception e) {
             e.printStackTrace();
