@@ -4,7 +4,7 @@
 <%@ page import="model.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
-    SimpleDateFormat sdf = new SimpleDateFormat("yy.M.dd  HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("yy.M.d  HH:mm");
     User[] collaborators = (User[]) request.getAttribute("collaborators");
     User chiefEditor = (User) request.getAttribute("chiefEditor");
     Comment[] comments = (Comment[]) request.getAttribute("comments");
@@ -509,7 +509,7 @@
         }, function (responseText) { // 将历史记录渲染到模态框
             var history = JSON.parse(responseText);
             console.log(history);
-            historyTitle = "第 " + Sequence + " 章历史记录";
+            historyTitle = "第 " + Sequence + " 章 历史记录";
             historyContent = " <table class=\"bordered\">\n" +
                 "        <thead>\n" +
                 "          <tr>\n" +
