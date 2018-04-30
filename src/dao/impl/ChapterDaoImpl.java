@@ -210,7 +210,7 @@ public class ChapterDaoImpl implements ChapterDao {
             stm = conn.prepareStatement("SELECT e.content,e.name,e.username,e.chapterID,e.time FROM ourbook.edit e,ourbook.chapter_info c WHERE c.bookID = ? AND c.sequence = ? AND c.ID = e.chapterID");
             stm.setInt(1, bookID);
             stm.setInt(2, sequence);
-            ResultSet rs = stm.getResultSet();
+            ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Edit edit = new Edit(rs.getString("name"), rs.getInt("chapterID"), rs.getString("content"), rs.getTimestamp("time"), rs.getString("username"));
                 edits.add(edit);

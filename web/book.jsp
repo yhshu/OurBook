@@ -485,17 +485,18 @@
         })
     });
 
-    $('.history_request').click(function () { // 查看历史记录按钮，点击后渲染模态框
+    $('.history_request').click(function (event) { // 查看历史记录按钮，点击后渲染模态框
         var Sequence = $(this).data('sequence');
         $.get('${pageContext.request.contextPath}/history', {
             book_id:<%=request.getAttribute("bookID")%>,
             sequence: Sequence
         }, function (responseText) { // 将历史记录渲染到模态框
             var history = JSON.parse(responseText);
-            $('#history_title').text = "第 " + Sequence + " 章历史记录";
+            $('#history_title').html("第 " + Sequence + " 章历史记录");
             var historyContent;
             for (var i = 0; i < history.length; i++) {
-                historyContent.append(history[i]);
+                var cur = history[i];
+                historyContent += cur.name;
             }
             $('#history_content').html = historyContent;
         }).fail(function () {
