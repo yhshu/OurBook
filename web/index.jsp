@@ -6,6 +6,14 @@
 <head>
     <%@ include file="header.jsp" %>
     <title>首页 - OurBook</title>
+    <style>
+        .nav-item {
+            display: inline-block;
+            margin: 10px;
+            font-size: 16px;
+            color: #9e9e9e !important;
+        }
+    </style>
 </head>
 <%
     if (session.getAttribute("username") == null) {
@@ -22,13 +30,14 @@
     <div class="container row" style="margin-top: 20px; margin-bottom: 0; width: 1000px">
         <div class="card" style="padding:  1px 10px">
 
-            <a style="display: inline-block;" href="${pageContext.request.contextPath}/home" class="grey-text"><h6><i
-                    class="material-icons"
-            >home</i>
-                我的主页</h6></a>
-            <a style="display: inline-block; margin-left: 20px;" href="${pageContext.request.contextPath}/newbook.jsp"
-               class="grey-text"><h6><i
-                    class="material-icons">mode_edit</i>创作新书</h6></a>
+            <a href="${pageContext.request.contextPath}/home" class="nav-item waves-effect">
+                <i class="material-icons">home</i>我的主页</a>
+            <a href="${pageContext.request.contextPath}/create" class="nav-item waves-effect">
+                <i class="material-icons">mode_edit</i>创作新书</a>
+            <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect">
+                <i class="material-icons">notifications</i>通知中心
+                <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
+                </span></a>
         </div>
         <img src="img/ads/index_ads.png" style=" display:inline;width: 1000px"/>
     </div>

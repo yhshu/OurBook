@@ -77,7 +77,7 @@
                 <%=book.getDescription()%>
             </p>
         </div>
-        <a href=""
+        <a href="#"
            class="btn-large btn-floating halfway-fab waves-effect waves-light pink favorite_submit"
            style="position: relative;margin-bottom: -100px;left:772px;bottom:176px"
            data-method="<%=favorite ? "remove" : "add"%>" data-book="<%=book.getID()%>">

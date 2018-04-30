@@ -58,7 +58,7 @@
                                 <%=request.getAttribute("bookName")%>
                             </a>
                         </h5>
-                        <a href="" class="pink-text"
+                        <a href="#" class="pink-text"
                            style="float: left;font-size: 27px;line-height: 32px;margin-left: 20px" id="favorite_submit"
                            data-method="<%=(boolean) request.getAttribute("isFavorite") ? "remove" : "add"%>">
                             <i class="material-icons"
@@ -333,8 +333,8 @@
                             <h6>你确定删除这条评论吗？</h6>
                         </div>
                         <div class="modal-footer">
-                            <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
-                            <a href=""
+                            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                            <a href="#"
                                class="modal-action modal-close waves-effect waves-green btn-flat deleteComment">确定</a>
                         </div>
                     </div>

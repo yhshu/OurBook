@@ -84,14 +84,14 @@
                     </h4>
                     <h5 class="grey-text" style="margin: 8px 10px;float: left">@<%=request.getAttribute("username")%>
                     </h5>
-                    <a href="" class="pink btn"
-                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;" href=""
+                    <a href="#" class="pink btn"
+                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;"
                        id="follow_submit"
                        data-method="<%=(boolean)request.getAttribute("isFollowing") ? "remove" : "add" %>">
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                     </a>
                     <a class="btn modal-trigger" href="#message_modal"
-                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;">发送私信</a>
+                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;">私信</a>
                 </div>
                 <!--用户的一句话描述--><%
                 String description = (String) request.getAttribute("description");

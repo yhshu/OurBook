@@ -184,7 +184,7 @@ border-bottom: 1px solid lightgray">
                             最后更新：<%=book.getLastModified() != null ? sdf.format(book.getLastModified()) : "暂无"%>
                         </p>
                     </div>
-                    <a href="" class="remove_favorite pink-text"
+                    <a href="#" class="remove_favorite pink-text"
                        style="display: inline; -webkit-appearance:none; -moz-appearance:none;font-size: 24px;height: 36px;margin-top: 20px"
                        data-book="<%=book.getID()%>"><i class="material-icons">favorite</i></a>
                 </div>
