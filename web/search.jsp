@@ -18,8 +18,9 @@
 </head>
 <body>
 <jsp:include page="nav.jsp"/>
+<main>
 <div class="container row" style="margin-top: 100px">
-        <%
+    <%
         String type = (String) request.getAttribute("type"); // 获取搜索类型
         if (type == null || type.equals("book")) { // 如果搜索书籍
             User[] editors = (User[]) request.getAttribute("editors");
@@ -29,12 +30,12 @@
             if (books.length == 0) {%>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
-        <%
+    <%
     } else for (Book book : books) {
-                boolean favorite = false;
-                for(Book book1 : favorites)
-                    if(book1.getID() == book.getID())
-                        favorite = true;
+        boolean favorite = false;
+        for (Book book1 : favorites)
+            if (book1.getID() == book.getID())
+                favorite = true;
     %>
     <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
         <%if (book.getCover() == null || book.getCover().equals("")) {%>
@@ -85,17 +86,17 @@
             </i>
         </a>
     </div>
-        <%
+    <%
                 i++;
             }
-    }else if(type.equals("article")) // 如果搜索文章
-        {
-            Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
-            if(chapters.length == 0){
-                %>
+    } else if (type.equals("article")) // 如果搜索文章
+    {
+        Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
+        if (chapters.length == 0) {
+    %>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的文章</h4>
-        <%}else {%>
+    <%} else {%>
     <div style="display: grid;grid-template-columns: 480px 480px">
         <%for (Chapter chapter : chapters) {%>
         <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
@@ -133,14 +134,15 @@
             </div>
         </div>
         <%}%></div>
-        <%}
+    <%
         }
-    else if (type.equals("user")) { // 如果搜索用户
+    } else if (type.equals("user")) { // 如果搜索用户
         User[] users = (User[]) request.getAttribute("users");
-        if (users.length == 0) {%>
+        if (users.length == 0) {
+    %>
     <h4 class="grey-text" style="text-align: center;margin-top:250px">
         未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的用户</h4>
-        <%} else {%>
+    <%} else {%>
     <div style="display: grid;grid-template-columns: 480px 480px;width:960px;margin:auto">
         <%for (User user : users) {%>
         <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
@@ -177,43 +179,48 @@
             </div>
         </div>
         <% }%></div>
-        <%}
-        } %>
-    <script>
-        $(document).ready(function () {
-            <%if(request.getAttribute("keywords")!=null){%>
-            document.getElementById("search").value = "<%=request.getAttribute("keywords")%>";
-            <%}%>
-        });
+    <%
+            }
+        }
+    %>
+</div>
+</main>
+<script>
+    $(document).ready(function () {
+        <%if(request.getAttribute("keywords")!=null){%>
+        document.getElementById("search").value = "<%=request.getAttribute("keywords")%>";
+        <%}%>
+    });
 
-        $('.favorite_submit').click(function (event) {
-            event.preventDefault();
-            var submit_book = $(this);
-            var icon_book = $('#book_icon_' + submit_book.data("book"));
-            $.get('${pageContext.request.contextPath}/favorite', {
-                    method: submit_book.data("method"),
-                    book: submit_book.data("book")
-                },
-                function () {
-                    if (submit_book.data("method") === "remove") {
-                        toast('取消收藏成功');
-                        icon_book.html("favorite_border");
-                        submit_book.data("method", "add");
-                        icon_book.attr("data-tooltip", '收藏');
-                        icon_book.tooltip();
-                    }
-                    else if (submit_book.data("method") === "add") {
-                        toast('收藏成功');
-                        icon_book.html("favorite");
-                        submit_book.data("method", "remove");
-                        icon_book.attr("data-tooltip", '取消收藏');
-                        icon_book.tooltip();
-                    }
+    $('.favorite_submit').click(function (event) {
+        event.preventDefault();
+        var submit_book = $(this);
+        var icon_book = $('#book_icon_' + submit_book.data("book"));
+        $.get('${pageContext.request.contextPath}/favorite', {
+                method: submit_book.data("method"),
+                book: submit_book.data("book")
+            },
+            function () {
+                if (submit_book.data("method") === "remove") {
+                    toast('取消收藏成功');
+                    icon_book.html("favorite_border");
+                    submit_book.data("method", "add");
+                    icon_book.attr("data-tooltip", '收藏');
+                    icon_book.tooltip();
                 }
-            ).fail(function () { // 服务器响应错误信息
-                toast("操作异常");
-            })
-        });
-    </script>
+                else if (submit_book.data("method") === "add") {
+                    toast('收藏成功');
+                    icon_book.html("favorite");
+                    submit_book.data("method", "remove");
+                    icon_book.attr("data-tooltip", '取消收藏');
+                    icon_book.tooltip();
+                }
+            }
+        ).fail(function () { // 服务器响应错误信息
+            toast("操作异常");
+        })
+    });
+</script>
+<%@ include file="footer.html" %>
 </body>
 </html>

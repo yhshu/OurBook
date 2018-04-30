@@ -43,6 +43,9 @@ public class ModifyUserServlet extends HttpServlet {
                     FileItem fm = (FileItem) aList; // 遍历列表
                     if (!fm.isFormField()) {
                         if (fm.getName() == null || fm.getName().equals("")) break;
+                        File oldAvatar = new File(this.getServletContext().getRealPath((String) request.getSession().getAttribute("avatar")));
+                        if (oldAvatar.delete()) System.out.println("ModifyUserServlet: 原头像删除成功");
+                        else System.out.println("ModifyUserServlet: 原头像删除失败");
                         String serverPath = this.getServletContext().getRealPath("resources/avatar/");  // 获取文件全路径名
                         String extension = fm.getName().substring(fm.getName().lastIndexOf("."));
                         String filePath = serverPath + session.getAttribute("username") + extension;
