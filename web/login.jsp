@@ -5,10 +5,10 @@
     <%@ include file="header.jsp" %>
     <title>登录 - OurBook</title>
     <script type="text/javascript">
-        function changeimg(){
-            var myimg = document.getElementById ("code");
-            now = new  Date();
-            myimg.src="makeCertpic.jsp?code="+now.getTime();
+        function changeimg() {
+            var myimg = document.getElementById("code");
+            now = new Date();
+            myimg.src = "checkCode.jsp?code=" + now.getTime();
         }
     </script>
 </head>
@@ -47,10 +47,10 @@
                 </div>
                 <div class="row">
                     <div class="input-field s12">
-                        <input type="text" id="checkcode" name="checkcode"  class="validate">
+                        <input type="text" id="checkcode" name="checkcode" class="validate">
                         <label for="password">验证码</label>
                     </div>
-                    <img id="code" src="makeCertpic.jsp"><a href="javascript:changeimg()">看不清，换一张</a>
+                    <img id="code" src="checkCode.jsp"><a href="javascript:changeimg()">看不清，换一张</a>
                 </div>
 
                 <br>

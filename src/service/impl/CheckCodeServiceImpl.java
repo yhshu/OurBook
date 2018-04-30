@@ -1,6 +1,6 @@
-package dao.impl;
+package service.impl;
 
-import dao.checkcodeDao;
+import service.CheckCodeService;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,14 +9,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 
-/**
- * @program:OurBook
- * @description: checkcode生成
- * @create: 04-30-00
- */
-public class MakeCertPicImple implements checkcodeDao {
-    private char mapTable[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
-            'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+public class CheckCodeServiceImpl implements CheckCodeService {
+    private char mapTable[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
     @Override
     public String getCertPic(int width, int height, OutputStream os) {
         if (width <= 0)
@@ -33,12 +28,12 @@ public class MakeCertPicImple implements checkcodeDao {
         g.setColor(Color.black);
         g.drawRect(0, 0, width - 1, height - 1);
         // 随机产生的验证码
-        String strEnsure = "";
+        StringBuilder strEnsure = new StringBuilder();
         // 4代表4为验证码，如果要产生更多位的验证码，则加大数值
         for (int i = 0; i < 4; ++i) {
-            strEnsure += mapTable[(int) (mapTable.length * Math.random())];
+            strEnsure.append(mapTable[(int) (mapTable.length * Math.random())]);
         }
-        // 将认证码显示到图像中，如果要生成更多位的验证码，增加drawString语句
+        // 将认证码显示到图像中，如果要生成更多位的验证码，增加 drawString 语句
         g.setColor(Color.black);
         g.setFont(new Font("Atlantic Inline", Font.PLAIN, 18));
         String str = strEnsure.substring(0, 1);
@@ -65,6 +60,6 @@ public class MakeCertPicImple implements checkcodeDao {
         } catch (IOException e) {
             return "";
         }
-        return strEnsure;
+        return strEnsure.toString();
     }
 }
