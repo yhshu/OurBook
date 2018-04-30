@@ -19,21 +19,21 @@
 <body class="white">
 <jsp:include page="nav.jsp"/>
 <main>
-<div class="container">
-    <form action="${pageContext.request.contextPath}/ChapterServlet" id="form" method="post">
-        <h4>
-            <i class="material-icons blue-text">bookmark</i>
-            <%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节
-        </h4>
-        <div class="input-field col s12">
-            <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"
-                   value="<%=request.getAttribute("name")%>"/>
-            <label for="chapterName">章节标题</label>
-        </div>
-        <textarea id="chapterContent" name="chapterContent"><%=request.getAttribute("content")%></textarea>
-        <input type="submit" class="blue btn right" value="确认" style="margin-top: 20px"/>
-    </form>
-</div>
+    <div class="container" style="margin:20px auto;height:574px">
+        <form action="${pageContext.request.contextPath}/ChapterServlet" id="form" method="post">
+            <h4>
+                <i class="material-icons blue-text">bookmark</i>
+                <%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节
+            </h4>
+            <div class="input-field col s12">
+                <input id="chapterName" name="chapterName" type="text" class="validate" data-length="40"
+                       value="<%=request.getAttribute("name")%>"/>
+                <label for="chapterName">章节标题</label>
+            </div>
+            <textarea id="chapterContent" name="chapterContent"><%=request.getAttribute("content")%></textarea>
+            <input type="submit" class="blue btn right" value="提交内容" style="margin-top: 20px"/>
+        </form>
+    </div>
 </main>
 <%@ include file="footer.html" %>
 <script>
@@ -64,7 +64,7 @@
             toast('请输入章节标题');
             return false;
         }
-        if ($('#chapterContent').characterCounter().val === 0) {
+        if (!$.trim($('#chapterContent').val()).length) {
             toast('请输入章节内容');
             return false;
         }

@@ -64,7 +64,7 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <main>
-    <div class="container" style="margin-top: 20px">
+    <div class="container" style="margin: 20px auto">
         <div class="col card" style="width: 600px; padding: 20px; margin:15px 18.5% ;">
             <form action="${pageContext.request.contextPath}/addBook" method="post" enctype="multipart/form-data"
                   id='form'>

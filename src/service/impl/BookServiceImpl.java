@@ -98,35 +98,20 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 内容为空");
             return false;
         }
-        // 将章节内容存放在文件中
+        // 将章节内容存存储于文件中
         String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
         chapter.setContent(absPath.replace(rootDir, ""));
-
         if (chapterDao.add(username, chapter)) {
             System.out.println("BookService: 添加编辑信息成功");
         } else {
             System.out.println("BookService: 添加编辑信息失败");
             return false;
         }
-        // 通知主编
-        if (notificationDao.notify(book.getChiefEditor(), "你的作品 " + book.getName() + " 已更新",
-                "<a href='home?user=" + username + "'>" + nickname +
-                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
-            System.out.println("BookService: 通知主编成功");
-        } else {
-            System.out.println("BookService: 通知主编失败");
-            return false;
-        }
+        // 若编辑者不是主编，通知主编
+        notifyChiefEditor(username, nickname, book);
         // 通知收藏者
-        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的 " + book.getName() + " 已更新",
-                "<a href='home?user=" + username + "'>" + nickname +
-                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
-            System.out.println("BookService: 通知收藏者成功");
-        } else {
-            System.out.println("BookService: 通知收藏者失败");
-            return false;
-        }
+        notifySubscribers(username, nickname, book);
         return true;
     }
 
@@ -142,14 +127,13 @@ public class BookServiceImpl implements BookService {
             return false;
         }
         if (chapter.getContent() == null || chapter.getContent().length() == 0) {
-            System.out.println("BookService: 内容URL为空");
+            System.out.println("BookService: 内容为空");
             return false;
         }
         // 将章节内容存放在文件中
         String absPath = writeChapterToFile(rootDir, chapter.getBookID(), chapter.getSequence(), chapter.getContent());
         if (absPath == null) return false;
         chapter.setContent(absPath.replace(rootDir, ""));
-
         // 添加编辑信息
         if (chapterDao.modify(username, chapter)) {
             System.out.println("BookService: 添加编辑信息成功");
@@ -157,24 +141,10 @@ public class BookServiceImpl implements BookService {
             System.out.println("BookService: 添加编辑信息失败");
             return false;
         }
-        // 通知主编
-        if (notificationDao.notify(book.getChiefEditor(), "你的作品 " + book.getName() + " 已更新",
-                "<a href='home?user=" + username + "'>" + nickname +
-                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a>。")) {
-            System.out.println("BookService: 通知主编成功");
-        } else {
-            System.out.println("BookService: 通知主编失败");
-            return false;
-        }
+        // 若编辑者不是主编，通知主编
+        notifyChiefEditor(username, nickname, book);
         // 通知收藏者
-        if (notificationDao.notifySubscribers(chapter.getBookID(), "你收藏的 " + book.getName() + " 已更新",
-                "<a href='home?user=" + username + "'>" + nickname +
-                        "</a> 刚刚更新了 <a href='book?id=" + chapter.getBookID() + "'>" + book.getName() + "</a> ，快来看看吧！")) {
-            System.out.println("BookService: 通知收藏者成功");
-        } else {
-            System.out.println("BookService: 通知收藏者失败");
-            return false;
-        }
+        notifySubscribers(username, nickname, book);
         return true;
     }
 
@@ -278,4 +248,25 @@ public class BookServiceImpl implements BookService {
         }
         return absPath;
     }
+
+    private void notifyChiefEditor(String username, String nickname, Book book) {
+        if (!username.equals(book.getChiefEditor()))
+            if (notificationDao.notify(book.getChiefEditor(), "你的作品 " + book.getName() + " 已更新",
+                    "<a href='home?user=" + username + "'>" + nickname +
+                            "</a> 刚刚更新了 <a href='book?id=" + book.getID() + "'>" + book.getName() + "</a>。")) {
+                System.out.println("BookService: 通知主编成功");
+            } else
+                System.out.println("BookService: 通知主编失败");
+
+    }
+
+    private void notifySubscribers(String username, String nickname, Book book) {
+        if (notificationDao.notifySubscribers(book.getID(), "你收藏的 " + book.getName() + " 已更新",
+                "<a href='home?user=" + username + "'>" + nickname +
+                        "</a> 刚刚更新了 <a href='book?id=" + book.getID() + "'>" + book.getName() + "</a>，快来看看吧！")) {
+            System.out.println("BookService: 通知收藏者成功");
+        } else
+            System.out.println("BookService: 通知收藏者失败");
+    }
+
 }
