@@ -32,10 +32,10 @@
             </div>
             <div class="input-field col s12">
                 <input id="description" name="description" type="text" class="validate" data-length="100"/>
-                <label for="description"><%=request.getAttribute("method").equals("add") ? "添加" : "改动"%>说明</label>
+                <label for="description">提交说明</label>
             </div>
             <textarea id="chapterContent" name="chapterContent"><%=request.getAttribute("content")%></textarea>
-            <input type="submit" class="blue btn right" value="提交内容" style="margin-top: 20px"/>
+            <input type="submit" class="blue btn right" value="提交" style="margin-top: 20px"/>
         </form>
     </div>
 </main>

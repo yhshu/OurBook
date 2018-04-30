@@ -165,7 +165,7 @@
                         <p><%=notification.getContent()%>
                         </p>
                         <div style="height: 45px">
-                            <a class="btn red right delete_unread" data-id="<%=notification.getID()%>">删除通知</a>
+                            <a class="btn red right delete_unread" data-id="<%=notification.getID()%>">删除</a>
                         </div>
                     </div>
                 </li>
@@ -192,7 +192,7 @@
                         <p><%=notification.getContent()%>
                         </p>
                         <div style="height: 45px">
-                            <a class="btn red right delete_read" data-id="<%=notification.getID()%>">删除通知</a>
+                            <a class="btn red right delete_read" data-id="<%=notification.getID()%>">删除</a>
                         </div>
                     </div>
                 </li>
@@ -244,8 +244,8 @@
                         <%}%>
                         <div style="height: 36px;margin-top: 20px">
                             <a class="btn modal-trigger" href="#message_modal"
-                               data-user="<%=user.getUsername()%>">回复</a>
-                            <a class="btn red right clear_messages" data-user="<%=user.getUsername()%>">清除记录</a>
+                               data-user="<%=user.getUsername()%>">对话</a>
+                            <a class="btn red right clear_messages" data-user="<%=user.getUsername()%>">删除</a>
                         </div>
                     </div>
                 </li>

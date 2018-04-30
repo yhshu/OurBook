@@ -31,7 +31,7 @@
         <div class="card" style="padding:  1px 10px">
 
             <a href="${pageContext.request.contextPath}/home" class="nav-item waves-effect">
-                <i class="material-icons">home</i>我的主页</a>
+                <i class="material-icons">home</i>个人主页</a>
             <a href="${pageContext.request.contextPath}/create" class="nav-item waves-effect">
                 <i class="material-icons">mode_edit</i>创作新书</a>
             <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect">
@@ -40,6 +40,7 @@
                 <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
                 <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
                 </span><%}%></a>
+            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect"><i class="material-icons">chat</i>我的私信</a>
         </div>
         <img src="img/ads/index_ads.png" style=" display:inline;width: 1000px;height: 350px; "/>
     </div>
