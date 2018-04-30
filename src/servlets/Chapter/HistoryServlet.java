@@ -16,8 +16,8 @@ import java.io.IOException;
 public class HistoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookService bookService = new BookServiceImpl();
         Gson gson = new Gson();
+        BookService bookService = new BookServiceImpl();
         try {
             int bookID = Integer.parseInt(request.getParameter("book_id"));
             int sequence = Integer.parseInt(request.getParameter("sequence"));

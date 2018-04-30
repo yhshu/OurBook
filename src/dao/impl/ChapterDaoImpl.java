@@ -219,6 +219,7 @@ public class ChapterDaoImpl implements ChapterDao {
                 edit.setBookID(rs.getInt("bookID"));
                 edits.add(edit);
             }
+            rs.close();
             return edits.toArray(new Edit[0]);
         } catch (Exception e) {
             e.printStackTrace();

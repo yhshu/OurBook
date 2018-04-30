@@ -495,7 +495,7 @@
             $('#history_title').text = "第 " + Sequence + " 章历史记录";
             var historyContent;
             for (var i = 0; i < history.length; i++) {
-                historyContent.append();
+                historyContent.append(history[i]);
             }
             $('#history_content').html = historyContent;
         }).fail(function () {
