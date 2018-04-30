@@ -13,7 +13,7 @@
 <html lang="zh-cmn-Hans">
 <head>
     <%@ include file="header.jsp" %>
-    <%SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd");%>
+    <%SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d");%>
     <title><%=request.getAttribute("keywords")%> - 搜索结果 - OurBook</title>
 </head>
 <body>

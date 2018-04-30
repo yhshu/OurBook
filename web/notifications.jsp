@@ -13,7 +13,7 @@
 <%
     if (session.getAttribute("username") == null)
         response.sendRedirect("/login");
-    SimpleDateFormat sdf = new SimpleDateFormat("M.dd  HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("M.d  HH:mm");
     Notification[] unread = (Notification[]) request.getAttribute("unread");
     Notification[] read = (Notification[]) request.getAttribute("read");
     Map<User, Message[]> messageMap = (Map<User, Message[]>) request.getAttribute("messages");
