@@ -209,7 +209,7 @@
                             if (chiefEditor.getUsername().equals(session.getAttribute("username")) || ((boolean) request.getAttribute("isCollaborator"))) { // 主编或协作者
                         %>
                         <!--历史记录 按钮-->
-                        <a class="right modal-trigger history_request"
+                        <a href="#history_modal" class="right modal-trigger history_request"
                            style="position: relative; top: -40px; right: 10px; font-size: 20px;line-height: 40px"
                            data-sequence="<%=chapter.getSequence()%>">
                             <i class="material-icons">history</i></a>
@@ -493,9 +493,11 @@
         }, function (responseText) { // 将历史记录渲染到模态框
             var history = JSON.parse(responseText);
             $('#history_title').text = "第 " + Sequence + " 章历史记录";
+            var historyContent;
             for (var i = 0; i < history.length; i++) {
-
+                historyContent.append();
             }
+            $('#history_content').html = historyContent;
         }).fail(function () {
             toast("操作异常，请重试");
         })
