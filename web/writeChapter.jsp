@@ -30,6 +30,10 @@
                        value="<%=request.getAttribute("name")%>"/>
                 <label for="chapterName">章节标题</label>
             </div>
+            <div class="input-field col s12">
+                <input id="description" name="description" type="text" class="validate" data-length="300"/>
+                <label for="description"><%=request.getAttribute("method").equals("add") ? "添加" : "改动"%>说明</label>
+            </div>
             <textarea id="chapterContent" name="chapterContent"><%=request.getAttribute("content")%></textarea>
             <input type="submit" class="blue btn right" value="提交内容" style="margin-top: 20px"/>
         </form>
@@ -48,7 +52,8 @@
                     book: '<%=request.getParameter("book")%>',
                     sequence: '<%=request.getParameter("sequence")%>',
                     chapterName: $('#chapterName').val(),
-                    chapterContent: $('#chapterContent').val()
+                    chapterContent: $('#chapterContent').val(),
+                    description: $('#description').val()
                 }, function (respondText) {
                     toast('<%=request.getAttribute("method").equals("add") ? "添加" : "编辑"%>章节成功');
                     window.location.href = respondText;

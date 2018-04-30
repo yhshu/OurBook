@@ -27,12 +27,13 @@
         <ul style="margin-top: 2px;">
             <!-- 本书的所有章节目录-->
             <%
-                Edit[] edits = (Edit[]) request.getAttribute("edits");
-                for (Edit edit : edits) {
+                Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
+                for (Chapter chapter : chapters) {
             %>
             <li style="padding: 5px">
                 <a class="black-text"
-                   href="${pageContext.request.contextPath}/old?ID=<%=edit.getID()%>
+                   href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>">
+                    <%=chapter.getName()%>
                 </a>
             </li>
             <%

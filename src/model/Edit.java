@@ -12,6 +12,7 @@ public class Edit {
     private Timestamp modifiedTime;  // 最后修改时间
     private String editorUsername; // 作者用户名
     private String editorNickname; // 作者昵称
+    private String description; // 改动说明
 
     public int getID() {
         return ID;
@@ -85,11 +86,20 @@ public class Edit {
         this.editorNickname = editorNickname;
     }
 
-    public Edit(String name, int chapterID, String content, Timestamp modifiedTime, String editorUsername) {
+    public Edit(String name, int chapterID, String content, String description, Timestamp modifiedTime, String editorUsername) {
         this.name = name;
         this.chapterID = chapterID;
         this.content = content;
+        this.description = description;
         this.modifiedTime = modifiedTime;
         this.editorUsername = editorUsername;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
