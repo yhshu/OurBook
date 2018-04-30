@@ -84,12 +84,22 @@
                 if (p1 === "" || p2 === "") {
                     Materialize.toast('请输入密码', 2000, 'rounded');
                     return false;
-                }
-                if (p1 !== p2) {
+                } else if (p1 !== p2) {
                     Materialize.toast('请核对密码输入', 2000, 'rounded');
                     return false;
-                } else
-                    return true;
+                } else if ($('#username').val().length < 6) {
+                    Materialize.toast('用户名不得小于6位', 2000, 'rounded');
+                    return false;
+                } else if ($('#password').val().length < 6) {
+                    Materialize.toast('密码不得小于6位', 2000, 'rounded');
+                    return false;
+                } else if ($('#password').val().length > 20) {
+                    Materialize.toast('密码不得多于20位', 2000, 'rounded');
+                    return false;
+                } else if ($('#username').val().length > 20) {
+                    Materialize.toast('用户名不得多于20位', 2000, 'rounded');
+                    return false;
+                } else return true;
             }
         </script>
     </div>

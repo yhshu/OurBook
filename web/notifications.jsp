@@ -37,6 +37,7 @@
         $(document).ready(function () {
             var read_badge = $('#read_badge');
             var unread_badge = $('#unread_badge');
+            var message_badge = $('#message_badge');
             $('.modal').modal();
             $('.collapsible').collapsible();
 
@@ -54,6 +55,8 @@
                     method: 'read',
                     from: user
                 });
+                message_badge.html(parseInt(message_badge.html()) - 1);
+                $('.badge', this).remove();
             });
 
             $('#clear_read').click(function () {
@@ -142,7 +145,10 @@
                     <span class="badge" id="read_badge" style="line-height: 48px">
                     <%=read.length%>
                 </span></a></li>
-                <li class="tab col s4"><a href="#area3">私信</a></li>
+                <li class="tab col s4"><a href="#area3">私信
+                    <span class="badge" id="message_badge" style="line-height: 48px">
+                    <%=session.getAttribute("unreadMessages")%>
+                </span></a></li>
             </ul>
         </div>
         <div id="area1" class="col s12 contained-area">
@@ -228,7 +234,8 @@
                         <h5 style="margin: 10px 20px 0 0"><%=user.getNickname()%>
                         </h5>
                         <%if (unreadNum > 0) {%>
-                        <span class="new badge" style="margin: 15px 0!important;"><%=unreadNum%></span><%}%>
+                        <span class="new badge" style="margin: 15px 0!important;">
+                            <%=unreadNum%></span><%}%>
                     </div>
                     <div class="collapsible-body" style="padding: 5px 30px 10px;">
                         <%for (Message message : messageMap.get(user)) {%>

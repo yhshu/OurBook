@@ -27,7 +27,7 @@
 
         function check_input() {
             if (!$.trim($('#new_nickname').val()).length) {
-                toast('用户名不能为空');
+                toast('昵称不能为空');
                 return false;
             }
             return true;
@@ -191,7 +191,6 @@ border-bottom: 1px solid lightgray">
                 <% }
                 }%>
             </div>
-
             <div class="col card" style="width: 353px"> <!--我的关注-->
                 <h5 style="text-align: center">我的关注</h5>
                 <% if (followees.length == 0) {%>
@@ -208,14 +207,14 @@ border-bottom: 1px solid lightgray">
                     </a>
                     <!--用户名与昵称-->
                     <div>
-                        <h6 style="margin:0;display: inline">
+                        <p style="margin:0;display: inline">
                             <a href="home?user=<%=user.getUsername()%>">
                                 <%=user.getNickname()%>
                             </a>
-                        </h6>
-                        <h6 class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
+                        </p>
+                        <p class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
                             @<%=user.getUsername()%>
-                        </h6>
+                        </p>
                         <p class="grey-text" style="margin: 0">
                             <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                         </p>
@@ -236,46 +235,46 @@ border-bottom: 1px solid lightgray">
                     }
                 %>
             </div>
-        </div>
-        <div class="col card" style="width: 353px"> <!--我的书迷-->
-            <h5 style="text-align: center">我的书迷</h5>
-            <% if (followers.length == 0) {%>
-            <h5 style="text-align: center;margin: 50px 0;width: 100%" class="grey-text">
-                你还没有任何书迷</h5>
-            <%
-            } else {%>
-            <div style="margin: 10px auto"><%
-                for (User user : followers) {
-            %>
-                <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px">
-                    <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
-                        <img src="<%=user.getAvatar()%>"
-                             style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 5px">
-                    </a>
-                    <!--用户名与昵称-->
-                    <div>
-                        <h6 style="margin:0;display: inline">
-                            <a href="home?user=<%=user.getUsername()%>">
-                                <%=user.getNickname()%>
-                            </a>
-                        </h6>
-                        <h6 class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
-                            @<%=user.getUsername()%>
-                        </h6>
-                        <p class="grey-text" style="margin: 0">
-                            <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
-                        </p>
+            <div class="col card" style="width: 353px"> <!--我的书迷-->
+                <h5 style="text-align: center">我的书迷</h5>
+                <% if (followers.length == 0) {%>
+                <h5 style="text-align: center;margin: 50px 0;width: 100%" class="grey-text">
+                    你还没有任何书迷</h5>
+                <%
+                } else {%>
+                <div style="margin: 10px auto"><%
+                    for (User user : followers) {
+                %>
+                    <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px">
+                        <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
+                            <img src="<%=user.getAvatar()%>"
+                                 style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 5px">
+                        </a>
+                        <!--用户名与昵称-->
+                        <div>
+                            <p style="margin:0;display: inline">
+                                <a href="home?user=<%=user.getUsername()%>">
+                                    <%=user.getNickname()%>
+                                </a>
+                            </p>
+                            <p class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
+                                @<%=user.getUsername()%>
+                            </p>
+                            <p class="grey-text" style="margin: 0">
+                                <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
+                            </p>
+                        </div>
+                        <div>
+                            <a class="btn modal-trigger" href="#message_modal"
+                               style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
+                               data-user="<%=user.getUsername()%>">
+                                &nbsp;&nbsp;私&nbsp;&nbsp;信&nbsp; &nbsp;</a>
+                        </div>
                     </div>
-                    <div>
-                        <a class="btn modal-trigger" href="#message_modal"
-                           style="-webkit-appearance:none; -moz-appearance:none; height: 20px;line-height: 20px;display: inline"
-                           data-user="<%=user.getUsername()%>">
-                            &nbsp;&nbsp;私&nbsp;&nbsp;信&nbsp; &nbsp;</a>
-                    </div>
+                    <%}%>
                 </div>
                 <%}%>
             </div>
-            <%}%>
         </div>
     </div>
 </div>
@@ -373,7 +372,7 @@ border-bottom: 1px solid lightgray">
             }).fail(function (jqXHR) {
                 if ((jqXHR.status) === 403) toast("头像不能超过2MB");
                 else if (jqXHR.status === 415) toast("头像必须是图片");
-                else if (jqXHR.status === 400) toast("用户名只能包括汉字、字母或数字");
+                else if (jqXHR.status === 400) toast("昵称不能为空");
                 else toast('未知错误');
             });
         });

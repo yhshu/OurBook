@@ -40,7 +40,11 @@
                 <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
                 <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
                 </span><%}%></a>
-            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect"><i class="material-icons">chat</i>我的私信</a>
+            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect">
+                <i class="material-icons">chat</i>我的私信
+                <%if ((int) session.getAttribute("unreadMessages") > 0) {%>
+                <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadMessages")%>
+                </span><%}%></a>
         </div>
         <img src="img/ads/index_ads.png" style=" display:inline;width: 1000px;height: 350px; "/>
     </div>
@@ -72,11 +76,11 @@
                     </a>
                     <div style="display: grid;grid-template-rows: 32px 18px auto">
                         <div style="margin: 5px 0 0 15px"><!--书名-->
-                            <h6 style="float: left;margin: 0">
+                            <p style="float: left;margin: 0">
                                 <a style="color: black"
                                    href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>"><%=book.getName()%>
                                 </a>
-                            </h6>
+                            </p>
                         </div>
                         <div><!--作者-->
                             <a href="${pageContext.request.contextPath}/home?user=<%=book.getChiefEditor()%>"
@@ -113,13 +117,13 @@
                 </a>
                 <div style="float:left;">
                     <!--用户名与昵称-->
-                    <h6 style="margin:0;float: left">
+                    <p style="margin:0;float: left">
                         <a href="home?user=<%=user.getUsername()%>">
                             <%=user.getNickname()%>
                         </a>
-                    </h6>
-                    <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
-                    </h6>
+                    </p>
+                    <p class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                    </p>
                     <p class="grey-text" style="margin: 22px 0 0 0">
                         <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                     </p>
@@ -136,6 +140,7 @@
            target="_blank">
             <img src="img/ads/kindle.png" style=" width: 262px; margin-left: 25px;"/>
         </a>
+    </div>
 </main>
 <%@ include file="footer.html" %>
 </body>

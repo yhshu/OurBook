@@ -59,7 +59,7 @@ public class ModifyUserServlet extends HttpServlet {
                         //表单元素
                         switch (foename) {
                             case "new_nickname":
-                                if (con == null || con.trim().equals("") || !FileUtil.isLetterDigitOrChinese(con.trim())) {
+                                if (con == null || con.trim().equals("")) {
                                     response.sendError(400);
                                     return;
                                 }

@@ -28,9 +28,11 @@ public class NotificationCenterServlet extends HttpServlet {
         Notification[] read = notificationService.getRead(username);
         Notification[] unread = notificationService.getUnread(username);
         Map<User, Message[]> messages = messageService.get(username);
+        int unreadMessages = 0;
         req.setAttribute("read", read);
         req.setAttribute("unread", unread);
         req.setAttribute("messages", messages);
+        req.setAttribute("unreadMessages", unreadMessages);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/notifications.jsp");
         requestDispatcher.forward(req, resp);
     }

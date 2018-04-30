@@ -7,6 +7,10 @@
         <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
         <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
                 </span><%}%></a></li>
+    <li><a href="${pageContext.request.contextPath}/notifications#area3" class="blue-text">我的私信
+        <%if ((int) session.getAttribute("unreadMessages") > 0) {%>
+        <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadMessages")%>
+                </span><%}%></a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">退出</a></li>
 </ul>
@@ -92,7 +96,8 @@
     <div class="nav-wrapper blue row" style="margin: 0">
         <!-- Logo -->
         <div class="col s3">
-            <a href="${pageContext.request.contextPath}/index" class="brand-logo"><i class="material-icons">book</i>OurBook</a>
+            <a href="${pageContext.request.contextPath}/index" class="brand-logo">
+                <i class="material-icons">book</i>OurBook</a>
         </div>
         <!-- 搜索框 -->
         <div class="nav-wrapper col s6" style="padding: 5px">
@@ -127,16 +132,16 @@
     <script>$(".dropdown-button").dropdown();</script>
     <div class="blue" id="nav_search_type">
         <ul class="hide-on-med-and-down" id="type"
-            style="position: relative;height: 64px;width: 180px;margin: auto">
-            <li id="search_book_button"><a id="search_book">书籍</a></li>
-            <li id="search_article_button"><a id="search_article">文章</a></li>
-            <li id="search_user_button"><a id="search_user">用户</a></li>
+            style="position: relative;height: 64px;width: 192px;margin: auto;font-size: 0">
+            <li id="search_book_button" style="width: 64px;text-align: center"><a id="search_book">书籍</a></li>
+            <li id="search_article_button" style="width: 64px;text-align: center"><a id="search_article">文章</a></li>
+            <li id="search_user_button" style="width: 64px;text-align: center"><a id="search_user">用户</a></li>
             <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
-            <li style="margin-left: 35px"><a class="dropdown-button grey-text" data-activates="dropdown2"
-                                             data-hover="hover"
-                                             data-beloworigin="true">
-                排序&nbsp;&nbsp;&nbsp;<i class="material-icons right" style="margin-top:4px">
-                arrow_drop_down</i></a></li>
+            <li style="margin-left: 35px">
+                <a class="dropdown-button grey-text" data-activates="dropdown2" data-hover="hover"
+                   data-beloworigin="true">
+                    排序&nbsp;&nbsp;&nbsp;<i class="material-icons right" style="margin-top:4px">
+                    arrow_drop_down</i></a></li>
             <%}%>
         </ul>
     </div>

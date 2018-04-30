@@ -196,7 +196,6 @@ border-bottom: 1px solid lightgray">
                         %>
                     </div>
                 </div>
-
                 <div class="col card" style="width: 253px"> <!--TA的书迷-->
                     <h5 style="text-align: center">TA的书迷</h5>
                     <% if (followers.length == 0) {%>

@@ -5,12 +5,12 @@ body {
     flex-direction: column;
 }
 
-main {
-    flex: 1 0 auto;
+img {
+    object-fit: cover;
 }
 
-p {
-    text-overflow: ellipsis;
+main {
+    flex: 1 0 auto;
 }
 
 .dropdown-content .dropdown-content {
@@ -31,6 +31,7 @@ p {
 
 p {
     cursor: default;
+    text-overflow: ellipsis;
 }
 
 h6 {
@@ -150,7 +151,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
     vertical-align: middle;
     transform: translateY(-.1em);
 }
-
 
 span.badge.new {
     background-color: #ffa726;

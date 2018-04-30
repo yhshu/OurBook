@@ -26,6 +26,8 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String nickname = request.getParameter("nickname");
         String password = request.getParameter("password");
+        if (username.length() < 6 || password.length() < 6 || username.length() > 20 || password.length() > 20)
+            response.sendError(400);
         System.out.println("【用户注册】用户名：" + username + "，昵称：" + nickname + "，密码：" + password);
         UserService userService = new UserServiceImpl();
         NotificationService notificationService = new NotificaServiceImpl();
