@@ -19,7 +19,7 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <main>
-<div class="container row" style="margin-top: 100px">
+<div class="container row" style="margin-top: 140px">
     <%
         String type = (String) request.getAttribute("type"); // 获取搜索类型
         if (type == null || type.equals("book")) { // 如果搜索书籍

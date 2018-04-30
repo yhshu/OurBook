@@ -11,6 +11,13 @@ public interface CommentDao {
     Comment[] findByBookID(int bookID);
 
     /**
+     * 根据ID查找评论
+     *
+     * @param ID 评论编号
+     */
+    Comment find(int ID);
+
+    /**
      * 添加评论
      *
      * @param username 评论者

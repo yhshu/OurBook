@@ -304,9 +304,12 @@
                 %>
                 <div id="comment_<%=comment.getID()%>" style="width: 960px; margin-bottom: 15px;">
                     <div class="row" style="margin-bottom: 0;">
-                        <span><img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></span>
+                        <a style="float: left"
+                           href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>">
+                            <img src="<%=comment.getAvatar()%>" style="width: 24px;height: 24px; float: left;"></a>
                         <span><a style="float: left; margin-left: 10px;"
-                                 href="${pageContext.request.contextPath}/home?username=<%=comment.getUsername()%>"><%=comment.getNickname()%></a></span>
+                                 href="${pageContext.request.contextPath}/home?user=<%=comment.getUsername()%>">
+                            <%=comment.getNickname()%></a></span>
                         <span><a class="black-text"
                                  style=" float: right;"><%=sdf.format(comment.getDatetime())%></a></span>
                     </div>

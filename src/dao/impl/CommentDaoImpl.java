@@ -32,6 +32,24 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
+    public Comment find(int ID) {
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.connectDB(); // 连接数据库
+            stm = conn.prepareStatement("SELECT * FROM comment WHERE ID = ?");
+            stm.setInt(1, ID);
+            Comment[] comments = getComments(stm);
+            return comments[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
+        }
+    }
+
+    @Override
     public boolean add(String username, int bookID, String content) {
         PreparedStatement stm = null;
         try {

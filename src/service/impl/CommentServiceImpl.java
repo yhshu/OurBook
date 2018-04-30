@@ -24,6 +24,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Comment find(int ID) {
+        return commentDao.find(ID);
+    }
+
+    @Override
     public boolean add(String username, int bookID, String content) {
         return commentDao.add(username, bookID, content);
     }

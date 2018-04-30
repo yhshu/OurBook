@@ -16,18 +16,19 @@ public class CommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CommentService commentService = new CommentServiceImpl();
         String method = request.getParameter("method");
+        String username = (String) request.getSession().getAttribute("username");
         try {
             switch (method) {
                 case "add":
                     int bookID = Integer.parseInt(request.getParameter("bookID"));
-                    String username = request.getParameter("username");
                     String content = request.getParameter("content");
                     commentService.add(username, bookID, content);
                     response.getWriter().write("/book?id=" + bookID);
                     break;
                 case "delete":
                     int commentID = Integer.parseInt(request.getParameter("commentID"));
-                    commentService.delete(commentID);
+                    if (username.equals(commentService.find(commentID).getUsername()))
+                        commentService.delete(commentID);
                     break;
                 default:
                     break;
