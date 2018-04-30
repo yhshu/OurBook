@@ -35,6 +35,8 @@
     </style>
     <script>
         $(document).ready(function () {
+            var read_badge = $('#read_badge');
+            var unread_badge = $('#unread_badge');
             $('.modal').modal();
             $('.collapsible').collapsible();
 
@@ -54,24 +56,44 @@
                 });
             });
 
-            $('.clear_read').click(function () {
+            $('#clear_read').click(function () {
                 $.get('/notification', {
                     method: 'clearRead'
                 }, function () {
                     $('#no_read').show();
                     $('#read').hide();
+                    read_badge.html('0');
                 }).fail(function () {
                     toast('清空失败');
                 });
             });
 
-            $('.delete').click(function () {
+            $('.delete_unread').click(function () {
                 var ID = $(this).data('id');
                 $.get('/notification', {
                     method: 'delete',
                     ID: ID
                 }, function () {
                     $('.li_' + ID).remove();
+                    unread_badge.html(parseInt(unread_badge.html()) - 1);
+                    if (parseInt(unread_badge.html()) === 0) {
+                        $('#no_unread').show();
+                    }
+                });
+            });
+
+            $('.delete_read').click(function () {
+                var ID = $(this).data('id');
+                $.get('/notification', {
+                    method: 'delete',
+                    ID: ID
+                }, function () {
+                    $('.li_' + ID).remove();
+                    read_badge.html(parseInt(read_badge.html()) - 1);
+                    if (parseInt(read_badge.html()) === 0) {
+                        $('#clear_read').hide();
+                        $('#no_read').show();
+                    }
                 });
             });
 
@@ -112,23 +134,21 @@
     <div class="row card" style="width: 900px;margin: 20px auto">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s4"><a class="active" href="#area1">未读通知<span class="badge"
-                                                                                 style="line-height: 48px">
+                <li class="tab col s4"><a class="active" href="#area1">未读通知
+                    <span class="badge" id="unread_badge" style="line-height: 48px">
                     <%=unread.length%>
                 </span></a></li>
                 <li class="tab col s4"><a href="#area2">已读通知
-                    <span class="badge" style="line-height: 48px">
+                    <span class="badge" id="read_badge" style="line-height: 48px">
                     <%=read.length%>
                 </span></a></li>
                 <li class="tab col s4"><a href="#area3">私信</a></li>
             </ul>
         </div>
         <div id="area1" class="col s12 contained-area">
-            <%
-                if (unread.length == 0) {%>
-            <h4 class="center-align grey-text" style="margin: 100px">暂无未读通知</h4>
-            <%
-            } else {%>
+
+            <h4 class="center-align grey-text" id="no_unread"
+                style="margin: 100px;<%=(unread.length == 0)?"":"display:none"%>">暂无未读通知</h4>
             <ul class="collapsible"><%
                 for (Notification notification : unread) {
             %>
@@ -145,7 +165,7 @@
                         <p><%=notification.getContent()%>
                         </p>
                         <div style="height: 36px">
-                            <a class="btn red right delete" data-id="<%=notification.getID()%>">删除通知</a>
+                            <a class="btn red right delete_unread" data-id="<%=notification.getID()%>">删除通知</a>
                         </div>
                     </div>
                 </li>
@@ -153,7 +173,6 @@
                     }
                 %>
             </ul>
-            <%}%>
         </div>
         <div id="area2" class="col s12 contained-area">
             <h4 class="center-align grey-text" id="no_read"
@@ -173,14 +192,14 @@
                         <p><%=notification.getContent()%>
                         </p>
                         <div style="height: 36px">
-                            <a class="btn red right delete" data-id="<%=notification.getID()%>">删除通知</a>
+                            <a class="btn red right delete_read" data-id="<%=notification.getID()%>">删除通知</a>
                         </div>
                     </div>
                 </li>
                 <%
                     }
                 %>
-                <li class="clear_read">
+                <li id="clear_read">
                     <div class="collapsible-header red waves-effect waves-light"
                          style="border: 0;padding: 10px !important;">
                         <h6 style="text-align: center;width: 100%;cursor: pointer; margin: 0;" class="white-text">

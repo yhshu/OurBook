@@ -48,7 +48,7 @@ public class BookServiceImpl implements BookService {
         }
         if (notificationDao.notifyFollowers(chiefEditor, nickname + " 创建了一本新书",
                 "你关注的 <a href='home?user=" + chiefEditor + "'>" + nickname +
-                        "</a> 刚刚创建了 <a href='book?id=" + ID + "'>" + book.getName() + "</a>，快来看看吧")) {
+                        "</a> 刚刚创建了新书 <a href='book?id=" + ID + "'>" + book.getName() + "</a>，快来看看吧")) {
             System.out.println("BookService: 通知关注者成功");
             return true;
         } else
@@ -204,6 +204,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean setCollaborators(int bookID, String collaborators, String username) {
         UserDao userDao = new UserDaoImpl();
+        User user = userDao.find(username);
+        Book book = bookDao.findByID(bookID);
         String[] col_split = collaborators.split(" ");
         String[] col_check = new String[col_split.length];
         int i = 0;
@@ -211,7 +213,17 @@ public class BookServiceImpl implements BookService {
             if (userDao.exist(collaborator) && !collaborator.equals(username))
                 col_check[i++] = collaborator;
         }
-        return bookDao.setCollaborators(bookID, col_check);
+        if (!bookDao.setCollaborators(bookID, col_check)) return false;
+        for (String collaborator : col_check) {
+            if (notificationDao.notify(collaborator, "你被授权编辑 " + book.getName(),
+                    "<a href='home?user=" + username + "'>" + user.getNickname() +
+                            "</a> 刚刚授予你编辑 <a href='book?id=" + book.getID() + "'>" + book.getName() + "</a> 的权限，" +
+                            "和朋友们一起开始创作吧！")) {
+                System.out.println("BookService: 通知协作者成功");
+            } else
+                System.out.println("BookService: 通知协作者失败");
+        }
+        return true;
     }
 
     @Override

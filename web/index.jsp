@@ -30,11 +30,11 @@
     <div class="container row" style="margin-top: 20px; margin-bottom: 0; width: 1000px">
         <div class="card" style="padding:  1px 10px">
 
-            <a href="${pageContext.request.contextPath}/home" class="nav-item">
+            <a href="${pageContext.request.contextPath}/home" class="nav-item waves-effect">
                 <i class="material-icons">home</i>我的主页</a>
-            <a href="${pageContext.request.contextPath}/create" class="nav-item">
+            <a href="${pageContext.request.contextPath}/create" class="nav-item waves-effect">
                 <i class="material-icons">mode_edit</i>创作新书</a>
-            <a href="${pageContext.request.contextPath}/notifications" class="nav-item">
+            <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect">
                 <i class="material-icons">notifications</i>通知中心
                 <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
                 </span></a>

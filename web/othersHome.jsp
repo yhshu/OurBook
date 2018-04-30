@@ -91,7 +91,7 @@
                         <%=(boolean) request.getAttribute("isFollowing") ? "取消关注" : "关注"%>
                     </a>
                     <a class="btn modal-trigger" href="#message_modal"
-                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;">发送私信</a>
+                       style="margin:5px 10px; -webkit-appearance:none; -moz-appearance:none;">私信</a>
                 </div>
                 <!--用户的一句话描述--><%
                 String description = (String) request.getAttribute("description");
