@@ -50,9 +50,10 @@
                     <div class="row">
                         <div class="input-field s12">
                             <input type="text" id="checkcode" name="checkcode" class="validate">
-                            <label for="password">验证码</label>
+                            <label for="checkcode">验证码</label>
                         </div>
-                        <img id="code" src="checkCode.jsp"><a href="javascript:changeimg()">看不清，换一张</a>
+                        <img id="code" src="${pageContext.request.contextPath}/checkCode.jsp" type="image/jpg">
+                        <a href="javascript:changeimg()">看不清，换一张</a>
                     </div>
 
                     <br>
