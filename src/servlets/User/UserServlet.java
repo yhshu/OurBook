@@ -23,18 +23,20 @@ public class UserServlet extends BaseServlet {
 
     public void register(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String nickname = request.getParameter("nickname");
         String password = request.getParameter("password");
+        String checkCode = (String) session.getAttribute("checkCode");
         if (username.length() < 6 || password.length() < 6 || username.length() > 20 || password.length() > 20)
             response.sendError(400);
+
         System.out.println("【用户注册】用户名：" + username + "，昵称：" + nickname + "，密码：" + password);
         UserService userService = new UserServiceImpl();
         NotificationService notificationService = new NotificaServiceImpl();
         try {
             if (userService.register(username, nickname, password)) {
-                notificationService.add(username, "欢迎来到OurBook，" + nickname + "！", "<a href='/index'>OurBook</a>" +
-                        "是免费的多人创作社区，你可以在这里与他人共同编辑书籍，你们的作品将被分享给所有人。开始你的<a href='/create'>创作</a>之旅吧！");
+                notificationService.add(username, "欢迎来到OurBook，" + nickname + "！", "<a href='/index'>OurBook</a>" + "是免费的在线创作社区，你可以在这里与他人共同编写书籍，你们的作品将被分享给所有人。开始你的<a href='/create'>创作</a>之旅吧！");
                 // 注册成功后，请求重定向，跳转到登录界面
                 response.setContentType("text/plain");
                 response.getWriter().write("/login");

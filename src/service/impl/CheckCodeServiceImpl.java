@@ -56,8 +56,10 @@ public class CheckCodeServiceImpl implements CheckCodeService {
         try {
             // 输出图形到页面
             ImageIO.write(image, "JPEG", os);
-
+            os.flush();
+            os.close();
         } catch (IOException e) {
+            e.printStackTrace();
             return "";
         }
         return strEnsure.toString();
