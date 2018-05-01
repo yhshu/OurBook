@@ -54,9 +54,9 @@
                         </div>
                         <!--点击验证码图片将刷新-->
                         <div>
-                            <a href="javascript:changeimg()"><img id="code"
-                                                                  src="${pageContext.request.contextPath}/checkCode.jsp"
-                                                                  type="image/jpg"></a>
+                            <a href="javascript:changeimg()">
+                                <img id="code" src="${pageContext.request.contextPath}/checkCode.jsp" type="image/jpg"></a>
+                            <a href="javascript:changeimg()" style="position: relative;top:-3px;left:10px">看不清，换一张</a>
                         </div>
                     </div>
                     <br>
@@ -68,16 +68,19 @@
                     $(document).ready(function () {
                         function check_input() {
                             if (document.getElementById('username').value === "" || document.getElementById('password').value === "") {
-                                toast('请输入用户名密码');
+                                toast('请输入用户名和密码');
+                                changeimg();
                                 return false;
                             }
                             var checkcode = document.getElementById('checkcode').value;
                             if (checkcode === "") {
                                 toast('请输入验证码');
+                                changeimg();
                                 return false;
                             }
                             else if (checkcode.length !== 4) {
-                                toast('请重新输入验证码');
+                                toast('验证码错误');
+                                changeimg();
                                 return false;
                             }
                             return true;
@@ -98,10 +101,12 @@
                                         toast("登录成功");
                                     }
                                     else if (respondText === "verification failed") {
-                                        toast("请重新输入验证码");
+                                        toast('验证码错误');
+                                        changeimg();
                                     }
                                 }).fail(function () { // 服务器响应 403
                                     toast("用户名或密码错误");
+                                    changeimg();
                                 })
                             }
                         });
