@@ -48,13 +48,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field s12" >
+                        <div class="input-field s12">
                             <input type="text" id="checkcode" name="checkcode" class="validate">
                             <label for="checkcode">验证码</label>
                         </div>
                         <!--点击验证码图片将刷新-->
                         <div>
-                        <a href="javascript:changeimg()"><img id="code" src="${pageContext.request.contextPath}/checkCode.jsp" type="image/jpg"></a>
+                            <a href="javascript:changeimg()"><img id="code"
+                                                                  src="${pageContext.request.contextPath}/checkCode.jsp"
+                                                                  type="image/jpg"></a>
                         </div>
                     </div>
                     <br>
@@ -69,7 +71,15 @@
                                 toast('请输入用户名密码');
                                 return false;
                             }
-                            toast('请稍候...');
+                            var checkcode = document.getElementById('checkcode').value;
+                            if (checkcode === "") {
+                                toast('请输入验证码');
+                                return false;
+                            }
+                            else if (checkcode.length !== 4) {
+                                toast('请重新输入验证码');
+                                return false;
+                            }
                             return true;
                         }
 
@@ -80,10 +90,16 @@
                                 $.get('${pageContext.request.contextPath}/UserServlet', {
                                     method: 'login',
                                     username: $('#username').val(),
-                                    password: $('#password').val()
+                                    password: $('#password').val(),
+                                    checkcode: $('#checkcode').val()
                                 }, function (respondText) { // 服务器响应 "/index"
-                                    window.location.href = respondText; // 跳转 index
-                                    toast("登录成功");
+                                    if (respondText === "/index") {
+                                        window.location.href = respondText; // 跳转 index
+                                        toast("登录成功");
+                                    }
+                                    else if (respondText === "verification failed") {
+                                        toast("请重新输入验证码");
+                                    }
                                 }).fail(function () { // 服务器响应 403
                                     toast("用户名或密码错误");
                                 })

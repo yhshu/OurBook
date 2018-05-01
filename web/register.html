@@ -73,25 +73,25 @@
                         window.location.href = responseText;
                     }).fail(function (jqXHR) {
                         if ((jqXHR.status) === 403) Materialize.toast('用户名已被注册', 2000, 'rounded');
-                        else Materialize.toast('未知错误', 2000, 'rounded');
+                        else Materialize.toast('操作异常，请重试', 2000, 'rounded');
                     });
                 });
             });
 
             function check() {
-                var p1 = document.getElementById('password').value;
-                var p2 = document.getElementById('password_confirm').value;
-                if (p1 === "" || p2 === "") {
+                var password_one = document.getElementById('password').value;
+                var password_two = document.getElementById('password_confirm').value;
+                if (password_one === "" || password_two === "") {
                     Materialize.toast('请输入密码', 2000, 'rounded');
                     return false;
-                } else if (p1 !== p2) {
+                } else if (password_one !== password_two) {
                     Materialize.toast('请核对密码输入', 2000, 'rounded');
                     return false;
                 } else if ($('#username').val().length < 6) {
-                    Materialize.toast('用户名不得小于6位', 2000, 'rounded');
+                    Materialize.toast('用户名不得少于6位', 2000, 'rounded');
                     return false;
                 } else if ($('#password').val().length < 6) {
-                    Materialize.toast('密码不得小于6位', 2000, 'rounded');
+                    Materialize.toast('密码不得少于6位', 2000, 'rounded');
                     return false;
                 } else if ($('#password').val().length > 20) {
                     Materialize.toast('密码不得多于20位', 2000, 'rounded');
