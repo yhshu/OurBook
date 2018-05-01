@@ -29,7 +29,7 @@
 <main>
     <div class="row">
         <div class="card white"
-             style="margin: 30px 31.5%; padding-bottom: 152px; padding-left: 16px;padding-right: 16px;">
+             style="margin: 30px auto;width:100%;max-width:550px; padding-bottom: 152px; padding-left: 16px;padding-right: 16px;">
             <div class="card-content black-text">
                 <p class="card-title">登录到 OurBook</p>
                 <br>

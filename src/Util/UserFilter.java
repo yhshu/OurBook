@@ -47,7 +47,8 @@ public class UserFilter implements Filter {
             if (username != null) {
                 req.getSession().setAttribute("unreadNotifications", new NotificaServiceImpl().getUnread(username).length);
                 req.getSession().setAttribute("unreadMessages", new MessageServiceImpl().getUnreadNumber(username));
-            } else if (!(url.startsWith("/register") || (url.startsWith("/login") || (url.startsWith("/UserServlet"))))) {
+            } else if (!(url.startsWith("/register") || (url.startsWith("/login") || (url.startsWith("/UserServlet"))
+                    || (url.startsWith("/checkCode.jsp"))))) {
                 res.sendRedirect("/register");
                 return;
             }
