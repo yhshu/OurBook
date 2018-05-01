@@ -54,7 +54,7 @@ public class CommentDaoImpl implements CommentDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("INSERT INTO comment(ID, username, bookID, datatime, content) VALUES (null, ?, ?, NOW(), ?)");
+            stm = conn.prepareStatement("INSERT INTO comment(ID, username, bookID, datetime, content) VALUES (null, ?, ?, NOW(), ?)");
             stm.setString(1, username);
             stm.setInt(2, bookID);
             stm.setString(3, content);
@@ -99,7 +99,7 @@ public class CommentDaoImpl implements CommentDao {
         ResultSet rs = stm.executeQuery();
         ArrayList<Comment> comments = new ArrayList<>();
         while (rs.next()) {
-            Comment comment = new Comment(rs.getInt("ID"), rs.getString("username"), rs.getInt("bookID"), rs.getTimestamp("datatime"), rs.getString("content"));
+            Comment comment = new Comment(rs.getInt("ID"), rs.getString("username"), rs.getInt("bookID"), rs.getTimestamp("datetime"), rs.getString("content"));
             comments.add(comment);
         }
         rs.close();
