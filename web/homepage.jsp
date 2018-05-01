@@ -199,23 +199,24 @@ border-bottom: 1px solid lightgray">
                 <%
                 } else {
                     for (User user : followees) {%>
-                <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px;"
+                <div style="margin: 10px;display: grid;grid-template-columns:40px auto 100px;"
                      class="user_<%=user.getUsername()%>">
                     <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                         <img src="<%=user.getAvatar()%>"
                              style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 5px">
                     </a>
                     <!--用户名与昵称-->
-                    <div>
-                        <p style="margin:0;display: inline">
+                    <div style="padding: 0 10px">
+                        <p style="margin:0;float: left">
                             <a href="home?user=<%=user.getUsername()%>">
                                 <%=user.getNickname()%>
                             </a>
                         </p>
-                        <p class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
+                        <p class="grey-text" style="margin:0;float: right">
                             @<%=user.getUsername()%>
                         </p>
-                        <p class="grey-text" style="margin: 0">
+                        <br>
+                        <p class="grey-text left" style="margin: 0">
                             <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                         </p>
                     </div>
@@ -245,22 +246,23 @@ border-bottom: 1px solid lightgray">
                 <div style="margin: 10px auto"><%
                     for (User user : followers) {
                 %>
-                    <div style="margin: 10px;display: grid;grid-template-columns:50px auto 100px">
+                    <div style="margin: 10px;display: grid;grid-template-columns:40px auto 100px">
                         <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                             <img src="<%=user.getAvatar()%>"
                                  style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 5px">
                         </a>
                         <!--用户名与昵称-->
-                        <div>
-                            <p style="margin:0;display: inline">
+                        <div style="padding: 0 10px">
+                            <p style="margin:0;float: left">
                                 <a href="home?user=<%=user.getUsername()%>">
                                     <%=user.getNickname()%>
                                 </a>
                             </p>
-                            <p class="grey-text" style="margin:0 0 0 10px;display:inline-block;">
+                            <p class="grey-text" style="margin:0;float: right">
                                 @<%=user.getUsername()%>
                             </p>
-                            <p class="grey-text" style="margin: 0">
+                            <br>
+                            <p class="grey-text left" style="margin: 0">
                                 <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                             </p>
                         </div>

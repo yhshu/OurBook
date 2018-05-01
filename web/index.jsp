@@ -113,18 +113,17 @@
             <div class="row" style="margin: 25px 5px 10px;">
                 <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                     <img src="<%=user.getAvatar()%>"
-                         style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                         style="width:40px;height: 40px;border-radius: 5%;float: left;margin-right:10px">
                 </a>
-                <div style="float:left;">
+                <div>
                     <!--用户名与昵称-->
-                    <p style="margin:0;float: left">
-                        <a href="home?user=<%=user.getUsername()%>">
-                            <%=user.getNickname()%>
-                        </a>
+                    <a href="home?user=<%=user.getUsername()%>"><p style="margin:0;float: left">
+                        <%=user.getNickname()%>
+                    </p></a>
+                    <p class="grey-text" style="margin: 0;float: right">@<%=user.getUsername()%>
                     </p>
-                    <p class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
-                    </p>
-                    <p class="grey-text" style="margin: 22px 0 0 0">
+                    <BR>
+                    <p class="grey-text" style="margin: 0;float: left">
                         <i class="material-icons">perm_identity</i> <%=user.getFollowers()%>
                     </p>
                 </div>

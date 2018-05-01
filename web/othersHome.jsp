@@ -140,7 +140,7 @@ border-bottom: 1px solid lightgray">
                         </a>
                         <%}%>
                         <div style="display: grid;grid-template-rows: 44px 24px 52px">
-                            <a style="color: black;margin: 8px 24px;font-size: 16px"
+                            <a style="color: black;margin: 8px 20px;font-size: 16px"
                                href="${pageContext.request.contextPath}/book?id=<%=book.getID()%>">
                                 <%=book.getName()%>
                             </a>
@@ -174,7 +174,7 @@ border-bottom: 1px solid lightgray">
                         <div class="row" style="margin: 15px 5px;">
                             <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                                 <img src="<%=user.getAvatar()%>"
-                                     style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                                     style="width:40px;height: 40px;border-radius: 5%;float: left;object-fit: cover;margin-right: 10px">
                             </a>
                             <div style="float:left;">
                                 <!--用户名与昵称-->
@@ -209,7 +209,7 @@ border-bottom: 1px solid lightgray">
                         <div class="row" style="margin: 25px 5px;">
                             <a href="home?user=<%=user.getUsername()%>"><!--用户头像-->
                                 <img src="<%=user.getAvatar()%>"
-                                     style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
+                                     style="width:40px;height: 40px;border-radius: 5%; float: left;object-fit: cover;margin-right: 10px">
                             </a>
                             <div style="float:left;">
                                 <!--用户名与昵称-->
