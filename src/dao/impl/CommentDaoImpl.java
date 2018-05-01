@@ -18,7 +18,7 @@ public class CommentDaoImpl implements CommentDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ?");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.comment WHERE bookID = ? ORDER BY datetime DESC ");
             stm.setInt(1, bookID);
             Comment[] comments = getComments(stm);
             return comments;
