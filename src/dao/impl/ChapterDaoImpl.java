@@ -31,7 +31,7 @@ public class ChapterDaoImpl implements ChapterDao {
             stm2.setInt(1, chapter.getBookID());
             stm2.setInt(2, chapter.getSequence());
             stm2.executeUpdate();
-            stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
+            stm3 = conn.prepareStatement("SELECT ID FROM ourbook.chapter_info WHERE bookID = ? AND sequence = ?");
             stm3.setInt(1, chapter.getBookID());
             stm3.setInt(2, chapter.getSequence());
             ResultSet rs = stm3.executeQuery();
@@ -67,7 +67,7 @@ public class ChapterDaoImpl implements ChapterDao {
         PreparedStatement stm2 = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm1 = conn.prepareStatement("SELECT ID FROM ourbook.chapter WHERE bookID = ? AND sequence = ?");
+            stm1 = conn.prepareStatement("SELECT ID FROM ourbook.chapter_info WHERE bookID = ? AND sequence = ?");
             stm1.setInt(1, chapter.getBookID());
             stm1.setInt(2, chapter.getSequence());
             ResultSet rs = stm1.executeQuery();
@@ -128,7 +128,7 @@ public class ChapterDaoImpl implements ChapterDao {
             ResultSet rs = stm.executeQuery();
             ArrayList<Chapter> chapters = new ArrayList<>();
             while (rs.next()) {
-                Chapter chapter = new Chapter(rs.getString("chapter.name"), rs.getInt("bookID"),
+                Chapter chapter = new Chapter(rs.getString("chapter_info.name"), rs.getInt("bookID"),
                         rs.getInt("sequence"), rs.getString("content"));
                 chapter.setBookName(rs.getString("book.name"));
                 chapter.setEditorNickname(rs.getString("nickname"));
@@ -153,7 +153,7 @@ public class ChapterDaoImpl implements ChapterDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM chapter_info WHERE bookID = ? ORDER BY sequence");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.chapter_info WHERE bookID = ? ORDER BY sequence");
             stm.setInt(1, bookID);
             return getChapters(stm);
         } catch (Exception e) {
