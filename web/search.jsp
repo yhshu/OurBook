@@ -23,55 +23,41 @@
         <%
             String type = (String) request.getAttribute("type"); // 获取搜索类型
             if (type == null || type.equals("book")) { // 如果搜索书籍
-                User[] editors = (User[]) request.getAttribute("editors");
-                int i = 0;
                 Book[] books = (Book[]) request.getAttribute("books");
                 Book[] favorites = (Book[]) request.getAttribute("favorites");
-                int pageNumber = 0;
-                for (Book book2 : books) pageNumber++;
-                int sum = pageNumber;
-                int count = 2;//每页显示的条数 
-                int maxPage = 0;//最大页数
-                int number = 0;//当前页码
-                String strNumber = request.getParameter("pageNumber");
-                if (strNumber == null || strNumber.equals("0")) {//表明在QueryString中没有pageNum这一个参数，此时显示第一页的数据
+                String keywords = request.getParameter("keywords");
+                String strNumber = request.getParameter("page");
+                int count = 5;//每页显示的条数 
+                int maxPage = (int) Math.ceil((double) books.length / count);//最大页数
+                int number;//当前页码
+                try {
+                    number = Integer.parseInt(strNumber);
+                } catch (Exception e) {
                     number = 1;
-                } else {
-                    number = Integer.parseInt(strNumber);//取的待显示页码，将字符串转换成整数
                 }
+                if (number < 1) number = 1;
                 if (books.length == 0) {%>
         <h4 class="grey-text" style="text-align: center;margin-top:250px">
             未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
         <%
-            } else if (sum % 2 == 0) {
-                maxPage = sum / 2;
-            } else {
-                maxPage = sum / 2 + 1;
-            }
+        } else {
             int start = (number - 1) * count;//开始记录数
             int end = number * count;//结束记录数
-            if (end > sum - 1) {
-                end = sum;//防止越界
+            if (end > books.length - 1) {
+                end = books.length;//防止越界
             }
         %>
-        <p style="text-align: center;">共<%=" " + maxPage + " "%>页&nbsp;
-            共有<%=" " + sum + " " %>条记录&nbsp;
-            当前第<%=" " + number + " " %>页&nbsp;
-            <a href="search?pageNumber=<%=number-1 %>">上一页</a>&nbsp;
-            <a href="search?pageNumber=<%=number+1 %>">下一页</a>
+        <p class="grey-text" style="text-align: center;">
+            共找到<%=" " + books.length + " " %>本相关书籍&nbsp;
         </p>
         <%
             for (int m = start; m < end; m++) {
                 boolean favorite = false;
                 for (Book book1 : favorites)
-                    if (book1.getID() == books[m].getID())
+                    if (book1.getID() == books[m].getID()) {
                         favorite = true;
-                //  for (Book book : books) {
-
-                //      boolean favorite = false;
-                //     for (Book book1 : favorites)
-                //         if (book1.getID() == book.getID())
-                //             favorite = true;
+                        break;
+                    }
         %>
         <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
             <%if (books[m].getCover() == null || books[m].getCover().equals("")) {%>
@@ -99,7 +85,7 @@
                 </div>
                 <div>
                     <a href="${pageContext.request.contextPath}/home?user=<%=books[m].getChiefEditor()%>"
-                       style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
+                       style="color: gray;margin: 0 0 0 25px;float: left"><%=books[m].getChiefEditorNickname()%>
                     </a>
                     <p class="grey-text" style="margin: 0 25px; float: left;">
                         <i class="material-icons">remove_red_eye </i> <%=books[m].getClicks()%>
@@ -125,7 +111,24 @@
 
         </div>
         <%
-                i++;
+            }
+        %>
+        <div style="text-align: center;margin-top: 20px">
+            <ul class="pagination">
+                <li class="<%=number!=1?"":"disabled"%>">
+                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&page=<%=number-1%>"><i class="material-icons">chevron_left</i></a>
+                </li>
+                <%for (int i = 1; i <= maxPage; i++) {%>
+                <li class="<%=i==number?"active":"waves-effect"%>">
+                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&page=<%=i%>"><%=i%>
+                    </a></li>
+                <%}%>
+                <li class="<%=number!=maxPage?"":"disabled"%>">
+                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&page=<%=number+1%>"><i class="material-icons">chevron_right</i></a>
+                </li>
+            </ul>
+        </div>
+        <%
             }
         } else if (type.equals("article")) // 如果搜索文章
         {
@@ -228,6 +231,7 @@
         <%if(request.getAttribute("keywords")!=null){%>
         document.getElementById("search").value = "<%=request.getAttribute("keywords")%>";
         <%}%>
+        $('.disabled a').removeAttr('href');
     });
 
     $('.favorite_submit').click(function (event) {

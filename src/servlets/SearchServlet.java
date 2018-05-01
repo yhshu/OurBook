@@ -42,12 +42,8 @@ public class SearchServlet extends HttpServlet {
                 if (sort == null) sort = "last_updated";
                 Book[] books = bookService.findByKeywords(keywords, sort, range);
                 Book[] fav = bookService.getFavorites((String) session.getAttribute("username"));
-                User[] editors = new User[books.length];
-                for (int i = 0; i < books.length; i++)
-                    editors[i] = userService.find(books[i].getChiefEditor());
                 request.setAttribute("books", books);
                 request.setAttribute("favorites", fav);
-                request.setAttribute("editors", editors);
                 break;
             case "article":
                 Chapter[] chapters = bookService.findChapterByKeywords(keywords);

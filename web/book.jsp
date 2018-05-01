@@ -239,14 +239,14 @@
                         </a>
                         <div class="left">
                             <!--用户名与昵称-->
-                                <p style="margin:0 5px">
-                                    <a href="home?user=<%=chiefEditor.getUsername()%>">
-                                        <%=chiefEditor.getNickname()%>
-                                    </a>
-                                </p>
-                                <p class="grey-text" style="margin: 0 5px">
-                                    @<%=chiefEditor.getUsername()%>
-                                </p>
+                            <p style="margin:0 5px">
+                                <a href="home?user=<%=chiefEditor.getUsername()%>">
+                                    <%=chiefEditor.getNickname()%>
+                                </a>
+                            </p>
+                            <p class="grey-text" style="margin: 0 5px">
+                                @<%=chiefEditor.getUsername()%>
+                            </p>
                         </div>
                         <p class="right" style="margin: 10px;">主&nbsp;&nbsp;&nbsp;编</p>
                     </div>
@@ -258,18 +258,18 @@
                             <img src="<%=collaborator.getAvatar()%>"
                                  style="width:40px;height: 40px;border-radius: 5%;            float: left;object-fit: cover;margin-right: 5px">
                         </a>
-                            <!--用户名与昵称-->
-                            <div class="left">
-                                <p style="margin: 0 5px">
-                                    <a href="home?user=<%=collaborator.getUsername()%>">
-                                        <%=collaborator.getNickname()%>
-                                    </a>
-                                </p>
-                                <p class="grey-text" style="margin: 0 5px">
-                                    @<%=collaborator.getUsername()%>
-                                </p>
-                            </div>
-                            <p class="right" style="margin: 10px;">协作者</p>
+                        <!--用户名与昵称-->
+                        <div class="left">
+                            <p style="margin: 0 5px">
+                                <a href="home?user=<%=collaborator.getUsername()%>">
+                                    <%=collaborator.getNickname()%>
+                                </a>
+                            </p>
+                            <p class="grey-text" style="margin: 0 5px">
+                                @<%=collaborator.getUsername()%>
+                            </p>
+                        </div>
+                        <p class="right" style="margin: 10px;">协作者</p>
                     </div>
                     <%}%>
                 </div>
@@ -345,7 +345,7 @@
         })
     });
     $('#set_collaborators_modal').modal();
-
+    $('#delete_modal').modal();
     $('#history_modal').modal({
         ready: function (modal, trigger) {
             modal_render(trigger);

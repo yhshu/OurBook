@@ -33,6 +33,7 @@ public class BookServiceImpl implements BookService {
         }
         String keywords = book.getKeywords();
         if (!keywords.contains(chiefEditor)) keywords += " " + chiefEditor; // 添加主编用户名
+        if (!keywords.contains(nickname)) keywords += " " + nickname; // 添加主编昵称
         if (!keywords.contains(book.getName())) keywords += " " + book.getName(); // 添加书名
         book.setKeywords(keywords);
 
@@ -68,7 +69,7 @@ public class BookServiceImpl implements BookService {
             case "fav":
                 return bookDao.findByKeywordsFav(keywords.split(" "), range);
             default:
-                return bookDao.findByKeywords(keywords.split(""));
+                return bookDao.findByKeywords(keywords.split(" "));
         }
     }
 
