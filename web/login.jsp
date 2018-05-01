@@ -29,7 +29,7 @@
 <main>
     <div class="row">
         <div class="card white"
-             style="margin: 30px auto;width:100%;max-width:550px; padding-bottom: 152px; padding-left: 16px;padding-right: 16px;">
+             style="margin: 30px auto;width:100%;max-width:550px; padding-bottom: 109px; padding-left: 16px;padding-right: 16px;">
             <div class="card-content black-text">
                 <p class="card-title">登录到 OurBook</p>
                 <br>
@@ -52,10 +52,13 @@
                             <input type="text" id="checkcode" name="checkcode" class="validate">
                             <label for="checkcode">验证码</label>
                         </div>
-                        <img id="code" src="${pageContext.request.contextPath}/checkCode.jsp" type="image/jpg">
-                        <a href="javascript:changeimg()">看不清，换一张</a>
+                        <!--点击验证码图片将刷新-->
+                        <div>
+                            <a href="javascript:changeimg()"><img id="code"
+                                                                  src="${pageContext.request.contextPath}/checkCode.jsp"
+                                                                  type="image/jpg"></a>
+                        </div>
                     </div>
-
                     <br>
                     <a class="black-text">新用户？</a><a href="${pageContext.request.contextPath}/register">注册</a>
                     <button type="submit" class="waves-effect waves-light btn right blue">登 录
@@ -68,7 +71,15 @@
                                 toast('请输入用户名密码');
                                 return false;
                             }
-                            toast('请稍候...');
+                            var checkcode = document.getElementById('checkcode').value;
+                            if (checkcode === "") {
+                                toast('请输入验证码');
+                                return false;
+                            }
+                            else if (checkcode.length !== 4) {
+                                toast('请重新输入验证码');
+                                return false;
+                            }
                             return true;
                         }
 
@@ -79,10 +90,16 @@
                                 $.get('${pageContext.request.contextPath}/UserServlet', {
                                     method: 'login',
                                     username: $('#username').val(),
-                                    password: $('#password').val()
+                                    password: $('#password').val(),
+                                    checkcode: $('#checkcode').val()
                                 }, function (respondText) { // 服务器响应 "/index"
-                                    window.location.href = respondText; // 跳转 index
-                                    toast("登录成功");
+                                    if (respondText === "/index") {
+                                        window.location.href = respondText; // 跳转 index
+                                        toast("登录成功");
+                                    }
+                                    else if (respondText === "verification failed") {
+                                        toast("请重新输入验证码");
+                                    }
                                 }).fail(function () { // 服务器响应 403
                                     toast("用户名或密码错误");
                                 })

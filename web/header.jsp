@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+%>
 <meta charset="UTF-8">
 <!-- 文档 http://www.materialscss.com -->
 <link rel="stylesheet" href="css/materialize.css">
@@ -9,7 +13,6 @@
 <script type="text/javascript" src="js/jQueryFormPlugin-4.2.2.js"></script>
 <script type="text/javascript" src="js/materialize.js"></script>
 <script type="text/javascript" src="js/myJS.js"></script>
-
 <script>
     $(document).ready(function () {
         var edit_icon = $('.edit_icon');
@@ -49,9 +52,3 @@
         Materialize.toast(msg, 2000, 'rounded');
     }
 </script>
-
-<%
-    request.setCharacterEncoding("UTF-8");
-    response.setCharacterEncoding("UTF-8");
-    // TODO 若本地存在cookie，实现自动登录
-%>
