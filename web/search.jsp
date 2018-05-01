@@ -19,209 +19,209 @@
 <body>
 <jsp:include page="nav.jsp"/>
 <main>
-<div class="container row" style="margin-top: 140px">
-    <%
-        String type = (String) request.getAttribute("type"); // 获取搜索类型
-        if (type == null || type.equals("book")) { // 如果搜索书籍
-            User[] editors = (User[]) request.getAttribute("editors");
-            int i = 0;
-            Book[] books = (Book[]) request.getAttribute("books");
-            Book[] favorites = (Book[]) request.getAttribute("favorites");
-            int pageNumber=0;
-            for(Book book2:books) pageNumber++;
-            int sum=pageNumber;
-            int count = 2;//每页显示的条数 
-            int maxPage=0;//最大页数
-            int number=0;//当前页码
-            String strNumber=request.getParameter("pageNumber");
-            if(strNumber==null||strNumber.equals("0")){//表明在QueryString中没有pageNum这一个参数，此时显示第一页的数据
-                number=1;
-            }else{
-                number = Integer.parseInt(strNumber);//取的待显示页码，将字符串转换成整数
+    <div class="container row" style="margin-top: 140px">
+        <%
+            String type = (String) request.getAttribute("type"); // 获取搜索类型
+            if (type == null || type.equals("book")) { // 如果搜索书籍
+                User[] editors = (User[]) request.getAttribute("editors");
+                int i = 0;
+                Book[] books = (Book[]) request.getAttribute("books");
+                Book[] favorites = (Book[]) request.getAttribute("favorites");
+                int pageNumber = 0;
+                for (Book book2 : books) pageNumber++;
+                int sum = pageNumber;
+                int count = 2;//每页显示的条数 
+                int maxPage = 0;//最大页数
+                int number = 0;//当前页码
+                String strNumber = request.getParameter("pageNumber");
+                if (strNumber == null || strNumber.equals("0")) {//表明在QueryString中没有pageNum这一个参数，此时显示第一页的数据
+                    number = 1;
+                } else {
+                    number = Integer.parseInt(strNumber);//取的待显示页码，将字符串转换成整数
+                }
+                if (books.length == 0) {%>
+        <h4 class="grey-text" style="text-align: center;margin-top:250px">
+            未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
+        <%
+            } else if (sum % 2 == 0) {
+                maxPage = sum / 2;
+            } else {
+                maxPage = sum / 2 + 1;
             }
-            if (books.length == 0) {%>
-    <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的书籍</h4>
-    <%
-    } else
-      if(sum%2==0){
-        maxPage=sum/2;
-        }else{
-        maxPage=sum/2+1;
-        }
-        int start = (number-1)*count;//开始记录数
-        int end = number*count;//结束记录数
-        if(end>sum-1){
-            end = sum;//防止越界
-        }
-    %>
-    <td colspan="11">共<%=maxPage %>页&nbsp;
-        共<%=sum %>有条记录&nbsp;
-        当前是第<%=number %>页&nbsp;
-        <a href="search.jsp?pageNumber=<%=number-1 %>">上一页</a>&nbsp;
-        <a href="search.jsp?pageNumber=<%=number+1 %>">下一页</a>
-    </td>
-    <%
-      for(int m=start;m<end;m++){
-          boolean favorite = false;
-          for (Book book1 : favorites)
-              if (book1.getID() == books[m].getID())
-                  favorite = true;
-   //  for (Book book : books) {
+            int start = (number - 1) * count;//开始记录数
+            int end = number * count;//结束记录数
+            if (end > sum - 1) {
+                end = sum;//防止越界
+            }
+        %>
+        <p style="text-align: center;">共<%=" " + maxPage + " "%>页&nbsp;
+            共有<%=" " + sum + " " %>条记录&nbsp;
+            当前第<%=" " + number + " " %>页&nbsp;
+            <a href="search?pageNumber=<%=number-1 %>">上一页</a>&nbsp;
+            <a href="search?pageNumber=<%=number+1 %>">下一页</a>
+        </p>
+        <%
+            for (int m = start; m < end; m++) {
+                boolean favorite = false;
+                for (Book book1 : favorites)
+                    if (book1.getID() == books[m].getID())
+                        favorite = true;
+                //  for (Book book : books) {
 
-  //      boolean favorite = false;
-   //     for (Book book1 : favorites)
-   //         if (book1.getID() == book.getID())
-   //             favorite = true;
-    %>
-    <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
-        <%if (books[m].getCover() == null || books[m].getCover().equals("")) {%>
-        <a href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>" style="border-radius: 2px 0 0 2px">
-            <div style="width: 192px;height: 256px;float:left;background-color: #0D47A1; border-radius: 2px 0 0 2px">
-                <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
-                    <%=books[m].getName()%>
-                </h4>
-            </div>
-        </a>
-        <%} else {%>
-        <a href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>">
-            <img style="width: 192px;height: 256px;border-radius: 2px 0 0 2px;object-fit: cover"
-                 src="<%=books[m].getCover()%>">
-        </a>
-        <%}%>
-        <div style="display: grid;grid-template-rows: 66px 40px 1px auto">
-            <div>
-                <h5 style="margin: 25px 0 0 25px;display: inline-block">
-                    <a style="color: black" href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>">
+                //      boolean favorite = false;
+                //     for (Book book1 : favorites)
+                //         if (book1.getID() == book.getID())
+                //             favorite = true;
+        %>
+        <div style="margin: 20px auto;display: grid;grid-template-columns: 192px auto;width: 800px" class="card">
+            <%if (books[m].getCover() == null || books[m].getCover().equals("")) {%>
+            <a href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>"
+               style="border-radius: 2px 0 0 2px">
+                <div style="width: 192px;height: 256px;float:left;background-color: #0D47A1; border-radius: 2px 0 0 2px">
+                    <h4 style="color: white;display: block;position: relative;top: 30%;text-align: center">
                         <%=books[m].getName()%>
+                    </h4>
+                </div>
+            </a>
+            <%} else {%>
+            <a href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>">
+                <img style="width: 192px;height: 256px;border-radius: 2px 0 0 2px;object-fit: cover"
+                     src="<%=books[m].getCover()%>">
+            </a>
+            <%}%>
+            <div style="display: grid;grid-template-rows: 66px 40px 1px auto">
+                <div>
+                    <h5 style="margin: 25px 0 0 25px;display: inline-block">
+                        <a style="color: black" href="${pageContext.request.contextPath}/book?id=<%=books[m].getID()%>">
+                            <%=books[m].getName()%>
+                        </a>
+                    </h5>
+                </div>
+                <div>
+                    <a href="${pageContext.request.contextPath}/home?user=<%=books[m].getChiefEditor()%>"
+                       style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
                     </a>
-                </h5>
-            </div>
-            <div>
-                <a href="${pageContext.request.contextPath}/home?user=<%=books[m].getChiefEditor()%>"
-                   style="color: gray;margin: 0 0 0 25px;float: left"><%=editors[i].getNickname()%>
-                </a>
-                <p class="grey-text" style="margin: 0 25px; float: left;">
-                    <i class="material-icons">remove_red_eye </i> <%=books[m].getClicks()%>
-                    <i class="material-icons" style="margin-left: 10px">favorite </i> <%=books[m].getFavorites()%>
+                    <p class="grey-text" style="margin: 0 25px; float: left;">
+                        <i class="material-icons">remove_red_eye </i> <%=books[m].getClicks()%>
+                        <i class="material-icons" style="margin-left: 10px">favorite </i> <%=books[m].getFavorites()%>
+                    </p>
+                    <p style="color: gray;margin: 0;float: left">
+                        最后更新： <%=books[m].getLastModified() != null ? sdf.format(books[m].getLastModified()) : "暂无"%>
+                    </p>
+                </div>
+                <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
+                <p style="margin: 25px;overflow: auto">
+                    <%=books[m].getDescription()%>
                 </p>
-                <p style="color: gray;margin: 0;float: left">
-                    最后更新： <%=books[m].getLastModified() != null ? sdf.format(books[m].getLastModified()) : "暂无"%>
-                </p>
             </div>
-            <hr style="width: 100%;margin: 0;border-top: 1px gray"/>
-            <p style="margin: 25px;overflow: auto">
-                <%=books[m].getDescription()%>
-            </p>
-        </div>
-        <a href="#"
-           class="btn-large btn-floating halfway-fab waves-effect waves-light pink favorite_submit"
-           style="position: relative;margin-bottom: -100px;left:772px;bottom:176px"
-           data-method="<%=favorite ? "remove" : "add"%>" data-book="<%=books[m].getID()%>">
-            <i class="material-icons" id="book_icon_<%=books[m].getID()%>"
-               style="margin-top:3px"><%=favorite ? "favorite" : "favorite_border"%>
-            </i>
-        </a>
+            <a href="#"
+               class="btn-large btn-floating halfway-fab waves-effect waves-light pink favorite_submit"
+               style="position: relative;margin-bottom: -100px;left:772px;bottom:176px"
+               data-method="<%=favorite ? "remove" : "add"%>" data-book="<%=books[m].getID()%>">
+                <i class="material-icons" id="book_icon_<%=books[m].getID()%>"
+                   style="margin-top:3px"><%=favorite ? "favorite" : "favorite_border"%>
+                </i>
+            </a>
 
-    </div>
-    <%
+        </div>
+        <%
                 i++;
             }
-    } else if (type.equals("article")) // 如果搜索文章
-    {
-        Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
-        if (chapters.length == 0) {
-    %>
-    <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的文章</h4>
-    <%} else {%>
-    <div style="display: grid;grid-template-columns: 480px 480px">
-        <%for (Chapter chapter : chapters) {%>
-        <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
+        } else if (type.equals("article")) // 如果搜索文章
+        {
+            Chapter[] chapters = (Chapter[]) request.getAttribute("chapters");
+            if (chapters.length == 0) {
+        %>
+        <h4 class="grey-text" style="text-align: center;margin-top:250px">
+            未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的文章</h4>
+        <%} else {%>
+        <div style="display: grid;grid-template-columns: 480px 480px">
+            <%for (Chapter chapter : chapters) {%>
+            <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
         grid-template-columns: 72px 10px auto">
-            <a href="${pageContext.request.contextPath}/book?id=<%=chapter.getBookID()%>">
-                <%
-                    if (chapter.getBookCover() == null || chapter.getBookCover().equals("")) {
-                %>
-                <div style="width: 72px;height: 96px;background-color: #0D47A1;border-radius: 2px 0 0 2px;float: left">
-                    <p style="color: white;display: block;position: relative;top: 20%;text-align: center">
-                        <%=chapter.getBookName()%>
-                    </p>
-                </div>
-                <%} else {%>
-                <img src="<%=chapter.getBookCover()%>"
-                     style="border-radius: 2px 0 0 2px;width:72px;height: 96px;float:left;object-fit: cover">
-                <%}%>
-            </a>
-            <div></div>
-            <div style="display: grid; grid-template-rows: 65px auto">
-                <a style="margin: 5px 10px" class="black-text"
-                   href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>">
-                    <h6 style="line-height: 23px;margin-top: 10px"><%=chapter.getBookName()%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chapter.getName()%>
-                    </h6>
-                </a>
-                <a href="${pageContext.request.contextPath}/home?user=<%=chapter.getEditorUsername()%>">
-                    <p style="float: left;margin:0 10px 0 10px"><%=chapter.getEditorNickname()%>
-                    </p>
-                    <p class="grey-text" style="float: left;margin:0 20px 0 0">@<%=chapter.getEditorUsername()%>
-                    </p>
-                    <p class="grey-text" style="float: left;margin:0">最后更新：
-                        <%=chapter.getLastModified() != null ? chapter.getLastModified() : "暂无"%>
-                    </p>
-                </a>
-            </div>
-        </div>
-        <%}%></div>
-    <%
-        }
-    } else if (type.equals("user")) { // 如果搜索用户
-        User[] users = (User[]) request.getAttribute("users");
-        if (users.length == 0) {
-    %>
-    <h4 class="grey-text" style="text-align: center;margin-top:250px">
-        未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的用户</h4>
-    <%} else {%>
-    <div style="display: grid;grid-template-columns: 480px 480px;width:960px;margin:auto">
-        <%for (User user : users) {%>
-        <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
-        grid-template-columns: 96px 10px auto">
-            <a href="home?user=<%=user.getUsername()%>">
-                <img src="<%=user.getAvatar()%>" style="width:96px;height: 96px;border-radius: 5%;
-            float: left;object-fit: cover;margin-right: 20px">
-            </a>
-            <div></div>
-            <div>
-                <div style="padding:10px;height:40px">
-                    <!--用户的用户名与昵称-->
-                    <h6 style="margin:0;float: left">
-                        <a href="home?user=<%=user.getUsername()%>">
-                            <%=user.getNickname()%>
-                        </a>
-                    </h6>
-                    <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
-                    </h6>
-                </div>
-                <p class="grey-text" style="margin: 0 10px">
-                    <i class="material-icons">remove_red_eye </i> <%=user.getClicks()%>
-                    <i class="material-icons" style="margin-left: 10px">favorite </i> <%=user.getFavorites()%>
-                </p>
-                <p style="float: left;margin-left: 10px;margin-top: 5px;"><!--用户的一句话描述--><%
-                    String description = user.getDescription();
-                    if (description != null) {
-                %>
-                    <%=description%>
+                <a href="${pageContext.request.contextPath}/book?id=<%=chapter.getBookID()%>">
                     <%
-                        }
+                        if (chapter.getBookCover() == null || chapter.getBookCover().equals("")) {
                     %>
-                </p>
+                    <div style="width: 72px;height: 96px;background-color: #0D47A1;border-radius: 2px 0 0 2px;float: left">
+                        <p style="color: white;display: block;position: relative;top: 20%;text-align: center">
+                            <%=chapter.getBookName()%>
+                        </p>
+                    </div>
+                    <%} else {%>
+                    <img src="<%=chapter.getBookCover()%>"
+                         style="border-radius: 2px 0 0 2px;width:72px;height: 96px;float:left;object-fit: cover">
+                    <%}%>
+                </a>
+                <div></div>
+                <div style="display: grid; grid-template-rows: 65px auto">
+                    <a style="margin: 5px 10px" class="black-text"
+                       href="${pageContext.request.contextPath}/read?book=<%=chapter.getBookID()%>&sequence=<%=chapter.getSequence()%>">
+                        <h6 style="line-height: 23px;margin-top: 10px"><%=chapter.getBookName()%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chapter.getName()%>
+                        </h6>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/home?user=<%=chapter.getEditorUsername()%>">
+                        <p style="float: left;margin:0 10px 0 10px"><%=chapter.getEditorNickname()%>
+                        </p>
+                        <p class="grey-text" style="float: left;margin:0 20px 0 0">@<%=chapter.getEditorUsername()%>
+                        </p>
+                        <p class="grey-text" style="float: left;margin:0">最后更新：
+                            <%=chapter.getLastModified() != null ? chapter.getLastModified() : "暂无"%>
+                        </p>
+                    </a>
+                </div>
             </div>
-        </div>
-        <% }%></div>
-    <%
+            <%}%></div>
+        <%
             }
-        }
-    %>
-</div>
+        } else if (type.equals("user")) { // 如果搜索用户
+            User[] users = (User[]) request.getAttribute("users");
+            if (users.length == 0) {
+        %>
+        <h4 class="grey-text" style="text-align: center;margin-top:250px">
+            未找到含有关键字<%=" \"" + request.getAttribute("keywords") + "\" "%>的用户</h4>
+        <%} else {%>
+        <div style="display: grid;grid-template-columns: 480px 480px;width:960px;margin:auto">
+            <%for (User user : users) {%>
+            <div class="row card" style="width: 450px;height:96px;margin:10px auto;display: grid;
+        grid-template-columns: 96px 10px auto">
+                <a href="home?user=<%=user.getUsername()%>">
+                    <img src="<%=user.getAvatar()%>" style="width:96px;height: 96px;border-radius: 5%;
+            float: left;object-fit: cover;margin-right: 20px">
+                </a>
+                <div></div>
+                <div>
+                    <div style="padding:10px;height:40px">
+                        <!--用户的用户名与昵称-->
+                        <h6 style="margin:0;float: left">
+                            <a href="home?user=<%=user.getUsername()%>">
+                                <%=user.getNickname()%>
+                            </a>
+                        </h6>
+                        <h6 class="grey-text" style="margin: 0 10px;float: left">@<%=user.getUsername()%>
+                        </h6>
+                    </div>
+                    <p class="grey-text" style="margin: 0 10px">
+                        <i class="material-icons">remove_red_eye </i> <%=user.getClicks()%>
+                        <i class="material-icons" style="margin-left: 10px">favorite </i> <%=user.getFavorites()%>
+                    </p>
+                    <p style="float: left;margin-left: 10px;margin-top: 5px;"><!--用户的一句话描述--><%
+                        String description = user.getDescription();
+                        if (description != null) {
+                    %>
+                        <%=description%>
+                        <%
+                            }
+                        %>
+                    </p>
+                </div>
+            </div>
+            <% }%></div>
+        <%
+                }
+            }
+        %>
+    </div>
 </main>
 <script>
     $(document).ready(function () {
