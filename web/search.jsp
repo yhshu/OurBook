@@ -27,6 +27,10 @@
                 Book[] favorites = (Book[]) request.getAttribute("favorites");
                 String keywords = request.getParameter("keywords");
                 String strNumber = request.getParameter("page");
+                String sort = request.getParameter("sort");
+                if (sort == null) sort = "last_updated";
+                String range = request.getParameter("range");
+                if (range == null) range = "all";
                 int count = 5;//每页显示的条数 
                 int maxPage = (int) Math.ceil((double) books.length / count);//最大页数
                 int number;//当前页码
@@ -116,15 +120,17 @@
         <div style="text-align: center;margin-top: 20px">
             <ul class="pagination">
                 <li class="<%=number!=1?"":"disabled"%>">
-                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&page=<%=number-1%>"><i class="material-icons">chevron_left</i></a>
+                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&sort=<%=sort%>&range=<%=range%>&page=<%=number-1%>"><i
+                            class="material-icons">chevron_left</i></a>
                 </li>
                 <%for (int i = 1; i <= maxPage; i++) {%>
                 <li class="<%=i==number?"active":"waves-effect"%>">
-                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&page=<%=i%>"><%=i%>
+                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&sort=<%=sort%>&range=<%=range%>&page=<%=i%>"><%=i%>
                     </a></li>
                 <%}%>
                 <li class="<%=number!=maxPage?"":"disabled"%>">
-                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&page=<%=number+1%>"><i class="material-icons">chevron_right</i></a>
+                    <a href="search?keywords=<%=keywords%>&type=<%=type%>&sort=<%=sort%>&range=<%=range%>&page=<%=number+1%>"><i
+                            class="material-icons">chevron_right</i></a>
                 </li>
             </ul>
         </div>
