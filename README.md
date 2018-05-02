@@ -3,6 +3,9 @@
 
 JSP & Servlet Project using the MVC and DAO design patterns.
 
+## JavaDoc
+In the directory *doc* of the project's root directory.
+
 ## Front-end
 - JQuery 3.1.1
 - Materialize 0.100.2
@@ -11,15 +14,16 @@ JSP & Servlet Project using the MVC and DAO design patterns.
 ## Server
 
 - Tomcat 8.5.29 & 9.0.2 are tested
-- I would recommend Tomcat 8+.
 
 ## DataBase
 - MySQL 5.6
 - Tomcat DataBase Connection Pool
-- You can see the schema in UML files.
+- You can see the **schema** in UML files.
 
 ## Others
 - TinyMCE —— HTML editor
+- JRE 1.8
+- Developed by Intellij IDEA 2018.1 Ultimate
 
 ## Java dependencies
 - gson-2.8.2.jar
@@ -29,5 +33,3 @@ JSP & Servlet Project using the MVC and DAO design patterns.
 - commons-io-2.4.jar
 - commons-logging-1.2.jar
 - mysql-connector-java-5.1.46-bin.jar
-
-## JavaDoc
