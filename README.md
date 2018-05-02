@@ -28,3 +28,6 @@ JSP & Servlet Project using the MVC and DAO design patterns.
 - commons-fileupload-1.3.1.jar
 - commons-io-2.4.jar
 - commons-logging-1.2.jar
+- mysql-connector-java-5.1.46-bin.jar
+
+## JavaDoc
