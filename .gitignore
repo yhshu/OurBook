@@ -1,7 +1,0 @@
-
-/apache-tomcat-8.5.29/
-/out/
-.idea/
-*.class
-.DS_Store
-web/META-INF/context.xml
