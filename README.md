@@ -1,10 +1,10 @@
 # OurBook
 #### Multi-person collaboration writing community
 
-JSP & Servlet Project using the MVC architecture.
+JSP & Servlet Project using the MVC and DAO design patterns.
 
 ## Front-end
-- JQuery
+- JQuery 3.1.1
 - Materialize 0.100.2
 - AJAX
 
@@ -15,7 +15,7 @@ JSP & Servlet Project using the MVC architecture.
 
 ## DataBase
 - MySQL 5.6
-- Tomcat DBCP
+- Tomcat DataBase Connection Pool
 - You can see the schema in UML files.
 
 ## Others
