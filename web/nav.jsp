@@ -134,7 +134,7 @@
         <ul class="hide-on-med-and-down" id="type"
             style="position: relative;height: 64px;width: 192px;margin: auto;font-size: 0">
             <li id="search_book_button" style="width: 64px;text-align: center"><a id="search_book">书籍</a></li>
-            <li id="search_article_button" style="width: 64px;text-align: center"><a id="search_article">文章</a></li>
+            <li id="search_article_button" style="width: 64px;text-align: center"><a id="search_article">章节</a></li>
             <li id="search_user_button" style="width: 64px;text-align: center"><a id="search_user">用户</a></li>
             <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
             <li style="margin-left: 35px">

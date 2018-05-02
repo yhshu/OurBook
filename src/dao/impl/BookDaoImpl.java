@@ -77,7 +77,11 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info LEFT JOIN " +
+            stm = conn.prepareStatement("SELECT book_info.ID AS ID, book_info.name AS name,book_info.description AS " +
+                    "description, book_info.keywords as keywords, book_info.chief_editor AS chief_editor," +
+                    "book_info.cover AS cover, book_info.last_modified AS last_modified, book_info.chapter_num AS " +
+                    "chapter_num, book_info.favorites AS favorites, book_info.clicks AS clicks," +
+                    " book_info.chief_editor_nickname as chief_editor_nickname FROM ourbook.book_info LEFT JOIN " +
                     "(SELECT * FROM click WHERE " + DBUtil.timeLimit("time", range) + ") AS c ON ID = bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords) +
                     " GROUP BY ID ORDER BY COUNT(bookID) DESC");
@@ -97,10 +101,14 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info LEFT JOIN " +
+            stm = conn.prepareStatement("SELECT book_info.ID AS ID, book_info.name AS name,book_info.description AS " +
+                    "description, book_info.keywords as keywords, book_info.chief_editor AS chief_editor," +
+                    "book_info.cover AS cover, book_info.last_modified AS last_modified, book_info.chapter_num AS " +
+                    "chapter_num, book_info.favorites AS favorites,book_info.clicks as clicks," +
+                    " book_info.chief_editor_nickname as chief_editor_nickname FROM ourbook.book_info LEFT JOIN " +
                     "(SELECT * FROM favorite WHERE " + DBUtil.timeLimit("time", range) + ") AS f ON ID=bookID WHERE "
                     + DBUtil.keywordsMatchCondition("keywords", keywords)
-                    + " GROUP BY ID ORDER BY COUNT(bookid) DESC");
+                    + " GROUP BY ID ORDER BY COUNT(bookID) DESC");
             Book[] books = getBooks(stm);
             if (books != null) return books;
         } catch (Exception e) {
@@ -119,7 +127,7 @@ public class BookDaoImpl implements BookDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             stm1 = conn.prepareStatement("INSERT INTO ourbook.book " +
-                    "(ID,name,description,chiefEditor,keywords,cover) VALUES (null,?,?,?,?,?)");
+                    "(ID,name,description,chief_editor,keywords,cover) VALUES (null,?,?,?,?,?)");
             stm1.setString(1, book.getName());
             stm1.setString(2, book.getDescription());
             stm1.setString(3, book.getChiefEditor());
@@ -171,7 +179,7 @@ public class BookDaoImpl implements BookDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info WHERE chiefEditor = ?");
+            stm = conn.prepareStatement("SELECT * FROM ourbook.book_info WHERE chief_editor = ?");
             stm.setString(1, chiefEditorID);
             Book[] books = getBooks(stm);
             if (books != null)
@@ -197,7 +205,7 @@ public class BookDaoImpl implements BookDao {
             ArrayList<Book> books = new ArrayList<>();
             while (rs.next()) {
                 Book book = new Book(rs.getInt("ID"), rs.getString("name"),
-                        rs.getString("description"), rs.getString("chiefEditor"),
+                        rs.getString("description"), rs.getString("chief_editor"),
                         rs.getString("keywords"), rs.getString("cover"),
                         rs.getInt("chapter_num"));
                 try {
@@ -217,7 +225,7 @@ public class BookDaoImpl implements BookDao {
                 } catch (Exception ignored) {
                 }
                 try {
-                    book.setChiefEditorNickname(rs.getString("chiefEditorNickname"));
+                    book.setChiefEditorNickname(rs.getString("chief_editor_nickname"));
                 } catch (Exception ignored) {
                 }
                 books.add(book);
@@ -306,14 +314,14 @@ public class BookDaoImpl implements BookDao {
                 books.add(new Book(rs.getInt("ID"),
                         rs.getString("name"),
                         rs.getString("description"),
-                        rs.getString("chiefEditor"),
+                        rs.getString("chief_editor"),
                         rs.getString("keywords"),
                         rs.getString("cover"),
                         rs.getInt("chapter_num"),
                         rs.getTimestamp("last_modified"),
                         rs.getInt("clicks"),
                         rs.getInt("favorites"),
-                        rs.getString("chiefEditorNickname")));
+                        rs.getString("chief_editor_nickname")));
             }
             rs.close();
             return books.toArray(new Book[0]);

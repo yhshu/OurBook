@@ -11,7 +11,7 @@ import java.io.PrintStream;
 
 public class FileUtil {
 
-    private static final String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"};
+    private static final String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png", "bmp"};
 
     public static boolean deleteDir(String path) {
         File dir = new File(path);
