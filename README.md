@@ -16,7 +16,7 @@ In the directory *doc* of the project's root directory.
 - Tomcat 8.5.29 & 9.0.2 are tested
 
 ## DataBase
-- MySQL 8.0
+- MySQL 5.6 and above
 - Tomcat DataBase Connection Pool
 - You can see the **schema** in UML files.
 
