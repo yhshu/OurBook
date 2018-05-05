@@ -34,17 +34,10 @@
                 <i class="material-icons">home</i>个人主页</a>
             <a href="${pageContext.request.contextPath}/create" class="nav-item waves-effect">
                 <i class="material-icons">mode_edit</i>创作新书</a>
-            <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect">
-                <i class="material-icons"><%=((int) session.getAttribute("unreadNotifications") > 0) ? "notifications_active" : "notifications_none"%>
-                </i>通知中心
-                <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
-                <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
-                </span><%}%></a>
-            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect">
-                <i class="material-icons">chat</i>我的私信
-                <%if ((int) session.getAttribute("unreadMessages") > 0) {%>
-                <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadMessages")%>
-                </span><%}%></a>
+            <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect"
+               id="notification-badge-container-index"><i class="material-icons">notifications_none</i>通知中心</a>
+            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect"
+               id="message-badge-container-index"><i class="material-icons">chat</i>我的私信</a>
         </div>
 
     </div>

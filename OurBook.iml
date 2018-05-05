@@ -52,5 +52,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="tomcat.lib" level="application" />
+    <orderEntry type="library" name="java" level="application" />
+    <orderEntry type="library" name="cometd.server" level="application" />
   </component>
 </module>

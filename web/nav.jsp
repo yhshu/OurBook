@@ -3,14 +3,10 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
-    <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text">通知中心
-        <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
-        <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
-                </span><%}%></a></li>
-    <li><a href="${pageContext.request.contextPath}/notifications#area3" class="blue-text">我的私信
-        <%if ((int) session.getAttribute("unreadMessages") > 0) {%>
-        <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadMessages")%>
-                </span><%}%></a></li>
+    <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text notification-badge-container">
+        通知中心</a></li>
+    <li><a href="${pageContext.request.contextPath}/notifications#area3" class="blue-text message-badge-container">
+        我的私信</a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">退出</a></li>
 </ul>
