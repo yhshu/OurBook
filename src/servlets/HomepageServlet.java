@@ -59,6 +59,7 @@ public class HomepageServlet extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(redirect);
             requestDispatcher.forward(request, response);
         } catch (Exception e) {
+            e.printStackTrace();
             response.sendError(404);
         }
     }

@@ -41,9 +41,19 @@ public interface UserDao {
      * @param nickname    新昵称
      * @param description 新描述
      * @param avatar      头像地址
+     * @return 修改成功 true 修改失败 false
      */
 
     boolean modify(String username, String nickname, String description, String avatar);
+
+    /**
+     * 修改密码
+     *
+     * @param username         用户名
+     * @param newPassword      新密码
+     * @return 修改成功 true 修改失败 false
+     */
+    boolean modifyPassword(String username, String newPassword);
 
     /**
      * 添加收藏

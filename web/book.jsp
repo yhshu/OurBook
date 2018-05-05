@@ -344,6 +344,7 @@
             $('#sequence').val($('#select_sequence').val());
         })
     });
+    $('#comment_delete_confirm').modal();
     $('#set_collaborators_modal').modal();
     $('#delete_modal').modal();
     $('#history_modal').modal({

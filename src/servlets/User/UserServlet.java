@@ -21,6 +21,23 @@ public class UserServlet extends BaseServlet {
         super.service(request, response, "UserServlet");
     }
 
+    public void changePassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = (String) request.getSession().getAttribute("username");
+        String originalPassword = request.getParameter("original");
+        String newPassword = request.getParameter("new");
+        if (newPassword.length() < 6) response.sendError(403);
+        UserService userService = new UserServiceImpl();
+        User user = userService.find(username);
+        if (!user.getPassword().equals(originalPassword)) response.sendError(400);
+        if (userService.modifyPassword(username, newPassword)) {
+            response.setStatus(200);
+            response.getWriter().write("SUCCESS");
+        } else {
+            response.sendError(520);
+        }
+    }
+
     public void register(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");

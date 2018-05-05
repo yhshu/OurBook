@@ -155,6 +155,27 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public boolean modifyPassword(String username, String newPassword) {
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.connectDB();
+            stm = conn.prepareStatement("UPDATE user SET password = ? WHERE username =?");
+            stm.setString(1, newPassword);
+            stm.setString(2, username);
+            stm.executeUpdate();
+            System.out.println("UserDao: 修改密码成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 修改密码失败");
+            return false;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
+        }
+    }
+
+    @Override
     public boolean addFavorite(String username, int bookID) {
         PreparedStatement stm = null;
         try {
