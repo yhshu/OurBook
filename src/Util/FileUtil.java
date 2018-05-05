@@ -96,11 +96,7 @@ public class FileUtil {
      *
      * @param fm       客户端发送的文件
      * @param filePath 文件将要存储在服务器上的路径
-<<<<<<< HEAD
      * @return HTTP 响应码
-=======
-     * @return HTTP响应码
->>>>>>> newnew
      */
     public static int uploadImage(FileItem fm, String filePath) {
         int maxsize = 2 * 1024 * 1024;
