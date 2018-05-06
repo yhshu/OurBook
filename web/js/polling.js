@@ -1,4 +1,4 @@
-/*
+﻿/*
  * the first time to call
  */
 setTimeout(function () {
@@ -19,7 +19,7 @@ function Pull() {
         beforeSend: function () {
         },
         success: function (data) {
-            var obj = eval("(" + data + ")");//eval使用前要先加括号，才能得到完整的json数据
+            var obj = eval("(" + data + ")"); // eval使用前要先加括号，才能得到完整的json数据
             console.log(obj);
             if (obj.notifications !== '0') {
                 $('.notification-badge-container').html('通知中心' +
