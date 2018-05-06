@@ -25,9 +25,9 @@ function Pull() {
                 $('.notification-badge-container').html('通知中心' +
                     '<span class="new badge right" style="margin-top:2px">' + obj.notifications + '</span>');
                 $('#notification-badge-container-index').html('<i class="material-icons">notifications_active</i>通知中心'
-                    + '<span class="new badge right" style="margin-top:2px">' + obj.notifications + '</span>')
+                    + '<span class="new badge right" style="margin-top:2px">' + obj.notifications + '</span>');
             } else {
-                $('.notification-badge-container').html('通知中心')
+                $('.notification-badge-container').html('通知中心');
                 $('#notification-badge-container-index').html('<i class="material-icons">notifications_none</i>通知中心')
             }
             if (obj.messages !== '0') {

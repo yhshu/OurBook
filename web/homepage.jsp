@@ -424,6 +424,13 @@ border-bottom: 1px solid lightgray">
 
         $('#info_form').submit(function (evt) {
             evt.preventDefault();
+            // Filter empty file inputs
+            var childNodes = $(this).find('input:file');
+            for (var i=0;i<childNodes.length;i++) {
+                if (childNodes[i].files.length === 0) {
+                    childNodes[i].parentElement.removeChild(childNodes[i]);
+                }
+            }
             var data = new FormData($('#info_form')[0]);
             $.ajax({
                 url: '${pageContext.request.contextPath}/modifyUser',
