@@ -13,7 +13,7 @@ In the directory *doc* of the project's root directory.
 
 ## Server
 
-- Tomcat 8.5.29 & 9.0.2 are tested
+- Tomcat 8.5.29 and above
 
 ## DataBase
 - MySQL 5.6 and above
@@ -25,7 +25,9 @@ In the directory *doc* of the project's root directory.
 - JRE 1.8
 - Developed by Intellij IDEA 2018.1 Ultimate
 
-## Java dependencies
+## Java Libraries
+In the settings of *OurBook* module, the following libararies should be contained.
+- Tomcat 8.5.29 and above
 - gson-2.8.2.jar
 - commons-beanutils-1.9.3.jar
 - commons-collections-3.2.2.jar
