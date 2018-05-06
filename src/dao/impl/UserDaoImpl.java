@@ -108,29 +108,6 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public String[] findFollowing(String follower) {
-        PreparedStatement stm = null;
-        try {
-            conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM follow WHERE follower = ?");
-            stm.setString(1, follower);
-            ResultSet rs = stm.executeQuery();
-            ArrayList<String> users = new ArrayList<>();
-            while (rs.next()) {
-                users.add(rs.getString("username"));
-            }
-            rs.close();
-            return users.toArray(new String[0]);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("UserDao: 获取关注列表失败");
-            return null;
-        } finally {
-            DBUtil.safeClose(stm);
-            DBUtil.safeClose(conn);
-        }
-    }
-
     @Override
     public boolean modify(String username, String nickname, String description, String avatar) {
         PreparedStatement stm = null;
@@ -147,6 +124,27 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("UserDao: 修改用户信息失败");
+            return false;
+        } finally {
+            DBUtil.safeClose(stm);
+            DBUtil.safeClose(conn);
+        }
+    }
+
+    @Override
+    public boolean modifyPassword(String username, String newPassword) {
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.connectDB();
+            stm = conn.prepareStatement("UPDATE user SET password = ? WHERE username =?");
+            stm.setString(1, newPassword);
+            stm.setString(2, username);
+            stm.executeUpdate();
+            System.out.println("UserDao: 修改密码成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("UserDao: 修改密码失败");
             return false;
         } finally {
             DBUtil.safeClose(stm);
@@ -207,6 +205,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet rs = stm.executeQuery();
             rs.next();
             boolean result = rs.getInt(1) != 0;
+            rs.close();
             return result;
         } catch (Exception e) {
             e.printStackTrace();

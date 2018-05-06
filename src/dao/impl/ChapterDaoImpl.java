@@ -123,7 +123,7 @@ public class ChapterDaoImpl implements ChapterDao {
         try {
             conn = DBUtil.connectDB(); // 连接数据库
             stm = conn.prepareStatement("SELECT * FROM ourbook.chapter_info,ourbook.book,ourbook.user " +
-                    "WHERE chapter_info.bookID = book.ID AND username = chiefEditor AND "
+                    "WHERE chapter_info.bookID = book.ID AND username = chief_editor AND "
                     + DBUtil.keywordsMatchCondition("chapter_info.name", keywords));
             ResultSet rs = stm.executeQuery();
             ArrayList<Chapter> chapters = new ArrayList<>();

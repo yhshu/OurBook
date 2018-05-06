@@ -70,7 +70,11 @@
                     <form action="${pageContext.request.contextPath}/modifyUser" method="post"
                           enctype="multipart/form-data" id="info_form">
                         <div class="modal-content">
-                            <h4>修改个人信息</h4>
+                            <div style="height:60px">
+                                <h4 class="left">修改个人信息</h4>
+                                <a class="modal-trigger grey-text right" href="#change_password">
+                                    修改密码</a>
+                            </div>
                             <label for="new_nickname">昵称</label>
                             <input type="text" name="new_nickname" id="new_nickname"
                                    value="<%=session.getAttribute("nickname")%>"/>
@@ -102,9 +106,9 @@
                 <div style="margin-top: 20px"> <!-- 我写的书 目录-->
                     <%
                         if (books.length == 0) {%>
-                    <h6 class="grey-text"
-                        style="text-align: center; margin-top: 100px;margin-bottom: 15px;width: 600px">
-                        你还没有写任何书 </h6>
+                    <h5 class="grey-text"
+                        style="text-align: center; margin-top: 100px;margin-bottom: 100px;width: 600px">
+                        你还没有写任何书 </h5>
                     <%
                         }
                         for (Book book : books) {
@@ -302,6 +306,30 @@ border-bottom: 1px solid lightgray">
             </div>
         </form>
     </div>
+    <div id="change_password" class="modal" style="min-width:300px"><!--私信发送 模态框-->
+        <form id="change_password_form">
+            <div class="modal-content">
+                <div class="input-field">
+                    <input id="original_password" type="password" class="validate" data-length="20">
+                    <label for="original_password">原密码</label>
+                </div>
+                <div class="input-field">
+                    <input id="new_password" type="password" class="validate" data-length="20">
+                    <label for="new_password">新密码</label>
+                </div>
+                <div class="input-field">
+                    <input id="repeat_new_password" type="password" class="validate" data-length="20">
+                    <label for="repeat_new_password">再次输入新密码</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">取消</a>
+                <a class="waves-effect waves-green btn-flat" id="change_password_submit">
+                    提交
+                </a>
+            </div>
+        </form>
+    </div>
 </main>
 <script>
     $(document).ready(function () {
@@ -358,6 +386,36 @@ border-bottom: 1px solid lightgray">
             })
         });
 
+        $('#change_password_submit').click(function () {
+            var original_password = $('#original_password').val();
+            var new_password = $('#new_password').val();
+            var repeat_new_password = $('#repeat_new_password').val();
+            if (new_password.length > 20) {
+                toast('新密码不能多于20位');
+                return;
+            } else if (new_password.length < 6) {
+                toast('新密码不能少于6位');
+                return;
+            } else if (repeat_new_password !== new_password) {
+                toast('两次输入的新密码不一致');
+                return;
+            } else if (new_password === original_password) {
+                toast('新密码与原密码相同');
+                return;
+            }
+            $.post('/UserServlet', {
+                method: 'changePassword',
+                original: original_password,
+                new: new_password
+            }, function () {
+                toast('修改密码成功');
+            }).fail(function (jqXHR) {
+                if ((jqXHR.status) === 403) toast("新密码不能多于20位");
+                else if ((jqXHR.status) === 400) toast('原密码错误');
+                else toast('未知错误');
+            });
+        });
+
         $('#info_submit').click(function (evt) {
             if (check_input()) {
                 $('#info_form').submit();
@@ -366,6 +424,13 @@ border-bottom: 1px solid lightgray">
 
         $('#info_form').submit(function (evt) {
             evt.preventDefault();
+            // Filter empty file inputs
+            var childNodes = $(this).find('input:file');
+            for (var i=0;i<childNodes.length;i++) {
+                if (childNodes[i].files.length === 0) {
+                    childNodes[i].parentElement.removeChild(childNodes[i]);
+                }
+            }
             var data = new FormData($('#info_form')[0]);
             $.ajax({
                 url: '${pageContext.request.contextPath}/modifyUser',

@@ -33,6 +33,13 @@
 
             $('#form').submit(function (event) {
                 event.preventDefault();
+                // Filter empty file inputs
+                var childNodes = $(this).find('input:file');
+                for (var i = 0; i < childNodes.length; i++) {
+                    if (childNodes[i].files.length === 0) {
+                        childNodes[i].parentElement.removeChild(childNodes[i]);
+                    }
+                }
                 if (check_input()) {
                     // Create an FormData object
                     var data = new FormData($('#form')[0]);

@@ -135,7 +135,9 @@ public class MessageDaoImpl implements MessageDao {
             stm.setString(1, owner);
             ResultSet rs = stm.executeQuery();
             rs.next();
-            return rs.getInt("count");
+            int count = rs.getInt("count");
+            rs.close();
+            return count;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ChapterDao: 获取未读私信数量失败");

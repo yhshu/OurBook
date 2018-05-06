@@ -18,10 +18,9 @@ public class CommentDaoImpl implements CommentDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("SELECT * FROM ourbook.comment WHERE bookID = ? ORDER BY datetime DESC ");
+            stm = conn.prepareStatement("SELECT * FROM comment WHERE bookID = ? ORDER BY `time` DESC");
             stm.setInt(1, bookID);
-            Comment[] comments = getComments(stm);
-            return comments;
+            return getComments(stm);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -54,7 +53,7 @@ public class CommentDaoImpl implements CommentDao {
         PreparedStatement stm = null;
         try {
             conn = DBUtil.connectDB(); // 连接数据库
-            stm = conn.prepareStatement("INSERT INTO comment(ID, username, bookID, datetime, content) VALUES (null, ?, ?, NOW(), ?)");
+            stm = conn.prepareStatement("INSERT INTO comment(ID, username, bookID, `time`, content) VALUES (null, ?, ?, NOW(), ?)");
             stm.setString(1, username);
             stm.setInt(2, bookID);
             stm.setString(3, content);
@@ -99,7 +98,7 @@ public class CommentDaoImpl implements CommentDao {
         ResultSet rs = stm.executeQuery();
         ArrayList<Comment> comments = new ArrayList<>();
         while (rs.next()) {
-            Comment comment = new Comment(rs.getInt("ID"), rs.getString("username"), rs.getInt("bookID"), rs.getTimestamp("datetime"), rs.getString("content"));
+            Comment comment = new Comment(rs.getInt("ID"), rs.getString("username"), rs.getInt("bookID"), rs.getTimestamp("time"), rs.getString("content"));
             comments.add(comment);
         }
         rs.close();

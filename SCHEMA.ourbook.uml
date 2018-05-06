@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>63cd08ef-e76f-40b7-a82e-b17fc4413a8b.SCHEMA:ourbook</OriginalElement>
+  <nodes>
+    <node x="828.0" y="987.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.book_click</node>
+    <node x="0.0" y="987.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.book_chapter</node>
+    <node x="945.75" y="285.5">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.follow</node>
+    <node x="1088.0" y="987.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.last_edit</node>
+    <node x="484.74999999999994" y="241.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book</node>
+    <node x="306.0" y="987.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.chapter_info</node>
+    <node x="548.0" y="987.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.book_fav</node>
+    <node x="786.5" y="486.5">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.click</node>
+    <node x="0.0" y="649.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.edit_info</node>
+    <node x="859.5" y="0.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user</node>
+    <node x="893.0" y="649.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.author</node>
+    <node x="619.0" y="649.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.message_info</node>
+    <node x="999.5" y="497.5">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.writes</node>
+    <node x="0.0" y="486.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.favorite</node>
+    <node x="298.0" y="649.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.book_info</node>
+    <node x="212.99999999999994" y="464.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.comment</node>
+    <node x="1154.75" y="230.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.message</node>
+    <node x="510.24999999999994" y="486.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.chapter</node>
+    <node x="271.74999999999994" y="241.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.notification</node>
+    <node x="712.75" y="230.0">63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.edit</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="0.0" y="-81.0" />
+      <point x="588.75" y="190.0" />
+      <point x="920.1666666666667" y="190.0" />
+      <point x="-43.333333333333314" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.chapter" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book">
+      <point x="0.0" y="-48.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.edit" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="0.0" y="-92.0" />
+      <point x="816.75" y="200.0" />
+      <point x="937.5" y="200.0" />
+      <point x="-26.0" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.comment" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book">
+      <point x="48.25" y="-70.0" />
+      <point x="357.74999999999994" y="444.0" />
+      <point x="547.1499999999999" y="444.0" />
+      <point x="-41.60000000000002" y="81.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.click" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="48.25" y="-47.5" />
+      <point x="931.25" y="210.0" />
+      <point x="954.8333333333333" y="210.0" />
+      <point x="-8.666666666666686" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.comment" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="-48.25" y="-70.0" />
+      <point x="261.24999999999994" y="170.0" />
+      <point x="885.5" y="170.0" />
+      <point x="-78.0" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.favorite" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="-48.25" y="-48.0" />
+      <point x="48.25" y="160.0" />
+      <point x="868.1666666666667" y="160.0" />
+      <point x="-95.33333333333331" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.writes" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book">
+      <point x="-48.25" y="-36.5" />
+      <point x="1047.75" y="434.0" />
+      <point x="671.9499999999998" y="434.0" />
+      <point x="83.19999999999993" y="81.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.message" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="-62.0" y="-92.0" />
+      <point x="1185.75" y="180.0" />
+      <point x="1024.1666666666667" y="180.0" />
+      <point x="60.666666666666686" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.follow" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="-46.0" y="-36.5" />
+      <point x="991.75" y="210.0" />
+      <point x="972.1666666666666" y="210.0" />
+      <point x="8.666666666666629" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.writes" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="48.25" y="-36.5" />
+      <point x="1144.25" y="190.0" />
+      <point x="1006.8333333333333" y="190.0" />
+      <point x="43.333333333333314" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.favorite" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book">
+      <point x="48.25" y="-48.0" />
+      <point x="144.75" y="434.0" />
+      <point x="505.5499999999999" y="434.0" />
+      <point x="-83.20000000000005" y="81.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.notification" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.user">
+      <point x="0.0" y="-81.0" />
+      <point x="368.24999999999994" y="180.0" />
+      <point x="902.8333333333333" y="180.0" />
+      <point x="-60.666666666666686" y="70.0" />
+    </edge>
+    <edge source="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.click" target="63cd08ef-e76f-40b7-a82e-b17fc4413a8b.TABLE:ourbook.book">
+      <point x="-48.25" y="-47.5" />
+      <point x="834.75" y="444.0" />
+      <point x="630.3499999999999" y="444.0" />
+      <point x="41.59999999999991" y="81.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4034653465346535" x="708.5582822085889" y="644.0" />
+  <SelectedNodes>
+    <node>63cd08ef-e76f-40b7-a82e-b17fc4413a8b.VIEW:ourbook.book_click</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+

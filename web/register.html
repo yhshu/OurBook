@@ -70,6 +70,7 @@
                         nickname: $('#nickname').val()
                     }, function (responseText) {
                         Materialize.toast('注册成功', 2000, 'rounded');
+                        window.setTimeout(1000);
                         window.location.href = responseText;
                     }).fail(function (jqXHR) {
                         if ((jqXHR.status) === 403) Materialize.toast('用户名已被注册', 2000, 'rounded');

@@ -11,7 +11,7 @@ import java.io.PrintStream;
 
 public class FileUtil {
 
-    private static final String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png"};
+    private static final String[] allowedExt = new String[]{"jpg", "jpeg", "gif", "png", "bmp"};
 
     public static boolean deleteDir(String path) {
         File dir = new File(path);
@@ -96,7 +96,7 @@ public class FileUtil {
      *
      * @param fm       客户端发送的文件
      * @param filePath 文件将要存储在服务器上的路径
-     * @return
+     * @return HTTP 响应码
      */
     public static int uploadImage(FileItem fm, String filePath) {
         int maxsize = 2 * 1024 * 1024;

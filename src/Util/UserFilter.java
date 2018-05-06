@@ -49,8 +49,8 @@ public class UserFilter implements Filter {
             if (username != null) { // 已登录，获取通知
                 req.getSession().setAttribute("unreadNotifications", new NotificaServiceImpl().getUnread(username).length);
                 req.getSession().setAttribute("unreadMessages", new MessageServiceImpl().getUnreadNumber(username));
-            } else if (!URLStartsWith(hasAccessList, url)) { // 未登录且访问特定页面以外的页面，跳转登录页
-                res.sendRedirect("/login");
+            } else if (!URLStartsWith(hasAccessList, url)) { // 未登录且访问特定页面以外的页面，跳转注册页
+                res.sendRedirect("/register");
                 return;
             }
         }

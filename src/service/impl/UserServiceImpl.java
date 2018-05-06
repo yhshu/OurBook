@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean modifyPassword(String username, String newPassword) {
+        return userDao.modifyPassword(username, newPassword);
+    }
+
+    @Override
     public boolean addFavorite(String username, int bookID) {
         return userDao.addFavorite(username, bookID);
     }

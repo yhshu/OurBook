@@ -34,19 +34,12 @@
                 <i class="material-icons">home</i>个人主页</a>
             <a href="${pageContext.request.contextPath}/create" class="nav-item waves-effect">
                 <i class="material-icons">mode_edit</i>创作新书</a>
-            <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect">
-                <i class="material-icons"><%=((int) session.getAttribute("unreadNotifications") > 0) ? "notifications_active" : "notifications_none"%>
-                </i>通知中心
-                <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
-                <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
-                </span><%}%></a>
-            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect">
-                <i class="material-icons">chat</i>我的私信
-                <%if ((int) session.getAttribute("unreadMessages") > 0) {%>
-                <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadMessages")%>
-                </span><%}%></a>
+            <a href="${pageContext.request.contextPath}/notifications" class="nav-item waves-effect"
+               id="notification-badge-container-index"><i class="material-icons">notifications_none</i>通知中心</a>
+            <a href="${pageContext.request.contextPath}/notifications#area3" class="nav-item waves-effect"
+               id="message-badge-container-index"><i class="material-icons">chat</i>我的私信</a>
         </div>
-        <img src="img/ads/index_ads.png" style=" display:inline;width: 1000px;height: 350px; "/>
+
     </div>
     <div class="container row" style="width: 1000px"><!-- 页面中部 -->
 
@@ -137,7 +130,7 @@
         <span style="font-size:20px;margin-left: 25px;">为您推荐</span>
         <a href="https://www.amazon.cn/dp/B00QJDOLIO/459-3755434-3588139?_encoding=UTF8&pf_rd_i=desktop&pf_rd_m=A1AJ19PSB66TGU&pf_rd_p=ce9fc27b-a4fd-4da7-bb9a-95ad1b6617a0&pf_rd_r=ZHRCQCYMBYSFT98K4WE5&pf_rd_s=Tcg-slide-1&pf_rd_t=36701&ref_=p-Tcg-slide-1--2efc1934-96f8-455f-bc30-b0debca468f9"
            target="_blank">
-            <img src="img/ads/kindle.png" style=" width: 262px; margin-left: 25px;"/>
+            <img src="img/ads/kindle.png" style=" width: 262px; margin-left: 25px"/>
         </a>
     </div>
 </main>

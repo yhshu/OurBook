@@ -3,14 +3,10 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="${pageContext.request.contextPath}/home" class="blue-text">我的主页</a></li>
-    <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text">通知中心
-        <%if ((int) session.getAttribute("unreadNotifications") > 0) {%>
-        <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadNotifications")%>
-                </span><%}%></a></li>
-    <li><a href="${pageContext.request.contextPath}/notifications#area3" class="blue-text">我的私信
-        <%if ((int) session.getAttribute("unreadMessages") > 0) {%>
-        <span class="new badge right" style="margin-top:2px"><%=session.getAttribute("unreadMessages")%>
-                </span><%}%></a></li>
+    <li><a href="${pageContext.request.contextPath}/notifications" class="blue-text notification-badge-container">
+        通知中心</a></li>
+    <li><a href="${pageContext.request.contextPath}/notifications#area3" class="blue-text message-badge-container">
+        我的私信</a></li>
     <li class="divider"></li>
     <li><a href="${pageContext.request.contextPath}/logout" class="blue-text">退出</a></li>
 </ul>
@@ -134,7 +130,7 @@
         <ul class="hide-on-med-and-down" id="type"
             style="position: relative;height: 64px;width: 192px;margin: auto;font-size: 0">
             <li id="search_book_button" style="width: 64px;text-align: center"><a id="search_book">书籍</a></li>
-            <li id="search_article_button" style="width: 64px;text-align: center"><a id="search_article">文章</a></li>
+            <li id="search_article_button" style="width: 64px;text-align: center"><a id="search_article">章节</a></li>
             <li id="search_user_button" style="width: 64px;text-align: center"><a id="search_user">用户</a></li>
             <%if (request.getParameter("type") != null && request.getParameter("type").equals("book")) {%>
             <li style="margin-left: 35px">
