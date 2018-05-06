@@ -35,7 +35,7 @@
                 event.preventDefault();
                 // Filter empty file inputs
                 var childNodes = $(this).find('input:file');
-                for (var i=0;i<childNodes.length;i++) {
+                for (var i = 0; i < childNodes.length; i++) {
                     if (childNodes[i].files.length === 0) {
                         childNodes[i].parentElement.removeChild(childNodes[i]);
                     }
