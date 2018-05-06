@@ -103,7 +103,7 @@
                     <div>
                         <a href="${pageContext.request.contextPath}/home?user=<%=chiefEditor.getUsername()%>"
                            style="color: gray;margin: 0 0 0 25px; display: inline;">
-                            <%=chiefEditor.getNickname()%>
+                            <%=chiefEditor.getNickname() + " 著"%>
                         </a>
                         <% // 如果不是作者不是当前用户
                             if (!chiefEditor.getUsername().equals(session.getAttribute("username"))) {%>
