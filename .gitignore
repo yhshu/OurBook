@@ -1,0 +1,7 @@
+﻿/out/
+/apache-tomcat-8.5.29/
+/.idea/
+/lib/
+OurBook.iml
+*.jpg
+web/META-INF/context.xml

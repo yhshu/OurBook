@@ -1,0 +1,157 @@
+body {
+    background: #f6f6f6;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+img {
+    object-fit: cover;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.dropdown-content .dropdown-content {
+    margin-left: 100%;
+}
+
+#toast-container {
+    top: auto !important;
+    right: auto !important;
+    bottom: 20%;
+    left: 50% !important;;
+    transform: translate(-50%, -50%);
+}
+
+.dropdown-nested {
+    overflow-y: visible;
+}
+
+p {
+    cursor: default;
+    text-overflow: ellipsis;
+}
+
+h6 {
+    cursor: default;
+}
+
+h5 {
+    cursor: default;
+}
+
+h4 {
+    cursor: default;
+}
+
+h3 {
+    cursor: default;
+}
+
+h2 {
+    cursor: default;
+}
+
+h1 {
+    cursor: default;
+}
+
+.picker__date-display {
+    background-color: #2196f3;
+}
+
+.picker__day--selected,
+.picker__day--selected:hover,
+.picker--focused .picker__day--selected {
+    background-color: #2196f3;
+}
+
+.picker__close, .picker__today, .picker__clear {
+    color: #2196f3;
+}
+
+clockpicker-canvas-bearing {
+    fill: #2196f3;
+}
+
+.clockpicker-canvas-bg {
+    fill: #2196f3;
+}
+
+.clockpicker-canvas-bg-trans {
+    fill: #2196f3;
+}
+
+.clockpicker-canvas line {
+    stroke: #2196f3;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #4785f5; /*switch lever on 按钮颜色*/
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+    background-color: #8dbcf4; /*switch lever 背景色*/
+}
+
+input.valid:not([type]), input.valid:not([type]):focus,
+input[type=text].valid:not(.browser-default),
+input[type=text].valid:not(.browser-default):focus,
+input[type=password].valid:not(.browser-default),
+input[type=password].valid:not(.browser-default):focus,
+input[type=email].valid:not(.browser-default),
+input[type=email].valid:not(.browser-default):focus,
+input[type=url].valid:not(.browser-default),
+input[type=url].valid:not(.browser-default):focus,
+input[type=time].valid:not(.browser-default),
+input[type=time].valid:not(.browser-default):focus,
+input[type=date].valid:not(.browser-default),
+input[type=date].valid:not(.browser-default):focus,
+input[type=datetime].valid:not(.browser-default),
+input[type=datetime].valid:not(.browser-default):focus,
+input[type=datetime-local].valid:not(.browser-default),
+input[type=datetime-local].valid:not(.browser-default):focus,
+input[type=tel].valid:not(.browser-default),
+input[type=tel].valid:not(.browser-default):focus,
+input[type=number].valid:not(.browser-default),
+input[type=number].valid:not(.browser-default):focus,
+input[type=search].valid:not(.browser-default),
+input[type=search].valid:not(.browser-default):focus,
+textarea.materialize-textarea.valid,
+textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
+    border-bottom: 1px solid #2196f3;
+    -webkit-box-shadow: 0 1px 0 0 #2196f3;
+    box-shadow: 0 1px 0 0 #2196f3;
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #29b6f6;
+    -webkit-box-shadow: 0 1px 0 0 #29b6f6;
+    box-shadow: 0 1px 0 0 #29b6f6;
+}
+
+.material-icons {
+    display: inline-block;
+    font-size: inherit;
+    line-height: inherit;
+    vertical-align: middle;
+    transform: translateY(-.1em);
+}
+
+span.badge.new {
+    background-color: #ffa726;
+}
