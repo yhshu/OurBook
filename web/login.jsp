@@ -6,9 +6,9 @@
     <title>登录 - OurBook</title>
     <script type="text/javascript">
         function changeimg() {
-            var myimg = document.getElementById("code");
-            now = new Date();
-            myimg.src = "checkCode.jsp?code=" + now.getTime();
+            var myImg = document.getElementById("code");
+            var now = new Date();
+            myImg.src = "checkCode.jsp?code=" + now.getTime();
         }
     </script>
 </head>
